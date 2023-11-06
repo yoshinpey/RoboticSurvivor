@@ -29,4 +29,10 @@ namespace Camera
 
 	//プロジェクション行列を取得
 	XMMATRIX GetProjectionMatrix();
+
+	//ビルボード用回転行列を取得
+	XMMATRIX GetBillboardMatrix();
+
+	// 3D座標を2D座標に変換する
+	XMFLOAT3 GetScreenPosition(XMFLOAT3 pos3d);
 };

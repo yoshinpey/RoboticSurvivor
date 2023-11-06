@@ -5,12 +5,13 @@ XMFLOAT3 _position;
 XMFLOAT3 _target;
 XMMATRIX _view;
 XMMATRIX _proj;
+XMMATRIX _billBoard;
 
 //初期化（プロジェクション行列作成）
 void Camera::Initialize()
 {
 	_position = XMFLOAT3(0, 3, -10);	//カメラの位置
-	_target = XMFLOAT3( 0, 0, 0);	//カメラの焦点
+	_target = XMFLOAT3(0, 0, 0);	//カメラの焦点
 
 	//プロジェクション行列
 	_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000.0f);
@@ -19,9 +20,20 @@ void Camera::Initialize()
 //更新（ビュー行列作成）
 void Camera::Update()
 {
+	XMVECTOR up = XMVectorSet(0, 1, 0, 0);
+	if (_position.x == _target.x && _position.z == _target.z) {
+		up = XMVectorSet(0, 0, 1, 0);
+	}
 	//ビュー行列
 	_view = XMMatrixLookAtLH(XMVectorSet(_position.x, _position.y, _position.z, 0),
-		XMVectorSet(_target.x, _target.y, _target.z, 0), XMVectorSet(0, 1, 0, 0));
+		XMVectorSet(_target.x, _target.y, _target.z, 0), up);
+
+
+	//ビルボード行列
+	//（常にカメラの方を向くように回転させる行列。パーティクルでしか使わない）
+	//http://marupeke296.com/DXG_No11_ComeOnBillboard.html
+	_billBoard = XMMatrixLookAtLH(XMVectorSet(0, 0, 0, 0), XMLoadFloat3(&_target) - XMLoadFloat3(&_position), up);
+	_billBoard = XMMatrixInverse(nullptr, _billBoard);
 }
 
 //焦点を設定
@@ -41,3 +53,19 @@ XMMATRIX Camera::GetViewMatrix() { return _view; }
 
 //プロジェクション行列を取得
 XMMATRIX Camera::GetProjectionMatrix() { return _proj; }
+
+//ビルボード用回転行列を取得
+XMMATRIX Camera::GetBillboardMatrix() { return _billBoard; }
+
+XMFLOAT3 Camera::GetScreenPosition(XMFLOAT3 pos3d)
+{
+	XMVECTOR v2 = XMVector3Transform(XMLoadFloat3(&pos3d), Camera::GetViewMatrix());
+	v2 = XMVector3Transform(v2, Camera::GetProjectionMatrix());
+	float x = XMVectorGetX(v2);
+	float y = XMVectorGetY(v2);
+	float z = XMVectorGetZ(v2);
+	return XMFLOAT3(
+		x / z * Direct3D::screenWidth_ / 2.0f + Direct3D::screenWidth_ / 2.0f,
+		-y / z * Direct3D::screenHeight_ / 2.0f + Direct3D::screenHeight_ / 2.0f,
+		0);
+}
