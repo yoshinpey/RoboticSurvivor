@@ -150,13 +150,6 @@
     <ClCompile Include="Engine\FbxParts.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\Image.cpp" />
-    <ClCompile Include="Engine\imgui\imgui.cpp" />
-    <ClCompile Include="Engine\imgui\imgui_demo.cpp" />
-    <ClCompile Include="Engine\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Engine\imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="Engine\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Engine\imgui\imgui_tables.cpp" />
-    <ClCompile Include="Engine\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
     <ClCompile Include="Engine\Model.cpp" />
@@ -188,7 +181,6 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="WeaponManager.cpp" />
-    <ClCompile Include="XP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -216,14 +208,6 @@
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\Global.h" />
     <ClInclude Include="Engine\Image.h" />
-    <ClInclude Include="Engine\imgui\imconfig.h" />
-    <ClInclude Include="Engine\imgui\imgui.h" />
-    <ClInclude Include="Engine\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="Engine\imgui\imgui_impl_win32.h" />
-    <ClInclude Include="Engine\imgui\imgui_internal.h" />
-    <ClInclude Include="Engine\imgui\imstb_rectpack.h" />
-    <ClInclude Include="Engine\imgui\imstb_textedit.h" />
-    <ClInclude Include="Engine\imgui\imstb_truetype.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\Model.h" />
     <ClInclude Include="Engine\RootObject.h" />
@@ -254,7 +238,6 @@
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="WeaponManager.h" />
-    <ClInclude Include="XP.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Debug3D.hlsl">
