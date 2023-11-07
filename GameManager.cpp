@@ -1,29 +1,38 @@
 #include "GameManager.h"
 
-GameManager::GameManager() 
+GameManager::GameManager(GameObject* parent)
+    : GameObject(parent, "GameManager")
 {
-    // コンストラクタの初期化処理
+    gameMode = GAME_MODE_NORMAL;
 }
 
-GameManager::~GameManager() 
+void GameManager::Initialize()
 {
-    // デストラクタの後始末処理
+    // ゲーム全般の初期化処理を記述
 }
 
-void GameManager::InitializeGame() 
+void GameManager::Update()
 {
-    // ゲームの初期化処理
-    // 各マネージャーの初期化など
+    // ゲーム全般の更新処理を記述
 }
 
-void GameManager::RunGameLoop() 
+void GameManager::Draw()
 {
-    // ゲームループの実行
-    // シーンの更新、イベントの処理、アイテム管理、HUD更新、エフェクト管理など
+    // ゲーム全般の描画処理を記述
 }
 
-void GameManager::EndGame() 
+void GameManager::Release()
 {
-    // ゲーム終了処理
-    // リソースの解放、クリーンアップ
+    // ゲーム全般のリソース解放処理を記述
+}
+
+GAME_MODE GameManager::GetGameMode() const
+{
+    return gameMode;
+}
+
+void GameManager::SetGameMode(GAME_MODE mode)
+{
+    gameMode = mode;
+    // ゲームモードが切り替わった際の処理を記述
 }

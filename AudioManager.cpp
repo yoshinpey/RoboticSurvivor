@@ -1,5 +1,4 @@
 #include "AudioManager.h"
-#include "PlayerCharacter.h" // 必要なヘッダファイルをインクルード
 
 AudioManager::AudioManager(GameObject* parent)
     : GameObject(parent, "AudioManager")

@@ -1,5 +1,4 @@
 #include "WeaponManager.h"
-#include "PlayerCharacter.h" // 必要なヘッダファイルをインクルード
 
 WeaponManager::WeaponManager(GameObject* parent)
     : GameObject(parent, "WeaponManager")

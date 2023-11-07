@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/global.h"
 #include "Engine/GameObject.h"
+#include <vector>
 
 enum EVENT_STATE
 {

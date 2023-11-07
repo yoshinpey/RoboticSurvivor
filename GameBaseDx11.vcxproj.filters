@@ -163,20 +163,11 @@
     <ClCompile Include="Enemy_Fly.cpp">
       <Filter>05Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bomb.cpp">
-      <Filter>10Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>10Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Gun.cpp">
       <Filter>10Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCharacter.cpp">
-      <Filter>04Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerController.cpp">
-      <Filter>04Player</Filter>
     </ClCompile>
     <ClCompile Include="ParticleEffect.cpp">
       <Filter>00Manager</Filter>
@@ -189,15 +180,6 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>00Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCharacter.cpp">
-      <Filter>05Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyController.cpp">
-      <Filter>05Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyType.cpp">
-      <Filter>05Enemy</Filter>
     </ClCompile>
     <ClCompile Include="ItemManager.cpp">
       <Filter>07Item</Filter>
@@ -330,20 +312,11 @@
     <ClInclude Include="Enemy_Fly.h">
       <Filter>05Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Bomb.h">
-      <Filter>10Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>10Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Gun.h">
       <Filter>10Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCharacter.h">
-      <Filter>04Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>04Player</Filter>
     </ClInclude>
     <ClInclude Include="ParticleEffect.h">
       <Filter>00Manager</Filter>
@@ -356,15 +329,6 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>00Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCharacter.h">
-      <Filter>05Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyController.h">
-      <Filter>05Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyType.h">
-      <Filter>05Enemy</Filter>
     </ClInclude>
     <ClInclude Include="ItemManager.h">
       <Filter>07Item</Filter>

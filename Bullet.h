@@ -16,6 +16,6 @@ public:
     void Draw() override;           //描画
     void Release() override;        //開放
 
-    //弾の位置設定用
+    //弾の動き設定用
     void SetMove(XMFLOAT3 move) { move_ = move; }
 };

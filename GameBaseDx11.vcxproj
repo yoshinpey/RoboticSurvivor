@@ -129,14 +129,10 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="EffectManager.cpp" />
-    <ClCompile Include="EnemyCharacter.cpp" />
-    <ClCompile Include="EnemyController.cpp" />
-    <ClCompile Include="EnemyType.cpp" />
     <ClCompile Include="Enemy_Fly.cpp" />
     <ClCompile Include="Enemy_Ground.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
@@ -172,8 +168,6 @@
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="PlayerCharacter.cpp" />
-    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Score.cpp" />
@@ -186,14 +180,10 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Bomb.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="EffectManager.h" />
-    <ClInclude Include="EnemyCharacter.h" />
-    <ClInclude Include="EnemyController.h" />
-    <ClInclude Include="EnemyType.h" />
     <ClInclude Include="Enemy_Fly.h" />
     <ClInclude Include="Enemy_Ground.h" />
     <ClInclude Include="Engine\Audio.h" />
@@ -229,8 +219,6 @@
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
-    <ClInclude Include="PlayerCharacter.h" />
-    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Score.h" />
