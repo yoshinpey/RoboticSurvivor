@@ -179,7 +179,6 @@
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="PlayerCamera.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -246,7 +245,6 @@
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
-    <ClInclude Include="PlayerCamera.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PlayScene.h" />
