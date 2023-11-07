@@ -11,7 +11,7 @@
 //コンストラクタ
 Aim::Aim(GameObject* parent)
     :GameObject(parent, "Aim"), pNum_(nullptr),
-    plaPos_{ 0,0,0 }, camPos_{ 0,0,0 }, camTarget_{ 0,0,0 }, aimDirection_{ 0,0,0 }
+    plaPos_{ 0,0,0 }, camPos_{ 0,0,0 },  aimDirection_{ 0,0,0 }
 {
 }
 

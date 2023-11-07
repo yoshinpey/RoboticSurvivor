@@ -1,5 +1,4 @@
 #include "ItemManager.h"
-#include "PlayerCharacter.h" // 必要なヘッダファイルをインクルード
 
 ItemManager::ItemManager(GameObject* parent)
     : GameObject(parent, "ItemManager")

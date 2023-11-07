@@ -1,5 +1,4 @@
 #pragma once
-#include "Engine/global.h"
 #include "Engine/GameObject.h"
 
 class EffectManager : public GameObject

@@ -1,5 +1,4 @@
 #include "EffectManager.h"
-#include "PlayerCharacter.h" // 必要なヘッダファイルをインクルード
 
 EffectManager::EffectManager(GameObject* parent)
     : GameObject(parent, "EffectManager")

@@ -8,9 +8,10 @@ class Aim : public GameObject
 {
     float screenWidth_, screenHeight_;
     XMFLOAT3 plaPos_;                       //プレイヤー位置
-    XMFLOAT3 camPos_, camTarget_;           //カメラ 位置,焦点
+    XMFLOAT3 camPos_;                       //カメラ 位置,焦点
     Text* pNum_;                            //テキスト
     XMFLOAT3 aimDirection_;                 //現在の視点に基づいた進行方向ベクトル
+
 public:
     Aim(GameObject* parent);        //コンストラクタ
     ~Aim();                         //デストラクタ

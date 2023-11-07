@@ -39,8 +39,8 @@ void Player::Initialize()
 void Player::Update()
 {
     Move();                 //動き
-    Jump();               //ジャンプアクション
-    //JetPack();              //ジェットパック
+    //Jump();               //ジャンプアクション
+    JetPack();              //ジェットパック
     //BoostJump();          //ブーストジャンプ
     CameraPosition();       //視点
     PlayerHitPoint();       //HP
@@ -148,7 +148,7 @@ void Player::Move()
 
     // 速度の制御
     float walkSpeed = 0.2f;         // 歩行速度
-    float runSpeed = 0.4f;          // 走行速度
+    float runSpeed = 0.3f;          // 走行速度
     float nowSpeed = 0;             // 初期速度
 
     // 移動入力があるかどうか
@@ -186,6 +186,7 @@ void Player::Jump()
     float gravity = -9.81;               // 
     static bool canJump = true;         // ジャンプ可能な状態かどうか
     static float flightTime = 0.0f;     // ジャンプ経過時間
+    bool onGround = transform_.position_.y <= 0;    // 地面にいるとき
 
     if (Input::IsKeyDown(DIK_SPACE) && canJump) //ジャンプキーが押されており、ジャンプ可能な場合
     {
@@ -206,7 +207,7 @@ void Player::Jump()
         velocity += gravity * delta;
 
         //地面に着地したとき
-        if (transform_.position_.y <= 0)
+        if (onGround)
         {
             transform_.position_.y = 0;     // 念のため地面に合わせる
             canJump = true;                 // 地面に着地したらジャンプ可能にする
