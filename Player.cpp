@@ -6,11 +6,10 @@
 #include "Gauge.h"
 
 
-
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-0.3), maxFuel_(50), fuel_(0), jumpCool_(0), CanJump_(false), jampVelocity_(1.0),
+    gravity_(-9.8), maxFuel_(50), fuel_(0), jumpCool_(0), CanJump_(false), jampVelocity_(1.0),
     maxHp_(100), nowHp_(100)
 {
 }
@@ -39,10 +38,7 @@ void Player::Initialize()
 void Player::Update()
 {
     Move();                 //動き
-    //Jump();               //ジャンプアクション
-    JetPack();              //ジェットパック
-    //BoostJump();          //ブーストジャンプ
-    CameraPosition();       //視点
+    Jump();                 //ジャンプアクション
     PlayerHitPoint();       //HP
 }
 
@@ -54,11 +50,6 @@ void Player::Draw()
     Model::Draw(hModel_);
 
     //デバック用テキスト
-    pNum->Draw(50, 200, "fuel");
-    pNum->Draw(50, 250, fuel_);
-    pNum->Draw(50, 400, "jumpCool");
-    pNum->Draw(50, 450, jumpCool_);
-
     pNum->Draw(1150, 100, "X:");
     pNum->Draw(1200, 100, (int)transform_.position_.x);
     pNum->Draw(1150, 250, "Y:");
@@ -96,18 +87,6 @@ void Player::PlayerHitPoint()
             nowHp_ = 0;
         }
     }
-}
-
-//視点
-void Player::CameraPosition()
-{
-#if 0
-    //テスト用のカメラ
-    XMFLOAT3 camPos{ 0, 10, -20 };
-    XMFLOAT3 camTag{ 0, 0, 0 };
-    Camera::SetPosition(camPos);
-    Camera::SetTarget(camTag);
-#endif
 }
 
 //プレイヤーの移動
@@ -183,10 +162,8 @@ void Player::Jump()
 {
     float velocity = 5.0f;              // 初速度
     float delta = 0.02f;                // 適当なごく小さい値
-    float gravity = -9.81;               // 
     static bool canJump = true;         // ジャンプ可能な状態かどうか
     static float flightTime = 0.0f;     // ジャンプ経過時間
-    bool onGround = transform_.position_.y <= 0;    // 地面にいるとき
 
     if (Input::IsKeyDown(DIK_SPACE) && canJump) //ジャンプキーが押されており、ジャンプ可能な場合
     {
@@ -200,67 +177,17 @@ void Player::Jump()
         flightTime += delta;
         
         //鉛直投げ上げ運動          y  =  v_0  *  t  -  0.5  *  g  *  t^2
-        float pos = velocity * flightTime + 0.5f * gravity * flightTime * flightTime;
+        float pos = velocity * flightTime + 0.5f * gravity_ * flightTime * flightTime;
         transform_.position_.y = pos;
 
         //重力による落下
-        velocity += gravity * delta;
+        velocity += gravity_ * delta;
 
         //地面に着地したとき
-        if (onGround)
+        if (transform_.position_.y <= 0)
         {
-            transform_.position_.y = 0;     // 念のため地面に合わせる
+            transform_.position_.y = 0;     // 地面に合わせる
             canJump = true;                 // 地面に着地したらジャンプ可能にする
         }
     }
-}
-
-//ジェットパック
-void Player::JetPack()
-{
-    float flightTime = 0.0f;    // 滞空中の時間経過
-    float fallTime = 0.0f;      // 落下時間
-
-    bool onGround = transform_.position_.y <= 0;    // 地面にいるとき
-    bool hasFuel = fuel_ > 0;                       // 燃料があるとき
-
-    // 重力は空中にいるときのみ働く
-    if(!onGround) transform_.position_.y += gravity_ + fallTime;
-
-    // ジャンプ可能
-    if(hasFuel)
-    {
-        if (Input::IsKey(DIK_SPACE)) // ジャンプキー入力したら
-        {
-            if (flightTime <= 1) flightTime += 0.1;            //加速限界まで徐々に加速
-            transform_.position_.y += jampVelocity_ + flightTime;  //速度にジャンプ時間を加える
-            fuel_--;                                            //燃料を減らす
-        }
-        else
-        {
-            flightTime = 0; //キー入力がなければ経過時間(加速)をリセット
-            fallTime += 0.2;
-        }
-    }
-
-    // 地面にいるかつ燃料がない
-    if (onGround && !hasFuel)
-    {
-        transform_.position_.y = 0.0f;
-        if (jumpCool_ <= 0.0f) jumpCool_ += 20.0f;             // わずかな回復待機時間を設定
-    }
-
-    // クールタイムを0まで減らす
-    if (jumpCool_ > 0)   jumpCool_--;
-
-    // 燃料は地面にいてクールタイム中でないときに回復
-    if (onGround && jumpCool_ <= 0)
-    {
-        if (fuel_ < maxFuel_) fuel_++; // 燃料を最大値まで回復
-    }
-}
-
-//組み合わせ
-void Player::BoostJump()
-{
 }

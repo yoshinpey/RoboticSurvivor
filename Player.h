@@ -9,10 +9,6 @@ class Player : public GameObject
     int hModel_;                //モデル番号   
     int maxHp_, nowHp_;         //HP 
 
-    float jampVelocity_;        //ジャンプ速度
-    float fuel_;                //燃料
-    float maxFuel_;             //最大燃料
-    float jumpCool_;            //クールタイム
     float gravity_;             //重力
     bool CanJump_;              //ジャンプ可能か
 
@@ -29,10 +25,7 @@ public:
     //アクション
     void Move();                    //プレイヤーの移動
     void Jump();                    //ジャンプ
-    void JetPack();                 //ジェットパック
-    void BoostJump();               //組み合わせ
     void PlayerHitPoint();          //体力
-    void CameraPosition();          //視点
 
     //プレイヤー座標のゲッター
     XMFLOAT3 GetPlaPos() { return transform_.position_; }
