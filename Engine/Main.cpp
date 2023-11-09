@@ -1,7 +1,3 @@
-
-
-
-
 #include <Windows.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -15,9 +11,10 @@
 #include "Input.h"
 #include "Audio.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_win32.h"
-#include "imgui/imgui_impl_dx11.h"
+//ImGui関連データのインクルード
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_dx11.h"
+#include "ImGui/imgui_impl_win32.h"
 
 #pragma comment(lib,"Winmm.lib")
 
@@ -33,6 +30,8 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void LimitMousePointer(HWND hwnd);
 void ReleaseMousePointer();
+//ImGuiにウィンドウプロシージャ―から情報を取得する関数
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 // エントリーポイント
@@ -59,6 +58,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//Direct3D準備
 	Direct3D::Initialize(hWnd, screenWidth, screenHeight);
+
+	//ImGuiを初期化
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::StyleColorsDark();
+	ImGui_ImplWin32_Init(hWnd);
+	ImGui_ImplDX11_Init(Direct3D::pDevice_, Direct3D::pContext_);
 
 	//カメラを準備
 	Camera::Initialize();
@@ -121,7 +128,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lastUpdateTime = nowTime;	//現在の時間（最後に画面を更新した時間）を覚えておく
 				FPS++;						//画面更新回数をカウントする
 
+				//ImGuiの更新処理
+				ImGui_ImplDX11_NewFrame();
+				ImGui_ImplWin32_NewFrame();
+				ImGui::NewFrame();
 
+				ImGui::Begin("Hello, world!");//ImGuiの処理を開始
+				{
+					//描画されるボタンを押したら...
+					if (ImGui::Button("button")) {
+						PostQuitMessage(0);	//プログラム終了
+					}
+				}
+				ImGui::End();//ImGuiの処理を終了
 
 
 				//入力（キーボード、マウス、コントローラー）情報を更新
@@ -144,6 +163,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
 
+				//描画処理の前に記述
+				ImGui::Render();
+				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 				//描画終了
 				Direct3D::EndDraw();
 
@@ -165,6 +188,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Image::AllRelease();
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
+
+	//ImGuiの開放処理
+	ImGui_ImplDX11_Shutdown();
+	ImGui::DestroyContext();
+
 	Direct3D::Release();
 
 	return 0;
@@ -261,6 +289,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 	}
+
+	//ImGuiに情報を渡す
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+	{
+		return true;
+	}
+
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
