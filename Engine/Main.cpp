@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <time.h>
 
+//エンジン関連のデータ
 #include "global.h"
 #include "RootObject.h"
 #include "Model.h"
@@ -11,7 +12,7 @@
 #include "Input.h"
 #include "Audio.h"
 
-//ImGui関連データのインクルード
+//ImGui関連のデータ
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -30,6 +31,7 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void LimitMousePointer(HWND hwnd);
 void ReleaseMousePointer();
+
 //ImGuiにウィンドウプロシージャ―から情報を取得する関数
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
