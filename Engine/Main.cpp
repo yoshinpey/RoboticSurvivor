@@ -39,6 +39,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // エントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
+
 	// 乱数初期化
 	srand((unsigned)time(NULL));
 
@@ -263,7 +265,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
 
 		//マウスカーソルを非表示にする
-		while (ShowCursor(FALSE) >= 0);
+		//while (ShowCursor(FALSE) >= 0);
 		return 0;
 
 		//キーボードのキーが押された

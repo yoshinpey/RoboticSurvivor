@@ -115,9 +115,6 @@
     <ClCompile Include="Engine\Transform.cpp">
       <Filter>01Engine\02GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Audio.cpp">
-      <Filter>01Engine\00Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Text.cpp">
       <Filter>01Engine\00Resource</Filter>
     </ClCompile>
@@ -225,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui_widgets.cpp">
       <Filter>01Engine\00Resource\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Audio.cpp">
+      <Filter>01Engine\00Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
