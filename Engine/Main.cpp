@@ -265,7 +265,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
 
 		//マウスカーソルを非表示にする
-		//while (ShowCursor(FALSE) >= 0);
+		while (ShowCursor(FALSE) >= 0);
 		return 0;
 
 		//キーボードのキーが押された
