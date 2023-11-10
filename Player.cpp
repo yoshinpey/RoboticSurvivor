@@ -9,8 +9,7 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-9.8), maxFuel_(50), fuel_(0), jumpCool_(0), CanJump_(false), jampVelocity_(1.0),
-    maxHp_(100), nowHp_(100)
+    gravity_(-9.8), CanJump_(false), maxHp_(100), nowHp_(100)
 {
 }
 
