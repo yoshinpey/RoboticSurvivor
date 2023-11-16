@@ -227,6 +227,7 @@
     <ClInclude Include="Gauge.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Gun.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />

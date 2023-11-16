@@ -399,6 +399,9 @@
     <ClInclude Include="Engine\imgui\imstb_truetype.h">
       <Filter>01Engine\00Resource\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>04Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
