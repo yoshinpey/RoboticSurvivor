@@ -1,7 +1,7 @@
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
 
-#include "InputManager.h"
+
 #include "Aim.h"
 #include "Player.h"
 #include "Gauge.h"
@@ -10,7 +10,8 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-3.8), canJump_(false), maxHp_(100), nowHp_(100), jumpVelocity_(5.0f), jumpDelta_(0.02f)
+    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), flightTime_(0),
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED)
 {
 }
 
@@ -129,25 +130,20 @@ void Player::Move()
         fMove.z /= moveLength;
     }
 
-    // 速度の制御
-    float walkSpeed = 0.2f;         // 歩行速度
-    float runSpeed = 0.3f;          // 走行速度
-    float nowSpeed = 0;             // 初期速度
-
-    // 移動入力があるかどうか
-    bool isMoving = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
+    // 現在の速度
+    float nowSpeed = 0;
 
     // 移動入力あり
-    if (isMoving)
+    if (isMoving_)
     {
         // 走っているかどうか
         if (InputManager::IsRun())
         {
-            nowSpeed = runSpeed;    // 走り速度を設定
+            nowSpeed = runSpeed_;    // 走り速度に設定
         }
         else
         {
-            nowSpeed = walkSpeed;   // 歩き速度を設定
+            nowSpeed = walkSpeed_;   // 歩き速度に設定
         }
     }
     else
@@ -164,30 +160,28 @@ void Player::Move()
 //通常ジャンプ
 void Player::Jump()
 {
-
-    if (InputManager::IsJump() && canJump_) //ジャンプキーが押されており、ジャンプ可能な場合
+    // ジャンプキーが押されており、ジャンプ可能な場合
+    if (InputManager::IsJump() && canJump_) 
     {
         flightTime_ = 0.0f;
-        canJump_ = false;                // 連続ジャンプを防止するため、ジャンプ中はジャンプフラグを無効化
+        canJump_ = false;       // 連続ジャンプを防止
     }
 
+    // 滞空中
     if (!canJump_)
     {
         //ジャンプしてからの時間の経過
         flightTime_ += jumpDelta_;
-        
+
         //鉛直投げ上げ運動          y  =  v_0  *  t  -  0.5  *  g  *  t^2
         float pos = jumpVelocity_ * flightTime_ + 0.5f * gravity_ * flightTime_ * flightTime_;
         transform_.position_.y = pos;
 
-        //重力による落下
-        jumpVelocity_ += gravity_ * jumpDelta_;
-
         //地面に着地したとき
-        if (transform_.position_.y <= 0)
+        if (onGround_)
         {
             transform_.position_.y = 0;     // 地面に合わせる
-            canJump_ = true;                 // 地面に着地したらジャンプ可能にする
+            canJump_ = true;                // 地面に着地したらジャンプ可能にする
         }
     }
 }
