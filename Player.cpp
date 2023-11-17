@@ -10,7 +10,7 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-9.8), canJump_(false), maxHp_(100), nowHp_(100), jumpVelocity_(5.0f), jumpDelta_(0.02f)
+    gravity_(-3.8), canJump_(false), maxHp_(100), nowHp_(100), jumpVelocity_(5.0f), jumpDelta_(0.02f)
 {
 }
 
