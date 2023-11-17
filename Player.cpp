@@ -1,6 +1,7 @@
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
-#include "Engine/Input.h"
+
+#include "InputManager.h"
 #include "Aim.h"
 #include "Player.h"
 #include "Gauge.h"
@@ -99,19 +100,23 @@ void Player::Move()
     XMFLOAT3 aimDirection = pAim->GetAimDirection();
 
     // PlayerクラスのMove関数内の一部
-    if (Input::IsKey(DIK_W)) {
+    if (InputManager::IsMoveForward()) 
+    {
         fMove.x += aimDirection.x;
         fMove.z += aimDirection.z;
     }
-    if (Input::IsKey(DIK_A)) {
+    if (InputManager::IsMoveLeft()) 
+    {
         fMove.x -= aimDirection.z;
         fMove.z += aimDirection.x;
     }
-    if (Input::IsKey(DIK_S)) {
+    if (InputManager::IsMoveBackward()) 
+    {
         fMove.x -= aimDirection.x;
         fMove.z -= aimDirection.z;
     }
-    if (Input::IsKey(DIK_D)) {
+    if (InputManager::IsMoveRight())
+    {
         fMove.x += aimDirection.z;
         fMove.z -= aimDirection.x;
     }
@@ -130,13 +135,13 @@ void Player::Move()
     float nowSpeed = 0;             // 初期速度
 
     // 移動入力があるかどうか
-    bool isMoving = Input::IsKey(DIK_W) || Input::IsKey(DIK_A) || Input::IsKey(DIK_S) || Input::IsKey(DIK_D);
+    bool isMoving = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
     // 移動入力あり
     if (isMoving)
     {
         // 走っているかどうか
-        if (Input::IsKey(DIK_LSHIFT))
+        if (InputManager::IsRun())
         {
             nowSpeed = runSpeed;    // 走り速度を設定
         }
@@ -164,7 +169,7 @@ void Player::Jump()
     static bool canJump = true;         // ジャンプ可能な状態かどうか
     static float flightTime = 0.0f;     // ジャンプ経過時間
 
-    if (Input::IsKeyDown(DIK_SPACE) && canJump) //ジャンプキーが押されており、ジャンプ可能な場合
+    if (InputManager::IsJump() && canJump) //ジャンプキーが押されており、ジャンプ可能な場合
     {
         flightTime = 0.0f;
         canJump = false;                // 連続ジャンプを防止するため、ジャンプ中はジャンプフラグを無効化

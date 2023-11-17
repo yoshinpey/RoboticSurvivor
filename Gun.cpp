@@ -1,6 +1,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 
+#include "InputManager.h"
 #include "Gun.h"
 #include "Bullet.h"
 
@@ -33,7 +34,7 @@ void Gun::Initialize()
 void Gun::Update()
 {
     //”­–C
-    if (Input::IsMouseButtonDown(1))
+    if (InputManager::IsShoot())
     {
         //eƒ‚ƒfƒ‹æ’[
         XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
