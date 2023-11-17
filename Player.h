@@ -6,11 +6,14 @@
 //主人公を管理するクラス
 class Player : public GameObject
 {
-    int hModel_;                //モデル番号   
-    int maxHp_, nowHp_;         //HP 
+    int hModel_;                // モデル番号   
+    int maxHp_, nowHp_;         // HP 
 
-    float gravity_;             //重力
-    bool CanJump_;              //ジャンプ可能か
+    float gravity_;             // 重力
+    float jumpVelocity_;        // 加速度
+    float jumpDelta_;           // 適当なごく小さい値                    
+    float flightTime_;          // ジャンプ経過時間
+    bool canJump_;              // ジャンプ可能な状態かどうか
 
     Text* pNum;                 //テキスト
 

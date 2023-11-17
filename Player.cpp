@@ -10,7 +10,7 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-9.8), CanJump_(false), maxHp_(100), nowHp_(100)
+    gravity_(-9.8), canJump_(false), maxHp_(100), nowHp_(100), jumpVelocity_(5.0f), jumpDelta_(0.02f)
 {
 }
 
@@ -164,34 +164,30 @@ void Player::Move()
 //通常ジャンプ
 void Player::Jump()
 {
-    float velocity = 5.0f;              // 初速度
-    float delta = 0.02f;                // 適当なごく小さい値
-    static bool canJump = true;         // ジャンプ可能な状態かどうか
-    static float flightTime = 0.0f;     // ジャンプ経過時間
 
-    if (InputManager::IsJump() && canJump) //ジャンプキーが押されており、ジャンプ可能な場合
+    if (InputManager::IsJump() && canJump_) //ジャンプキーが押されており、ジャンプ可能な場合
     {
-        flightTime = 0.0f;
-        canJump = false;                // 連続ジャンプを防止するため、ジャンプ中はジャンプフラグを無効化
+        flightTime_ = 0.0f;
+        canJump_ = false;                // 連続ジャンプを防止するため、ジャンプ中はジャンプフラグを無効化
     }
 
-    if (!canJump)
+    if (!canJump_)
     {
         //ジャンプしてからの時間の経過
-        flightTime += delta;
+        flightTime_ += jumpDelta_;
         
         //鉛直投げ上げ運動          y  =  v_0  *  t  -  0.5  *  g  *  t^2
-        float pos = velocity * flightTime + 0.5f * gravity_ * flightTime * flightTime;
+        float pos = jumpVelocity_ * flightTime_ + 0.5f * gravity_ * flightTime_ * flightTime_;
         transform_.position_.y = pos;
 
         //重力による落下
-        velocity += gravity_ * delta;
+        jumpVelocity_ += gravity_ * jumpDelta_;
 
         //地面に着地したとき
         if (transform_.position_.y <= 0)
         {
             transform_.position_.y = 0;     // 地面に合わせる
-            canJump = true;                 // 地面に着地したらジャンプ可能にする
+            canJump_ = true;                 // 地面に着地したらジャンプ可能にする
         }
     }
 }
