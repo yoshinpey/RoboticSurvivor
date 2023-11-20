@@ -7,7 +7,6 @@ const int InputManager::SHOOT_KEY = InputManager::MOUSE_LEFT;
 const int InputManager::WEAPON_ACTION_KEY = InputManager::MOUSE_RIGHT;
 
 bool InputManager::IsShoot() { return Input::IsMouseButtonDown(SHOOT_KEY); }
-
 bool InputManager::IsWeaponAction() { return Input::IsMouseButtonUp(WEAPON_ACTION_KEY); }
 
 const int InputManager::MOVE_FORWARD_KEY = DIK_W;

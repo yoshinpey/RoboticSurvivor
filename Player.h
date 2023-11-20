@@ -19,6 +19,7 @@ class Player : public GameObject
 
     int gravity_;               // 重力
     float jumpVelocity_;        // 加速度
+    XMFLOAT3 velocity_;
     float jumpDelta_;           // 適当なごく小さい値
     float flightTime_;          // ジャンプ経過時間
     bool canJump_;              // ジャンプ可能な状態かどうか

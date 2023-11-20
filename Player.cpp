@@ -13,6 +13,8 @@ Player::Player(GameObject* parent)
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), flightTime_(0),
     walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED)
 {
+    // 速度の初期化
+    velocity_ = XMFLOAT3(0.0f, 0.0f, 0.0f);
 }
 
 //デストラクタ
@@ -160,31 +162,39 @@ void Player::Move()
     transform_.position_.z += fMove.z * nowSpeed;
 }
 
-//通常ジャンプ
+// ジャンプ
 void Player::Jump()
 {
     // ジャンプキーが押されており、ジャンプ可能な場合
-    if (InputManager::IsJump() && canJump_) 
+    if (InputManager::IsJump() && canJump_)
     {
-        flightTime_ = 0.0f;
-        canJump_ = false;       // 連続ジャンプを防止
+        // ジャンプ開始時に初速度を与える
+        velocity_.y = jumpVelocity_;
+
+        // 連続ジャンプを防止
+        canJump_ = false;
     }
 
     // 滞空中
     if (!canJump_)
     {
-        //ジャンプしてからの時間の経過
-        flightTime_ += jumpDelta_;
+        // 鉛直投げ上げ運動
+        transform_.position_.y += velocity_.y * jumpDelta_;
 
-        //鉛直投げ上げ運動          y  =  v_0  *  t  -  0.5  *  g  *  t^2
-        float pos = jumpVelocity_ * flightTime_ + 0.5f * gravity_ * flightTime_ * flightTime_;
-        transform_.position_.y = pos;
+        // 重力を適用してジャンプの高さを制御
+        velocity_.y += gravity_ * jumpDelta_;
 
-        //地面に着地したとき
+        // 地面に着地したとき
         if (transform_.position_.y <= 0)
         {
-            transform_.position_.y = 0;     // 地面に合わせる
-            canJump_ = true;                // 地面に着地したらジャンプ可能にする
+            // 地面に合わせる
+            transform_.position_.y = 0;
+
+            // 着地したら垂直速度をリセット
+            velocity_.y = 0.0f;
+
+            // 地面に着地したらジャンプ可能にする
+            canJump_ = true;
         }
     }
 }

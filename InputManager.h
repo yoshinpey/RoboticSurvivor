@@ -15,6 +15,7 @@ public:
     static bool IsShoot();                 // 射撃が行われているかどうか
     static bool IsWeaponAction();          // 武器アクションが行われているかどうか
 
+
     // キーボード入力
     static const int MOVE_FORWARD_KEY;     // 前進
     static const int MOVE_LEFT_KEY;        // 左移動
