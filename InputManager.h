@@ -2,39 +2,39 @@
 #pragma once
 #include "Engine/Input.h"
 
-
+// 入力状況を管理するクラス
 class InputManager
 {
 public:
-    // mouse
-    static const int MOUSE_LEFT = 0;
-    static const int MOUSE_RIGHT = 1;
-    static const int SHOOT_KEY = MOUSE_LEFT;
-    static const int WEAPON_ACTION_KEY = MOUSE_RIGHT;
+    // マウス入力
+    static const int MOUSE_LEFT;           // マウス左ボタン
+    static const int MOUSE_RIGHT;          // マウス右ボタン
+    static const int SHOOT_KEY;            // 射撃
+    static const int WEAPON_ACTION_KEY;    // 武器アクション
 
-    static bool IsShoot() { return Input::IsMouseButtonDown(SHOOT_KEY); }
-    static bool IsWeaponAction() { return Input::IsMouseButtonUp(WEAPON_ACTION_KEY); }
+    static bool IsShoot();                 // 射撃が行われているかどうか
+    static bool IsWeaponAction();          // 武器アクションが行われているかどうか
 
-    // key
-    static const int MOVE_FORWARD_KEY = DIK_W;
-    static const int MOVE_LEFT_KEY = DIK_A;
-    static const int MOVE_BACKWARD_KEY = DIK_S;
-    static const int MOVE_RIGHT_KEY = DIK_D;
-    static const int JUMP_KEY = DIK_SPACE;
-    static const int RUN_KEY = DIK_LSHIFT;
-    static const int RELOAD_KEY = DIK_R;
-    static const int MENU_KEY = DIK_ESCAPE;
-    static const int EVENT_ACTION_KEY = DIK_E;
-    static const int ABILITY_KEY = DIK_Q;
+    // キーボード入力
+    static const int MOVE_FORWARD_KEY;     // 前進
+    static const int MOVE_LEFT_KEY;        // 左移動
+    static const int MOVE_BACKWARD_KEY;    // 後退
+    static const int MOVE_RIGHT_KEY;       // 右移動
+    static const int JUMP_KEY;             // ジャンプ
+    static const int RUN_KEY;              // 走る
+    static const int RELOAD_KEY;           // リロード
+    static const int MENU_KEY;             // メニュー
+    static const int EVENT_ACTION_KEY;     // イベントアクション
+    static const int ABILITY_KEY;          // アビリティ
 
-    static bool IsMoveForward() { return Input::IsKey(MOVE_FORWARD_KEY); }
-    static bool IsMoveLeft() { return Input::IsKey(MOVE_LEFT_KEY); }
-    static bool IsMoveBackward() { return Input::IsKey(MOVE_BACKWARD_KEY); }
-    static bool IsMoveRight() { return Input::IsKey(MOVE_RIGHT_KEY); }
-    static bool IsJump() { return Input::IsKeyDown(JUMP_KEY); }
-    static bool IsRun() { return Input::IsKey(RUN_KEY); }
-    static bool IsReload() { return Input::IsKeyDown(RELOAD_KEY); }
-    static bool IsMenu() { return Input::IsKeyDown(MENU_KEY); }
-    static bool IsEventAction() { return Input::IsKeyDown(EVENT_ACTION_KEY); }
-    static bool IsAbility() { return Input::IsKeyDown(ABILITY_KEY); }
+    static bool IsMoveForward();           // 前進中かどうか
+    static bool IsMoveLeft();              // 左移動中かどうか
+    static bool IsMoveBackward();          // 後退中かどうか
+    static bool IsMoveRight();             // 右移動中かどうか
+    static bool IsJump();                  // ジャンプが行われているかどうか
+    static bool IsRun();                   // 走っているかどうか
+    static bool IsReload();                // リロードが行われているかどうか
+    static bool IsMenu();                  // メニューが開かれているかどうか
+    static bool IsEventAction();           // イベントアクションが行われているかどうか
+    static bool IsAbility();               // アビリティが使用されているかどうか
 };
