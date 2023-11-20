@@ -16,12 +16,11 @@ class Player : public GameObject
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
+    XMFLOAT3 velocity_;         // 移動加速
 
     int gravity_;               // 重力
     float jumpVelocity_;        // 加速度
-    XMFLOAT3 velocity_;
     float jumpDelta_;           // 適当なごく小さい値
-    float flightTime_;          // ジャンプ経過時間
     bool canJump_;              // ジャンプ可能な状態かどうか
 
     Text* pNum;                 //テキスト

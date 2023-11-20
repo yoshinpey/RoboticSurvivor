@@ -10,7 +10,7 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), flightTime_(0),
+    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0, 0, 0),
     walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED)
 {
     // 速度の初期化
@@ -136,7 +136,7 @@ void Player::Move()
     bool isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
     // 現在の速度
-    float nowSpeed = 0;
+    float currentSpeed = 0;
 
     // 移動入力あり
     if (isMoving_)
@@ -144,22 +144,41 @@ void Player::Move()
         // 走っているかどうか
         if (InputManager::IsRun())
         {
-            nowSpeed = runSpeed_;    // 走り速度に設定
+            currentSpeed = runSpeed_;    // 走り速度に設定
         }
         else
         {
-            nowSpeed = walkSpeed_;   // 歩き速度に設定
+            currentSpeed = walkSpeed_;   // 歩き速度に設定
         }
+
+        // 歩行に加速を追加
+        float acceleration = 0.02f;  // 加速度
+        float maxSpeed = currentSpeed;  // 最大速度
+
+        // 現在の速度を目標の速度に徐々に近づける
+        if (maxSpeed > velocity_.x)
+        {
+            velocity_.x += acceleration;
+        }
+        else if (maxSpeed < velocity_.x)
+        {
+            velocity_.x -= acceleration;
+        }
+
+        // 加速度は同じ
+        velocity_.z = velocity_.x;
     }
     else
     {
         // 各移動ボタンを離したときに速度をリセット
-        nowSpeed = 0.0f;
+        currentSpeed = 0.0f;
+        velocity_.x = 0.0f;
+        velocity_.z = 0.0f;
     }
 
     // 移動に反映
-    transform_.position_.x += fMove.x * nowSpeed;
-    transform_.position_.z += fMove.z * nowSpeed;
+    transform_.position_.x += fMove.x * velocity_.x;
+    transform_.position_.z += fMove.z * velocity_.z;
 }
 
 // ジャンプ
@@ -178,7 +197,7 @@ void Player::Jump()
     // 滞空中
     if (!canJump_)
     {
-        // 鉛直投げ上げ運動
+        // 上方向への移動に加速を足す
         transform_.position_.y += velocity_.y * jumpDelta_;
 
         // 重力を適用してジャンプの高さを制御
