@@ -23,13 +23,6 @@ class Player : public GameObject
     float flightTime_;          // ジャンプ経過時間
     bool canJump_;              // ジャンプ可能な状態かどうか
 
-    // -----フラグ------------
-    // 地面にいる
-    bool onGround_ = transform_.position_.y <= 0;
-    // 移動入力があるときは真
-    bool isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
-    //------------------------
-
     Text* pNum;                 //テキスト
 
 public:

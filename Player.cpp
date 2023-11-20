@@ -130,6 +130,9 @@ void Player::Move()
         fMove.z /= moveLength;
     }
 
+    // 移動入力があるときは真
+    bool isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
+
     // 現在の速度
     float nowSpeed = 0;
 
@@ -178,7 +181,7 @@ void Player::Jump()
         transform_.position_.y = pos;
 
         //地面に着地したとき
-        if (onGround_)
+        if (transform_.position_.y <= 0)
         {
             transform_.position_.y = 0;     // 地面に合わせる
             canJump_ = true;                // 地面に着地したらジャンプ可能にする
