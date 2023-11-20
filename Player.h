@@ -25,6 +25,8 @@ class Player : public GameObject
 
     Text* pNum;                 //テキスト
 
+    bool isMoving_;             // 移動しているかどうか
+
 public:
     Player(GameObject* parent);     //コンストラクタ
     ~Player();                      //デストラクタ

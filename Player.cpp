@@ -11,10 +11,8 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0, 0, 0),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false)
 {
-    // 速度の初期化
-    velocity_ = XMFLOAT3(0.0f, 0.0f, 0.0f);
 }
 
 //デストラクタ
@@ -133,7 +131,7 @@ void Player::Move()
     }
 
     // 移動入力があるときは真
-    bool isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
+    isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
     // 現在の速度
     float currentSpeed = 0;
@@ -153,23 +151,25 @@ void Player::Move()
 
         // 歩行に加速を追加
         float acceleration = 0.02f;  // 加速度
-        float maxSpeed = currentSpeed;  // 最大速度
 
         // 現在の速度を目標の速度に徐々に近づける
-        if (maxSpeed > velocity_.x)
+        if (currentSpeed > velocity_.x)
         {
             velocity_.x += acceleration;
+            velocity_.z += acceleration;
         }
-        else if (maxSpeed < velocity_.x)
+        else if (currentSpeed < velocity_.x)
         {
             velocity_.x -= acceleration;
+            velocity_.z -= acceleration;
         }
 
-        // 加速度は同じ
-        velocity_.z = velocity_.x;
     }
     else
     {
+        // 各移動ボタンを離したときに速度をリセットせず、慣性を考慮する
+        //float deceleration = 0.01f;  // 減速度
+
         // 各移動ボタンを離したときに速度をリセット
         currentSpeed = 0.0f;
         velocity_.x = 0.0f;
