@@ -152,6 +152,7 @@ void Player::Move()
         // 歩行に加速を追加
         float acceleration = 0.02f;  // 加速度
 
+
         // 現在の速度を目標の速度に徐々に近づける
         if (currentSpeed > velocity_.x)
         {
