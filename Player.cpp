@@ -122,8 +122,7 @@ void Player::Move()
     }
 
     // ³‹K‰»‚·‚é
-    float moveLength = sqrtf(fMove.x * fMove.x + fMove.z * fMove.z);
-
+    float moveLength = sqrtf((fMove.x * fMove.x) + (fMove.z * fMove.z));
     // ƒ[ƒ‚¶‚á‚È‚¢‚¾‚¯ŒvZ
     if (moveLength != 0)
     {
