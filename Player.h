@@ -11,12 +11,16 @@ class Player : public GameObject
     int maxHp_, nowHp_;         // HP 
 
     const float JUMP_HEIGHT = 1.5f;     //ジャンプの高さ
-    const float WALK_SPEED = 0.2f;      //歩く速さ
-    const float RUN_SPEED = 0.3f;       //走る速さ
+    const float WALK_SPEED = 0.1f;      //歩く速さ
+    const float RUN_SPEED = 0.2f;       //走る速さ
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
     XMFLOAT3 velocity_;         // 移動加速
+    XMFLOAT3 movement_;         // 移動量
+    float acceleration_;        // 加速度
+    float friction_;            // 摩擦力(減速度)
+    float moveDelta_;           //  適当なごく小さい値
 
     int gravity_;               // 重力
     float jumpVelocity_;        // 加速度
@@ -25,7 +29,10 @@ class Player : public GameObject
 
     Text* pNum;                 //テキスト
 
+    ////////// フラグ//////////
     bool isMoving_;             // 移動しているかどうか
+
+    //////////////////////////
 
 public:
     Player(GameObject* parent);     //コンストラクタ

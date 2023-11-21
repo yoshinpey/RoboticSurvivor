@@ -1,7 +1,6 @@
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
 
-
 #include "Aim.h"
 #include "Player.h"
 #include "Gauge.h"
@@ -10,8 +9,8 @@
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0, 0, 0),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false)
+    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.05f), friction_(0.8f), moveDelta_(0.1)
 {
 }
 
@@ -90,7 +89,7 @@ void Player::PlayerHitPoint()
     }
 }
 
-//プレイヤーの移動
+// プレイヤーの移動
 void Player::Move()
 {
     // 移動
@@ -101,17 +100,17 @@ void Player::Move()
     XMFLOAT3 aimDirection = pAim->GetAimDirection();
 
     // PlayerクラスのMove関数内の一部
-    if (InputManager::IsMoveForward()) 
+    if (InputManager::IsMoveForward())
     {
         fMove.x += aimDirection.x;
         fMove.z += aimDirection.z;
     }
-    if (InputManager::IsMoveLeft()) 
+    if (InputManager::IsMoveLeft())
     {
         fMove.x -= aimDirection.z;
         fMove.z += aimDirection.x;
     }
-    if (InputManager::IsMoveBackward()) 
+    if (InputManager::IsMoveBackward())
     {
         fMove.x -= aimDirection.x;
         fMove.z -= aimDirection.z;
@@ -124,6 +123,8 @@ void Player::Move()
 
     // 正規化する
     float moveLength = sqrtf(fMove.x * fMove.x + fMove.z * fMove.z);
+
+    // ゼロじゃない時だけ計算
     if (moveLength != 0)
     {
         fMove.x /= moveLength;
@@ -134,7 +135,7 @@ void Player::Move()
     isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
     // 現在の速度
-    float currentSpeed = 0;
+    float currentSpeed = 0.0f;
 
     // 移動入力あり
     if (isMoving_)
@@ -149,37 +150,36 @@ void Player::Move()
             currentSpeed = walkSpeed_;   // 歩き速度に設定
         }
 
-        // 歩行に加速を追加
-        float acceleration = 0.02f;  // 加速度
-
-
         // 現在の速度を目標の速度に徐々に近づける
         if (currentSpeed > velocity_.x)
         {
-            velocity_.x += acceleration;
-            velocity_.z += acceleration;
+            velocity_.x += acceleration_;
+            velocity_.z += acceleration_;
         }
-        else if (currentSpeed < velocity_.x)
+        else
         {
-            velocity_.x -= acceleration;
-            velocity_.z -= acceleration;
+            velocity_.x = currentSpeed;
+            velocity_.z = currentSpeed;
         }
 
+        // 移動に反映
+        movement_.x += fMove.x * velocity_.x * moveDelta_;
+        movement_.z += fMove.z * velocity_.z * moveDelta_;
+
+        // 移動量を適用
+        transform_.position_.x += movement_.x;
+        transform_.position_.z += movement_.z;
     }
     else
     {
-        // 各移動ボタンを離したときに速度をリセットせず、慣性を考慮する
-        //float deceleration = 0.01f;  // 減速度
+        // 各移動ボタンを離したときに減速を適応
+        movement_.x *= friction_;
+        movement_.z *= friction_;
 
-        // 各移動ボタンを離したときに速度をリセット
-        currentSpeed = 0.0f;
-        velocity_.x = 0.0f;
-        velocity_.z = 0.0f;
+        // 移動に反映
+        transform_.position_.x += movement_.x;
+        transform_.position_.z += movement_.z;
     }
-
-    // 移動に反映
-    transform_.position_.x += fMove.x * velocity_.x;
-    transform_.position_.z += fMove.z * velocity_.z;
 }
 
 // ジャンプ
@@ -198,7 +198,7 @@ void Player::Jump()
     // 滞空中
     if (!canJump_)
     {
-        // 上方向への移動に加速を足す
+        // 上方向hへの移動加速
         transform_.position_.y += velocity_.y * jumpDelta_;
 
         // 重力を適用してジャンプの高さを制御
