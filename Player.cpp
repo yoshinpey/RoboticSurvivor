@@ -10,7 +10,7 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.2f), friction_(0.8f)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.1f), friction_(0.8f)
 {
 }
 
@@ -92,37 +92,11 @@ void Player::PlayerHitPoint()
 // プレイヤーの移動
 void Player::Move()
 {
-    // 移動
-    XMFLOAT3 fMove = XMFLOAT3(0, 0, 0);
-
-    // エイム情報呼び出し
-    Aim* pAim = (Aim*)FindObject("Aim");
-    XMFLOAT3 aimDirection = pAim->GetAimDirection();
-
-    // PlayerクラスのMove関数内の一部
-    if (InputManager::IsMoveForward())
-    {
-        fMove.x += aimDirection.x;
-        fMove.z += aimDirection.z;
-    }
-    if (InputManager::IsMoveLeft())
-    {
-        fMove.x -= aimDirection.z;
-        fMove.z += aimDirection.x;
-    }
-    if (InputManager::IsMoveBackward())
-    {
-        fMove.x -= aimDirection.x;
-        fMove.z -= aimDirection.z;
-    }
-    if (InputManager::IsMoveRight())
-    {
-        fMove.x += aimDirection.z;
-        fMove.z -= aimDirection.x;
-    }
+    // 移動方向
+    XMFLOAT3 fMove = CalculateMoveInput();
 
     // 正規化および最大速度制御
-    float moveLength = sqrtf((fMove.x * fMove.x) + (fMove.z * fMove.z));
+    float moveLength = sqrtf(((int)fMove.x * (int)fMove.x) + ((int)fMove.z * (int)fMove.z));
     if (moveLength != 0)
     {
         fMove.x /= moveLength;
@@ -151,6 +125,15 @@ void Player::Move()
             maxMoveSpeed = walkSpeed_;   // 歩き速度に設定
         }
 
+        // 最大速度を超えていたら正規化・最大値の値にする
+        if (currentSpeed > maxMoveSpeed)
+        {
+            XMVECTOR vMove = XMLoadFloat3(&movement_);
+            vMove = XMVector3Normalize(vMove);
+            vMove *= maxMoveSpeed;
+            XMStoreFloat3(&movement_, vMove);
+        }
+
         // 現在の速度を目標の速度に近づける
         if (currentSpeed < maxMoveSpeed)
         {
@@ -161,17 +144,6 @@ void Player::Move()
         {
             velocity_.x = maxMoveSpeed;
             velocity_.z = maxMoveSpeed;
-        }
-
-        // 最大速度を超えていたら正規化・最大値の値にする
-        currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
-
-        if (currentSpeed > maxMoveSpeed)
-        {
-            XMVECTOR vMove = XMLoadFloat3(&movement_);
-            vMove = XMVector3Normalize(vMove);
-            vMove *= maxMoveSpeed;
-            XMStoreFloat3(&movement_, vMove);
         }
 
         // 移動に反映
@@ -206,11 +178,12 @@ void Player::Jump()
         // 連続ジャンプを防止
         canJump_ = false;
 
-        // Add horizontal movement to jump direction
-        Aim* pAim = (Aim*)FindObject("Aim");
-        XMFLOAT3 aimDirection = pAim->GetAimDirection();
-        velocity_.x += aimDirection.x * jumpVelocity_;
-        velocity_.z += aimDirection.z * jumpVelocity_;
+        // 移動方向を取得
+        XMFLOAT3 fMove = CalculateMoveInput();
+
+        // 移動方向に初速度を追加
+        velocity_.x += (int)fMove.x;
+        velocity_.z += (int)fMove.z;
     }
 
     // 滞空中
@@ -239,4 +212,37 @@ void Player::Jump()
             canJump_ = true;
         }
     }
+}
+
+// 移動計算を行う関数
+XMFLOAT3 Player::CalculateMoveInput()
+{
+    XMFLOAT3 fMove = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+    // エイム情報呼び出し
+    Aim* pAim = (Aim*)FindObject("Aim");
+    XMFLOAT3 aimDirection = pAim->GetAimDirection();
+
+    // PlayerクラスのMove関数内の一部
+    if (InputManager::IsMoveForward())
+    {
+        fMove.x += aimDirection.x;
+        fMove.z += aimDirection.z;
+    }
+    if (InputManager::IsMoveLeft())
+    {
+        fMove.x -= aimDirection.z;
+        fMove.z += aimDirection.x;
+    }
+    if (InputManager::IsMoveBackward())
+    {
+        fMove.x -= aimDirection.x;
+        fMove.z -= aimDirection.z;
+    }
+    if (InputManager::IsMoveRight())
+    {
+        fMove.x += aimDirection.z;
+        fMove.z -= aimDirection.x;
+    }
+    return fMove;
 }

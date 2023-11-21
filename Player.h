@@ -9,8 +9,8 @@ class Player : public GameObject
     int maxHp_, nowHp_;         // HP 
 
     const float JUMP_HEIGHT = 1.5f;     // ジャンプの高さ
-    const float WALK_SPEED = 0.05f;     // 歩く速さ
-    const float RUN_SPEED = 0.1f;      // 走る速さ
+    const float WALK_SPEED = 0.10f;     // 歩く速さ
+    const float RUN_SPEED = 0.15f;      // 走る速さ
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
@@ -46,33 +46,6 @@ public:
     // プレイヤー座標のゲッター
     XMFLOAT3 GetPlaPos() const { return transform_.position_; }
 
-    // ジャンプ中の物理演算
-    void ApplyJumpPhysics();
-
-    // ジャンプ可能な状態かどうか
-    bool CanJump() const;
-
-    // 地面に着地したときの処理
-    void LandOnGround();
-
-    // HP 増加
-    void IncreaseHp();
-
-    // HP 減少
-    void DecreaseHp();
-
-    // 最大速度の決定
-    float DetermineMaxMoveSpeed() const;
-
-    // 速度を目標速度に近づける
-    void AccelerateToTargetSpeed(float currentSpeed, float maxMoveSpeed);
-
-    // 最大速度を超えていたら正規化・最大値の値にする
-    void ApplyMaxSpeed(float currentSpeed, float maxMoveSpeed);
-
-    // 移動に反映
-    void ApplyMovement(const XMFLOAT3& fMove);
-
-    // 移動ボタンを離したときの減速を適応
-    void ApplyDeceleration();
+    // 移動計算を行う関数
+    XMFLOAT3 CalculateMoveInput();
 };
