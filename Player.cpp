@@ -207,16 +207,26 @@ void Player::Jump()
 
         // 連続ジャンプを防止
         canJump_ = false;
+
+        // Add horizontal movement to jump direction
+        Aim* pAim = (Aim*)FindObject("Aim");
+        XMFLOAT3 aimDirection = pAim->GetAimDirection();
+        velocity_.x += aimDirection.x * jumpVelocity_;
+        velocity_.z += aimDirection.z * jumpVelocity_;
     }
 
     // 滞空中
     if (!canJump_)
     {
-        // 上方向hへの移動加速
+        // 上方向への移動加速
         transform_.position_.y += velocity_.y * jumpDelta_;
 
         // 重力を適用してジャンプの高さを制御
         velocity_.y += gravity_ * jumpDelta_;
+
+        // 水平方向への慣性を考慮
+        transform_.position_.x += velocity_.x * jumpDelta_;
+        transform_.position_.z += velocity_.z * jumpDelta_;
 
         // 地面に着地したとき
         if (transform_.position_.y <= 0)
