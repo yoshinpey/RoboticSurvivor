@@ -10,7 +10,7 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.05f), friction_(0.8f), moveDelta_(0.1)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.05f), friction_(0.8f), moveDelta_(0.5)
 {
 }
 
@@ -137,29 +137,44 @@ void Player::Move()
     // 現在の速度
     float currentSpeed = 0.0f;
 
+    //　最高速度
+    float maxMoveSpeed = 0.0f;
+
     // 移動入力あり
     if (isMoving_)
     {
         // 走っているかどうか
         if (InputManager::IsRun())
         {
-            currentSpeed = runSpeed_;    // 走り速度に設定
+            maxMoveSpeed = runSpeed_;    // 走り速度に設定
         }
         else
         {
-            currentSpeed = walkSpeed_;   // 歩き速度に設定
+            maxMoveSpeed = walkSpeed_;   // 歩き速度に設定
         }
 
-        // 現在の速度を目標の速度に徐々に近づける
-        if (currentSpeed > velocity_.x)
+        // 現在の速度を目標の速度に近づける
+        if (currentSpeed > maxMoveSpeed)
         {
             velocity_.x += acceleration_;
             velocity_.z += acceleration_;
         }
         else
         {
-            velocity_.x = currentSpeed;
-            velocity_.z = currentSpeed;
+            velocity_.x = maxMoveSpeed;
+            velocity_.z = maxMoveSpeed;
+        }
+        
+        //MaxSpeed超えていたら正規化・MaxSpeedの値にする
+        currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
+
+        if (currentSpeed > maxMoveSpeed)
+        {
+            XMVECTOR vMove;
+            vMove = XMLoadFloat3(&movement_);
+            vMove = XMVector3Normalize(vMove);
+            vMove *= maxMoveSpeed;
+            XMStoreFloat3(&movement_, vMove);
         }
 
         // 移動に反映
