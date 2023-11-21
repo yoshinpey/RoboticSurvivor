@@ -10,7 +10,7 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.05f), friction_(0.8f), moveDelta_(0.5)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.2f), friction_(0.8f)
 {
 }
 
@@ -121,9 +121,8 @@ void Player::Move()
         fMove.z -= aimDirection.x;
     }
 
-    // 正規化する
+    // 正規化および最大速度制御
     float moveLength = sqrtf((fMove.x * fMove.x) + (fMove.z * fMove.z));
-    // ゼロじゃない時だけ計算
     if (moveLength != 0)
     {
         fMove.x /= moveLength;
@@ -134,9 +133,9 @@ void Player::Move()
     isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
     // 現在の速度
-    float currentSpeed = 0.0f;
+    float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
 
-    //　最高速度
+    // 最高速度
     float maxMoveSpeed = 0.0f;
 
     // 移動入力あり
@@ -153,7 +152,7 @@ void Player::Move()
         }
 
         // 現在の速度を目標の速度に近づける
-        if (currentSpeed > maxMoveSpeed)
+        if (currentSpeed < maxMoveSpeed)
         {
             velocity_.x += acceleration_;
             velocity_.z += acceleration_;
@@ -163,22 +162,21 @@ void Player::Move()
             velocity_.x = maxMoveSpeed;
             velocity_.z = maxMoveSpeed;
         }
-        
-        //MaxSpeed超えていたら正規化・MaxSpeedの値にする
+
+        // 最大速度を超えていたら正規化・最大値の値にする
         currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
 
         if (currentSpeed > maxMoveSpeed)
         {
-            XMVECTOR vMove;
-            vMove = XMLoadFloat3(&movement_);
+            XMVECTOR vMove = XMLoadFloat3(&movement_);
             vMove = XMVector3Normalize(vMove);
             vMove *= maxMoveSpeed;
             XMStoreFloat3(&movement_, vMove);
         }
 
         // 移動に反映
-        movement_.x += fMove.x * velocity_.x * moveDelta_;
-        movement_.z += fMove.z * velocity_.z * moveDelta_;
+        movement_.x += fMove.x * velocity_.x;
+        movement_.z += fMove.z * velocity_.z;
 
         // 移動量を適用
         transform_.position_.x += movement_.x;
