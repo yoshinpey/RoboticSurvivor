@@ -95,14 +95,6 @@ void Player::Move()
     // 移動方向
     XMFLOAT3 fMove = CalculateMoveInput();
 
-    // 正規化および最大速度制御
-    float moveLength = sqrtf(((int)fMove.x * (int)fMove.x) + ((int)fMove.z * (int)fMove.z));
-    if (moveLength != 0)
-    {
-        fMove.x /= moveLength;
-        fMove.z /= moveLength;
-    }
-
     // 移動入力があるときは真
     isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
@@ -173,7 +165,7 @@ void Player::Jump()
     if (InputManager::IsJump() && canJump_)
     {
         // ジャンプ開始時に初速度を与える
-        velocity_.y = jumpVelocity_;
+        velocity_.y = static_cast<float>(static_cast<int>(jumpVelocity_)); // 整数変換の修正
 
         // 連続ジャンプを防止
         canJump_ = false;
@@ -182,8 +174,17 @@ void Player::Jump()
         XMFLOAT3 fMove = CalculateMoveInput();
 
         // 移動方向に初速度を追加
-        velocity_.x += (int)fMove.x;
-        velocity_.z += (int)fMove.z;
+        velocity_.x += fMove.x;
+        velocity_.z += fMove.z;
+
+        // 移動方向の正規化
+        XMVECTOR vMove = XMLoadFloat3(&velocity_);
+        vMove = XMVector3Normalize(vMove);
+        XMStoreFloat3(&velocity_, vMove);
+
+        // 速度の初期化
+        velocity_.x *= jumpVelocity_;
+        velocity_.z *= jumpVelocity_;
     }
 
     // 滞空中
@@ -213,6 +214,7 @@ void Player::Jump()
         }
     }
 }
+
 
 // 移動計算を行う関数
 XMFLOAT3 Player::CalculateMoveInput()
@@ -244,5 +246,11 @@ XMFLOAT3 Player::CalculateMoveInput()
         fMove.x += aimDirection.z;
         fMove.z -= aimDirection.x;
     }
+
+    // 正規化
+    XMVECTOR vMove = XMLoadFloat3(&fMove);
+    vMove = XMVector3Normalize(vMove);
+    XMStoreFloat3(&fMove, vMove);
+
     return fMove;
 }
