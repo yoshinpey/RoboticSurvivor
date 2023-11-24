@@ -8,7 +8,7 @@ class Player : public GameObject
     int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
 
-    const float JUMP_HEIGHT = 1.5f;     // ジャンプの高さ
+    const float JUMP_HEIGHT = 50.0f;     // ジャンプの高さ
     const float WALK_SPEED = 0.10f;     // 歩く速さ
     const float RUN_SPEED = 0.15f;      // 走る速さ
 
