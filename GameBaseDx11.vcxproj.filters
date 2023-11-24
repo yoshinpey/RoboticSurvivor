@@ -229,6 +229,9 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>04Player</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsEngine.cpp">
+      <Filter>01Engine\01DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -404,6 +407,9 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>04Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>01Engine\01DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

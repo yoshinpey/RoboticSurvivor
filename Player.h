@@ -2,6 +2,7 @@
 #include "Engine/Text.h"
 #include "Engine/GameObject.h"
 #include "InputManager.h"
+#include "PhysicsEngine.h"
 
 class Player : public GameObject
 {
@@ -9,8 +10,8 @@ class Player : public GameObject
     int maxHp_, nowHp_;         // HP 
 
     const float JUMP_HEIGHT = 1.50f;     // ジャンプの高さ
-    const float WALK_SPEED = 0.07f;     // 歩く速さ
-    const float RUN_SPEED = 0.10f;      // 走る速さ
+    const float WALK_SPEED = 0.1f;     // 歩く速さ
+    const float RUN_SPEED = 0.15f;      // 走る速さ
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
@@ -25,6 +26,7 @@ class Player : public GameObject
     bool canJump_;              // ジャンプ可能な状態かどうか
 
     Text* pNum;                 // テキスト
+    PhysicsEngine physicsEngine_;  // 物理エンジンクラスのインスタンス
 
     // フラグ
     bool isMoving_;             // 移動しているかどうか
