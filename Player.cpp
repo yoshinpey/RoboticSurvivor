@@ -10,7 +10,7 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.1f), friction_(0.8f)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.001f), friction_(0.8f)
 {
 }
 
@@ -151,7 +151,8 @@ void Player::Move()
         // 各移動ボタンを離したときに減速を適応
         movement_.x *= friction_;
         movement_.z *= friction_;
-
+        //velocity_.x = 0;
+        //velocity_.z = 0;
         // 移動に反映
         transform_.position_.x += movement_.x;
         transform_.position_.z += movement_.z;
@@ -165,17 +166,17 @@ void Player::Jump()
     if (InputManager::IsJump() && canJump_)
     {
         // ジャンプ開始時に初速度を与える
-        velocity_.y = static_cast<float>(static_cast<int>(jumpVelocity_)); // 整数変換の修正
+        velocity_.y = jumpVelocity_;
 
         // 連続ジャンプを防止
         canJump_ = false;
 
         // 移動方向を取得
-        XMFLOAT3 fMove = CalculateMoveInput();
+        //XMFLOAT3 fMove = CalculateMoveInput();
 
         // 移動方向に初速度を追加
-        velocity_.x += fMove.x;
-        velocity_.z += fMove.z;
+        //velocity_.x += fMove.x;
+        //velocity_.z += fMove.z;
 
         // 移動方向の正規化
         XMVECTOR vMove = XMLoadFloat3(&velocity_);
@@ -183,8 +184,8 @@ void Player::Jump()
         XMStoreFloat3(&velocity_, vMove);
 
         // 速度の初期化
-        velocity_.x *= jumpVelocity_;
-        velocity_.z *= jumpVelocity_;
+        //velocity_.x *= jumpVelocity_;
+        //velocity_.z *= jumpVelocity_;
     }
 
     // 滞空中
@@ -197,8 +198,8 @@ void Player::Jump()
         velocity_.y += gravity_ * jumpDelta_;
 
         // 水平方向への慣性を考慮
-        transform_.position_.x += velocity_.x * jumpDelta_;
-        transform_.position_.z += velocity_.z * jumpDelta_;
+        //transform_.position_.x += velocity_.x * jumpDelta_;
+        //transform_.position_.z += velocity_.z * jumpDelta_;
 
         // 地面に着地したとき
         if (transform_.position_.y <= 0)
