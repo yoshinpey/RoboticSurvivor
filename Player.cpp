@@ -10,7 +10,7 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.001f), friction_(0.8f)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.8f)
 {
 }
 
@@ -151,8 +151,9 @@ void Player::Move()
         // 各移動ボタンを離したときに減速を適応
         movement_.x *= friction_;
         movement_.z *= friction_;
-        //velocity_.x = 0;
-        //velocity_.z = 0;
+        velocity_.x = 0;
+        velocity_.z = 0;
+
         // 移動に反映
         transform_.position_.x += movement_.x;
         transform_.position_.z += movement_.z;
@@ -177,11 +178,6 @@ void Player::Jump()
         // 移動方向に初速度を追加
         //velocity_.x += fMove.x;
         //velocity_.z += fMove.z;
-
-        // 移動方向の正規化
-        XMVECTOR vMove = XMLoadFloat3(&velocity_);
-        vMove = XMVector3Normalize(vMove);
-        XMStoreFloat3(&velocity_, vMove);
 
         // 速度の初期化
         //velocity_.x *= jumpVelocity_;
