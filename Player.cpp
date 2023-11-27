@@ -171,17 +171,6 @@ void Player::Jump()
 
         // 連続ジャンプを防止
         canJump_ = false;
-
-        // 移動方向を取得
-        //XMFLOAT3 fMove = CalculateMoveInput();
-
-        // 移動方向に初速度を追加
-        //velocity_.x += fMove.x;
-        //velocity_.z += fMove.z;
-
-        // 速度の初期化
-        //velocity_.x *= jumpVelocity_;
-        //velocity_.z *= jumpVelocity_;
     }
 
     // 滞空中
@@ -192,10 +181,6 @@ void Player::Jump()
 
         // 重力を適用してジャンプの高さを制御
         velocity_.y += gravity_ * jumpDelta_;
-
-        // 水平方向への慣性を考慮
-        //transform_.position_.x += velocity_.x * jumpDelta_;
-        //transform_.position_.z += velocity_.z * jumpDelta_;
 
         // 地面に着地したとき
         if (transform_.position_.y <= 0)
@@ -211,7 +196,6 @@ void Player::Jump()
         }
     }
 }
-
 
 // 移動計算を行う関数
 XMFLOAT3 Player::CalculateMoveInput()
