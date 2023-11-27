@@ -2,6 +2,7 @@
 #include "Engine/Text.h"
 #include "Engine/GameObject.h"
 #include "InputManager.h"
+#include "PlayerState.h"
 
 class Player : public GameObject
 {
@@ -29,9 +30,14 @@ class Player : public GameObject
     // フラグ
     bool isMoving_;             // 移動しているかどうか
 
+    PlayerState* currentState_;
+
 public:
     Player(GameObject* parent);     // コンストラクタ
     ~Player();                      // デストラクタ
+
+    void ChangeState(PlayerState* newState);
+    void Update();
 
     void Initialize() override;     // 初期化
     void Update() override;         // 更新

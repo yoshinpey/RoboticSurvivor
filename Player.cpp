@@ -235,3 +235,23 @@ XMFLOAT3 Player::CalculateMoveInput()
 
     return fMove;
 }
+
+void Player::ChangeState(PlayerState* newState)
+{
+    if (currentState_ != nullptr)
+    {
+        currentState_->Exit(this);
+        delete currentState_;
+    }
+
+    currentState_ = newState;
+    currentState_->Enter(this);
+}
+
+void Player::Update()
+{
+    if (currentState_ != nullptr)
+    {
+        currentState_->Update(this);
+    }
+}

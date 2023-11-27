@@ -59,6 +59,9 @@
     <Filter Include="01Engine\00Resource\imgui">
       <UniqueIdentifier>{612e8222-8e39-40fd-b667-53c79de35831}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04Player\State">
+      <UniqueIdentifier>{47fa3746-8703-4873-a9df-67b2764c55c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -228,6 +231,15 @@
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>04Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>04Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="StandingState.cpp">
+      <Filter>04Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>04Player\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,6 +416,15 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>04Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>04Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="StandingState.h">
+      <Filter>04Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>04Player\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
