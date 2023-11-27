@@ -37,9 +37,17 @@ void Player::Initialize()
 //XV
 void Player::Update()
 {
+    // ó‘Ô‘JˆÚ‚ÌŽÀs
+    /*if (currentState_ != nullptr)
+    {
+        currentState_->UpdateState(this);
+    }*/
+
+    /////////C³—\’è
     Move();                 //“®‚«
     Jump();                 //ƒWƒƒƒ“ƒvƒAƒNƒVƒ‡ƒ“
     PlayerHitPoint();       //HP
+    /////////
 }
 
 //•`‰æ
@@ -234,24 +242,4 @@ XMFLOAT3 Player::CalculateMoveInput()
     XMStoreFloat3(&fMove, vMove);
 
     return fMove;
-}
-
-void Player::ChangeState(PlayerState* newState)
-{
-    if (currentState_ != nullptr)
-    {
-        currentState_->Exit(this);
-        delete currentState_;
-    }
-
-    currentState_ = newState;
-    currentState_->Enter(this);
-}
-
-void Player::Update()
-{
-    if (currentState_ != nullptr)
-    {
-        currentState_->Update(this);
-    }
 }
