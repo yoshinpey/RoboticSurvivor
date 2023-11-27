@@ -6,11 +6,11 @@
 #include "Gauge.h"
 
 
-// コンストラクタ
+//コンストラクタ
 Player::Player(GameObject* parent)
-    : GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f),
-    velocity_(0.0f, 0.0f, 0.0f), isMoving_(false), movement_(0.0f, 0.0f, 0.0f)
+    :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
+    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.8f)
 {
 }
 
@@ -163,20 +163,52 @@ void Player::Move()
 // ジャンプ
 void Player::Jump()
 {
-    // ジャンプ可能なとき、ジャンプキーが押された
+    // ジャンプキーが押されており、ジャンプ可能な場合
     if (InputManager::IsJump() && canJump_)
     {
-        // 初速度を与える
+        // ジャンプ開始時に初速度を与える
         velocity_.y = jumpVelocity_;
 
         // 連続ジャンプを防止
         canJump_ = false;
+
+        // 移動方向を取得
+        //XMFLOAT3 fMove = CalculateMoveInput();
+
+        // 移動方向に初速度を追加
+        //velocity_.x += fMove.x;
+        //velocity_.z += fMove.z;
+
+        // 速度の初期化
+        //velocity_.x *= jumpVelocity_;
+        //velocity_.z *= jumpVelocity_;
     }
 
-    // ジャンプ中
+    // 滞空中
     if (!canJump_)
     {
-        physicsEngine_.ApplyJump(velocity_, jumpVelocity_, jumpDelta_, canJump_, transform_.position_.y, 0.0f);
+        // 上方向への移動加速
+        transform_.position_.y += velocity_.y * jumpDelta_;
+
+        // 重力を適用してジャンプの高さを制御
+        velocity_.y += gravity_ * jumpDelta_;
+
+        // 水平方向への慣性を考慮
+        //transform_.position_.x += velocity_.x * jumpDelta_;
+        //transform_.position_.z += velocity_.z * jumpDelta_;
+
+        // 地面に着地したとき
+        if (transform_.position_.y <= 0)
+        {
+            // 地面に合わせる
+            transform_.position_.y = 0;
+
+            // 着地したら垂直速度をリセット
+            velocity_.y = 0.0f;
+
+            // 地面に着地したらジャンプ可能にする
+            canJump_ = true;
+        }
     }
 }
 
