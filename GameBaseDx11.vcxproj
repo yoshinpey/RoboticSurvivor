@@ -130,6 +130,7 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="CharacterBase.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="EffectManager.cpp" />
@@ -168,10 +169,8 @@
     <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Gun.cpp" />
-    <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
-    <ClCompile Include="JumpingState.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
@@ -179,14 +178,13 @@
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="PlayScene.cpp" />
-    <ClCompile Include="RunningState.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="WalkingState.cpp" />
     <ClCompile Include="WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +192,7 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CharacterBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="EffectManager.h" />
@@ -234,18 +233,15 @@
     <ClInclude Include="Gauge.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Gun.h" />
-    <ClInclude Include="IdleState.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
-    <ClInclude Include="JumpingState.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
     <ClInclude Include="PlayerMovement.h" />
-    <ClInclude Include="RunningState.h" />
-    <ClInclude Include="StateBase.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Score.h" />
@@ -253,7 +249,6 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIManager.h" />
-    <ClInclude Include="WalkingState.h" />
     <ClInclude Include="WeaponManager.h" />
   </ItemGroup>
   <ItemGroup>

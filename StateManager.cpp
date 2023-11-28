@@ -1,10 +1,5 @@
 #include "StateManager.h"
 
-#include "IdleState.h"
-#include "WalkingState.h"
-#include "RunningState.h"
-#include "JumpingState.h"
-
 // コンストラクタ
 StateManager::StateManager() : currentState_(nullptr) 
 {

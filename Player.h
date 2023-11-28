@@ -2,6 +2,7 @@
 #include "Engine/Text.h"
 #include "Engine/GameObject.h"
 #include "InputManager.h"
+#include "CharacterBase.h"
 
 class Player : public GameObject
 {
@@ -28,6 +29,8 @@ class Player : public GameObject
 
     // フラグ
     bool isMoving_;             // 移動しているかどうか
+
+    CharacterBase characterStatus_;//
 
 public:
     Player(GameObject* parent);     // コンストラクタ

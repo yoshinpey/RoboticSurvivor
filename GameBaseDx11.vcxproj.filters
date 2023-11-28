@@ -232,15 +232,16 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>04Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
+    <ClCompile Include="PlayerMovement.cpp">
       <Filter>04Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="StandingState.cpp">
+    <ClCompile Include="StateManager.cpp">
       <Filter>04Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="Movement.cpp">
+    <ClCompile Include="State.cpp">
       <Filter>04Player\State</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -417,15 +418,16 @@
     <ClInclude Include="InputManager.h">
       <Filter>04Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
+    <ClInclude Include="PlayerMovement.h">
       <Filter>04Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="StandingState.h">
+    <ClInclude Include="State.h">
       <Filter>04Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="Movement.h">
+    <ClInclude Include="StateManager.h">
       <Filter>04Player\State</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterBase.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

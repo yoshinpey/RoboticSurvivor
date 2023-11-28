@@ -1,5 +1,5 @@
 #pragma once
-#include "StateBase.h"
+#include "State.h"
 
 // ó‘Ô‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class StateManager
