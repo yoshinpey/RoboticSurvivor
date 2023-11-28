@@ -1,19 +1,22 @@
 #pragma once
-
 #include "StateBase.h"
 
+// 状態遷移を管理するクラス
 class StateManager
 {
 private:
     StateBase* currentState_;
 
 public:
-    // コンストラクタ
     StateManager();
-
-    // デストラクタ
     ~StateManager();
 
-    // 状態の変更
+    void Initialize();
+    void Update();
     void ChangeState(StateBase* newState);
+
+    void ChangeToIdleState();
+    void ChangeToWalkingState();
+    void ChangeToRunningState();
+    void ChangeToJumpingState();
 };

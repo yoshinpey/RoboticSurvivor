@@ -37,11 +37,6 @@ void Player::Initialize()
 //XV
 void Player::Update()
 {
-    // ó‘Ô‘JˆÚ‚ÌÀs
-    /*if (currentState_ != nullptr)
-    {
-        currentState_->UpdateState(this);
-    }*/
 
     /////////C³—\’è
     Move();                 //“®‚«
