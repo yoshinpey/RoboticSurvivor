@@ -6,14 +6,19 @@
 
 class Player : public GameObject
 {
+private:
     int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
 
-
+    CharacterBase characterStatus_;
+    ///////////////////////////定数///////////////////////////
     const float JUMP_HEIGHT = 1.50f;    // ジャンプの高さ
     const float WALK_SPEED = 0.07f;     // 歩く速さ
     const float RUN_SPEED = 0.10f;      // 走る速さ
+
+    const float ATK = 0.0f;             // 攻撃力
     const float MAX_HP = 1.0f;          // 体力
+    //////////////////////////////////////////////////////////
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
@@ -31,8 +36,6 @@ class Player : public GameObject
 
     // フラグ
     bool isMoving_;             // 移動しているかどうか
-
-    CharacterBase characterStatus_;//
 
 public:
     Player(GameObject* parent);     // コンストラクタ

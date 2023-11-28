@@ -13,7 +13,8 @@ Player::Player(GameObject* parent)
     walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.8f)
 {
     // プレイヤーのステータスを設定
-    characterStatus_.SetStatus(/* プレイヤーステータスのパラメータ */);
+    characterStatus_.SetCharacterStatus(MAX_HP, ATK);
+    characterStatus_.SetMovementParameters(JUMP_HEIGHT, WALK_SPEED, RUN_SPEED);
 }
 
 //デストラクタ

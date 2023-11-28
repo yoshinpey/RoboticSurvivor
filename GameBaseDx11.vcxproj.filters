@@ -35,32 +35,35 @@
     <Filter Include="01Engine\00Resource">
       <UniqueIdentifier>{bedee914-5063-4c08-95bb-79c861b4969c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05Enemy">
-      <UniqueIdentifier>{b3e9ad57-7ede-4243-a75c-f023412d8a4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04Player">
-      <UniqueIdentifier>{a1957ed1-345d-4cac-a8f6-3f32f1a82cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07Item">
-      <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00Manager">
       <UniqueIdentifier>{7db5fd46-de21-46f9-8afb-266d2183aa91}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09Multipurpose">
-      <UniqueIdentifier>{88ed1941-2d7b-4413-9a54-7a1aee039f7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="10Weapon">
-      <UniqueIdentifier>{62759ed1-afb0-4a9c-9bd9-2f17f2baceae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="08Stage">
-      <UniqueIdentifier>{7f0c301f-851a-4def-8b67-bd80aaf54e9e}</UniqueIdentifier>
     </Filter>
     <Filter Include="01Engine\00Resource\imgui">
       <UniqueIdentifier>{612e8222-8e39-40fd-b667-53c79de35831}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04Player\State">
+    <Filter Include="Charactor">
+      <UniqueIdentifier>{3f993f1b-fdaa-4f7d-aad0-7ba13451b7fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Charactor\Player">
+      <UniqueIdentifier>{a1957ed1-345d-4cac-a8f6-3f32f1a82cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Charactor\Player\State">
       <UniqueIdentifier>{47fa3746-8703-4873-a9df-67b2764c55c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Charactor\Enemy">
+      <UniqueIdentifier>{b3e9ad57-7ede-4243-a75c-f023412d8a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{7f0c301f-851a-4def-8b67-bd80aaf54e9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multipurpose">
+      <UniqueIdentifier>{88ed1941-2d7b-4413-9a54-7a1aee039f7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{62759ed1-afb0-4a9c-9bd9-2f17f2baceae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -137,40 +140,40 @@
       <Filter>03Scene\04Clear</Filter>
     </ClCompile>
     <ClCompile Include="Crystal.cpp">
-      <Filter>07Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
-      <Filter>08Stage</Filter>
+      <Filter>Stage</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>04Player</Filter>
+      <Filter>Charactor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Aim.cpp">
-      <Filter>04Player</Filter>
+      <Filter>Charactor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="Score.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="Gauge.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Ground.cpp">
-      <Filter>05Enemy</Filter>
+      <Filter>Charactor\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Attack.cpp">
-      <Filter>05Enemy</Filter>
+      <Filter>Charactor\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Fly.cpp">
-      <Filter>05Enemy</Filter>
+      <Filter>Charactor\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>10Weapon</Filter>
+      <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Gun.cpp">
-      <Filter>10Weapon</Filter>
+      <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="ParticleEffect.cpp">
       <Filter>00Manager</Filter>
@@ -185,28 +188,28 @@
       <Filter>00Manager</Filter>
     </ClCompile>
     <ClCompile Include="ItemManager.cpp">
-      <Filter>07Item</Filter>
+      <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="MiniMap.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="GameSettings.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="SaveLoad.cpp">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="WeaponManager.cpp">
-      <Filter>10Weapon</Filter>
+      <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui.cpp">
       <Filter>01Engine\00Resource\imgui</Filter>
@@ -230,18 +233,20 @@
       <Filter>01Engine\00Resource</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>04Player</Filter>
+      <Filter>Charactor\Player</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMovement.cpp">
-      <Filter>04Player\State</Filter>
+      <Filter>Charactor\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="StateManager.cpp">
-      <Filter>04Player\State</Filter>
+      <Filter>Charactor\Player\State</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
-      <Filter>04Player\State</Filter>
+      <Filter>Charactor\Player\State</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterBase.cpp" />
+    <ClCompile Include="CharacterBase.cpp">
+      <Filter>Charactor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -317,43 +322,43 @@
       <Filter>03Scene\04Clear</Filter>
     </ClInclude>
     <ClInclude Include="Crystal.h">
-      <Filter>07Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
-      <Filter>08Stage</Filter>
+      <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Global.h">
       <Filter>01Engine</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>04Player</Filter>
+      <Filter>Charactor\Player</Filter>
     </ClInclude>
     <ClInclude Include="Aim.h">
-      <Filter>04Player</Filter>
+      <Filter>Charactor\Player</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="Gauge.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="Score.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Ground.h">
-      <Filter>05Enemy</Filter>
+      <Filter>Charactor\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Attack.h">
-      <Filter>05Enemy</Filter>
+      <Filter>Charactor\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Fly.h">
-      <Filter>05Enemy</Filter>
+      <Filter>Charactor\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>10Weapon</Filter>
+      <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Gun.h">
-      <Filter>10Weapon</Filter>
+      <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="ParticleEffect.h">
       <Filter>00Manager</Filter>
@@ -368,28 +373,28 @@
       <Filter>00Manager</Filter>
     </ClInclude>
     <ClInclude Include="ItemManager.h">
-      <Filter>07Item</Filter>
+      <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="MiniMap.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="GameSettings.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="SaveLoad.h">
-      <Filter>09Multipurpose</Filter>
+      <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="WeaponManager.h">
-      <Filter>10Weapon</Filter>
+      <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imconfig.h">
       <Filter>01Engine\00Resource\imgui</Filter>
@@ -416,18 +421,20 @@
       <Filter>01Engine\00Resource\imgui</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>04Player</Filter>
+      <Filter>Charactor\Player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMovement.h">
-      <Filter>04Player\State</Filter>
+      <Filter>Charactor\Player\State</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>04Player\State</Filter>
+      <Filter>Charactor\Player\State</Filter>
     </ClInclude>
     <ClInclude Include="StateManager.h">
-      <Filter>04Player\State</Filter>
+      <Filter>Charactor\Player\State</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="CharacterBase.h">
+      <Filter>Charactor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
