@@ -12,7 +12,7 @@ Player::Player(GameObject* parent)
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
     walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.8f)
 {
-    // プレイヤー固有のステータスを設定
+    // プレイヤーのステータスを設定
     characterStatus_.SetStatus(/* プレイヤーステータスのパラメータ */);
 }
 
@@ -54,7 +54,7 @@ void Player::Draw()
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 
-    //デバック用テキスト
+    //デバック用
     pNum->Draw(1150, 100, "X:");
     pNum->Draw(1200, 100, (int)transform_.position_.x);
     pNum->Draw(1150, 250, "Y:");
@@ -75,7 +75,7 @@ void Player::PlayerHitPoint()
     Gauge* pGauge = (Gauge*)FindObject("Gauge");
     pGauge->SetHp(maxHp_, nowHp_);
 
-    //エラー潰し
+    //デバッグ用
     if (Input::IsKeyDown(DIK_M))
     {
         nowHp_ += 20;
