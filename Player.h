@@ -2,6 +2,7 @@
 #include "Engine/Text.h"
 #include "Engine/GameObject.h"
 #include "InputManager.h"
+#include "StateManager.h"
 #include "CharacterBase.h"
 
 class Player : public GameObject
@@ -10,7 +11,7 @@ private:
     int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
 
-    CharacterBase characterStatus_;
+    CharacterBase characterStatus_; //キャラクターが持つパラメータ
     ///////////////////////////定数///////////////////////////
     const float JUMP_HEIGHT = 1.50f;    // ジャンプの高さ
     const float WALK_SPEED = 0.07f;     // 歩く速さ
@@ -19,6 +20,8 @@ private:
     const float ATK = 0.0f;             // 攻撃力
     const float MAX_HP = 1.0f;          // 体力
     //////////////////////////////////////////////////////////
+
+    StateManager stateManager_;     // 状態を切り替える用
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度

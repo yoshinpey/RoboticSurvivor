@@ -25,6 +25,9 @@ Player::~Player()
 //初期化
 void Player::Initialize()
 {
+    // ステートマネージャーの初期化
+    stateManager_.Initialize();
+
     //モデルデータのロード
     hModel_ = Model::Load("Character/Human_only.fbx");
     assert(hModel_ >= 0);
@@ -40,12 +43,34 @@ void Player::Initialize()
 //更新
 void Player::Update()
 {
+    // ステートマネージャーの更新
+    stateManager_.Update();
 
-    /////////修正予定
-    Move();                 //動き
-    Jump();                 //ジャンプアクション
-    PlayerHitPoint();       //HP
-    /////////
+    // 何もしていないとき、ステートマネージャーより状態をアイドルに変更
+    if (!InputManager::IsMoveForward() && !InputManager::IsMoveLeft() && !InputManager::IsMoveBackward() && !InputManager::IsMoveRight())
+    {
+        stateManager_.ChangeState(new IdleState());
+        return;
+    }
+
+    // 移動キーが押されたら
+    if (InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight())
+    {
+        stateManager_.ChangeState(new WalkingState());
+    }
+
+    // 前進中にダッシュキーが押されたら
+    if (InputManager::IsMoveForward() && InputManager::IsRun())
+    {
+        stateManager_.ChangeState(new RunningState());
+    }
+
+    // ジャンプキーが押されたら
+    if (InputManager::IsJump())
+    {
+        stateManager_.ChangeState(new JumpingState());
+    }
+
 }
 
 //描画
@@ -101,8 +126,6 @@ void Player::Move()
     // 移動方向
     XMFLOAT3 fMove = CalculateMoveInput();
 
-    // 移動入力があるときは真
-    isMoving_ = InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight();
 
     // 現在の速度
     float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
@@ -169,16 +192,6 @@ void Player::Move()
 // ジャンプ
 void Player::Jump()
 {
-    // ジャンプキーが押されており、ジャンプ可能な場合
-    if (InputManager::IsJump() && canJump_)
-    {
-        // ジャンプ開始時に初速度を与える
-        velocity_.y = JUMP_HEIGHT;
-
-        // 連続ジャンプを防止
-        canJump_ = false;
-    }
-
     // 滞空中
     if (!canJump_)
     {

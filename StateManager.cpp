@@ -20,7 +20,7 @@ StateManager::~StateManager()
 void StateManager::Initialize()
 {
     // ‰Šúó‘Ô
-    ChangeToIdleState();
+    ChangeState(new IdleState);
 }
 
 void StateManager::Update()
@@ -42,24 +42,4 @@ void StateManager::ChangeState(StateBase* newState)
 
     currentState_ = newState;
     currentState_->EnterState();
-}
-
-void StateManager::ChangeToIdleState()
-{
-    ChangeState(new IdleState());
-}
-
-void StateManager::ChangeToWalkingState()
-{
-    ChangeState(new WalkingState());
-}
-
-void StateManager::ChangeToRunningState()
-{
-    ChangeState(new RunningState());
-}
-
-void StateManager::ChangeToJumpingState()
-{
-    ChangeState(new JumpingState());
 }

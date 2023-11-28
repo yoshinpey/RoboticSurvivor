@@ -14,9 +14,4 @@ public:
     void Initialize();
     void Update();
     void ChangeState(StateBase* newState);
-
-    void ChangeToIdleState();
-    void ChangeToWalkingState();
-    void ChangeToRunningState();
-    void ChangeToJumpingState();
 };
