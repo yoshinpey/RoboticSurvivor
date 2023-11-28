@@ -173,7 +173,7 @@ void Player::Jump()
     if (InputManager::IsJump() && canJump_)
     {
         // ジャンプ開始時に初速度を与える
-        velocity_.y = jumpVelocity_;
+        velocity_.y = JUMP_HEIGHT;
 
         // 連続ジャンプを防止
         canJump_ = false;
