@@ -51,6 +51,7 @@ public:
 
     // アクション
     void Move();                    // プレイヤーの移動
+    void Walk();
     void Jump();                    // ジャンプ
     void PlayerHitPoint();          // 体力
 
