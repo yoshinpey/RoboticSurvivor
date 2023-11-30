@@ -1,5 +1,10 @@
 #include "State.h"
+#include "Player.h"
+#include "StateManager.h"
 
+IdleState::IdleState(StateManager* manager) : StateBase(manager)
+{
+}
 
 // 待機状態
 void IdleState::EnterState()
@@ -11,7 +16,9 @@ void IdleState::EnterState()
 
 void IdleState::UpdateState()
 {
-    pNum->Draw(100, 100, "aaaaaaaaaaaaaaaaa");
+    
+    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
+    pPlayer->testDRW = true;
     // 待機状態の更新処理
 }
 
@@ -22,6 +29,10 @@ void IdleState::ExitState()
 
 
 
+WalkingState::WalkingState(StateManager* manager) : StateBase(manager)
+{
+}
+
 // 歩行状態
 void WalkingState::EnterState()
 {
@@ -31,6 +42,8 @@ void WalkingState::EnterState()
 void WalkingState::UpdateState()
 {
     // 歩行状態の更新処理
+    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
+    pPlayer->testDRW = false;
 }
 
 void WalkingState::ExitState()
@@ -39,6 +52,10 @@ void WalkingState::ExitState()
 }
 
 
+
+RunningState::RunningState(StateManager* manager) : StateBase(manager)
+{
+}
 
 // 走行状態
 void RunningState::EnterState()
@@ -57,6 +74,10 @@ void RunningState::ExitState()
 }
 
 
+
+JumpingState::JumpingState(StateManager* manager) : StateBase(manager)
+{
+}
 
 // 跳躍状態
 void JumpingState::EnterState()

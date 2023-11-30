@@ -1,8 +1,9 @@
 #include "StateManager.h"
 
 // コンストラクタ
-StateManager::StateManager() : currentState_(nullptr) 
+StateManager::StateManager(GameObject* gameObj)
 {
+    gameObj_ = gameObj;
 }
 
 // デストラクタ
@@ -20,7 +21,7 @@ StateManager::~StateManager()
 void StateManager::Initialize()
 {
     // 初期状態
-    ChangeState(new IdleState);
+    ChangeState(new IdleState(this));
 }
 
 void StateManager::Update()

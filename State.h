@@ -1,11 +1,17 @@
 #pragma once
 #include "Engine/Text.h"
 
+class StateManager;
+
 // 状態ベースクラス
 class StateBase
-{
-public:
+{   
+protected:
     Text* pNum;                 // テキスト
+    StateManager* pStateManager_;
+public:
+    StateBase(StateManager* manager) : pStateManager_(manager) {}
+
     // デストラクタ
     virtual ~StateBase() {};
     // 状態に入るときの初期化
@@ -20,7 +26,7 @@ public:
 class IdleState : public StateBase
 {
 public:
-
+    IdleState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;
@@ -30,6 +36,7 @@ public:
 class WalkingState : public StateBase
 {
 public:
+    WalkingState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;
@@ -39,6 +46,7 @@ public:
 class RunningState : public StateBase
 {
 public:
+    RunningState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;
@@ -48,6 +56,7 @@ public:
 class JumpingState : public StateBase
 {
 public:
+    JumpingState(StateManager* manager);
     void EnterState() override;
     void UpdateState() override;
     void ExitState() override;

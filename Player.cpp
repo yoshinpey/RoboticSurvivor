@@ -26,7 +26,8 @@ Player::~Player()
 void Player::Initialize()
 {
     // ステートマネージャーの初期化
-    stateManager_.Initialize();
+    stateManager_ = new StateManager(this);
+    stateManager_->Initialize();
 
     //モデルデータのロード
     hModel_ = Model::Load("Character/Human_only.fbx");
@@ -44,31 +45,31 @@ void Player::Initialize()
 void Player::Update()
 {
     // ステートマネージャーの更新
-    stateManager_.Update();
+    stateManager_->Update();
 
     // 何もしていないとき、ステートマネージャーより状態をアイドルに変更
     if (!InputManager::IsMoveForward() && !InputManager::IsMoveLeft() && !InputManager::IsMoveBackward() && !InputManager::IsMoveRight())
     {
-        stateManager_.ChangeState(new IdleState());
+        stateManager_->ChangeState(new IdleState(stateManager_));
         return;
     }
 
     // 移動キーが押されたら
     if (InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight())
     {
-        stateManager_.ChangeState(new WalkingState());
+        stateManager_->ChangeState(new WalkingState(stateManager_));
     }
 
     // 前進中にダッシュキーが押されたら
     if (InputManager::IsMoveForward() && InputManager::IsRun())
     {
-        stateManager_.ChangeState(new RunningState());
+        stateManager_->ChangeState(new RunningState(stateManager_));
     }
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump())
     {
-        stateManager_.ChangeState(new JumpingState());
+        stateManager_->ChangeState(new JumpingState(stateManager_));
     }
 
 }
@@ -80,6 +81,11 @@ void Player::Draw()
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 
+    if (testDRW)
+    {
+        pNum->Draw(100, 100, "aaaaaaaaaaaaaaaaa");
+    }
+    
     //デバック用
     pNum->Draw(1150, 100, "X:");
     pNum->Draw(1200, 100, (int)transform_.position_.x);

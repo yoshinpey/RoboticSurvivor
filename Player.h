@@ -21,7 +21,7 @@ private:
     const float MAX_HP = 1.0f;          // 体力
     //////////////////////////////////////////////////////////
 
-    StateManager stateManager_;     // 状態を切り替える用
+    StateManager* stateManager_;     // 状態を切り替える用
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
@@ -41,6 +41,8 @@ private:
     bool isMoving_;             // 移動しているかどうか
 
 public:
+    //デバック用
+    bool testDRW = false;
     Player(GameObject* parent);     // コンストラクタ
     ~Player();                      // デストラクタ
 
