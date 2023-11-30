@@ -1,9 +1,11 @@
 #pragma once
+#include "Engine/Text.h"
 
 // 状態ベースクラス
 class StateBase
 {
 public:
+    Text* pNum;                 // テキスト
     // デストラクタ
     virtual ~StateBase() {};
     // 状態に入るときの初期化

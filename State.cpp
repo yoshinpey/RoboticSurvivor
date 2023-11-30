@@ -4,11 +4,14 @@
 // 待機状態
 void IdleState::EnterState()
 {
+    pNum = new Text;
+    pNum->Initialize();
     // 待機状態に入るときの初期化処理
 }
 
 void IdleState::UpdateState()
 {
+    pNum->Draw(100, 100, "aaaaaaaaaaaaaaaaa");
     // 待機状態の更新処理
 }
 
