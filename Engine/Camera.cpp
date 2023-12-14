@@ -57,6 +57,7 @@ XMMATRIX Camera::GetProjectionMatrix() { return _proj; }
 //ビルボード用回転行列を取得
 XMMATRIX Camera::GetBillboardMatrix() { return _billBoard; }
 
+// 3D座標を2D座標に変換する
 XMFLOAT3 Camera::GetScreenPosition(XMFLOAT3 pos3d)
 {
 	XMVECTOR v2 = XMVector3Transform(XMLoadFloat3(&pos3d), Camera::GetViewMatrix());
@@ -64,8 +65,11 @@ XMFLOAT3 Camera::GetScreenPosition(XMFLOAT3 pos3d)
 	float x = XMVectorGetX(v2);
 	float y = XMVectorGetY(v2);
 	float z = XMVectorGetZ(v2);
-	return XMFLOAT3(
+
+	return XMFLOAT3
+	(
 		x / z * Direct3D::screenWidth_ / 2.0f + Direct3D::screenWidth_ / 2.0f,
 		-y / z * Direct3D::screenHeight_ / 2.0f + Direct3D::screenHeight_ / 2.0f,
-		0);
+		0
+	);
 }
