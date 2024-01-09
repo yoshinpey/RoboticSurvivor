@@ -56,6 +56,7 @@ public:
     void Walk();                    // ‘–‚é
     void Run();                     // •à‚­
     void ApplyMovement(const XMFLOAT3& moveVector, float speed);
+    void ApplyDeceleration();
     void Jump();                    // ƒWƒƒƒ“ƒv
     void PlayerHitPoint();          // ‘Ì—Í
 

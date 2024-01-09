@@ -20,6 +20,7 @@ void IdleState::UpdateState()
     Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
     pPlayer->testDRW = true;
     // ‘Ò‹@ó‘Ô‚ÌXVˆ—
+    pPlayer->ApplyDeceleration();
 }
 
 void IdleState::ExitState()

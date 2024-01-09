@@ -47,13 +47,6 @@ void Player::Update()
     // ステートマネージャーの更新
     stateManager_->Update();
 
-    // 何もしていないとき、ステートマネージャーより状態をアイドルに変更
-    if (!InputManager::IsMoveForward() && !InputManager::IsMoveLeft() && !InputManager::IsMoveBackward() && !InputManager::IsMoveRight())
-    {
-        stateManager_->ChangeState(new IdleState(stateManager_));
-        return;
-    }
-
     // 移動キーが押されたら
     if (InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight())
     {
@@ -126,74 +119,6 @@ void Player::PlayerHitPoint()
     }
 }
 
-// プレイヤーの移動
-void Player::Move()
-{
-    // 移動方向
-    XMFLOAT3 fMove = CalculateMoveInput();
-
-    // 現在の速度
-    float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
-
-    // 最高速度
-    float maxMoveSpeed = 0.0f;
-
-    // 移動入力あり
-    if (isMoving_)
-    {
-        // 走っているかどうか
-        if (InputManager::IsRun())
-        {
-            maxMoveSpeed = runSpeed_;    // 走り速度に設定
-        }
-        else
-        {
-            maxMoveSpeed = walkSpeed_;   // 歩き速度に設定
-        }
-
-        // 最大速度を超えていたら正規化・最大値の値にする
-        if (currentSpeed > maxMoveSpeed)
-        {
-            XMVECTOR vMove = XMLoadFloat3(&movement_);
-            vMove = XMVector3Normalize(vMove);
-            vMove *= maxMoveSpeed;
-            XMStoreFloat3(&movement_, vMove);
-        }
-
-        // 現在の速度を目標の速度に近づける
-        if (currentSpeed < maxMoveSpeed)
-        {
-            velocity_.x += acceleration_;
-            velocity_.z += acceleration_;
-        }
-        else
-        {
-            velocity_.x = maxMoveSpeed;
-            velocity_.z = maxMoveSpeed;
-        }
-
-        // 移動に反映
-        movement_.x += fMove.x * velocity_.x;
-        movement_.z += fMove.z * velocity_.z;
-
-        // 移動量を適用
-        transform_.position_.x += movement_.x;
-        transform_.position_.z += movement_.z;
-    }
-    else
-    {
-        // 各移動ボタンを離したときに減速を適応
-        movement_.x *= friction_;
-        movement_.z *= friction_;
-        velocity_.x = 0;
-        velocity_.z = 0;
-
-        // 移動に反映
-        transform_.position_.x += movement_.x;
-        transform_.position_.z += movement_.z;
-    }
-}
-
 void Player::Walk()
 {
     // 移動方向
@@ -224,6 +149,7 @@ void Player::Run()
     ApplyMovement(runVector, runSpeed);
 }
 
+// 移動に反映する関数
 void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
 {
     // 現在の速度
@@ -254,11 +180,27 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     movement_.x += moveVector.x * velocity_.x;
     movement_.z += moveVector.z * velocity_.z;
 
-    // 摩擦による減速
+    // 移動量を適用
+    transform_.position_.x += movement_.x;
+    transform_.position_.z += movement_.z;
+
+    if (speed <= 0)
+    {
+        // 各移動ボタンを離したときに減速を適応
+        ApplyDeceleration();
+    }
+}
+
+// 減速を適用する関数
+void Player::ApplyDeceleration()
+{
+    // 各移動ボタンを離したときに減速を適応
     movement_.x *= friction_;
     movement_.z *= friction_;
+    velocity_.x = 0;
+    velocity_.z = 0;
 
-    // 移動量を適用
+    // 移動に反映
     transform_.position_.x += movement_.x;
     transform_.position_.z += movement_.z;
 }
