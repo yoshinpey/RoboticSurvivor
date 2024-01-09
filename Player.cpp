@@ -132,7 +132,6 @@ void Player::Move()
     // 移動方向
     XMFLOAT3 fMove = CalculateMoveInput();
 
-
     // 現在の速度
     float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
 
@@ -207,9 +206,62 @@ void Player::Walk()
     XMFLOAT3 walkVector = XMFLOAT3(moveDirection.x * walkSpeed, 0.0f, moveDirection.z * walkSpeed);
 
     // 移動に反映
-    transform_.position_.x += walkVector.x;
-    transform_.position_.z += walkVector.z;
- }
+    ApplyMovement(walkVector, walkSpeed);
+}
+
+void Player::Run()
+{
+    // 移動方向
+    XMFLOAT3 moveDirection = CalculateMoveInput();
+
+    // 走り速度に設定
+    float runSpeed = RUN_SPEED;
+
+    // 移動ベクトル
+    XMFLOAT3 runVector = XMFLOAT3(moveDirection.x * runSpeed, 0.0f, moveDirection.z * runSpeed);
+
+    // 移動に反映
+    ApplyMovement(runVector, runSpeed);
+}
+
+void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
+{
+    // 現在の速度
+    float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
+
+    // 最大速度を超えていたら正規化・最大値の値にする
+    if (currentSpeed > speed)
+    {
+        XMVECTOR vMove = XMLoadFloat3(&movement_);
+        vMove = XMVector3Normalize(vMove);
+        vMove *= speed;
+        XMStoreFloat3(&movement_, vMove);
+    }
+
+    // 現在の速度を目標の速度に近づける
+    if (currentSpeed < speed)
+    {
+        velocity_.x += acceleration_;
+        velocity_.z += acceleration_;
+    }
+    else
+    {
+        velocity_.x = speed;
+        velocity_.z = speed;
+    }
+
+    // 移動に反映
+    movement_.x += moveVector.x * velocity_.x;
+    movement_.z += moveVector.z * velocity_.z;
+
+    // 摩擦による減速
+    movement_.x *= friction_;
+    movement_.z *= friction_;
+
+    // 移動量を適用
+    transform_.position_.x += movement_.x;
+    transform_.position_.z += movement_.z;
+}
 
 // ジャンプ
 void Player::Jump()

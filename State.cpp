@@ -67,6 +67,8 @@ void RunningState::EnterState()
 void RunningState::UpdateState()
 {
     // ‘–só‘Ô‚ÌXVˆ—
+    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
+    pPlayer->Run();
 }
 
 void RunningState::ExitState()
