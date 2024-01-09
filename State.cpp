@@ -44,6 +44,7 @@ void WalkingState::UpdateState()
     // •àsó‘Ô‚ÌXVˆ—
     Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
     pPlayer->testDRW = false;
+    pPlayer->Walk();
 }
 
 void WalkingState::ExitState()

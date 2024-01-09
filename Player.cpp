@@ -198,13 +198,17 @@ void Player::Move()
 void Player::Walk()
 {
     // 移動方向
-    XMFLOAT3 fMove = CalculateMoveInput();
+    XMFLOAT3 moveDirection = CalculateMoveInput();
 
     // 歩き速度に設定
-    float maxMoveSpeed = WALK_SPEED;   // 歩き速度に設定
+    float walkSpeed = WALK_SPEED;
 
-    float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
+    // 移動ベクトル
+    XMFLOAT3 walkVector = XMFLOAT3(moveDirection.x * walkSpeed, 0.0f, moveDirection.z * walkSpeed);
 
+    // 移動に反映
+    transform_.position_.x += walkVector.x;
+    transform_.position_.z += walkVector.z;
  }
 
 // ジャンプ
