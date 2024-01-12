@@ -14,8 +14,8 @@ private:
     CharacterBase characterStatus_; //キャラクターが持つパラメータ
     ///////////////////////////定数///////////////////////////
     const float JUMP_HEIGHT = 1.50f;    // ジャンプの高さ
-    const float WALK_SPEED = 0.2f;     // 歩く速さ
-    const float RUN_SPEED = 0.30f;      // 走る速さ
+    const float WALK_SPEED = 0.3f;     // 歩く速さ
+    const float RUN_SPEED = 0.5f;      // 走る速さ
 
     const float ATK = 0.0f;             // 攻撃力
     const float MAX_HP = 1.0f;          // 体力
