@@ -230,7 +230,7 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	HWND hWnd = CreateWindow(
 		WIN_CLASS_NAME,					//ウィンドウクラス名
 		caption,						//タイトルバーに表示する内容
-		WS_POPUP | WS_VISIBLE,			//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）
+		WS_OVERLAPPEDWINDOW,			//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）
 		CW_USEDEFAULT,					//表示位置左（おまかせ）
 		CW_USEDEFAULT,					//表示位置上（おまかせ）
 		winRect.right - winRect.left,	//ウィンドウ幅
@@ -261,11 +261,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		//マウスが動いた
 	case WM_MOUSEMOVE:
 		//マウスポインターの制限を設定
-		LimitMousePointer(hWnd);
-		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+		//LimitMousePointer(hWnd);
+		//Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
 
 		//マウスカーソルを非表示にする
-		while (ShowCursor(FALSE) >= 0);
+		//while (ShowCursor(FALSE) >= 0);
 		return 0;
 
 		//キーボードのキーが押された

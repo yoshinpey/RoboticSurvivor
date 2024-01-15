@@ -7,6 +7,7 @@
 IdleState::IdleState(StateManager* manager) : StateBase(manager)
 {
 }
+
 void IdleState::EnterState()
 {
 }
@@ -16,6 +17,9 @@ void IdleState::UpdateState()
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
+
+    // ウォークキーが押されたら
+    if (InputManager::IsRun()) { pStateManager_->ChangeState("WalkingState"); }
 }
 
 void IdleState::ExitState()
@@ -34,11 +38,14 @@ void WalkingState::EnterState()
 
 void WalkingState::UpdateState()
 {   
+    OutputDebugString("aaa");
+    float flo = 123.0f;
+    OutputDebugStringA(std::to_string(flo).c_str());
+    OutputDebugString("\n");
+
     Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-
-    // 方向計算
     pPlayer->CalculateMoveInput();
-
+    pPlayer->Walk();
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
@@ -63,6 +70,9 @@ void RunningState::EnterState()
 
 void RunningState::UpdateState()
 {
+    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
+    pPlayer->CalculateMoveInput();
+    pPlayer->Walk();
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()){pStateManager_->ChangeState("RunningState");}
@@ -84,6 +94,8 @@ void JumpingState::EnterState()
 
 void JumpingState::UpdateState()
 {
+    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
+    pPlayer->Jump();
 }
 
 void JumpingState::ExitState()
