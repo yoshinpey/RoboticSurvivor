@@ -13,6 +13,9 @@ void IdleState::EnterState()
 
 void IdleState::UpdateState()
 {
+
+    // ジャンプキーが押されたら
+    if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
 }
 
 void IdleState::ExitState()
@@ -36,23 +39,12 @@ void WalkingState::UpdateState()
     // 方向計算
     pPlayer->CalculateMoveInput();
 
-    // ジャンプキーが押されたらジャンプ状態に遷移
-    if (InputManager::IsJump())
-    {
-        pStateManager_->ChangeState(new JumpingState(pStateManager_));
-    }
 
-    pPlayer->Move();
+    // ジャンプキーが押されたら
+    if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
 
-    // 加速を適用
-    pPlayer->CalculateMoveInput();
-
-
-    // ジャンプキーが押されたらジャンプ状態に遷移
-    if (InputManager::IsJump())
-    {
-        pStateManager_->ChangeState(new JumpingState(pStateManager_));
-    }
+    // ダッシュキーが押されたら
+    if (InputManager::IsRun()) { pStateManager_->ChangeState("RunningState"); }
 }
 
 void WalkingState::ExitState()
@@ -72,11 +64,8 @@ void RunningState::EnterState()
 void RunningState::UpdateState()
 {
 
-    // ジャンプキーが押されたらジャンプ状態に遷移
-    if (InputManager::IsJump())
-    {
-        pStateManager_->ChangeState(new JumpingState(pStateManager_));
-    }
+    // ジャンプキーが押されたら
+    if (InputManager::IsJump()){pStateManager_->ChangeState("RunningState");}
 }
 
 void RunningState::ExitState()

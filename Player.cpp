@@ -46,25 +46,6 @@ void Player::Update()
 {
     // ステートマネージャーの更新
     stateManager_->Update();
-
-    // 移動キーが押されたら
-    if (InputManager::IsMoveForward() || InputManager::IsMoveLeft() || InputManager::IsMoveBackward() || InputManager::IsMoveRight())
-    {
-        stateManager_->ChangeState(new WalkingState(stateManager_));
-    }
-
-    // 前進中にダッシュキーが押されたら
-    if (InputManager::IsMoveForward() && InputManager::IsRun())
-    {
-        stateManager_->ChangeState(new RunningState(stateManager_));
-    }
-
-    // ジャンプキーが押されたら
-    if (InputManager::IsJump())
-    {
-        stateManager_->ChangeState(new JumpingState(stateManager_));
-    }
-
 }
 
 //描画

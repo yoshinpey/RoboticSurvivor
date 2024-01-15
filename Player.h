@@ -52,7 +52,6 @@ public:
     void Release() override;        // 開放
 
     // アクション
-    void Move();                    // プレイヤーの移動
     void Walk();                    // 走る
     void Run();                     // 歩く
     void ApplyMovement(const XMFLOAT3& moveVector, float speed);
