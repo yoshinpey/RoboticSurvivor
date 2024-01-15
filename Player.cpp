@@ -187,11 +187,10 @@ void Player::ApplyDeceleration()
 // ジャンプ
 void Player::Jump()
 {
-    // 滞空中
-    if (!canJump_)
-    {
+        velocity_.y = jumpVelocity_ * jumpDelta_;
+
         // 上方向への移動加速
-        transform_.position_.y += velocity_.y * jumpDelta_;
+        transform_.position_.y += velocity_.y;
 
         // 重力を適用してジャンプの高さを制御
         velocity_.y += gravity_ * jumpDelta_;
@@ -204,11 +203,7 @@ void Player::Jump()
 
             // 着地したら垂直速度をリセット
             velocity_.y = 0.0f;
-
-            // 地面に着地したらジャンプ可能にする
-            canJump_ = true;
         }
-    }
 }
 
 // 移動計算を行う関数

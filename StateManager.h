@@ -1,6 +1,8 @@
 #pragma once
-#include "State.h"
-#include <unordered_map>
+#include "StateBase.h"
+#include "PlayerState.h"
+#include <string>
+#include <map>
 
 class GameObject;
 
@@ -8,7 +10,7 @@ class GameObject;
 class StateManager
 {
 private:
-    std::unordered_map<std::string, StateBase*> statesMap_;     // 状態を名前で管理するマップ
+    std::map<std::string, StateBase*> statesMap_;     // 状態を名前で管理するマップ
     StateBase* currentState_;
     GameObject* gameObj_;
 

@@ -176,11 +176,10 @@
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="PlayerMovement.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="State.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -240,8 +239,8 @@
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
-    <ClInclude Include="PlayerMovement.h" />
-    <ClInclude Include="State.h" />
+    <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="StateBase.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Score.h" />

@@ -20,10 +20,10 @@ StateManager::~StateManager()
 void StateManager::Initialize()
 {
     // あらかじめ状態インスタンスを生成して登録
-    IdleState* idleState = dynamic_cast<IdleState*>(AddState("IdleState", new IdleState(this)));
-    WalkingState* walkingState = dynamic_cast<WalkingState*>(AddState("WalkingState", new WalkingState(this)));
-    RunningState* runningState = dynamic_cast<RunningState*>(AddState("RunningState", new RunningState(this)));
-    JumpingState* jumpingState = dynamic_cast<JumpingState*>(AddState("JumpingState", new JumpingState(this)));
+    PlayerIdleState* idleState = dynamic_cast<PlayerIdleState*>(AddState("IdleState", new PlayerIdleState(this)));
+    PlayerWalkingState* walkingState = dynamic_cast<PlayerWalkingState*>(AddState("WalkingState", new PlayerWalkingState(this)));
+    PlayerRunningState* runningState = dynamic_cast<PlayerRunningState*>(AddState("RunningState", new PlayerRunningState(this)));
+    PlayerJumpingState* jumpingState = dynamic_cast<PlayerJumpingState*>(AddState("JumpingState", new PlayerJumpingState(this)));
 
     // 各状態の初期化
     if (idleState != nullptr) idleState->EnterState();
@@ -60,7 +60,7 @@ void StateManager::ChangeState(const std::string& stateName)
     }
 }
 
-// 新しい状態を追加（既に同じ名前の状態が存在すればそのポインタを返す）
+// 新しい状態を追加
 StateBase* StateManager::AddState(const std::string& stateName, StateBase* state)
 {
     auto it = statesMap_.find(stateName);
