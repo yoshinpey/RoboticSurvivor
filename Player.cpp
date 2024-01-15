@@ -73,11 +73,6 @@ void Player::Draw()
     //モデル
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
-
-    if (testDRW)
-    {
-        pNum->Draw(100, 100, "aaaaaaaaaaaaaaaaa");
-    }
     
     //デバック用
     pNum->Draw(1150, 100, "X:");
@@ -152,6 +147,9 @@ void Player::Run()
 // 移動に反映する関数
 void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
 {
+    // 移動方向
+    XMFLOAT3 fMove = CalculateMoveInput();
+
     // 現在の速度
     float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
 

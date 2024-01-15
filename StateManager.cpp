@@ -2,26 +2,31 @@
 
 // コンストラクタ
 StateManager::StateManager(GameObject* gameObj)
+    : gameObj_(gameObj), currentState_(nullptr)
 {
-    gameObj_ = gameObj;
 }
 
 // デストラクタ
 StateManager::~StateManager()
 {
     // プログラム終了時、状態をクリーンアップする
-    if (currentState_ != nullptr)
+    for (const auto& statePair : statesMap_)
     {
-        currentState_->ExitState();
-        delete currentState_;
-        currentState_ = nullptr;
+        statePair.second->ExitState();
+        delete statePair.second;
     }
 }
 
 void StateManager::Initialize()
 {
+    // インスタンスを生成して登録
+    AddState("IdleState", new IdleState(this));
+    AddState("WalkingState", new WalkingState(this));
+    AddState("RunningState", new RunningState(this));
+    AddState("JumpingState", new JumpingState(this));
+
     // 初期状態
-    ChangeState(new IdleState(this));
+    ChangeState("IdleState");
 }
 
 void StateManager::Update()
@@ -33,14 +38,24 @@ void StateManager::Update()
 }
 
 // 状態の変更
-void StateManager::ChangeState(StateBase* newState)
+void StateManager::ChangeState(const std::string& stateName)
 {
-    if (currentState_ != nullptr)
-    {
-        currentState_->ExitState();
-        delete currentState_;
-    }
+    auto it = statesMap_.find(stateName);
 
-    currentState_ = newState;
-    currentState_->EnterState();
+    if (it != statesMap_.end())
+    {
+        if (currentState_ != nullptr)
+        {
+            currentState_->ExitState();
+        }
+
+        currentState_ = it->second;
+        currentState_->EnterState();
+    }
+}
+
+// 新しい状態を追加するメソッド
+void StateManager::AddState(const std::string& stateName, StateBase* state)
+{
+    statesMap_[stateName] = state;
 }

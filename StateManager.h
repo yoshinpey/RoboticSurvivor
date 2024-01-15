@@ -1,5 +1,6 @@
 #pragma once
 #include "State.h"
+#include <unordered_map>
 
 class GameObject;
 
@@ -7,6 +8,7 @@ class GameObject;
 class StateManager
 {
 private:
+    std::unordered_map<std::string, StateBase*> statesMap_;     // 状態を名前で管理するマップ
     StateBase* currentState_;
     GameObject* gameObj_;
 
@@ -16,6 +18,7 @@ public:
 
     void Initialize();
     void Update();
-    void ChangeState(StateBase* newState);
+    void ChangeState(const std::string& stateName);                 // 状態の名前を受け取る
+    void AddState(const std::string& stateName, StateBase* state);  // 状態の名前と対応するインスタンスを追加
     GameObject* GetGameobject() { return gameObj_; }
 };
