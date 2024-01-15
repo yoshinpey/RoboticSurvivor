@@ -30,8 +30,11 @@ public:
     static bool IsMoveLeft();              // 左移動中かどうか
     static bool IsMoveBackward();          // 後退中かどうか
     static bool IsMoveRight();             // 右移動中かどうか
-    static bool IsJump();                  // ジャンプが行われているかどうか
+
+    static bool IsWalk();                  // 移動中かどうか
     static bool IsRun();                   // 走っているかどうか
+
+    static bool IsJump();                  // ジャンプが行われているかどうか
     static bool IsReload();                // リロードが行われているかどうか
     static bool IsMenu();                  // メニューが開かれているかどうか
     static bool IsEventAction();           // イベントアクションが行われているかどうか

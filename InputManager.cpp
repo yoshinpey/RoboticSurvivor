@@ -8,6 +8,7 @@ bool InputManager::IsMoveLeft() { return Input::IsKey(MOVE_LEFT_KEY); }
 bool InputManager::IsMoveBackward() { return Input::IsKey(MOVE_BACKWARD_KEY); }
 bool InputManager::IsMoveRight() { return Input::IsKey(MOVE_RIGHT_KEY); }
 bool InputManager::IsJump() { return Input::IsKeyDown(JUMP_KEY); }
+bool InputManager::IsWalk(){return IsMoveForward() || IsMoveLeft() || IsMoveBackward() || IsMoveRight();}
 bool InputManager::IsRun() { return Input::IsKey(RUN_KEY); }
 bool InputManager::IsReload() { return Input::IsKeyDown(RELOAD_KEY); }
 bool InputManager::IsMenu() { return Input::IsKeyDown(MENU_KEY); }

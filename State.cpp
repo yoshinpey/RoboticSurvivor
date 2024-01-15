@@ -14,12 +14,17 @@ void IdleState::EnterState()
 
 void IdleState::UpdateState()
 {
+    //デバック
+    OutputDebugString("IdleState");
+    float flo = 123.0f;
+    OutputDebugStringA(std::to_string(flo).c_str());
+    OutputDebugString("\n");
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
 
     // ウォークキーが押されたら
-    if (InputManager::IsRun()) { pStateManager_->ChangeState("WalkingState"); }
+    if (InputManager::IsWalk()){ pStateManager_->ChangeState("WalkingState"); }
 }
 
 void IdleState::ExitState()
@@ -38,13 +43,13 @@ void WalkingState::EnterState()
 
 void WalkingState::UpdateState()
 {   
-    OutputDebugString("aaa");
+    //デバック
+    OutputDebugString("WalkingState");
     float flo = 123.0f;
     OutputDebugStringA(std::to_string(flo).c_str());
     OutputDebugString("\n");
 
     Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-    pPlayer->CalculateMoveInput();
     pPlayer->Walk();
 
     // ジャンプキーが押されたら
@@ -52,6 +57,12 @@ void WalkingState::UpdateState()
 
     // ダッシュキーが押されたら
     if (InputManager::IsRun()) { pStateManager_->ChangeState("RunningState"); }
+
+    // 移動入力がなくなったとき待機へ
+    if (!InputManager::IsWalk())
+    {
+        pStateManager_->ChangeState("IdleState");
+    }
 }
 
 void WalkingState::ExitState()
@@ -70,16 +81,22 @@ void RunningState::EnterState()
 
 void RunningState::UpdateState()
 {
+    //デバック
+    OutputDebugString("RunningState");
+    float flo = 123.0f;
+    OutputDebugStringA(std::to_string(flo).c_str());
+    OutputDebugString("\n");
+
     Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-    pPlayer->CalculateMoveInput();
-    pPlayer->Walk();
+    pPlayer->Run();
 
     // ジャンプキーが押されたら
-    if (InputManager::IsJump()){pStateManager_->ChangeState("RunningState");}
+    if (InputManager::IsJump()){pStateManager_->ChangeState("JumpingState");}
 }
 
 void RunningState::ExitState()
 {
+    pStateManager_->ChangeState("IdleState");
 }
 
 
@@ -94,10 +111,17 @@ void JumpingState::EnterState()
 
 void JumpingState::UpdateState()
 {
+    //デバック
+    OutputDebugString("JumpingState");
+    float flo = 123.0f;
+    OutputDebugStringA(std::to_string(flo).c_str());
+    OutputDebugString("\n");
+
     Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
     pPlayer->Jump();
 }
 
 void JumpingState::ExitState()
 {
+    pStateManager_->ChangeState("IdleState");
 }
