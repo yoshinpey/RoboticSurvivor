@@ -5,6 +5,9 @@
 #include "StateManager.h"
 #include "CharacterBase.h"
 
+
+class Aim;
+
 class Player : public GameObject
 {
 private:
@@ -13,7 +16,7 @@ private:
 
     CharacterBase characterStatus_; //キャラクターが持つパラメータ
     ///////////////////////////定数///////////////////////////
-    const float JUMP_HEIGHT = 1.50f;    // ジャンプの高さ
+    const float JUMP_HEIGHT = 0.2f;    // ジャンプの高さ
     const float WALK_SPEED = 0.2f;     // 歩く速さ
     const float RUN_SPEED = 0.3f;      // 走る速さ
 
@@ -34,8 +37,12 @@ private:
     float jumpVelocity_;        // ジャンプの初速度
     float jumpDelta_;           // 適当なごく小さい値
     bool canJump_;              // ジャンプ可能な状態かどうか
+    XMFLOAT3 jumpDirection_;    // ジャンプする直前の方向ベクトル
+    XMFLOAT3 jumpSpeed_;        // ジャンプする直前の速度
+    float jumpFriction_;        // ジャンプ中の減速係数
 
     Text* pNum;                 // テキスト
+    Aim* pAim_;                 // エイムインスタンス
 
     // フラグ
     bool isMoving_;             // 移動しているかどうか
@@ -64,4 +71,7 @@ public:
 
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
+
+    // 地面についているかどうかを判定する
+    bool OnGround() const { return transform_.position_.y <= 0; }
 };

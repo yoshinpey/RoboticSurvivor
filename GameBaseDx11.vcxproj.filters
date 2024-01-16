@@ -65,6 +65,9 @@
     <Filter Include="Charactor\State">
       <UniqueIdentifier>{47fa3746-8703-4873-a9df-67b2764c55c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Multipurpose\UI">
+      <UniqueIdentifier>{7d14f778-42c3-4989-88ec-d1eb3da81cd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -151,15 +154,6 @@
     <ClCompile Include="Aim.cpp">
       <Filter>Charactor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
-    <ClCompile Include="Gauge.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy_Ground.cpp">
       <Filter>Charactor\Enemy</Filter>
     </ClCompile>
@@ -191,9 +185,6 @@
       <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="MiniMap.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
       <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
@@ -243,6 +234,18 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Charactor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Gauge.cpp">
+      <Filter>Multipurpose\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -333,15 +336,6 @@
     <ClInclude Include="Aim.h">
       <Filter>Charactor\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="Gauge.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy_Ground.h">
       <Filter>Charactor\Enemy</Filter>
     </ClInclude>
@@ -373,9 +367,6 @@
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="MiniMap.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
       <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
@@ -431,6 +422,18 @@
     </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>Charactor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Gauge.h">
+      <Filter>Multipurpose\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

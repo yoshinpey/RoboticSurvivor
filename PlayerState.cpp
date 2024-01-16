@@ -116,8 +116,7 @@ void PlayerJumpingState::UpdateState()
     pPlayer_->Jump();
 
     // ’n–Ê‚É‚Â‚¢‚½‚Æ‚«‘Ò‹@‚Ö
-    //if (pPlayer->OnGround()) { pStateManager_->ChangeState("IdleState"); }
-    //bool OnGround() = getPlayerPos <= 0
+    if (pPlayer_->OnGround()) { pStateManager_->ChangeState("IdleState"); }
 }
 
 void PlayerJumpingState::ExitState()

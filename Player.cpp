@@ -8,12 +8,12 @@
 
 //コンストラクタ
 Player::Player(GameObject* parent)
-    :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr),
-    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.08f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.001f)
+    :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr), stateManager_(nullptr),
+    gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.85f)
 {
     // プレイヤーのステータスを設定
-    characterStatus_.SetCharacterStatus(MAX_HP, ATK);
+    characterStatus_.SetCharacterStatus((int)MAX_HP, (int)ATK);
     characterStatus_.SetMovementParameters(JUMP_HEIGHT, WALK_SPEED, RUN_SPEED);
 }
 
@@ -29,16 +29,17 @@ void Player::Initialize()
     stateManager_ = new StateManager(this);
     stateManager_->Initialize();
 
+    //テキスト
+    pNum = new Text;
+    pNum->Initialize();
+
     //モデルデータのロード
     hModel_ = Model::Load("Character/Human_only.fbx");
     assert(hModel_ >= 0);
 
     //視点クラス読み込み
     Instantiate<Aim>(this);
-
-    //テキスト
-    pNum = new Text;
-    pNum->Initialize();
+    pAim_ = (Aim*)FindObject("Aim");
 }
 
 //更新
@@ -46,6 +47,23 @@ void Player::Update()
 {
     // ステートマネージャーの更新
     stateManager_->Update();
+
+
+    // 落下処理
+    if (!canJump_)
+    {
+        velocity_.y += gravity_ * jumpDelta_;
+        transform_.position_.y += velocity_.y;
+
+        // 地面に到達したらジャンプ可能な状態に戻す
+        if (transform_.position_.y <= 0)
+        {
+            transform_.position_.y = 0;
+            canJump_ = true;
+
+            velocity_.y = 0;
+        }
+    }
 }
 
 //描画
@@ -129,9 +147,6 @@ void Player::Run()
 // 移動に反映する関数
 void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
 {
-    // 移動方向
-    XMFLOAT3 fMove = CalculateMoveInput();
-
     // 現在の速度
     float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
 
@@ -143,17 +158,10 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
         vMove *= speed;
         XMStoreFloat3(&movement_, vMove);
     }
-
-    // 現在の速度を目標の速度に近づける
-    if (currentSpeed < speed)
+    else
     {
         velocity_.x += acceleration_;
         velocity_.z += acceleration_;
-    }
-    else
-    {
-        velocity_.x = speed;
-        velocity_.z = speed;
     }
 
     // 移動に反映
@@ -163,12 +171,6 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     // 移動量を適用
     transform_.position_.x += movement_.x;
     transform_.position_.z += movement_.z;
-
-    if (speed <= 0)
-    {
-        // 各移動ボタンを離したときに減速を適応
-        ApplyDeceleration();
-    }
 }
 
 // 減速を適用する関数
@@ -180,6 +182,7 @@ void Player::ApplyDeceleration()
     velocity_.x = 0;
     velocity_.z = 0;
 
+
     // 移動に反映
     transform_.position_.x += movement_.x;
     transform_.position_.z += movement_.z;
@@ -188,60 +191,64 @@ void Player::ApplyDeceleration()
 // ジャンプ
 void Player::Jump()
 {
-        velocity_.y = jumpVelocity_ * jumpDelta_;
+    // ジャンプ中は重力を適用しない
+    if (!canJump_)
+        return;
 
-        // 上方向への移動加速
-        transform_.position_.y += velocity_.y;
+    // 移動方向を取得
+    XMFLOAT3 moveDirection = CalculateMoveInput();
 
-        // 重力を適用してジャンプの高さを制御
-        velocity_.y += gravity_ * jumpDelta_;
+    // 現在の速度を保持
+    XMFLOAT3 currentVelocity = velocity_;
 
-        // 地面に着地したとき
-        if (transform_.position_.y <= 0)
-        {
-            // 地面に合わせる
-            transform_.position_.y = 0;
+    // 移動方向をジャンプの方向として適用
+    velocity_.x = jumpVelocity_ * moveDirection.x;
+    velocity_.y = jumpVelocity_;
+    velocity_.z = jumpVelocity_ * moveDirection.z;
 
-            // 着地したら垂直速度をリセット
-            velocity_.y = 0.0f;
-        }
+    // ジャンプ可能な状態を無効にする
+    canJump_ = false;
+
+    // 移動方向と速度を保持
+    jumpDirection_ = moveDirection;
+    jumpSpeed_ = currentVelocity;
 }
 
 // 移動計算を行う関数
 XMFLOAT3 Player::CalculateMoveInput()
 {
-    XMFLOAT3 fMove = XMFLOAT3(0.0f, 0.0f, 0.0f);
+    // 計算結果入れる用
+    XMFLOAT3 moveDirection = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
     // エイム情報呼び出し
-    Aim* pAim = (Aim*)FindObject("Aim");
-    XMFLOAT3 aimDirection = pAim->GetAimDirection();
+    XMFLOAT3 aimDirection = pAim_->GetAimDirection();
 
     // PlayerクラスのMove関数内の一部
     if (InputManager::IsMoveForward())
     {
-        fMove.x += aimDirection.x;
-        fMove.z += aimDirection.z;
+        moveDirection.x += aimDirection.x;
+        moveDirection.z += aimDirection.z;
     }
     if (InputManager::IsMoveLeft())
     {
-        fMove.x -= aimDirection.z;
-        fMove.z += aimDirection.x;
+        moveDirection.x -= aimDirection.z;
+        moveDirection.z += aimDirection.x;
     }
     if (InputManager::IsMoveBackward())
     {
-        fMove.x -= aimDirection.x;
-        fMove.z -= aimDirection.z;
+        moveDirection.x -= aimDirection.x;
+        moveDirection.z -= aimDirection.z;
     }
     if (InputManager::IsMoveRight())
     {
-        fMove.x += aimDirection.z;
-        fMove.z -= aimDirection.x;
+        moveDirection.x += aimDirection.z;
+        moveDirection.z -= aimDirection.x;
     }
 
     // 正規化
-    XMVECTOR vMove = XMLoadFloat3(&fMove);
+    XMVECTOR vMove = XMLoadFloat3(&moveDirection);
     vMove = XMVector3Normalize(vMove);
-    XMStoreFloat3(&fMove, vMove);
+    XMStoreFloat3(&moveDirection, vMove);
 
-    return fMove;
+    return moveDirection;
 }

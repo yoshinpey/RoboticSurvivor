@@ -53,7 +53,7 @@ void PlayScene::Update()
 	static int score = 0;	
 	static int num = 0;
 	num++;
-	score = (num % 60) * 0.1;
+	score = (num % 60) * 0.1f;
 
 	s->ScoreAdd(score);
 }

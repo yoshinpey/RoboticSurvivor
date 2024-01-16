@@ -10,7 +10,10 @@ protected:
     StateManager* pStateManager_;
     Player* pPlayer_;
 public:
-    StateBase(StateManager* manager) : pStateManager_(manager) {}
+    StateBase(StateManager* manager) 
+        : pStateManager_(manager), pPlayer_(nullptr)
+    {
+    }
 
     // デストラクタ
     virtual ~StateBase() {};
