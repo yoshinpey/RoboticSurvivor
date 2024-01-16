@@ -2,21 +2,22 @@
 #include "StateManager.h"
 #include "Player.h"
 
+
+
 // 待機状態
 PlayerIdleState::PlayerIdleState(StateManager* manager) : StateBase(manager)
 {
 }
 
-
 void PlayerIdleState::EnterState()
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerIdleState::UpdateState()
 {
     // 入力がないときは移動減速度を適用する
-    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-    pPlayer->ApplyDeceleration();
+    pPlayer_->ApplyDeceleration();
 
     //デバック
     OutputDebugString("IdleState");
@@ -36,6 +37,7 @@ void PlayerIdleState::ExitState()
 }
 
 
+
 // 歩行状態
 PlayerWalkingState::PlayerWalkingState(StateManager* manager) : StateBase(manager)
 {
@@ -43,6 +45,7 @@ PlayerWalkingState::PlayerWalkingState(StateManager* manager) : StateBase(manage
 
 void PlayerWalkingState::EnterState()
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerWalkingState::UpdateState()
@@ -53,8 +56,7 @@ void PlayerWalkingState::UpdateState()
     OutputDebugStringA(std::to_string(flo).c_str());
     OutputDebugString("\n");
 
-    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-    pPlayer->Walk();
+    pPlayer_->Walk();
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
@@ -71,6 +73,7 @@ void PlayerWalkingState::ExitState()
 }
 
 
+
 // 走行状態
 PlayerRunningState::PlayerRunningState(StateManager* manager) : StateBase(manager)
 {
@@ -78,6 +81,7 @@ PlayerRunningState::PlayerRunningState(StateManager* manager) : StateBase(manage
 
 void PlayerRunningState::EnterState()
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerRunningState::UpdateState()
@@ -88,8 +92,7 @@ void PlayerRunningState::UpdateState()
     OutputDebugStringA(std::to_string(flo).c_str());
     OutputDebugString("\n");
 
-    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-    pPlayer->Run();
+    pPlayer_->Run();
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
@@ -103,6 +106,7 @@ void PlayerRunningState::ExitState()
 }
 
 
+
 // 跳躍状態
 PlayerJumpingState::PlayerJumpingState(StateManager* manager) : StateBase(manager)
 {
@@ -110,6 +114,7 @@ PlayerJumpingState::PlayerJumpingState(StateManager* manager) : StateBase(manage
 
 void PlayerJumpingState::EnterState()
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerJumpingState::UpdateState()
@@ -120,8 +125,7 @@ void PlayerJumpingState::UpdateState()
     OutputDebugStringA(std::to_string(flo).c_str());
     OutputDebugString("\n");
 
-    Player* pPlayer = static_cast<Player*>(pStateManager_->GetGameobject());
-    pPlayer->Jump();
+    pPlayer_->Jump();
 
     // 地面についたとき待機へ
     //if (pPlayer->OnGround()) { pStateManager_->ChangeState("IdleState"); }

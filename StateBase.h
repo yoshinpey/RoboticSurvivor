@@ -1,12 +1,14 @@
 #pragma once
 
 class StateManager;
+class Player;
 
 // 状態ベースクラス
 class StateBase
 {   
 protected:
     StateManager* pStateManager_;
+    Player* pPlayer_;
 public:
     StateBase(StateManager* manager) : pStateManager_(manager) {}
 
