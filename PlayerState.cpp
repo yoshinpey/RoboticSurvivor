@@ -15,15 +15,12 @@ void PlayerIdleState::EnterState()
 }
 
 void PlayerIdleState::UpdateState()
-{
-    // 入力がないときは移動減速度を適用する
-    pPlayer_->ApplyDeceleration();
-
+{    
     //デバック
-    OutputDebugString("IdleState");
-    float flo = 123.0f;
-    OutputDebugStringA(std::to_string(flo).c_str());
-    OutputDebugString("\n");
+    OutputDebugString("IdleState\n");
+
+    // 入力がないときは減速を適用する
+    pPlayer_->ApplyDeceleration();
 
     // ジャンプキーが押されたら
     if (InputManager::IsJump()) { pStateManager_->ChangeState("JumpingState"); }
@@ -51,10 +48,7 @@ void PlayerWalkingState::EnterState()
 void PlayerWalkingState::UpdateState()
 {
     //デバック
-    OutputDebugString("WalkingState");
-    float flo = 123.0f;
-    OutputDebugStringA(std::to_string(flo).c_str());
-    OutputDebugString("\n");
+    OutputDebugString("WalkingState\n");
 
     pPlayer_->Walk();
 
@@ -87,10 +81,7 @@ void PlayerRunningState::EnterState()
 void PlayerRunningState::UpdateState()
 {
     //デバック
-    OutputDebugString("RunningState");
-    float flo = 123.0f;
-    OutputDebugStringA(std::to_string(flo).c_str());
-    OutputDebugString("\n");
+    OutputDebugString("RunningState\n");
 
     pPlayer_->Run();
 
@@ -120,10 +111,7 @@ void PlayerJumpingState::EnterState()
 void PlayerJumpingState::UpdateState()
 {
     //デバック
-    OutputDebugString("JumpingState");
-    float flo = 123.0f;
-    OutputDebugStringA(std::to_string(flo).c_str());
-    OutputDebugString("\n");
+    OutputDebugString("JumpingState\n");
 
     pPlayer_->Jump();
 
