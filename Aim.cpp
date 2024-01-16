@@ -9,8 +9,8 @@
 
 //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Aim::Aim(GameObject* parent)
-    :GameObject(parent, "Aim"), pNum_(nullptr),
-    plaPos_{ 0,0,0 }, camPos_{ 0,0,0 },  aimDirection_{ 0,0,0 }, mouseSensitivity_{MOUSE_SENSITIVITY_X,MOUSE_SENSITIVITY_Y}
+    :GameObject(parent, "Aim"), pNum_(nullptr), pPlayer_(nullptr),
+    plaPos_{ 0,0,0 }, camPos_{ 0,0,0 },  aimDirection_{ 0,0,0 }, mouseSensitivity_{MOUSE_SENSITIVITY_X, MOUSE_SENSITIVITY_Y}
 {
 }
 
@@ -45,8 +45,8 @@ void Aim::Update()
     XMFLOAT3 mouseMove = Input::GetMouseMove(); // ƒ}ƒEƒX‚ÌˆÚ“®—Ê‚ğæ“¾
 
     //ˆÚ“®—Ê‚ğ‰ÁZ
-    transform_.rotate_.y += (mouseMove.x) * 0.05; // ‰¡•ûŒü‚Ì‰ñ“]
-    transform_.rotate_.x += (mouseMove.y) * 0.05; // c•ûŒü‚Ì‰ñ“]
+    transform_.rotate_.y += mouseMove.x * 0.05f; // ‰¡•ûŒü‚Ì‰ñ“]
+    transform_.rotate_.x += mouseMove.y * 0.05f; // c•ûŒü‚Ì‰ñ“]
 
     ////ƒJƒƒ‰‚Ì‰ñ“]
     XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));

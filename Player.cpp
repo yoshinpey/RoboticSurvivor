@@ -8,9 +8,10 @@
 
 //コンストラクタ
 Player::Player(GameObject* parent)
-    :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr), stateManager_(nullptr),
+    :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr), stateManager_(nullptr),pAim_(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), isMoving_(false), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.85f)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.85f), jumpFriction_(1.15f),
+    jumpDirection_(0.0f, 0.0f, 0.0f), jumpSpeed_(0.0f, 0.0f, 0.0f)
 {
     // プレイヤーのステータスを設定
     characterStatus_.SetCharacterStatus((int)MAX_HP, (int)ATK);
@@ -177,11 +178,19 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
 void Player::ApplyDeceleration()
 {
     // 各移動ボタンを離したときに減速を適応
-    movement_.x *= friction_;
-    movement_.z *= friction_;
+    // 滞空中は減速係数を変える
+    if (!canJump_)
+    {
+        movement_.x *= friction_ * jumpFriction_;
+        movement_.z *= friction_ * jumpFriction_;
+    }
+    else
+    {
+        movement_.x *= friction_;
+        movement_.z *= friction_;
+    }
     velocity_.x = 0;
     velocity_.z = 0;
-
 
     // 移動に反映
     transform_.position_.x += movement_.x;
@@ -192,8 +201,7 @@ void Player::ApplyDeceleration()
 void Player::Jump()
 {
     // ジャンプ中は重力を適用しない
-    if (!canJump_)
-        return;
+    if (!canJump_) return;
 
     // 移動方向を取得
     XMFLOAT3 moveDirection = CalculateMoveInput();
@@ -245,10 +253,15 @@ XMFLOAT3 Player::CalculateMoveInput()
         moveDirection.z -= aimDirection.x;
     }
 
-    // 正規化
-    XMVECTOR vMove = XMLoadFloat3(&moveDirection);
-    vMove = XMVector3Normalize(vMove);
-    XMStoreFloat3(&moveDirection, vMove);
+    Normalize(moveDirection);
 
     return moveDirection;
+}
+
+// 正規化
+void Player::Normalize(XMFLOAT3& vec)
+{
+    XMVECTOR v = XMLoadFloat3(&vec);
+    v = XMVector3Normalize(v);
+    XMStoreFloat3(&vec, v);
 }

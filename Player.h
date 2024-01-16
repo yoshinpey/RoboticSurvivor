@@ -5,7 +5,6 @@
 #include "StateManager.h"
 #include "CharacterBase.h"
 
-
 class Aim;
 
 class Player : public GameObject
@@ -14,17 +13,18 @@ private:
     int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
 
-    CharacterBase characterStatus_; //キャラクターが持つパラメータ
+    CharacterBase characterStatus_;     //キャラクターが持つパラメータ
+
     ///////////////////////////定数///////////////////////////
-    const float JUMP_HEIGHT = 0.2f;    // ジャンプの高さ
-    const float WALK_SPEED = 0.2f;     // 歩く速さ
-    const float RUN_SPEED = 0.3f;      // 走る速さ
+    const float JUMP_HEIGHT = 0.2f;     // ジャンプの高さ
+    const float WALK_SPEED = 0.1f;      // 歩く速さ
+    const float RUN_SPEED = 0.2f;       // 走る速さ
 
     const float ATK = 0.0f;             // 攻撃力
     const float MAX_HP = 1.0f;          // 体力
     //////////////////////////////////////////////////////////
 
-    StateManager* stateManager_;     // 状態を切り替える用
+
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
@@ -32,6 +32,7 @@ private:
     XMFLOAT3 movement_;         // 移動量
     float acceleration_;        // 加速度
     float friction_;            // 摩擦力(減速度)
+    float jumpFriction_;        // 摩擦力(減速度)
 
     int gravity_;               // 重力
     float jumpVelocity_;        // ジャンプの初速度
@@ -39,17 +40,13 @@ private:
     bool canJump_;              // ジャンプ可能な状態かどうか
     XMFLOAT3 jumpDirection_;    // ジャンプする直前の方向ベクトル
     XMFLOAT3 jumpSpeed_;        // ジャンプする直前の速度
-    float jumpFriction_;        // ジャンプ中の減速係数
 
-    Text* pNum;                 // テキスト
-    Aim* pAim_;                 // エイムインスタンス
-
-    // フラグ
-    bool isMoving_;             // 移動しているかどうか
+    // インスタンス
+    StateManager* stateManager_;    // 状態を切り替える用
+    Text* pNum;                     // テキスト
+    Aim* pAim_;                     // エイム
 
 public:
-    //デバック用
-    bool testDRW = false;
     Player(GameObject* parent);     // コンストラクタ
     ~Player();                      // デストラクタ
 
@@ -62,7 +59,7 @@ public:
     void Walk();                    // 走る
     void Run();                     // 歩く
     void ApplyMovement(const XMFLOAT3& moveVector, float speed);
-    void ApplyDeceleration();
+    void ApplyDeceleration();       
     void Jump();                    // ジャンプ
     void PlayerHitPoint();          // 体力
 
@@ -71,6 +68,9 @@ public:
 
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
+
+    // 正規化を行う関数
+    void Normalize(XMFLOAT3& vec);
 
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }

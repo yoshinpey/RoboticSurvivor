@@ -13,9 +13,9 @@ class Aim : public GameObject
     Player* pPlayer_;                       //プレイヤーインスタンス
     XMFLOAT3 aimDirection_;                 //現在の視点に基づいた進行方向ベクトル
     XMFLOAT2 mouseSensitivity_;             //マウスの感度
-    const double MOUSE_SENSITIVITY_X = 0.05;
-    const double MOUSE_SENSITIVITY_Y = 0.05;
-
+    const float MOUSE_SENSITIVITY_X = 0.05f;
+    const float MOUSE_SENSITIVITY_Y = 0.05f;
+    
 public:
     Aim(GameObject* parent);        //コンストラクタ
     ~Aim();                         //デストラクタ
