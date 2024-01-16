@@ -4,14 +4,13 @@
 #include "Engine/Input.h"
 
 #include "Aim.h"
-#include "Player.h"
 #include "Gun.h"
 
 
 //コンストラクタ
 Aim::Aim(GameObject* parent)
     :GameObject(parent, "Aim"), pNum_(nullptr),
-    plaPos_{ 0,0,0 }, camPos_{ 0,0,0 },  aimDirection_{ 0,0,0 }
+    plaPos_{ 0,0,0 }, camPos_{ 0,0,0 },  aimDirection_{ 0,0,0 }, mouseSensitivity_{MOUSE_SENSITIVITY_X,MOUSE_SENSITIVITY_Y}
 {
 }
 
@@ -36,6 +35,7 @@ void Aim::Initialize()
     //マウス初期位置(幅/2, 高さ/2)
     Input::SetMousePosition(Direct3D::screenWidth_ /2, Direct3D::screenHeight_ /2);
 
+    pPlayer_ = static_cast<Player*>(FindObject("Player"));
 }
 
 //更新
@@ -45,8 +45,8 @@ void Aim::Update()
     XMFLOAT3 mouseMove = Input::GetMouseMove(); // マウスの移動量を取得
 
     //移動量を加算
-    transform_.rotate_.y += (mouseMove.x) * 0.05f; // 横方向の回転
-    transform_.rotate_.x += (mouseMove.y) * 0.05f; // 縦方向の回転
+    transform_.rotate_.y += (mouseMove.x) * mouseSensitivity_.x; // 横方向の回転
+    transform_.rotate_.x += (mouseMove.y) * mouseSensitivity_.y; // 縦方向の回転
 
     ////カメラの回転
     XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
@@ -56,8 +56,7 @@ void Aim::Update()
     XMMATRIX mView = mRotX * mRotY;
 
     //プレイヤー座標取得
-    Player* pPlayer = static_cast<Player*>(FindObject("Player"));
-    plaPos_ = pPlayer->GetPlaPos();
+    plaPos_ = pPlayer_->GetPlaPos();
 
     //プレイヤーキャラクターの位置をカメラの位置とする
     camPos_.x = plaPos_.x;
