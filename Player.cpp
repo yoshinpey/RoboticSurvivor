@@ -72,6 +72,7 @@ void Player::Release()
 //プレイヤーのHP
 void Player::PlayerHitPoint()
 {
+    ///////////変更予定。UIマネージャー経由でゲームオブジェクトから除外する
     //HPゲージ呼び出し
     Gauge* pGauge = (Gauge*)FindObject("Gauge");
     pGauge->SetHp(maxHp_, nowHp_);
