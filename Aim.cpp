@@ -57,6 +57,7 @@ void Aim::UpdateRotation()
 
 void Aim::UpdateCameraPosition() 
 {
+    // カメラの回転
     XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
     XMMATRIX mRotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
     XMMATRIX mView = mRotX * mRotY;
@@ -72,7 +73,7 @@ void Aim::UpdateCameraPosition()
     XMVECTOR camPosVector = XMLoadFloat3(&camPos_);
     XMVECTOR forwardVector = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
     forwardVector = XMVector3TransformCoord(forwardVector, mView);
-    XMStoreFloat3(&aimDirection_, forwardVector);
+    XMStoreFloat3(&aimDirection_, forwardVector); //プレイヤークラスに進行方向ベクトル(float3)を伝える
 
     forwardVector = XMVectorAdd(camPosVector, forwardVector);
 

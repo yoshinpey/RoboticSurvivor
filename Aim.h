@@ -4,7 +4,7 @@
 
 #include "Player.h"
 
-//視点を管理するクラス
+// 視点を管理するクラス
 class Aim : public GameObject
 {
     static const float EYE_POSITION;
