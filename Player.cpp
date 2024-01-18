@@ -265,3 +265,14 @@ void Player::Normalize(XMFLOAT3& vec)
     v = XMVector3Normalize(v);
     XMStoreFloat3(&vec, v);
 }
+
+// 体の回転
+void Player::BodyRotation()
+{
+    // エイム情報呼び出し
+    XMFLOAT3 aimDirection = pAim_->GetAimDirection();
+
+    // エイムの進行方向を考慮してプレイヤーの回転を計算
+    float rotationAngle = atan2f(aimDirection.x, aimDirection.z);
+    transform_.rotate_.y = rotationAngle;
+}

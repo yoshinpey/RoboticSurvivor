@@ -72,6 +72,9 @@ public:
     // 正規化を行う関数
     void Normalize(XMFLOAT3& vec);
 
+    // 体モデルの回転を行う関数
+    void BodyRotation();
+
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }
 };
