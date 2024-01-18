@@ -7,15 +7,19 @@
 //視点を管理するクラス
 class Aim : public GameObject
 {
-    XMFLOAT3 plaPos_;                       //プレイヤー位置
-    XMFLOAT3 camPos_;                       //カメラ 位置,焦点
-    Text* pNum_;                            //テキスト
-    Player* pPlayer_;                       //プレイヤーインスタンス
-    XMFLOAT3 aimDirection_;                 //現在の視点に基づいた進行方向ベクトル
-    XMFLOAT2 mouseSensitivity_;             //マウスの感度
-    const float MOUSE_SENSITIVITY_X = 0.05f;
-    const float MOUSE_SENSITIVITY_Y = 0.05f;
-    
+    static const float EYE_POSITION;
+    static const float MOUSE_SENSITIVITY_X;
+    static const float MOUSE_SENSITIVITY_Y;
+
+    XMFLOAT3 aimDirection_;
+    XMFLOAT3 camPos_;
+    XMFLOAT2 mouseSensitivity_;
+    Text* pNum_;
+    Player* pPlayer_;
+
+    void UpdateRotation();
+    void UpdateCameraPosition();
+
 public:
     Aim(GameObject* parent);        //コンストラクタ
     ~Aim();                         //デストラクタ
