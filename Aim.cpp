@@ -12,7 +12,7 @@ const float Aim::MOUSE_SENSITIVITY_Y = 0.05f;
 
 // コンストラクタ
 Aim::Aim(GameObject* parent) : GameObject(parent, "Aim"), pNum_(nullptr), pPlayer_(nullptr),
-aimDirection_{ 0,0,0 }, camPos_{0,0,0}, mouseSensitivity_ {MOUSE_SENSITIVITY_X, MOUSE_SENSITIVITY_Y}
+aimDirection_{ 0,0,0 }, camPos_{0,0,0}, mouseSensitivity_ {MOUSE_SENSITIVITY_X, MOUSE_SENSITIVITY_Y}, eyePositon_{0,EYE_POSITION,0}
 {
 }
 
@@ -68,6 +68,8 @@ void Aim::UpdateCameraPosition()
     camPos_.x = plaPos.x;
     camPos_.y = plaPos.y + EYE_POSITION; // 目線の高さ
     camPos_.z = plaPos.z;
+
+    eyePositon_ = camPos_;
 
     // カメラの位置と焦点を取得
     XMVECTOR camPosVector = XMLoadFloat3(&camPos_);

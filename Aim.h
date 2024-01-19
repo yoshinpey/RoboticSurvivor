@@ -13,6 +13,7 @@ class Aim : public GameObject
 
     XMFLOAT3 aimDirection_;
     XMFLOAT3 camPos_;
+    XMFLOAT3 eyePositon_;
     XMFLOAT2 mouseSensitivity_;
     Text* pNum_;
     Player* pPlayer_;
@@ -30,4 +31,5 @@ public:
 
     //進行方向ベクトルのAim情報を取得
     XMFLOAT3 GetAimDirection(){ return aimDirection_; }
+    XMFLOAT3 GetEyePosition(){ return eyePositon_; }
 };

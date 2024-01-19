@@ -12,7 +12,7 @@ class Player : public GameObject
 private:
     int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
-
+    XMFLOAT3 camPos_;
     CharacterBase characterStatus_;     //キャラクターが持つパラメータ
 
     ///////////////////////////定数///////////////////////////

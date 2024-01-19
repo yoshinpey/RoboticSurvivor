@@ -49,6 +49,7 @@ void Player::Update()
     // ステートマネージャーの更新
     stateManager_->Update();
 
+    BodyRotation();
 
     // 落下処理
     if (!canJump_)
@@ -272,7 +273,20 @@ void Player::BodyRotation()
     // エイム情報呼び出し
     XMFLOAT3 aimDirection = pAim_->GetAimDirection();
 
-    // エイムの進行方向を考慮してプレイヤーの回転を計算
-    float rotationAngle = atan2f(aimDirection.x, aimDirection.z);
-    transform_.rotate_.y = rotationAngle;
+    // aimDirection に入るのはカメラのターゲットベクトルです。
+    // transform_.rotate_.y に値を加算することでy軸の回転を行うことができます
+    // 体の回転方向は AimDirection に合わせて y 軸で回転させます
+    // ただし、AimDirection を transform_.rotate_.y に足すだけではカメラと一致せずに体だけ回転を続けてしまいます
+
+    // 現在のプレイヤーの回転を取得
+    float currentRotationY = transform_.rotate_.y;
+
+    // カメラの方向を考慮してプレイヤーの回転を計算
+    float targetRotationY = atan2(aimDirection.x, aimDirection.z);
+
+    // スムーズに回転させるために、Lerp 関数を使用して現在の回転から目標の回転に徐々に変化させます
+    float lerpedRotationY = Math::Lerp(currentRotationY, targetRotationY, 0.1f);
+
+    // プレイヤーの回転を更新
+    transform_.rotate_.y = lerpedRotationY;
 }

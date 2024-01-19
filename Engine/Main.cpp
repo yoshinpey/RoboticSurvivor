@@ -261,11 +261,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		//マウスが動いた
 	case WM_MOUSEMOVE:
 		//マウスポインターの制限を設定
-		//LimitMousePointer(hWnd);
-		//Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+		LimitMousePointer(hWnd);
+		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
 
 		//マウスカーソルを非表示にする
-		//while (ShowCursor(FALSE) >= 0);
+		while (ShowCursor(FALSE) >= 0);
 		return 0;
 
 		//キーボードのキーが押された
