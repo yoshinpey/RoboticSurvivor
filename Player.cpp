@@ -7,7 +7,7 @@
 
 //コンストラクタ
 Player::Player(GameObject* parent)
-    :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr), stateManager_(nullptr),pAim_(nullptr),
+    :GameObject(parent, "Player"), pNum(nullptr), stateManager_(nullptr),pAim_(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
     walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.85f), jumpFriction_(1.15f),
     jumpDirection_(0.0f, 0.0f, 0.0f), jumpSpeed_(0.0f, 0.0f, 0.0f)
@@ -32,10 +32,6 @@ void Player::Initialize()
     //テキスト
     pNum = new Text;
     pNum->Initialize();
-
-    //モデルデータのロード
-    hModel_ = Model::Load("Character/Human_only.fbx");
-    assert(hModel_ >= 0);
 
     //視点クラス読み込み
     Instantiate<Aim>(this);
@@ -70,10 +66,7 @@ void Player::Update()
 //描画
 void Player::Draw()
 {
-    //モデル
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
-    
+
     //デバック用
     pNum->Draw(1150, 100, "X:");
     pNum->Draw(1200, 100, (int)transform_.position_.x);
@@ -265,27 +258,3 @@ void Player::Normalize(XMFLOAT3& vec)
     v = XMVector3Normalize(v);
     XMStoreFloat3(&vec, v);
 }
-
-/*
-// 体の回転
-void Player::BodyRotation()
-{
-    // エイム情報呼び出し
-    XMFLOAT3 aimDirection = pAim_->GetAimDirection();
-
-    // aimDirection に入るのはカメラのターゲットベクトルです。
-    // transform_.rotate_.y に値を加算することでy軸の回転を行うことができます
-    // 体の回転方向は AimDirection に合わせて y 軸で回転させます
-    // ただし、AimDirection を transform_.rotate_.y に足すだけではカメラと一致せずに体だけ回転を続けてしまいます
-    // 理由は初めに指定した前方向ベクトルとの差で回転具合を計算しているためです。
-    
-    // 現在のプレイヤーの回転を取得
-    float currentRotationY = transform_.rotate_.y;
-
-    // カメラの方向を考慮してプレイヤーの回転を計算
-    float targetRotationY = atan2(aimDirection.x, aimDirection.z);
-
-    // プレイヤーの回転を更新
-    currentRotationY += targetRotationY;
-    transform_.rotate_.y = currentRotationY;
-}*/

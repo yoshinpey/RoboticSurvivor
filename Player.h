@@ -10,7 +10,6 @@ class Aim;
 class Player : public GameObject
 {
 private:
-    int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
     CharacterBase characterStatus_;     //キャラクターが持つパラメータ
 
@@ -22,8 +21,6 @@ private:
     const float ATK = 0.0f;             // 攻撃力
     const float MAX_HP = 1.0f;          // 体力
     //////////////////////////////////////////////////////////
-
-
 
     float walkSpeed_;           // 歩行速度
     float runSpeed_;            // 走行速度
@@ -37,7 +34,7 @@ private:
     float jumpVelocity_;        // ジャンプの初速度
     float jumpDelta_;           // 適当なごく小さい値
     bool canJump_;              // ジャンプ可能な状態かどうか
-    XMFLOAT3 jumpDirection_;    // ジャンプする直前の方向ベクトル
+    XMFLOAT3 jumpDirection_;    // ジャンプする直前の方向
     XMFLOAT3 jumpSpeed_;        // ジャンプする直前の速度
 
     // インスタンス
@@ -70,9 +67,6 @@ public:
 
     // 正規化を行う関数
     void Normalize(XMFLOAT3& vec);
-
-    // 体モデルの回転を行う関数
-    //void BodyRotation();
 
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }
