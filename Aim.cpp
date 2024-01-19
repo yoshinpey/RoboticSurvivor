@@ -69,8 +69,6 @@ void Aim::UpdateCameraPosition()
     camPos_.y = plaPos.y + EYE_POSITION; // –Úü‚Ì‚‚³
     camPos_.z = plaPos.z;
 
-    eyePositon_ = camPos_;
-
     // ƒJƒƒ‰‚ÌˆÊ’u‚ÆÅ“_‚ğæ“¾
     XMVECTOR camPosVector = XMLoadFloat3(&camPos_);
     XMVECTOR forwardVector = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
@@ -84,6 +82,8 @@ void Aim::UpdateCameraPosition()
     XMFLOAT3 camTargetFloat3;
     XMStoreFloat3(&camPosFloat3, camPosVector);
     XMStoreFloat3(&camTargetFloat3, forwardVector);
+
+    eyePositon_ = camPosFloat3;
 
     Camera::SetPosition(camPosFloat3);
     Camera::SetTarget(camTargetFloat3);

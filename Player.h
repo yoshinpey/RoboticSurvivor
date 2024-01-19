@@ -12,7 +12,6 @@ class Player : public GameObject
 private:
     int hModel_;                // モデル番号   
     int maxHp_, nowHp_;         // HP 
-    XMFLOAT3 camPos_;
     CharacterBase characterStatus_;     //キャラクターが持つパラメータ
 
     ///////////////////////////定数///////////////////////////
@@ -73,7 +72,7 @@ public:
     void Normalize(XMFLOAT3& vec);
 
     // 体モデルの回転を行う関数
-    void BodyRotation();
+    //void BodyRotation();
 
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }

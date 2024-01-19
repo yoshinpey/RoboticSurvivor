@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Gauge.h"
 
-
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), hModel_(-1), pNum(nullptr), stateManager_(nullptr),pAim_(nullptr),
@@ -49,7 +48,7 @@ void Player::Update()
     // ステートマネージャーの更新
     stateManager_->Update();
 
-    BodyRotation();
+    //BodyRotation();
 
     // 落下処理
     if (!canJump_)
@@ -267,6 +266,7 @@ void Player::Normalize(XMFLOAT3& vec)
     XMStoreFloat3(&vec, v);
 }
 
+/*
 // 体の回転
 void Player::BodyRotation()
 {
@@ -277,16 +277,15 @@ void Player::BodyRotation()
     // transform_.rotate_.y に値を加算することでy軸の回転を行うことができます
     // 体の回転方向は AimDirection に合わせて y 軸で回転させます
     // ただし、AimDirection を transform_.rotate_.y に足すだけではカメラと一致せずに体だけ回転を続けてしまいます
-
+    // 理由は初めに指定した前方向ベクトルとの差で回転具合を計算しているためです。
+    
     // 現在のプレイヤーの回転を取得
     float currentRotationY = transform_.rotate_.y;
 
     // カメラの方向を考慮してプレイヤーの回転を計算
     float targetRotationY = atan2(aimDirection.x, aimDirection.z);
 
-    // スムーズに回転させるために、Lerp 関数を使用して現在の回転から目標の回転に徐々に変化させます
-    float lerpedRotationY = Math::Lerp(currentRotationY, targetRotationY, 0.1f);
-
     // プレイヤーの回転を更新
-    transform_.rotate_.y = lerpedRotationY;
-}
+    currentRotationY += targetRotationY;
+    transform_.rotate_.y = currentRotationY;
+}*/
