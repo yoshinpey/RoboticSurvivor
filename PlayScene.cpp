@@ -2,8 +2,6 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 
-#include "Enemy_Fly.h"
-#include "Enemy_Ground.h"
 #include "PlayScene.h"
 #include "Player.h"
 #include "Ground.h"
@@ -22,7 +20,6 @@ PlayScene::PlayScene(GameObject * parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Ground>(this);			//地面登場
-	Instantiate<Enemy_Ground>(this);		//敵登場
 	Instantiate<Player>(this);			//プレイヤー登場
 
 	//※テキストは前面になるように描画
@@ -38,9 +35,8 @@ void PlayScene::Initialize()
 	Timer* t = (Timer*)FindObject("Timer");
 	t->SetLimit(15);
 
-
-
-
+	enemyManager_ = new EnemyManager(); // インスタンス生成
+	enemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 0), EnemyType::FLY);
 
 }
 
@@ -70,6 +66,7 @@ void PlayScene::Draw()
 //開放
 void PlayScene::Release()
 {
+	delete enemyManager_; // 解放
 }
 
 //タイマー

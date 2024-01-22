@@ -1,10 +1,12 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "EnemyManager.h"
 
 //Playシーンを管理するクラス
 class PlayScene : public GameObject
 {
 	int hPict_;    //画像番号
+	EnemyManager* enemyManager_; // エネミーマネージャー
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

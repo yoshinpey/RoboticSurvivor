@@ -21,12 +21,11 @@ public:
     {
     }
 
-    virtual ~EnemyBase() = 0;
-    virtual void Update() = 0;
+    virtual ~EnemyBase() = default;
 
     // エネミーの種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
 
-    virtual std::string GetName() const = 0;
-    virtual int GetId() const = 0;
+    // 純粋仮想関数
+    virtual void Update() = 0;
 };

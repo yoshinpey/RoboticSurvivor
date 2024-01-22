@@ -10,10 +10,10 @@ private:
 
 public:
     // コンストラクタ
-    Enemy_Ground(GameObject* parent, const XMFLOAT3& spawnPosition);
+    Enemy_Ground(const XMFLOAT3& spawnPosition);
 
     // デストラクタ
-    ~Enemy_Ground();
+    ~Enemy_Ground() override;
 
     // 初期化
     void Initialize() override;
@@ -26,18 +26,4 @@ public:
 
     // 開放
     void Release() override;
-
-    // GetNameの実装
-    std::string GetName() const
-    {
-        // ここに名前を取得する処理を追加
-        return "GroundEnemy";
-    }
-
-    // GetIdの実装
-    int GetId() const
-    {
-        // ここにIDを取得する処理を追加
-        return 1;
-    }
 };

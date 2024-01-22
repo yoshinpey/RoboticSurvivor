@@ -21,31 +21,26 @@ void EnemyManager::SpawnEnemy(const XMFLOAT3& spawnPosition, EnemyType enemyType
 {
     switch (enemyType)
     {
+    // case EnemyType::FLY:
+        // enemies.push_back(new Enemy_Fly(spawnPosition));
+        // break;
     case EnemyType::GROUND:
-        enemies.push_back(new Enemy_Ground(parent_, spawnPosition));
+        enemies.push_back(new Enemy_Ground(spawnPosition));
         break;
     }
 }
-void EnemyManager::UpdateEnemies()
+
+void EnemyManager::RemoveEnemy(EnemyType enemyType)
 {
-    for (auto enemy : enemies)
+    auto it = std::remove_if(enemies.begin(), enemies.end(),
+        [enemyType](const EnemyBase* enemy) { return enemy->GetEnemyType() == enemyType; });
+    for (auto iter = it; iter != enemies.end(); ++iter)
     {
-        enemy->Update();
+        delete* iter;
     }
-}
-
-void EnemyManager::RemoveEnemy(EnemyBase* enemy)
-{
-    auto it = std::remove(enemies.begin(), enemies.end(), enemy);
     enemies.erase(it, enemies.end());
-
-    delete enemy;
 }
 
-size_t EnemyManager::GetEnemyCount() const
-{
-    return enemies.size();
-}
 
 void EnemyManager::RemoveAllEnemies()
 {
@@ -56,14 +51,3 @@ void EnemyManager::RemoveAllEnemies()
     enemies.clear();
 }
 
-EnemyBase* EnemyManager::GetEnemyByNameAndId(const std::string& name, int id)
-{
-    for (auto enemy : enemies)
-    {
-        if (enemy->GetName() == name && enemy->GetId() == id)
-        {
-            return enemy;
-        }
-    }
-    return nullptr; // Œ©‚Â‚©‚ç‚È‚¢ê‡‚Ínullptr‚ğ•Ô‚·
-}
