@@ -1,10 +1,7 @@
 #include "EnemyManager.h"
-#include <time.h>
 
 EnemyManager::EnemyManager()
 {
-    // —”‚Ì‰Šú‰»
-    srand(static_cast<unsigned>(time(nullptr)));
 }
 
 EnemyManager::~EnemyManager()
