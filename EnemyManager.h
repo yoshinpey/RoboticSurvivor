@@ -21,6 +21,7 @@ public:
     // エネミーの削除を行うメソッド
     void RemoveEnemy(EnemyBase* enemy);
 
+
     // エネミーの数を取得するメソッド
     size_t GetEnemyCount() const;
 

@@ -8,26 +8,24 @@ class EnemyBase :
     public CharacterBase
 {
 private:
-    // エネミー固有の属性や挙動を追加する変数やメソッド
+    std::string name_; // エネミーの名前
+    int id_;            // エネミーのID
 
 public:
-    // デフォルトコンストラクタ
     EnemyBase();
-
-    // 引数を持つコンストラクタ
     EnemyBase(const DirectX::XMFLOAT3& spawnPosition, const std::string& name, int id);
-
-    // デストラクタ
     ~EnemyBase() override;
+    void Initialize() override;     //初期化
+    void Update() override;         //更新
+    void Draw() override;           //描画
+    void Release() override;        //開放
 
-    // 純粋仮想関数をオーバーライド
-    void Update() override;
-
-    // エネミー固有のメソッドや挙動を追加
+    // エネミー固有の挙動
     void SpecialAttack();
 
-    // Initialize、Draw、Release メソッドのオーバーライド
-    void Initialize() override;
-    void Draw() override;
-    void Release() override;
+    // 名前を取得
+    std::string GetName() const{ return name_; }
+
+    // IDを取得
+    int GetId() const { return id_; };
 };
