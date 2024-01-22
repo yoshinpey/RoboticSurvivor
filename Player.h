@@ -1,18 +1,17 @@
 #pragma once
 #include "Engine/Text.h"
-#include "Engine/GameObject.h"
+
 #include "InputManager.h"
 #include "StateManager.h"
 #include "CharacterBase.h"
 
 class Aim;
+class GameObject;
 
-class Player : public GameObject
+class Player : public CharacterBase
 {
 private:
-    int maxHp_, nowHp_;         // HP 
-    CharacterBase characterStatus_;     //キャラクターが持つパラメータ
-
+    int maxHp_, nowHp_;                 // HP 
     ///////////////////////////定数///////////////////////////
     const float JUMP_HEIGHT = 0.2f;     // ジャンプの高さ
     const float WALK_SPEED = 0.1f;      // 歩く速さ
@@ -38,12 +37,14 @@ private:
     XMFLOAT3 jumpSpeed_;        // ジャンプする直前の速度
 
     // インスタンス
-    StateManager* stateManager_;    // 状態を切り替える用
-    Text* pNum;                     // テキスト
-    Aim* pAim_;                     // エイム
+    StateManager* stateManager_;        // 状態を切り替える用    
+    CharacterBase* pCharacterStatus_;    // キャラクターが持つパラメータ
+    GameObject* parent_;    // ゲームオブジェクト
+    Text* pNum;                         // テキスト
+    Aim* pAim_;                         // エイム
 
 public:
-    Player(GameObject* parent);     // コンストラクタ
+    Player(CharacterBase* CharacterBase, GameObject* parent);     // コンストラクタ
     ~Player();                      // デストラクタ
 
     void Initialize() override;     // 初期化
@@ -52,8 +53,8 @@ public:
     void Release() override;        // 開放
 
     // アクション
-    void Walk();                    // 走る
-    void Run();                     // 歩く
+    void Walk();                    // 歩く
+    void Run();                     // 走る
     void ApplyMovement(const XMFLOAT3& moveVector, float speed);
     void ApplyDeceleration();       
     void Jump();                    // ジャンプ

@@ -20,6 +20,8 @@ PlayScene::PlayScene(GameObject * parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Ground>(this);			//地面登場
+
+	Player* pPlayer = (Player*)FindObject("Player");
 	Instantiate<Player>(this);			//プレイヤー登場
 
 	//※テキストは前面になるように描画
@@ -47,7 +49,7 @@ void PlayScene::Update()
 
 	//////スコアテスト用
 	Score* s = (Score*)FindObject("Score");
-	static int score = 0;	
+	static float score = 0;	
 	static int num = 0;
 	num++;
 	score = (num % 60) * 0.1f;

@@ -1,7 +1,8 @@
 #pragma once
+#include "Engine/GameObject.h"
 
 // キャラクターのステータスを管理するクラス
-class CharacterBase
+class CharacterBase : public GameObject
 {
 private:
     // キャラクターのステータス
@@ -12,13 +13,13 @@ private:
     float jumpVelocity_; // ジャンプの初速度
     float walkSpeed_;    // 歩行速度
     float runSpeed_;     // 走行速度
-
+    GameObject* gameObj_;
 public:
-    CharacterBase();
+    CharacterBase(GameObject* parent);
     ~CharacterBase();
 
     ///////////////////////////セッター///////////////////////////
-    
+
     // キャラクターのステータスをセット
     void SetCharacterStatus(int maxHp, int attackPower);
 
@@ -26,7 +27,9 @@ public:
     void SetMovementParameters(float jumpVelocity, float walkSpeed, float runSpeed);
 
     ///////////////////////////ゲッター///////////////////////////
-    
+
+    GameObject* GetGameobject() { return gameObj_; }
+
     // 攻撃力取得
     int GetAttackPower() const { return attackPower_; }
 

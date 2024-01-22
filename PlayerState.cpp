@@ -1,7 +1,8 @@
+#include "Engine/Global.h"
+
 #include "PlayerState.h"
 #include "StateManager.h"
 #include "Player.h"
-
 
 
 // ë“ã@èÛë‘
@@ -31,6 +32,7 @@ void PlayerIdleState::UpdateState()
 
 void PlayerIdleState::ExitState()
 {
+    SAFE_DELETE(pPlayer_);
 }
 
 
@@ -64,6 +66,7 @@ void PlayerWalkingState::UpdateState()
 
 void PlayerWalkingState::ExitState()
 {
+    SAFE_DELETE(pPlayer_);
 }
 
 
@@ -94,6 +97,7 @@ void PlayerRunningState::UpdateState()
 
 void PlayerRunningState::ExitState()
 {
+    SAFE_DELETE(pPlayer_);
 }
 
 
@@ -121,4 +125,5 @@ void PlayerJumpingState::UpdateState()
 
 void PlayerJumpingState::ExitState()
 {
+    SAFE_DELETE(pPlayer_);
 }

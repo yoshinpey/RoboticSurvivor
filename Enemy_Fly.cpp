@@ -7,8 +7,8 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
     :GameObject(parent, "Enemy_Fly"), hModel_(-1)
 {
     // プレイヤーのステータスを設定
-    characterStatus_.SetCharacterStatus(MAX_HP, ATK);
-    characterStatus_.SetMovementParameters(JUMP_HEIGHT, WALK_SPEED, RUN_SPEED);
+    //characterStatus_.SetCharacterStatus(MAX_HP, ATK);
+    //characterStatus_.SetMovementParameters(JUMP_HEIGHT, WALK_SPEED, RUN_SPEED);
 }
 
 //デストラクタ

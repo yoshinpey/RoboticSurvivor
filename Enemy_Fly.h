@@ -7,7 +7,7 @@ class Enemy_Fly : public GameObject
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
 
-    CharacterBase characterStatus_;
+    //CharacterBase characterStatus_;
     ///////////////////////////’è”///////////////////////////
     const float JUMP_HEIGHT = 1.50f;    // ƒWƒƒƒ“ƒv‚Ì‚‚³
     const float WALK_SPEED = 0.07f;     // •à‚­‘¬‚³
