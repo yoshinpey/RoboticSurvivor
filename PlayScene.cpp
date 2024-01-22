@@ -3,6 +3,7 @@
 #include "Engine/Input.h"
 
 #include "Enemy_Fly.h"
+#include "Enemy_Ground.h"
 #include "PlayScene.h"
 #include "Player.h"
 #include "Ground.h"
@@ -21,7 +22,7 @@ PlayScene::PlayScene(GameObject * parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Ground>(this);			//’n–Ê“oê
-	Instantiate<Enemy_Fly>(this);		//“G“oê
+	Instantiate<Enemy_Ground>(this);		//“G“oê
 	Instantiate<Player>(this);			//ƒvƒŒƒCƒ„[“oê
 
 	//¦ƒeƒLƒXƒg‚Í‘O–Ê‚É‚È‚é‚æ‚¤‚É•`‰æ

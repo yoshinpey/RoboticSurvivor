@@ -247,6 +247,12 @@
     <ClCompile Include="Gauge.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBase.h">
+      <Filter>Charactor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Charactor\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -434,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="Gauge.h">
       <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Charactor\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,44 +1,32 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "CharacterBase.h"
+
+// エネミーの名前とIDを管理するenum
+enum class EnemyType
+{
+    FLY,
+    GROUND,
+};
 
 // エネミーベースクラス
-class EnemyBase :
-    public GameObject,
-    public CharacterBase
+class EnemyBase : public GameObject
 {
 private:
-    std::string name_;  // エネミーの名前
-    int id_;            // エネミーのID
+    EnemyType enemyType_;  // エネミーの種類
 
 public:
-    // デフォルトコンストラクタ
-    EnemyBase();
+    // コンストラクタ
+    EnemyBase(EnemyType enemyType)
+        : GameObject(), enemyType_(enemyType)
+    {
+    }
 
-    // 引数ありコンストラクタ
-    EnemyBase(const DirectX::XMFLOAT3& spawnPosition, const std::string& name, int id);
+    virtual ~EnemyBase() = 0;
+    virtual void Update() = 0;
 
-    // デストラクタ
-    ~EnemyBase() override;
+    // エネミーの種類を取得
+    EnemyType GetEnemyType() const { return enemyType_; }
 
-    // 初期化
-    void Initialize() override;
-
-    // 更新
-    void Update() override;
-
-    // 描画
-    void Draw() override;
-
-    // 開放
-    void Release() override;
-
-    // エネミー固有の挙動
-    void SpecialAttack();
-
-    // 名前を取得
-    std::string GetName() const { return name_; }
-
-    // IDを取得
-    int GetId() const { return id_; };
+    virtual std::string GetName() const = 0;
+    virtual int GetId() const = 0;
 };
