@@ -9,7 +9,10 @@ private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
 
 public:
+    // コンストラクタ
     EnemyManager();
+
+    // デストラクタ
     ~EnemyManager();
 
     // エネミーの生成と配置を行うメソッド
@@ -20,7 +23,6 @@ public:
 
     // エネミーの削除を行うメソッド
     void RemoveEnemy(EnemyBase* enemy);
-
 
     // エネミーの数を取得するメソッド
     size_t GetEnemyCount() const;

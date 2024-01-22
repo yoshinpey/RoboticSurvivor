@@ -1,7 +1,5 @@
 #include "EnemyManager.h"
-#include <algorithm>
-#include <cstdlib> // for rand() function
-#include <ctime>   // for srand() function
+#include <time.h>
 
 EnemyManager::EnemyManager()
 {
