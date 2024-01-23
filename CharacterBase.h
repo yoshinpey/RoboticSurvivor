@@ -15,7 +15,7 @@ private:
     float runSpeed_;     // ëñçsë¨ìx
 
 public:
-    CharacterBase(GameObject* parent) 
+    CharacterBase(GameObject* parent, std::string name)
         :GameObject(parent), 
         maxHp_(0), attackPower_(0), jumpVelocity_(0.0f), walkSpeed_(0.0f), runSpeed_(0.0f) 
     {}

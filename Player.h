@@ -59,7 +59,7 @@ public:
     void PlayerHitPoint();          // 体力
 
     // プレイヤー座標のゲッター
-    XMFLOAT3 GetPlaPos() const { return pCharacterBase_->GetPosition(); }
+    XMFLOAT3 GetPlaPos() const { return transform_.position_; }
 
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
@@ -68,5 +68,5 @@ public:
     void Normalize(XMFLOAT3& vec);
 
     // 地面についているかどうかを判定する
-    bool OnGround() const { return pCharacterBase_ ->GetPosition().y <= 0; }
+    bool OnGround() const { return transform_.position_.y <= 0; }
 };

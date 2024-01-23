@@ -6,7 +6,7 @@
 #include "Gauge.h"
 
 //コンストラクタ
-Player::Player(GameObject* parent) : CharacterBase(parent),
+Player::Player(GameObject* parent) : CharacterBase(parent, "Player"),
     pNum(nullptr), stateManager_(nullptr), pAim_(nullptr),
     gravity_(-1), canJump_(true), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
     walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.01f), friction_(0.85f), jumpFriction_(1.15f),
