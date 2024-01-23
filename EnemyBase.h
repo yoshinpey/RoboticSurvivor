@@ -16,8 +16,8 @@ private:
 
 public:
     // コンストラクタ
-    EnemyBase(EnemyType enemyType)
-        : GameObject(), enemyType_(enemyType)
+    EnemyBase(GameObject* parent, EnemyType enemyType)
+        : GameObject(parent), enemyType_(enemyType)
     {
     }
 

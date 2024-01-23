@@ -5,20 +5,21 @@
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
 
+
 class EnemyManager
 {
 private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
-
+    GameObject* pParent_;
 public:
     // コンストラクタ
-    EnemyManager();
+    EnemyManager(GameObject* parent);
 
     // デストラクタ
     ~EnemyManager();
 
     // エネミーの生成を行うメソッド
-    void SpawnEnemy(const XMFLOAT3& spawnPosition, EnemyType enemyType);
+    void SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType);
 
     // エネミーの削除を行うメソッド
     void RemoveEnemy(EnemyType enemyType);

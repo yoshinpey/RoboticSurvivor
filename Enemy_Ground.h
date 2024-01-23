@@ -7,10 +7,9 @@ class Enemy_Ground : public EnemyBase
 {
 private:
     int hModel_;  // モデル番号
-
 public:
     // コンストラクタ
-    Enemy_Ground(const XMFLOAT3& spawnPosition);
+    Enemy_Ground(GameObject* parent);
 
     // デストラクタ
     ~Enemy_Ground() override;

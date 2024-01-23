@@ -1,7 +1,7 @@
 #include "Enemy_Ground.h"
 
-Enemy_Ground::Enemy_Ground(const XMFLOAT3& spawnPosition)
-    : EnemyBase(EnemyType::GROUND), hModel_(-1)
+Enemy_Ground::Enemy_Ground(GameObject* parent)
+    : EnemyBase(parent, EnemyType::GROUND), hModel_(-1)
 {
 }
 
@@ -12,7 +12,7 @@ Enemy_Ground::~Enemy_Ground()
 void Enemy_Ground::Initialize()
 {
     // モデルデータのロード
-    hModel_ = Model::Load("Character/Enemy_01.fbx");
+    hModel_ = Model::Load("Character/Enemy.fbx");
     assert(hModel_ >= 0);
 }
 

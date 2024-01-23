@@ -37,8 +37,9 @@ void PlayScene::Initialize()
 	Timer* t = (Timer*)FindObject("Timer");
 	t->SetLimit(15);
 
-	enemyManager_ = new EnemyManager(); // インスタンス生成
-	enemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 0), EnemyType::FLY);
+
+	enemyManager_ = new EnemyManager(this); // インスタンス生成
+	enemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 0), EnemyType::GROUND);
 
 }
 
@@ -54,7 +55,7 @@ void PlayScene::Update()
 	num++;
 	score = (num % 60) * 0.1f;
 
-	s->ScoreAdd(score);
+	s->ScoreAdd((int)score);
 }
 
 //描画
