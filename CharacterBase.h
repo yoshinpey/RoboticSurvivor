@@ -16,7 +16,7 @@ private:
 
 public:
     CharacterBase(GameObject* parent, std::string name)
-        :GameObject(parent), 
+        :GameObject(parent, name), 
         maxHp_(0), attackPower_(0), jumpVelocity_(0.0f), walkSpeed_(0.0f), runSpeed_(0.0f) 
     {}
 

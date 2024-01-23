@@ -34,11 +34,13 @@ void Aim::Initialize()
     // 銃はカメラにくっつく
     Instantiate<Gun>(this);
 
+    // プレイヤーオブジェクト取得
+    pPlayer_ = static_cast<Player*>(FindObject("Player"));
+    
     //マウス初期位置(幅/2, 高さ/2)
     Input::SetMousePosition(Direct3D::screenWidth_ /2, Direct3D::screenHeight_ /2);
 
-    // プレイヤーオブジェクト取得
-    pPlayer_ = static_cast<Player*>(FindObject("Player"));
+
 }
 
 // 更新

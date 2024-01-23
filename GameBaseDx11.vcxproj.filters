@@ -41,15 +41,6 @@
     <Filter Include="01Engine\00Resource\imgui">
       <UniqueIdentifier>{612e8222-8e39-40fd-b667-53c79de35831}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Charactor">
-      <UniqueIdentifier>{3f993f1b-fdaa-4f7d-aad0-7ba13451b7fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Charactor\Player">
-      <UniqueIdentifier>{a1957ed1-345d-4cac-a8f6-3f32f1a82cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Charactor\Enemy">
-      <UniqueIdentifier>{b3e9ad57-7ede-4243-a75c-f023412d8a4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Item">
       <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
     </Filter>
@@ -62,11 +53,20 @@
     <Filter Include="Weapon">
       <UniqueIdentifier>{62759ed1-afb0-4a9c-9bd9-2f17f2baceae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Charactor\State">
-      <UniqueIdentifier>{47fa3746-8703-4873-a9df-67b2764c55c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Multipurpose\UI">
       <UniqueIdentifier>{7d14f778-42c3-4989-88ec-d1eb3da81cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{3f993f1b-fdaa-4f7d-aad0-7ba13451b7fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Player">
+      <UniqueIdentifier>{a1957ed1-345d-4cac-a8f6-3f32f1a82cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Enemy">
+      <UniqueIdentifier>{b3e9ad57-7ede-4243-a75c-f023412d8a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\State">
+      <UniqueIdentifier>{47fa3746-8703-4873-a9df-67b2764c55c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,19 +149,19 @@
       <Filter>Stage</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="Aim.cpp">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Ground.cpp">
-      <Filter>Charactor\Enemy</Filter>
+      <Filter>Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Attack.cpp">
-      <Filter>Charactor\Enemy</Filter>
+      <Filter>Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Fly.cpp">
-      <Filter>Charactor\Enemy</Filter>
+      <Filter>Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Weapon</Filter>
@@ -224,13 +224,13 @@
       <Filter>01Engine\00Resource</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="StateManager.cpp">
-      <Filter>Charactor\State</Filter>
+      <Filter>Character\State</Filter>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Multipurpose\UI</Filter>
@@ -244,8 +244,12 @@
     <ClCompile Include="Gauge.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.h" />
-    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemyBase.h">
+      <Filter>Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -330,19 +334,19 @@
       <Filter>01Engine</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Aim.h">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Ground.h">
-      <Filter>Charactor\Enemy</Filter>
+      <Filter>Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Attack.h">
-      <Filter>Charactor\Enemy</Filter>
+      <Filter>Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Fly.h">
-      <Filter>Charactor\Enemy</Filter>
+      <Filter>Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Weapon</Filter>
@@ -408,19 +412,19 @@
       <Filter>01Engine\00Resource\imgui</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="StateBase.h">
-      <Filter>Charactor\State</Filter>
+      <Filter>Character\State</Filter>
     </ClInclude>
     <ClInclude Include="StateManager.h">
-      <Filter>Charactor\State</Filter>
+      <Filter>Character\State</Filter>
     </ClInclude>
     <ClInclude Include="CharacterBase.h">
-      <Filter>Charactor</Filter>
+      <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>Charactor\Player</Filter>
+      <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Multipurpose\UI</Filter>
@@ -434,7 +438,9 @@
     <ClInclude Include="Gauge.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Character\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
