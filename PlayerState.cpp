@@ -17,8 +17,10 @@ void PlayerIdleState::EnterState()
 
 void PlayerIdleState::UpdateState()
 {    
-    //デバック
+#ifdef _DEBUG
+    // デバッグビルドの時だけ有効
     OutputDebugString("IdleState\n");
+#endif
 
     // 入力がないときは減速を適用する
     pPlayer_->ApplyDeceleration();
@@ -32,7 +34,6 @@ void PlayerIdleState::UpdateState()
 
 void PlayerIdleState::ExitState()
 {
-    SAFE_DELETE(pPlayer_);
 }
 
 
@@ -49,9 +50,9 @@ void PlayerWalkingState::EnterState()
 
 void PlayerWalkingState::UpdateState()
 {
-    //デバック
+#ifdef _DEBUG
     OutputDebugString("WalkingState\n");
-
+#endif
     pPlayer_->Walk();
 
     // ジャンプキーが押されたら
@@ -66,7 +67,6 @@ void PlayerWalkingState::UpdateState()
 
 void PlayerWalkingState::ExitState()
 {
-    SAFE_DELETE(pPlayer_);
 }
 
 
@@ -83,9 +83,9 @@ void PlayerRunningState::EnterState()
 
 void PlayerRunningState::UpdateState()
 {
-    //デバック
+#ifdef _DEBUG
     OutputDebugString("RunningState\n");
-
+#endif
     pPlayer_->Run();
 
     // ジャンプキーが押されたら
@@ -97,7 +97,6 @@ void PlayerRunningState::UpdateState()
 
 void PlayerRunningState::ExitState()
 {
-    SAFE_DELETE(pPlayer_);
 }
 
 
@@ -114,9 +113,9 @@ void PlayerJumpingState::EnterState()
 
 void PlayerJumpingState::UpdateState()
 {
-    //デバック
+#ifdef _DEBUG
     OutputDebugString("JumpingState\n");
-
+#endif
     pPlayer_->Jump();
 
     // 地面についたとき待機へ
@@ -125,5 +124,4 @@ void PlayerJumpingState::UpdateState()
 
 void PlayerJumpingState::ExitState()
 {
-    SAFE_DELETE(pPlayer_);
 }
