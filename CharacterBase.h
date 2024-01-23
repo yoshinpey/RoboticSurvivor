@@ -13,22 +13,33 @@ private:
     float jumpVelocity_; // ジャンプの初速度
     float walkSpeed_;    // 歩行速度
     float runSpeed_;     // 走行速度
-    GameObject* gameObj_;
+
 public:
-    CharacterBase(GameObject* parent);
-    ~CharacterBase();
+    CharacterBase(GameObject* parent) 
+        :GameObject(parent), 
+        maxHp_(0), attackPower_(0), jumpVelocity_(0.0f), walkSpeed_(0.0f), runSpeed_(0.0f) 
+    {}
+
+    virtual ~CharacterBase() {};
 
     ///////////////////////////セッター///////////////////////////
 
     // キャラクターのステータスをセット
-    void SetCharacterStatus(int maxHp, int attackPower);
+    void SetCharacterStatus(int maxHp, int attackPower)
+    {
+        maxHp_ = maxHp;
+        attackPower_ = attackPower;
+    }
 
     // 移動関連のパラメータをセット
-    void SetMovementParameters(float jumpVelocity, float walkSpeed, float runSpeed);
+    void SetMovementParameters(float jumpVelocity, float walkSpeed, float runSpeed)
+    {
+        jumpVelocity_ = jumpVelocity;
+        walkSpeed_ = walkSpeed;
+        runSpeed_ = runSpeed;
+    }
 
     ///////////////////////////ゲッター///////////////////////////
-
-    GameObject* GetGameobject() { return gameObj_; }
 
     // 攻撃力取得
     int GetAttackPower() const { return attackPower_; }

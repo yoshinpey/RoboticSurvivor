@@ -6,7 +6,6 @@
 #include "CharacterBase.h"
 
 class Aim;
-class GameObject;
 
 class Player : public CharacterBase
 {
@@ -38,13 +37,12 @@ private:
 
     // インスタンス
     StateManager* stateManager_;        // 状態を切り替える用    
-    CharacterBase* pCharacterStatus_;    // キャラクターが持つパラメータ
-    GameObject* parent_;    // ゲームオブジェクト
+    CharacterBase* pCharacterBase_;    // キャラクターが持つパラメータ
     Text* pNum;                         // テキスト
     Aim* pAim_;                         // エイム
 
 public:
-    Player(CharacterBase* CharacterBase, GameObject* parent);     // コンストラクタ
+    Player(GameObject* parent);     // コンストラクタ
     ~Player();                      // デストラクタ
 
     void Initialize() override;     // 初期化
@@ -61,7 +59,7 @@ public:
     void PlayerHitPoint();          // 体力
 
     // プレイヤー座標のゲッター
-    XMFLOAT3 GetPlaPos() const { return transform_.position_; }
+    XMFLOAT3 GetPlaPos() const { return pCharacterBase_->GetPosition(); }
 
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
@@ -70,5 +68,5 @@ public:
     void Normalize(XMFLOAT3& vec);
 
     // 地面についているかどうかを判定する
-    bool OnGround() const { return transform_.position_.y <= 0; }
+    bool OnGround() const { return pCharacterBase_ ->GetPosition().y <= 0; }
 };
