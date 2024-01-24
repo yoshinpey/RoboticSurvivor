@@ -64,9 +64,6 @@ public:
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
 
-    // 正規化を行う関数
-    void Normalize(XMFLOAT3& vec);
-
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }
 };
