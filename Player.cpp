@@ -1,3 +1,4 @@
+#include "Engine/Global.h"
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
 
@@ -35,7 +36,7 @@ void Player::Initialize()
     pNum->Initialize();
 
     //視点クラス読み込み
-    Instantiate<Aim>(this);
+    InstantiateFront<Aim>(this);
     pAim_ = (Aim*)FindObject("Aim");
 }
 
@@ -44,8 +45,6 @@ void Player::Update()
 {
     // ステートマネージャーの更新
     stateManager_->Update();
-
-    //BodyRotation();
 
     // 落下処理
     if (!canJump_)
@@ -80,12 +79,13 @@ void Player::Draw()
 //開放
 void Player::Release()
 {
+    SAFE_DELETE(pNum)
 }
 
 //プレイヤーのHP
 void Player::PlayerHitPoint()
 {
-    ///////////変更予定。UIマネージャー経由でゲームオブジェクトから除外する
+    //////////////////UIマネージャー経由に変更予定。
     //HPゲージ呼び出し
     Gauge* pGauge = (Gauge*)FindObject("Gauge");
     pGauge->SetHp(maxHp_, nowHp_);
@@ -114,14 +114,11 @@ void Player::Walk()
     // 移動方向
     XMFLOAT3 moveDirection = CalculateMoveInput();
 
-    // 歩き速度に設定
-    float walkSpeed = WALK_SPEED;
-
     // 移動ベクトル
-    XMFLOAT3 walkVector = XMFLOAT3(moveDirection.x * walkSpeed, 0.0f, moveDirection.z * walkSpeed);
+    XMFLOAT3 walkVector = XMFLOAT3(moveDirection.x * walkSpeed_, 0.0f, moveDirection.z * walkSpeed_);
 
     // 移動に反映
-    ApplyMovement(walkVector, walkSpeed);
+    ApplyMovement(walkVector, walkSpeed_);
 }
 
 void Player::Run()
@@ -129,14 +126,11 @@ void Player::Run()
     // 移動方向
     XMFLOAT3 moveDirection = CalculateMoveInput();
 
-    // 走り速度に設定
-    float runSpeed = RUN_SPEED;
-
     // 移動ベクトル
-    XMFLOAT3 runVector = XMFLOAT3(moveDirection.x * runSpeed, 0.0f, moveDirection.z * runSpeed);
+    XMFLOAT3 runVector = XMFLOAT3(moveDirection.x * runSpeed_, 0.0f, moveDirection.z * runSpeed_);
 
     // 移動に反映
-    ApplyMovement(runVector, runSpeed);
+    ApplyMovement(runVector, runSpeed_);
 }
 
 // 移動に反映する関数
@@ -247,15 +241,8 @@ XMFLOAT3 Player::CalculateMoveInput()
         moveDirection.z -= aimDirection.x;
     }
 
-    Normalize(moveDirection);
+    // 正規化
+    NormalizeFloat3(moveDirection);
 
     return moveDirection;
-}
-
-// 正規化
-void Player::Normalize(XMFLOAT3& vec)
-{
-    XMVECTOR v = XMLoadFloat3(&vec);
-    v = XMVector3Normalize(v);
-    XMStoreFloat3(&vec, v);
 }

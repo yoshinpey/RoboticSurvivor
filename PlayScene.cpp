@@ -3,7 +3,6 @@
 #include "Engine/Input.h"
 
 #include "PlayScene.h"
-#include "Player.h"
 #include "Ground.h"
 #include "Timer.h"
 #include "Gauge.h"
@@ -21,10 +20,14 @@ void PlayScene::Initialize()
 {
 	Instantiate<Ground>(this);			//地面登場
 
-	Player* pPlayer = (Player*)FindObject("Player");
+	//敵を出現させるテスト
+	pEnemyManager_ = new EnemyManager(this); // インスタンス生成
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 0), EnemyType::GROUND);
+
+	pPlayer_ = (Player*)FindObject("Player");
 	Instantiate<Player>(this);			//プレイヤー登場
 
-	//※テキストは前面になるように描画
+	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
 	Instantiate<Gauge>(this);			//HPゲージ	
 	Instantiate<Score>(this);			//スコア表示
@@ -36,11 +39,6 @@ void PlayScene::Initialize()
 	//タイマー設定
 	Timer* t = (Timer*)FindObject("Timer");
 	t->SetLimit(15);
-
-
-	enemyManager_ = new EnemyManager(this); // インスタンス生成
-	enemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 0), EnemyType::GROUND);
-
 }
 
 //更新
@@ -69,12 +67,15 @@ void PlayScene::Draw()
 //開放
 void PlayScene::Release()
 {
-	delete enemyManager_; // 解放
+	SAFE_DELETE(pEnemyManager_);
+	SAFE_DELETE(pPlayer_);
 }
 
 //タイマー
 void PlayScene::TimeProcess()
 {
+#ifdef _DEBUG
+
 	//タイマー起動
 	if (Input::IsKeyDown(DIK_T))
 	{
@@ -87,4 +88,5 @@ void PlayScene::TimeProcess()
 		Timer* t = (Timer*)FindObject("Timer");
 		t->Stop();
 	}
+#endif
 }

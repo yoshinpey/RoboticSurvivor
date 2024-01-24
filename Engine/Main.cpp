@@ -4,7 +4,7 @@
 #include <time.h>
 
 //エンジン関連のデータ
-#include "global.h"
+#include "Global.h"
 #include "RootObject.h"
 #include "Model.h"
 #include "Image.h"

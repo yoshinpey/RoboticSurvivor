@@ -15,3 +15,11 @@ namespace Constants
     static constexpr XMFLOAT3 FORWARD_VECTOR = { 0.0f, 0.0f, 1.0f };
     static constexpr XMFLOAT3 BACKWARD_VECTOR = { 0.0f, 0.0f, -1.0f };
 }
+
+// ê≥ãKâª
+static void NormalizeFloat3(XMFLOAT3& vec)
+{
+    XMVECTOR v = XMLoadFloat3(&vec);
+    v = XMVector3Normalize(v);
+    XMStoreFloat3(&vec, v);
+}
