@@ -3,6 +3,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 
+#include "Player.h"
 #include "Aim.h"
 #include "Gun.h"
 

@@ -2,7 +2,7 @@
 #include "Engine/Text.h"
 #include "Engine/GameObject.h"
 
-#include "Player.h"
+class Player;
 
 // ‹“_‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Aim : public GameObject
