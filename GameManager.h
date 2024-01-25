@@ -7,10 +7,14 @@ enum GAME_MODE
     GAME_MODE_DEBUG,
 };
 
-class GameManager : public GameObject
+class GameManager
 {
+    GameObject* pGameObject;
 public:
     GameManager(GameObject* parent);
+    {
+        pGameObject = new GameObject(parent, "OtherObject");
+    }
 
     void Initialize() override;
     void Update() override;

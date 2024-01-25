@@ -18,14 +18,15 @@ public:
     // デストラクタ
     ~EnemyManager();
 
-    // エネミーの生成を行うメソッド
+    // エネミーの生成を行う
     void SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType);
 
-    // エネミーの削除を行うメソッド
+    // エネミーの削除を行う
     void RemoveEnemy(EnemyType enemyType);
 
-    // エネミーの全削除を行うメソッド
+    // エネミーの全削除を行う
     void RemoveAllEnemies();
 
+    // エネミーの出現位置を取得する
     XMFLOAT3 GetSpawnPosition_() { return spawnPosition_; }
 };
