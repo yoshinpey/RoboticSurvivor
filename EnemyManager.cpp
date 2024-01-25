@@ -13,7 +13,8 @@ EnemyManager::~EnemyManager()
 }
 
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
-{
+{    
+    spawnPosition_ = spawnPosition;
     switch (enemyType)
     {
      case EnemyType::FLY:
@@ -23,7 +24,7 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
         enemies.push_back(Instantiate<Enemy_Ground>(pParent_));
         break;
     }
-    spawnPosition_ = spawnPosition;
+
 }
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)

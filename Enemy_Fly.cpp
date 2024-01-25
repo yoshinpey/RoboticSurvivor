@@ -27,7 +27,8 @@ void Enemy_Fly::Initialize()
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
     EnemyManager* pEnemyMganager_ = new EnemyManager(this);
-    transform_.position_ = pEnemyMganager_->GetSpawnPosition_();
+    XMFLOAT3 pos = pEnemyMganager_->GetSpawnPosition_();
+    transform_.position_ = pos;
 }
 
 //XV

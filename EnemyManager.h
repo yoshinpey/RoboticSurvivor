@@ -27,8 +27,5 @@ public:
     // エネミーの全削除を行うメソッド
     void RemoveAllEnemies();
 
-    XMFLOAT3 GetSpawnPosition_()
-    {
-        return spawnPosition_;
-    }
+    XMFLOAT3 GetSpawnPosition_() { return spawnPosition_; }
 };

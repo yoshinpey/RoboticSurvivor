@@ -22,8 +22,8 @@ void PlayScene::Initialize()
 
 	//敵を出現させるテスト
 	pEnemyManager_ = new EnemyManager(this); // インスタンス生成
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 10), EnemyType::GROUND);
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(3, 0, 5), EnemyType::FLY);
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(30, 0, 50), EnemyType::FLY);
 	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 
 	pPlayer_ = (Player*)FindObject("Player");
