@@ -42,7 +42,7 @@ void Timer::Draw()
 {
     
     pNum->SetScale(1.0f);                                   //テキストのサイズ
-    pNum->Draw(drawX, drawY, "Time:");                      //描画内容
+    pNum->Draw((int)drawX, (int)drawY, "Time:");                      //描画内容
 
     if (Frame % FPS < 10)                                   //数字の躍動感
         pNum->SetScale((Frame % FPS) * 0.2f + 1.0f);        //規定フレーム以下時に適応
@@ -50,7 +50,7 @@ void Timer::Draw()
         pNum->SetScale(1.0f);
 
     int sec = Frame / FPS;                                  //秒数
-    pNum->Draw(drawX + 100, drawY, sec);
+    pNum->Draw((int)drawX + 100, (int)drawY, sec);
 }
 
 //開放

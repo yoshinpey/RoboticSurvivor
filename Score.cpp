@@ -27,7 +27,7 @@ void Score::Update()
 //•`‰æ
 void Score::Draw()
 {
-    pText->Draw(drawX_, drawY_, score_);
+    pText->Draw((int)drawX_, (int)drawY_, score_);
 }
 
 //ŠJ•ú
