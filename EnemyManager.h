@@ -2,8 +2,7 @@
 #include <vector>
 #include <string>
 #include "EnemyBase.h"
-#include "Enemy_Ground.h"
-#include "Enemy_Fly.h"
+
 
 
 class EnemyManager
@@ -11,6 +10,7 @@ class EnemyManager
 private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
     GameObject* pParent_;
+    XMFLOAT3 spawnPosition_;
 public:
     // コンストラクタ
     EnemyManager(GameObject* parent);
@@ -26,4 +26,9 @@ public:
 
     // エネミーの全削除を行うメソッド
     void RemoveAllEnemies();
+
+    XMFLOAT3 GetSpawnPosition_()
+    {
+        return spawnPosition_;
+    }
 };

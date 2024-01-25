@@ -1,4 +1,6 @@
 #include "EnemyManager.h"
+#include "Enemy_Ground.h"
+#include "Enemy_Fly.h"
 
 EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
 {
@@ -14,13 +16,14 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 {
     switch (enemyType)
     {
-    // case EnemyType::FLY:
-        // enemies.push_back(new Enemy_Fly(spawnPosition));
-        // break;
+     case EnemyType::FLY:
+        enemies.push_back(Instantiate<Enemy_Fly>(pParent_));
+         break;
     case EnemyType::GROUND:
         enemies.push_back(Instantiate<Enemy_Ground>(pParent_));
         break;
     }
+    spawnPosition_ = spawnPosition;
 }
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)

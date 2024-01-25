@@ -1,4 +1,3 @@
-#include "Engine/Global.h"
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
 
@@ -29,7 +28,7 @@ void Player::Initialize()
 {
     // ステートマネージャーの初期化
     stateManager_ = new StateManager(this);
-    stateManager_->Initialize();
+    stateManager_ -> Initialize();
 
     //テキスト
     pNum = new Text;
@@ -79,7 +78,7 @@ void Player::Draw()
 //開放
 void Player::Release()
 {
-    SAFE_DELETE(pNum)
+    SAFE_DELETE(pNum);
 }
 
 //プレイヤーのHP

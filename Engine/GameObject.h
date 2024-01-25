@@ -6,7 +6,7 @@
 #include "SphereCollider.h"
 #include "BoxCollider.h"
 #include "Transform.h"
-
+#include "Global.h"
 
 
 

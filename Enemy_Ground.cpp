@@ -12,8 +12,11 @@ Enemy_Ground::~Enemy_Ground()
 void Enemy_Ground::Initialize()
 {
     // モデルデータのロード
-    hModel_ = Model::Load("Character/Enemy.fbx");
+    hModel_ = Model::Load("Character/Enemy_02.fbx");
     assert(hModel_ >= 0);
+
+    //アニメーション
+    //Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 }
 
 void Enemy_Ground::Update()
