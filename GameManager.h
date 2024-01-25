@@ -1,6 +1,7 @@
 #pragma once
 
 class GameObject;
+class EnemyManager;
 
 /*
 enum class GAME_MODE
@@ -13,7 +14,8 @@ class GameManager
 {
 private:
     //GAME_MODE gameMode_;
-    GameObject* pGameObject;
+    GameObject* pGameObject_ = nullptr;
+    EnemyManager* pEnemyManager_ = nullptr;
 
 public:
     GameManager(GameObject* parent);
