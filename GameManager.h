@@ -3,27 +3,12 @@
 class GameObject;
 class EnemyManager;
 
-/*
-enum class GAME_MODE
+namespace GameManager
 {
-    NORMAL,
-    DEBUG,
-};*/
-
-class GameManager
-{
-private:
-    //GAME_MODE gameMode_;
-    GameObject* pGameObject_ = nullptr;
-    EnemyManager* pEnemyManager_ = nullptr;
-
-public:
-    GameManager(GameObject* parent);
-
-    void Initialize();
+    void Initialize(GameObject* gameObject);
     void Update();
     void Release();
 
-    //GAME_MODE GetGameMode() const { return gameMode_; }
-    //void SetGameMode(GAME_MODE mode){gameMode_ = mode;}
+    GameObject* GetGameObject();
+    EnemyManager* GetEnemyManager();
 };

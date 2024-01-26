@@ -6,7 +6,7 @@
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
-
+    EnemyManager* pEnemyManager_;
     //CharacterBase characterStatus_;
     ///////////////////////////’è”///////////////////////////
     //const float JUMP_HEIGHT = 1.50f;    // ƒWƒƒƒ“ƒv‚Ì‚‚³

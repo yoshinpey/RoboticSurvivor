@@ -1,5 +1,6 @@
 #include "Enemy_Fly.h"
 #include "EnemyManager.h"
+#include "GameManager.h"
 
 //コンストラクタ
 Enemy_Fly::Enemy_Fly(GameObject* parent)
@@ -26,8 +27,9 @@ void Enemy_Fly::Initialize()
     //アニメーション
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
-    EnemyManager* pEnemyMganager_ = new EnemyManager(this);
-    XMFLOAT3 pos = pEnemyMganager_->GetSpawnPosition_();
+    pEnemyManager_ = GameManager::GetEnemyManager();
+    pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+    XMFLOAT3 pos = pEnemyManager_->GetSpawnPosition_();
     transform_.position_ = pos;
 }
 

@@ -1,20 +1,30 @@
 #include "GameManager.h"
+
 #include "EnemyManager.h"
 
-GameManager::GameManager(GameObject* parent)
-	: pGameObject_(parent), pEnemyManager_()
-{
-	pEnemyManager_ = new EnemyManager(parent); // インスタンス生成
-}
 
-void GameManager::Initialize()
-{
-}
+namespace GameManager
+{	
+	GameObject* pGameObject_ = nullptr;
+	EnemyManager* pEnemyManager_ = nullptr;
 
-void GameManager::Update()
-{
-}
 
-void GameManager::Release()
-{
+	void GameManager::Initialize(GameObject* gameObject)
+	{
+		pGameObject_ = gameObject;
+		pEnemyManager_ = new EnemyManager(pGameObject_);
+	}
+
+	void GameManager::Update()
+	{
+
+	}
+
+	void GameManager::Release()
+	{
+		SAFE_DELETE(pEnemyManager_);
+	}
+
+	GameObject* GetGameObject(){return pGameObject_;}
+	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 }

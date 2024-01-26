@@ -7,7 +7,7 @@
 #include "Timer.h"
 #include "Gauge.h"
 #include "Score.h"
-
+#include "GameManager.h"
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject * parent)
@@ -19,9 +19,9 @@ PlayScene::PlayScene(GameObject * parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Ground>(this);			//地面登場
-
+	
 	//敵を出現させるテスト
-	pEnemyManager_ = new EnemyManager(this); // インスタンス生成
+	pEnemyManager_ = GameManager::GetEnemyManager();
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(30, 0, 50), EnemyType::FLY);
 	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
