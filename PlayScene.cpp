@@ -21,8 +21,11 @@ void PlayScene::Initialize()
 	Instantiate<Ground>(this);			//地面登場
 	
 	//敵を出現させるテスト
-	pEnemyManager_ = GameManager::GetEnemyManager();
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(30, 0, 50), EnemyType::FLY);
+	//GameManager::SetParent(this);
+	//EnemyManager::SetGameObject(this);
+	pEnemyManager_ = new EnemyManager(this);
+	//pEnemyManager_ = GameManager::GetEnemyManager();
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(3, 0, 10), EnemyType::FLY);
 	//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 

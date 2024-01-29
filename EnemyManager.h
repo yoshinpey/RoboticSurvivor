@@ -8,10 +8,9 @@ class EnemyManager
 private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
     GameObject* pParent_;
-    XMFLOAT3 spawnPosition_;
 public:
     // コンストラクタ
-    EnemyManager();
+    EnemyManager(GameObject* parent);
 
     // デストラクタ
     ~EnemyManager();
@@ -25,9 +24,4 @@ public:
     // エネミーの全削除を行う
     void RemoveAllEnemies();
 
-    // エネミーの出現位置を取得する
-    XMFLOAT3 GetSpawnPosition_() { return spawnPosition_; }
-
-    // ゲームオブジェクトのセッタ
-    void SetGameObject(GameObject* gameObject) { pParent_ = gameObject; }
 };

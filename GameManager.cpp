@@ -11,7 +11,7 @@ namespace GameManager
 
 	void GameManager::Initialize()
 	{
-		pEnemyManager_ = new EnemyManager();
+		//pEnemyManager_ = new EnemyManager();
 	}
 
 	void GameManager::Update()

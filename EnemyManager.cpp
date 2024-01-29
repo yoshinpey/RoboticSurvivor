@@ -1,10 +1,10 @@
 #include "EnemyManager.h"
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
+#include "GameManager.h"
 
-EnemyManager::EnemyManager() : pParent_(nullptr), spawnPosition_(0,0,0)
+EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
 {
-    SetGameObject(pParent_);
 }
 
 EnemyManager::~EnemyManager()
@@ -15,11 +15,12 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 {    
-    spawnPosition_ = spawnPosition;
     switch (enemyType)
     {
      case EnemyType::FLY:
-        enemies.push_back(Instantiate<Enemy_Fly>(pParent_));
+         Enemy_Fly* e = Instantiate<Enemy_Fly>(pParent_);
+         e->SetPosition(spawnPosition);
+         enemies.push_back(e);
          break;
     //case EnemyType::GROUND:
         //enemies.push_back(Instantiate<Enemy_Ground>(pParent_));

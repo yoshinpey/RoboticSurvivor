@@ -26,9 +26,6 @@ void Enemy_Fly::Initialize()
 
     //アニメーション
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
-
-    pEnemyManager_ = GameManager::GetEnemyManager();
-    transform_.position_ = pEnemyManager_->GetSpawnPosition_();
 }
 
 //更新
