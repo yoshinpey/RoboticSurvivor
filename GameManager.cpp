@@ -25,6 +25,5 @@ namespace GameManager
 		SAFE_DELETE(pEnemyManager_);
 	}
 
-	GameObject* GetGameObject(){return pGameObject_;}
 	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 }

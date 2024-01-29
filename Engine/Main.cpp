@@ -75,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Audio::Initialize();
 
 	//ゲームマネージャー初期化
-	//GameManager::Initialize();
+	GameManager::Initialize();
 
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
