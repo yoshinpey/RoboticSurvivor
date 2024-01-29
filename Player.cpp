@@ -156,6 +156,11 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     movement_.x += moveVector.x * velocity_.x;
     movement_.z += moveVector.z * velocity_.z;
 
+    OutputDebugStringA(std::to_string(XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)))).c_str());
+    OutputDebugString("\n");
+    OutputDebugStringA(std::to_string(acceleration_).c_str());
+    OutputDebugString("\n");
+
     // ˆÚ“®—Ê‚ð“K—p
     transform_.position_.x += movement_.x;
     transform_.position_.z += movement_.z;

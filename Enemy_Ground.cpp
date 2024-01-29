@@ -16,7 +16,7 @@ void Enemy_Ground::Initialize()
     assert(hModel_ >= 0);
 
     //アニメーション
-    //Model::SetAnimFrame(hModel_, 0, 100, 0.75);
+    Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 }
 
 void Enemy_Ground::Update()

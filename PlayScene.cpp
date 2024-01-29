@@ -2,16 +2,18 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 
+#include "GameManager.h"
+#include "EnemyManager.h"
+#include "Player.h"
 #include "PlayScene.h"
 #include "Ground.h"
 #include "Timer.h"
 #include "Gauge.h"
 #include "Score.h"
-#include "GameManager.h"
 
 //コンストラクタ
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), hPict_(-1)
+	: GameObject(parent, "PlayScene"), hPict_(-1), pEnemyManager_(nullptr), pPlayer_(nullptr)
 {
 }
 
@@ -22,8 +24,14 @@ void PlayScene::Initialize()
 	
 	//敵を出現させるテスト
 	pEnemyManager_ = new EnemyManager(this);
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(3, 0, 10), EnemyType::FLY);
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 2, 10), EnemyType::FLY);
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+
+	for (int i=1; i<=5; i++)
+	{
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
+	}
+
 	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 
 	pPlayer_ = (Player*)FindObject("Player");

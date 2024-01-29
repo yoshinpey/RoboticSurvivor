@@ -5,7 +5,6 @@
 // 地上敵を管理するクラス
 class Enemy_Ground : public EnemyBase
 {
-private:
     int hModel_;  // モデル番号
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ

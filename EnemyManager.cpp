@@ -14,19 +14,26 @@ EnemyManager::~EnemyManager()
 }
 
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
-{    
+{
+    EnemyBase* pNewEnemy = nullptr;
+
     switch (enemyType)
     {
-     case EnemyType::FLY:
-         Enemy_Fly* e = Instantiate<Enemy_Fly>(pParent_);
-         e->SetPosition(spawnPosition);
-         enemies.push_back(e);
-         break;
-    //case EnemyType::GROUND:
-        //enemies.push_back(Instantiate<Enemy_Ground>(pParent_));
-        //break;
+    case EnemyType::FLY:
+        pNewEnemy = Instantiate<Enemy_Fly>(pParent_);
+        static_cast<Enemy_Fly*>(pNewEnemy)->SetPosition(spawnPosition);
+        break;
+
+    case EnemyType::GROUND:
+        pNewEnemy = Instantiate<Enemy_Ground>(pParent_);
+        static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
+        break;
     }
 
+    if (pNewEnemy != nullptr)
+    {
+        enemies.push_back(pNewEnemy);
+    }
 }
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)
