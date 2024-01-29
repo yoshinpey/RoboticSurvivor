@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//オーディオ（効果音）の準備
 	Audio::Initialize();
 
-	//ゲームマネージャー更新
+	//ゲームマネージャー初期化
 	//GameManager::Initialize();
 
 	//ルートオブジェクト準備
@@ -146,6 +146,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//入力（キーボード、マウス、コントローラー）情報を更新
 				Input::Update();
 
+				//ゲームマネージャー更新
+				//GameManager::Update();
+
 				//全オブジェクトの更新処理
 				//ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->UpdateSub();
@@ -186,6 +189,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Audio::Release();
 	Model::AllRelease();
 	Image::AllRelease();
+	//GameManager::Release();
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
 

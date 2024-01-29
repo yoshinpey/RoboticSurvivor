@@ -20,9 +20,9 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
      case EnemyType::FLY:
         enemies.push_back(Instantiate<Enemy_Fly>(pParent_));
          break;
-    case EnemyType::GROUND:
-        enemies.push_back(Instantiate<Enemy_Ground>(pParent_));
-        break;
+    //case EnemyType::GROUND:
+        //enemies.push_back(Instantiate<Enemy_Ground>(pParent_));
+        //break;
     }
 
 }

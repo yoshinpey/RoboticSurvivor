@@ -22,8 +22,8 @@ void PlayScene::Initialize()
 	
 	//敵を出現させるテスト
 	pEnemyManager_ = GameManager::GetEnemyManager();
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(30, 0, 50), EnemyType::FLY);
+	//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 
 	pPlayer_ = (Player*)FindObject("Player");

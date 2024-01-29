@@ -28,9 +28,7 @@ void Enemy_Fly::Initialize()
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
     pEnemyManager_ = GameManager::GetEnemyManager();
-    pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
-    XMFLOAT3 pos = pEnemyManager_->GetSpawnPosition_();
-    transform_.position_ = pos;
+    transform_.position_ = pEnemyManager_->GetSpawnPosition_();
 }
 
 //XV

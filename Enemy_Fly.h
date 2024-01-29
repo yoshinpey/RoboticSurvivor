@@ -2,6 +2,8 @@
 #include "Engine/Model.h"
 #include "EnemyBase.h"
 
+class EnemyManager;
+
 //•‚—V“G‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Enemy_Fly : public EnemyBase
 {
