@@ -5,10 +5,9 @@ class EnemyManager;
 
 namespace GameManager
 {
-    void Initialize(GameObject* gameObject);
+    void Initialize();
     void Update();
     void Release();
 
-    GameObject* GetGameObject();
     EnemyManager* GetEnemyManager();
 };

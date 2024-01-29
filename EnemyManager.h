@@ -3,8 +3,6 @@
 #include <string>
 #include "EnemyBase.h"
 
-
-
 class EnemyManager
 {
 private:
@@ -13,7 +11,7 @@ private:
     XMFLOAT3 spawnPosition_;
 public:
     // コンストラクタ
-    EnemyManager(GameObject* parent);
+    EnemyManager();
 
     // デストラクタ
     ~EnemyManager();
@@ -29,4 +27,7 @@ public:
 
     // エネミーの出現位置を取得する
     XMFLOAT3 GetSpawnPosition_() { return spawnPosition_; }
+
+    // ゲームオブジェクトのセッタ
+    void SetGameObject(GameObject* gameObject) { pParent_ = gameObject; }
 };

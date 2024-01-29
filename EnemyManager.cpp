@@ -2,8 +2,9 @@
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
 
-EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
+EnemyManager::EnemyManager() : pParent_(nullptr), spawnPosition_(0,0,0)
 {
+    SetGameObject(pParent_);
 }
 
 EnemyManager::~EnemyManager()

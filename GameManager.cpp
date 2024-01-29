@@ -9,10 +9,9 @@ namespace GameManager
 	EnemyManager* pEnemyManager_ = nullptr;
 
 
-	void GameManager::Initialize(GameObject* gameObject)
+	void GameManager::Initialize()
 	{
-		pGameObject_ = gameObject;
-		pEnemyManager_ = new EnemyManager(pGameObject_);
+		pEnemyManager_ = new EnemyManager();
 	}
 
 	void GameManager::Update()
