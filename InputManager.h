@@ -1,23 +1,51 @@
 #pragma once
 #include "Engine/Input.h"
 
+struct ButtonConfig;
+
 // 入力状況を管理する
 namespace InputManager
 {
-    bool IsShoot();                 // 射撃が行われているかどうか
-    bool IsWeaponAction();          // 武器アクションが行われているかどうか
 
-    bool IsMoveForward();           // 前進中かどうか
-    bool IsMoveLeft();              // 左移動中かどうか
-    bool IsMoveBackward();          // 後退中かどうか
-    bool IsMoveRight();             // 右移動中かどうか
+    void Initialize();
 
-    bool IsWalk();                  // 移動中かどうか
-    bool IsRun();                   // 走っているかどうか
+    // 射撃
+    bool IsShoot();
 
-    bool IsJump();                  // ジャンプが行われているかどうか
-    bool IsReload();                // リロードが行われているかどうか
-    bool IsMenu();                  // メニューが開かれているかどうか
-    bool IsEventAction();           // イベントアクションが行われているかどうか
-    bool IsAbility();               // アビリティが使用されているかどうか
+    // 武器アクション
+    bool IsWeaponAction();
+
+    // 前進
+    bool IsMoveForward();
+
+    // 左移動
+    bool IsMoveLeft();
+
+    // 後退
+    bool IsMoveBackward();
+
+    // 右移動
+    bool IsMoveRight();
+
+
+    // 移動中
+    bool IsWalk();
+
+    // 走っている
+    bool IsRun();
+
+    // ジャンプ中
+    bool IsJump();
+
+    // リロード中
+    bool IsReload();
+
+    // メニューを開いている
+    bool IsMenu();
+
+    // イベントアクション
+    bool IsEventAction();
+
+    // アビリティを使用
+    bool IsAbility();
 };

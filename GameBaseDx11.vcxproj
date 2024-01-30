@@ -236,6 +236,7 @@
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="ParticleEffect.h" />

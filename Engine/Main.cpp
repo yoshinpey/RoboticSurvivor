@@ -19,6 +19,7 @@
 
 #include "../GameManager.h"
 #include "GameObject.h"
+#include "../InputManager.h"
 
 #pragma comment(lib,"Winmm.lib")
 
@@ -75,6 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//入力処理（キーボード、マウス、コントローラー）の準備
 	Input::Initialize(hWnd);
+	InputManager::Initialize();
 
 	//オーディオ（効果音）の準備
 	Audio::Initialize();

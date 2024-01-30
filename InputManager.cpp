@@ -1,9 +1,13 @@
 #include "InputManager.h"
 #include <fstream>
 #include <string>
+#include "json.hpp"
+#include <iostream>
 
 namespace InputManager
 {
+	using json = nlohmann::json;
+	using Input::IsKey;
 
 	// ボタン配置の設定
 	struct ButtonConfig
@@ -28,26 +32,16 @@ namespace InputManager
 	ButtonConfig buttonConfig;
 
 	// 初期化関数
-	void Initialize()
+	void InputManager::Initialize()
 	{
 		// 設定ファイルからボタンの設定を読み込む
-		LoadButtonConfig();
-	}
-
-
-	// ボタン配置の設定を読み込む関数
-	void LoadButtonConfig()
-	{
 		std::ifstream configFile(CONFIG_FILE_PATH);
 		if (configFile.is_open())
 		{
-			// 設定ファイルから JSON 文字列を読み込む
-			std::string jsonStr((std::istreambuf_iterator<char>(configFile)), std::istreambuf_iterator<char>());
+			json configJson;
+			configFile >> configJson;
 
-			// JSON パース
-			nlohmann::json configJson = nlohmann::json::parse(jsonStr);
-
-			// 各設定を buttonConfig にセット
+			// 設定をButtonConfig構造体に読み込む
 			buttonConfig.MOVE_FORWARD_KEY = configJson["MOVE_FORWARD_KEY"];
 			buttonConfig.MOVE_LEFT_KEY = configJson["MOVE_LEFT_KEY"];
 			buttonConfig.MOVE_BACKWARD_KEY = configJson["MOVE_BACKWARD_KEY"];
@@ -63,27 +57,35 @@ namespace InputManager
 
 			configFile.close();
 		}
+		else
+		{
+			// エラーメッセージを表示
+			std::cerr << "Error: Could not open config file." << std::endl;
+		}
 	}
-}
 
-namespace InputManager
-{
-	using Input::IsKey;
+	// ボタン配置のゲッター
+	ButtonConfig GetButtonConfig()
+	{
+		return buttonConfig;
+	}
 
-	bool IsShoot() { return Input::IsMouseButtonDown(buttonConfig.MOUSE_LEFT); }
-	bool IsWeaponAction() { return Input::IsMouseButtonUp(buttonConfig.MOUSE_RIGHT); }
+	bool IsShoot()			{ return Input::IsMouseButtonDown(buttonConfig.MOUSE_LEFT); }
+	bool IsWeaponAction()	{ return Input::IsMouseButtonUp(buttonConfig.MOUSE_RIGHT); }
 
-	bool IsMoveForward() { return IsKey(buttonConfig.MOVE_FORWARD_KEY); }
-	bool IsMoveLeft() { return IsKey(buttonConfig.MOVE_LEFT_KEY); }
-	bool IsMoveBackward() { return IsKey(buttonConfig.MOVE_BACKWARD_KEY); }
-	bool IsMoveRight() { return IsKey(buttonConfig.MOVE_RIGHT_KEY); }
-	bool IsJump() { return IsKey(buttonConfig.JUMP_KEY); }
-	bool IsWalk() { return IsMoveForward() || IsMoveLeft() || IsMoveBackward() || IsMoveRight(); }
-	bool IsRun() { return IsKey(buttonConfig.RUN_KEY); }
-	bool IsReload() { return IsKey(buttonConfig.RELOAD_KEY); }
-	bool IsMenu() { return IsKey(buttonConfig.MENU_KEY); }
-	bool IsEventAction() { return IsKey(buttonConfig.EVENT_ACTION_KEY); }
-	bool IsAbility() { return IsKey(buttonConfig.ABILITY_KEY); }
+	bool IsMoveForward()	{ return IsKey(buttonConfig.MOVE_FORWARD_KEY); }
+	bool IsMoveLeft()		{ return IsKey(buttonConfig.MOVE_LEFT_KEY); }
+	bool IsMoveBackward()	{ return IsKey(buttonConfig.MOVE_BACKWARD_KEY); }
+	bool IsMoveRight()		{ return IsKey(buttonConfig.MOVE_RIGHT_KEY); }
+
+	bool IsRun()			{ return IsKey(buttonConfig.RUN_KEY); }
+	bool IsReload()			{ return IsKey(buttonConfig.RELOAD_KEY); }
+	bool IsMenu()			{ return IsKey(buttonConfig.MENU_KEY); }
+	bool IsEventAction()	{ return IsKey(buttonConfig.EVENT_ACTION_KEY); }
+	bool IsAbility()		{ return IsKey(buttonConfig.ABILITY_KEY); }
+
+	bool IsJump()			{ return Input::IsKeyDown(buttonConfig.JUMP_KEY); }
+	bool IsWalk()			{ return IsMoveForward() || IsMoveLeft() || IsMoveBackward() || IsMoveRight(); }
 }
 
 
