@@ -51,7 +51,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
 
-	screenWidth = 500;
+#ifdef _DEBUG
+	screenWidth = 400;
+	screenHeight = 300;
+#endif
 
 	//ウィンドウを作成
 	HWND hWnd = InitApp(hInstance, screenWidth, screenHeight, nCmdShow);
@@ -280,17 +283,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_ESCAPE)
 		{
 			while (ShowCursor(TRUE) < 0);   //マウスカーソルを表示する
+			ReleaseMousePointer();  // マウスポインターの制限を解除
 			int result = MessageBox(hWnd, "プログラムを終了しますか？", "確認", MB_OKCANCEL | MB_ICONQUESTION);
 
 			//OKボタンが押された場合、プログラムを終了
 			if (result == IDOK)
 			{
-				ReleaseMousePointer();  // マウスポインターの制限を解除
 				PostQuitMessage(0);      // プログラム終了
 			}
 			else if (result == IDCANCEL)
 			{
-				// キャンセル選択時は何もしない
+				//マウスポインターの制限を設定
+				LimitMousePointer(hWnd);
 			}
 		}
 		return 0;

@@ -27,7 +27,7 @@ void PlayScene::Initialize()
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 2, 10), EnemyType::FLY);
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 
-	for (int i=1; i<=5; i++)
+	for (int i=1; i<=20; i+=5)
 	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
 	}
