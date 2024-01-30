@@ -32,8 +32,7 @@ private:
     float jumpVelocity_;        // ジャンプの初速度
     float jumpDelta_;           // 適当なごく小さい値
     bool canJump_;              // ジャンプ可能な状態かどうか
-    XMFLOAT3 jumpDirection_;    // ジャンプする直前の方向
-    XMFLOAT3 jumpSpeed_;        // ジャンプする直前の速度
+    bool jumping_;              // ジャンプ可能な状態かどうか
 
     // インスタンス
     StateManager* stateManager_;        // 状態を切り替える用    
@@ -63,6 +62,8 @@ public:
 
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
+
+    void ApplyGravity();
 
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }

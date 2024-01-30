@@ -8,20 +8,19 @@
 // 待機状態
 PlayerIdleState::PlayerIdleState(StateManager* manager) : StateBase(manager)
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerIdleState::EnterState()
 {
-    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
-}
-
-void PlayerIdleState::UpdateState()
-{    
 #ifdef _DEBUG
     // デバッグビルドの時だけ有効
     OutputDebugString("IdleState\n");
 #endif
+}
 
+void PlayerIdleState::UpdateState()
+{    
     // 入力がないときは減速を適用する
     pPlayer_->ApplyDeceleration();
 
@@ -41,18 +40,19 @@ void PlayerIdleState::ExitState()
 // 歩行状態
 PlayerWalkingState::PlayerWalkingState(StateManager* manager) : StateBase(manager)
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerWalkingState::EnterState()
 {
-    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
+#ifdef _DEBUG
+    OutputDebugString("WalkingState\n");
+#endif
 }
 
 void PlayerWalkingState::UpdateState()
 {
-#ifdef _DEBUG
-    OutputDebugString("WalkingState\n");
-#endif
+
     pPlayer_->Walk();
 
     // ジャンプキーが押されたら
@@ -74,18 +74,18 @@ void PlayerWalkingState::ExitState()
 // 走行状態
 PlayerRunningState::PlayerRunningState(StateManager* manager) : StateBase(manager)
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerRunningState::EnterState()
 {
-    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
+#ifdef _DEBUG
+    OutputDebugString("RunningState\n");
+#endif
 }
 
 void PlayerRunningState::UpdateState()
 {
-#ifdef _DEBUG
-    OutputDebugString("RunningState\n");
-#endif
     pPlayer_->Run();
 
     // ジャンプキーが押されたら
@@ -104,18 +104,18 @@ void PlayerRunningState::ExitState()
 // 跳躍状態
 PlayerJumpingState::PlayerJumpingState(StateManager* manager) : StateBase(manager)
 {
+    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
 
 void PlayerJumpingState::EnterState()
 {
-    pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
+#ifdef _DEBUG
+    OutputDebugString("JumpingState\n");
+#endif
 }
 
 void PlayerJumpingState::UpdateState()
 {
-#ifdef _DEBUG
-    OutputDebugString("JumpingState\n");
-#endif
     pPlayer_->Jump();
 
     // 地面についたとき待機へ
