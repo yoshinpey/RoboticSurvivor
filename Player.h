@@ -63,6 +63,7 @@ public:
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
 
+    // 重力を適用する
     void ApplyGravity();
 
     // 地面についているかどうかを判定する

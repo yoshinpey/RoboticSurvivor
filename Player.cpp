@@ -125,6 +125,7 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     movement_.x += moveVector.x * acceleration_;
     movement_.z += moveVector.z * acceleration_;
 
+    //デバック用
     OutputDebugStringA(std::to_string(XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)))).c_str());
     OutputDebugString("\n");
     OutputDebugStringA(std::to_string(XMVectorGetX(XMVector3Length(XMLoadFloat3(&velocity_)))).c_str());
@@ -141,7 +142,6 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
 // 減速を適用する関数
 void Player::ApplyDeceleration()
 {
-    // 各移動ボタンを離したときに減速を適応
     // 滞空中は減速係数を変える
     if (jumping_)
     {
@@ -223,7 +223,6 @@ void Player::ApplyGravity()
     {
         transform_.position_.y = 0;
         jumping_ = false;
-
         velocity_.y = 0;
     }
 }
