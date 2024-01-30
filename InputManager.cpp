@@ -5,9 +5,9 @@ namespace InputManager
 {
 	// キーボード入力
 	constexpr int  MOVE_FORWARD_KEY = DIK_W;      // 前進
-	constexpr int  MOVE_LEFT_KEY =  DIK_A;         // 左移動
+	constexpr int  MOVE_LEFT_KEY =  DIK_A;        // 左移動
 	constexpr int  MOVE_BACKWARD_KEY = DIK_S;     // 後退
-	constexpr int  MOVE_RIGHT_KEY = DIK_D;         // 右移動
+	constexpr int  MOVE_RIGHT_KEY = DIK_D;        // 右移動
 	constexpr int  JUMP_KEY = DIK_SPACE;          // ジャンプ
 	constexpr int  RUN_KEY = DIK_LSHIFT;          // 走る
 	constexpr int  RELOAD_KEY = DIK_R;            // リロード
