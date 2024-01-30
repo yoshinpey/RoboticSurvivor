@@ -1,49 +1,80 @@
 #pragma once
 #include "Engine/Input.h"
+#include "json.hpp"
+#include <fstream>
+#include <string>
 
-struct ButtonConfig;
-
-// 入力状況を管理する
-namespace InputManager
+class InputManager
 {
+private:
+    // マウス入力
+    int MOUSE_LEFT;        // マウス左ボタン
+    int MOUSE_RIGHT;       // マウス右ボタン
+    int SHOOT_KEY;         // 射撃
+    int WEAPON_ACTION_KEY; // 武器アクション
+
+    // キーボード入力
+    int MOVE_FORWARD_KEY;    // 前進
+    int MOVE_LEFT_KEY;       // 左移動
+    int MOVE_BACKWARD_KEY;   // 後退
+    int MOVE_RIGHT_KEY;      // 右移動
+    int JUMP_KEY;            // ジャンプ
+    int RUN_KEY;             // 走る
+    int RELOAD_KEY;          // リロード
+    int MENU_KEY;            // メニュー
+    int EVENT_ACTION_KEY;    // イベントアクション
+    int ABILITY_KEY;         // アビリティ
+
+    // 設定ファイルのパス
+    const char* CONFIG_FILE_PATH = "input_config.json";
+
+    // ボタン配置の設定を読み込む関数
+    void LoadButtonConfig();
+
+public:
+    using json = nlohmann::json;
+    // 初期化関数
+    void Initialize();
+
+    // 更新関数
+    void Update();
 
     // 射撃
-    bool IsShoot();
+    bool IsShoot() const;
 
     // 武器アクション
-    bool IsWeaponAction();
+    bool IsWeaponAction() const;
 
     // 前進
-    bool IsMoveForward();
+    bool IsMoveForward() const;
 
     // 左移動
-    bool IsMoveLeft();
+    bool IsMoveLeft() const;
 
     // 後退
-    bool IsMoveBackward();
+    bool IsMoveBackward() const;
 
     // 右移動
-    bool IsMoveRight();
-
+    bool IsMoveRight() const;
 
     // 移動中
-    bool IsWalk();
+    bool IsWalk() const;
 
     // 走っている
-    bool IsRun();
+    bool IsRun() const;
 
     // ジャンプ中
-    bool IsJump();
+    bool IsJump() const;
 
     // リロード中
-    bool IsReload();
+    bool IsReload() const;
 
     // メニューを開いている
-    bool IsMenu();
+    bool IsMenu() const;
 
     // イベントアクション
-    bool IsEventAction();
+    bool IsEventAction() const;
 
     // アビリティを使用
-    bool IsAbility();
+    bool IsAbility() const;
 };

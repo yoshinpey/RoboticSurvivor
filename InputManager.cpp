@@ -1,38 +1,121 @@
-
 #include "InputManager.h"
 
-namespace InputManager
+// ボタン配置の設定を読み込む関数
+void InputManager::LoadButtonConfig()
 {
-	// キーボード入力
-	constexpr int  MOVE_FORWARD_KEY = DIK_W;      // 前進
-	constexpr int  MOVE_LEFT_KEY =  DIK_A;         // 左移動
-	constexpr int  MOVE_BACKWARD_KEY = DIK_S;     // 後退
-	constexpr int  MOVE_RIGHT_KEY = DIK_D;         // 右移動
-	constexpr int  JUMP_KEY = DIK_SPACE;          // ジャンプ
-	constexpr int  RUN_KEY = DIK_LSHIFT;          // 走る
-	constexpr int  RELOAD_KEY = DIK_R;            // リロード
-	constexpr int  MENU_KEY = DIK_ESCAPE;         // メニュー
-	constexpr int  EVENT_ACTION_KEY = DIK_E;      // イベントアクション
-	constexpr int  ABILITY_KEY = DIK_Q;           // アビリティ
+    std::ifstream configFile(CONFIG_FILE_PATH);
+    if (configFile.is_open())
+    {
+        json configJson;
+        configFile >> configJson;
 
-	// マウス入力
-	constexpr int  MOUSE_LEFT = 0;                        // マウス左ボタン
-	constexpr int  MOUSE_RIGHT = 1;                       // マウス右ボタン
-	constexpr int  SHOOT_KEY = MOUSE_LEFT;                // 射撃
-	constexpr int  WEAPON_ACTION_KEY = MOUSE_RIGHT;       // 武器アクション
+        // 設定を変数に読み込む
+        MOVE_FORWARD_KEY = configJson["MOVE_FORWARD_KEY"];
+        MOVE_LEFT_KEY = configJson["MOVE_LEFT_KEY"];
+        MOVE_BACKWARD_KEY = configJson["MOVE_BACKWARD_KEY"];
+        MOVE_RIGHT_KEY = configJson["MOVE_RIGHT_KEY"];
+        JUMP_KEY = configJson["JUMP_KEY"];
+        RUN_KEY = configJson["RUN_KEY"];
+        RELOAD_KEY = configJson["RELOAD_KEY"];
+        MENU_KEY = configJson["MENU_KEY"];
+        EVENT_ACTION_KEY = configJson["EVENT_ACTION_KEY"];
+        ABILITY_KEY = configJson["ABILITY_KEY"];
+        MOUSE_LEFT = configJson["MOUSE_LEFT"];
+        MOUSE_RIGHT = configJson["MOUSE_RIGHT"];
+        SHOOT_KEY = configJson["SHOOT_KEY"];
+        WEAPON_ACTION_KEY = configJson["WEAPON_ACTION_KEY"];
+
+        configFile.close();
+    }
 }
 
-bool InputManager::IsShoot() { return Input::IsMouseButtonDown(SHOOT_KEY); }
-bool InputManager::IsWeaponAction() { return Input::IsMouseButtonUp(WEAPON_ACTION_KEY); }
+// 初期化関数
+void InputManager::Initialize()
+{
+    // 設定ファイルからボタンの設定を読み込む
+    LoadButtonConfig();
+}
 
-bool InputManager::IsMoveForward() { return Input::IsKey(MOVE_FORWARD_KEY); }
-bool InputManager::IsMoveLeft() { return Input::IsKey(MOVE_LEFT_KEY); }
-bool InputManager::IsMoveBackward() { return Input::IsKey(MOVE_BACKWARD_KEY); }
-bool InputManager::IsMoveRight() { return Input::IsKey(MOVE_RIGHT_KEY); }
-bool InputManager::IsJump() { return Input::IsKeyDown(JUMP_KEY); }
-bool InputManager::IsWalk() { return IsMoveForward() || IsMoveLeft() || IsMoveBackward() || IsMoveRight(); }
-bool InputManager::IsRun() { return Input::IsKey(RUN_KEY); }
-bool InputManager::IsReload() { return Input::IsKeyDown(RELOAD_KEY); }
-bool InputManager::IsMenu() { return Input::IsKeyDown(MENU_KEY); }
-bool InputManager::IsEventAction() { return Input::IsKeyDown(EVENT_ACTION_KEY); }
-bool InputManager::IsAbility() { return Input::IsKeyDown(ABILITY_KEY); }
+// 更新関数
+void InputManager::Update()
+{
+    // 更新処理...
+}
+
+// 射撃
+bool InputManager::IsShoot() const
+{
+    return Input::IsMouseButtonDown(SHOOT_KEY);
+}
+
+// 武器アクション
+bool InputManager::IsWeaponAction() const
+{
+    return Input::IsMouseButtonUp(WEAPON_ACTION_KEY);
+}
+
+// 前進
+bool InputManager::IsMoveForward() const
+{
+    return Input::IsKey(MOVE_FORWARD_KEY);
+}
+
+// 左移動
+bool InputManager::IsMoveLeft() const
+{
+    return Input::IsKey(MOVE_LEFT_KEY);
+}
+
+// 後退
+bool InputManager::IsMoveBackward() const
+{
+    return Input::IsKey(MOVE_BACKWARD_KEY);
+}
+
+// 右移動
+bool InputManager::IsMoveRight() const
+{
+    return Input::IsKey(MOVE_RIGHT_KEY);
+}
+
+// 移動中
+bool InputManager::IsWalk() const
+{
+    return IsMoveForward() || IsMoveLeft() || IsMoveBackward() || IsMoveRight();
+}
+
+// 走っている
+bool InputManager::IsRun() const
+{
+    return Input::IsKey(RUN_KEY);
+}
+
+// ジャンプ中
+bool InputManager::IsJump() const
+{
+    return Input::IsKeyDown(JUMP_KEY);
+}
+
+// リロード中
+bool InputManager::IsReload() const
+{
+    return Input::IsKey(RELOAD_KEY);
+}
+
+// メニューを開いている
+bool InputManager::IsMenu() const
+{
+    return Input::IsKey(MENU_KEY);
+}
+
+// イベントアクション
+bool InputManager::IsEventAction() const
+{
+    return Input::IsKey(EVENT_ACTION_KEY);
+}
+
+// アビリティを使用
+bool InputManager::IsAbility() const
+{
+    return Input::IsKey(ABILITY_KEY);
+}
