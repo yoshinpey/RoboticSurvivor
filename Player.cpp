@@ -164,6 +164,9 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     // 移動量を適用
     transform_.position_.x += movement_.x;
     transform_.position_.z += movement_.z;
+
+    // 正規化する場所変えなきゃいけないかも
+
 }
 
 // 減速を適用する関数
