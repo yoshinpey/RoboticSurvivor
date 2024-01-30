@@ -7,8 +7,6 @@ struct ButtonConfig;
 namespace InputManager
 {
 
-    void Initialize();
-
     // ŽËŒ‚
     bool IsShoot();
 
