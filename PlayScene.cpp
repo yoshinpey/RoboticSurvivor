@@ -1,6 +1,7 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
+#include "Engine/Model.h"
 
 #include "GameManager.h"
 #include "EnemyManager.h"
@@ -20,6 +21,10 @@ PlayScene::PlayScene(GameObject * parent)
 //初期化
 void PlayScene::Initialize()
 {
+	// シーンの途中で登場するモデルは先に読んでおく
+	Model::Load("DebugCollision/sphereCollider.fbx");
+	Model::Load("Entity/Bullet.fbx");
+
 	Instantiate<Ground>(this);			//地面登場
 	
 	//敵を出現させるテスト
