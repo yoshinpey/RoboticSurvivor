@@ -69,6 +69,14 @@ void PlayScene::Update()
 	score = (num % 60) * 0.1f;
 
 	s->ScoreAdd((int)score);
+
+	// デバッグ
+	//敵がすべて消えたらゲームクリア
+	if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr)
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+	}
 }
 
 //描画

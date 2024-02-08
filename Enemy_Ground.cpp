@@ -19,7 +19,7 @@ void Enemy_Ground::Initialize()
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
     // “–‚½‚è”»’è•t—^
-    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
+    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 2.0f);
     AddCollider(pCollision_);
 }
 

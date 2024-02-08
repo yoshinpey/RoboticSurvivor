@@ -13,7 +13,7 @@ ClearScene::ClearScene(GameObject* parent)
 void ClearScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("ファイル名");
+	hPict_ = Image::Load("Clear.jpg");
 	assert(hPict_ >= 0);
 }
 

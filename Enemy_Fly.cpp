@@ -22,7 +22,7 @@ void Enemy_Fly::Initialize()
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
     // “–‚½‚è”»’è•t—^
-    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
+    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
     AddCollider(pCollision_);
 }
 
