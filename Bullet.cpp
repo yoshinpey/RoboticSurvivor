@@ -56,12 +56,7 @@ void Bullet::Release()
 
 void Bullet::OnCollision(GameObject* pTarget)
 {
-    // 敵に当たったとき
-    if (pTarget->GetObjectName() == "Enemy_Fly")
-    {
-        //pTarget->KillMe();
-    }
-
+    // 名前にエネミーが含まれるオブジェクトに衝突したとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
         pTarget->KillMe();
