@@ -6,6 +6,7 @@
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;    //モデル番号
+    SphereCollider* pCollision_;
     //CharacterBase characterStatus_;
     ///////////////////////////定数///////////////////////////
     //const float JUMP_HEIGHT = 1.50f;    // ジャンプの高さ
@@ -21,4 +22,7 @@ public:
     void Update() override;         // 更新
     void Draw() override;           // 描画
     void Release() override;        // 開放
+
+    // 何かに当たった
+    void OnCollision(GameObject* pTarget) override;
 };

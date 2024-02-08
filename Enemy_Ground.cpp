@@ -1,7 +1,7 @@
 #include "Enemy_Ground.h"
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND), hModel_(-1)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr)
 {
 }
 
@@ -17,6 +17,10 @@ void Enemy_Ground::Initialize()
 
     //ƒAƒjƒ[ƒVƒ‡ƒ“
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
+
+    // “–‚½‚è”»’è•t—^
+    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
+    AddCollider(pCollision_);
 }
 
 void Enemy_Ground::Update()
@@ -31,4 +35,15 @@ void Enemy_Ground::Draw()
 
 void Enemy_Ground::Release()
 {
+}
+
+void Enemy_Ground::OnCollision(GameObject* pTarget)
+{
+    /*
+    // e’e‚É“–‚½‚Á‚½‚Æ‚«
+    if (pTarget->GetObjectName() == "Bullet")
+    {
+        //KillMe();
+    }
+    */
 }

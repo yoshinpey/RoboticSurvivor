@@ -6,6 +6,7 @@
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;  // モデル番号
+    SphereCollider* pCollision_;
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
     ~Enemy_Ground() override;           // デストラクタ
@@ -13,4 +14,7 @@ public:
     void Update() override;             // 更新
     void Draw() override;               // 描画
     void Release() override;            // 開放
+
+    // 何かに当たった
+    void OnCollision(GameObject* pTarget);
 };

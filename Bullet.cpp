@@ -53,3 +53,17 @@ void Bullet::Draw()
 void Bullet::Release()
 {
 }
+
+void Bullet::OnCollision(GameObject* pTarget)
+{
+    // “G‚É“–‚½‚Á‚½‚Æ‚«
+    if (pTarget->GetObjectName() == "Enemy_Fly")
+    {
+        //pTarget->KillMe();
+    }
+
+    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
+    {
+        pTarget->KillMe();
+    }
+}

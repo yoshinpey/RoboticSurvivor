@@ -16,8 +16,8 @@ private:
 
 public:
     // コンストラクタ
-    EnemyBase(GameObject* parent, EnemyType enemyType)
-        : GameObject(parent), enemyType_(enemyType)
+    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
+        : GameObject(parent, name), enemyType_(enemyType)
     {
     }
 

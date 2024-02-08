@@ -5,7 +5,7 @@
 #include "Transform.h"
 
 //コンストラクタ
-Collider::Collider():
+Collider::Collider() :
 	pGameObject_(nullptr)
 {
 }
@@ -54,7 +54,7 @@ bool Collider::IsHitBoxVsCircle(BoxCollider* box, SphereCollider* sphere)
 		circlePos.y > boxPos.y - box->size_.y - sphere->size_.x &&
 		circlePos.y < boxPos.y + box->size_.y + sphere->size_.x &&
 		circlePos.z > boxPos.z - box->size_.z - sphere->size_.x &&
-		circlePos.z < boxPos.z + box->size_.z + sphere->size_.x )
+		circlePos.z < boxPos.z + box->size_.z + sphere->size_.x)
 	{
 		return true;
 	}
@@ -94,4 +94,17 @@ void Collider::Draw(XMFLOAT3 position)
 	transform.Calclation();
 	Model::SetTransform(hDebugModel_, transform);
 	Model::Draw(hDebugModel_);
+}
+
+
+void Collider::SetRadius(float radius)
+{
+}
+
+void Collider::SetCenter(XMFLOAT3 center)
+{
+}
+
+void Collider::Update()
+{
 }

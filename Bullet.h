@@ -16,6 +16,9 @@ public:
     void Draw() override;           //•`‰æ
     void Release() override;        //ŠJ•ú
 
-    //’e‚Ì“®‚«İ’è—p
+    // ‰½‚©‚É“–‚½‚Á‚½
+    void OnCollision(GameObject* pTarget);
+
+    // ’e‚Ì“®‚«İ’è—p
     void SetMove(XMFLOAT3 move) { move_ = move; }
 };
