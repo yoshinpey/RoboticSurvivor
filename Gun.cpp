@@ -1,5 +1,6 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
+#include "Engine/BoxCollider.h"
 
 #include "InputManager.h"
 #include "Gun.h"
@@ -25,9 +26,10 @@ void Gun::Initialize()
     assert(hModel_ >= 0);
 
     //プレイヤーの手の位置まで調整
-    transform_.position_.y = -1.25;
-    transform_.position_.x = 0.25;
-    transform_.position_.z = 1.5;
+
+
+    BoxCollider* pBoxCollider = new BoxCollider(transform_.position_, XMFLOAT3(0.1, 0.1, 5.0));
+    AddCollider(pBoxCollider);
 }
 
 //更新

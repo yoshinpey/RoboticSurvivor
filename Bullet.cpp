@@ -24,6 +24,9 @@ void Bullet::Initialize()
     //ìñÇΩÇËîªíË
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 0.1f);
     AddCollider(collision);
+
+    BoxCollider* pBoxCollider = new BoxCollider(XMFLOAT3(0, 0, 0), XMFLOAT3(0.1, 0.1, 5.0));
+    AddCollider(pBoxCollider);
 }
 
 //çXêV
