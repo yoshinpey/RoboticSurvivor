@@ -15,6 +15,16 @@ class Enemy_Fly : public EnemyBase
     //const float ATK = 1.0f;             // 攻撃力
     //const float MAX_HP = 1.0f;          // 体力
     //////////////////////////////////////////////////////////
+
+    // 各ステータス
+    float walkSpeed_;
+    float attackPower_;
+    float attackCooldown_;
+    float detectPlayerDistance_;
+    float patrolRadius_;
+    float approachDistance_;
+    float attackDistance_;
+
 public:
     Enemy_Fly(GameObject* parent);  // コンストラクタ
     ~Enemy_Fly();                   // デストラクタ
@@ -25,4 +35,6 @@ public:
 
     // 何かに当たった
     void OnCollision(GameObject* pTarget) override;
+
+    void Attack() override;
 };

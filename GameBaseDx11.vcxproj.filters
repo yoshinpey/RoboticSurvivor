@@ -253,6 +253,10 @@
     <ClCompile Include="BulletBase.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="JsonReader.cpp" />
+    <ClCompile Include="Enemy_Explosion.cpp">
+      <Filter>Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -447,6 +451,10 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="BulletBase.h">
       <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonReader.h" />
+    <ClInclude Include="Enemy_Explosion.h">
+      <Filter>Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

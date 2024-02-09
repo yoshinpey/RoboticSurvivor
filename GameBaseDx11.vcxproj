@@ -136,6 +136,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EnemyBase.h" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="Enemy_Explosion.cpp" />
     <ClCompile Include="Enemy_Fly.cpp" />
     <ClCompile Include="Enemy_Ground.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="Enemy_Explosion.h" />
     <ClInclude Include="Enemy_Fly.h" />
     <ClInclude Include="Enemy_Ground.h" />
     <ClInclude Include="Engine\Audio.h" />
@@ -239,6 +242,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="JsonReader.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="ParticleEffect.h" />

@@ -37,6 +37,8 @@ void PlayScene::Initialize()
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
 	}
 
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, 10), EnemyType::EXPLOSION);
+
 	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 
 	pPlayer_ = (Player*)FindObject("Player");

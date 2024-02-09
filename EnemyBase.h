@@ -6,6 +6,7 @@ enum class EnemyType
 {
     FLY,
     GROUND,
+    EXPLOSION
 };
 
 // エネミーベースクラス
@@ -26,6 +27,23 @@ public:
     // エネミーの種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
 
-    // 純粋仮想関数
-    virtual void Update() = 0;
+    // 攻撃
+    virtual void Attack() = 0;
+
+
+    void detectPlayer() {
+        // 視界内のプレイヤーを検出する処理
+    }
+
+    void pathfindToPlayer() {
+        // プレイヤーに近づくための経路探索
+    }
+
+    void patrolInSightRange() {
+        // 視界内での徘徊
+    }
+
+    void approachPlayer() {
+        // プレイヤーに近づく
+    }
 };

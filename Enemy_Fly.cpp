@@ -1,4 +1,5 @@
 #include "Enemy_Fly.h"
+#include "JsonReader.h"
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
     : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), pCollision_(nullptr)
@@ -6,6 +7,26 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
     // プレイヤーのステータスを設定
     //characterStatus_.SetCharacterStatus(MAX_HP, ATK);
     //characterStatus_.SetMovementParameters(JUMP_HEIGHT, WALK_SPEED, RUN_SPEED);
+
+    // Jsonファイルからステータスとアルゴリズムを読み込む
+    JsonReader reader("Assets/EnemySetings.json");
+    if (reader.loadJsonData())
+    {
+        auto& data = reader.getData();
+        auto& status = data["Enemy_Fly"]["status"];
+        auto& algorithm = data["Enemy_Fly"]["algorithm"];
+
+        // ステータスを設定
+        walkSpeed_ = status["walkSpeed"];
+        attackPower_ = status["attackPower"];
+        attackCooldown_ = status["attackCooldown"];
+
+        // アルゴリズムを設定
+        detectPlayerDistance_ = algorithm["detectPlayerDistance"];
+        patrolRadius_ = algorithm["patrolRadius"];
+        approachDistance_ = algorithm["approachDistance"];
+        attackDistance_ = algorithm["attackDistance"];
+    }
 }
 
 Enemy_Fly::~Enemy_Fly()
@@ -51,4 +72,8 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
         //KillMe();
     }
     */
+}
+
+void Enemy_Fly::Attack()
+{
 }

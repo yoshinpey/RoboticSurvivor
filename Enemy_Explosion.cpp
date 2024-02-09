@@ -1,16 +1,16 @@
-#include "Enemy_Ground.h"
+#include "Enemy_Explosion.h"
 #include "JsonReader.h"
 
-Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr)
+Enemy_Explosion::Enemy_Explosion(GameObject* parent)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), pCollision_(nullptr)
 {
     // Jsonファイルからステータスとアルゴリズムを読み込む
     JsonReader reader("Assets/EnemySetings.json");
     if (reader.loadJsonData())
     {
         auto& data = reader.getData();
-        auto& status = data["Enemy_Ground"]["status"];
-        auto& algorithm = data["Enemy_Ground"]["algorithm"];
+        auto& status = data["Enemy_Explosion"]["status"];
+        auto& algorithm = data["Enemy_Explosion"]["algorithm"];
 
         // ステータスを設定
         walkSpeed_ = status["walkSpeed"];
@@ -25,11 +25,11 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
     }
 }
 
-Enemy_Ground::~Enemy_Ground()
+Enemy_Explosion::~Enemy_Explosion()
 {
 }
 
-void Enemy_Ground::Initialize()
+void Enemy_Explosion::Initialize()
 {
     // モデルデータのロード
     hModel_ = Model::Load("Character/Enemy_02.fbx");
@@ -43,21 +43,21 @@ void Enemy_Ground::Initialize()
     AddCollider(pCollision_);
 }
 
-void Enemy_Ground::Update()
+void Enemy_Explosion::Update()
 {
 }
 
-void Enemy_Ground::Draw()
+void Enemy_Explosion::Draw()
 {
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 }
 
-void Enemy_Ground::Release()
+void Enemy_Explosion::Release()
 {
 }
 
-void Enemy_Ground::OnCollision(GameObject* pTarget)
+void Enemy_Explosion::OnCollision(GameObject* pTarget)
 {
     /*
     // 銃弾に当たったとき
@@ -68,6 +68,6 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
     */
 }
 
-void Enemy_Ground::Attack()
+void Enemy_Explosion::attack()
 {
 }

@@ -3,7 +3,7 @@
 #include "EnemyBase.h"
 
 // 地上敵を管理するクラス
-class Enemy_Ground : public EnemyBase
+class Enemy_Explosion : public EnemyBase
 {
     int hModel_;  // モデル番号
     SphereCollider* pCollision_;
@@ -18,8 +18,8 @@ class Enemy_Ground : public EnemyBase
     float attackDistance_;
 
 public:
-    Enemy_Ground(GameObject* parent);   // コンストラクタ
-    ~Enemy_Ground() override;           // デストラクタ
+    Enemy_Explosion(GameObject* parent);   // コンストラクタ
+    ~Enemy_Explosion() override;           // デストラクタ
     void Initialize() override;         // 初期化
     void Update() override;             // 更新
     void Draw() override;               // 描画
@@ -29,5 +29,5 @@ public:
     void OnCollision(GameObject* pTarget);
 
 
-    void Attack() override;
+    void attack() override;
 };

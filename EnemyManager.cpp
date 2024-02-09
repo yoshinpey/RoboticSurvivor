@@ -28,6 +28,12 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
         pNewEnemy = Instantiate<Enemy_Ground>(pParent_);
         static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
         break;
+
+        ///////////////ˆê’U•Ê‚Ì‚â‚Â‚Å‘ã—p
+    case EnemyType::EXPLOSION:
+        pNewEnemy = Instantiate<Enemy_Ground>(pParent_);
+        static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
+        break;
     }
 
     if (pNewEnemy != nullptr)
