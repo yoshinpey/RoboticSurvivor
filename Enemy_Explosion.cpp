@@ -1,28 +1,8 @@
 #include "Enemy_Explosion.h"
-#include "JsonReader.h"
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
     : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), pCollision_(nullptr)
 {
-    // Jsonファイルからステータスとアルゴリズムを読み込む
-    JsonReader reader("Assets/EnemySetings.json");
-    if (reader.loadJsonData())
-    {
-        auto& data = reader.getData();
-        auto& status = data["Enemy_Explosion"]["status"];
-        auto& algorithm = data["Enemy_Explosion"]["algorithm"];
-
-        // ステータスを設定
-        walkSpeed_ = status["walkSpeed"];
-        attackPower_ = status["attackPower"];
-        attackCooldown_ = status["attackCooldown"];
-
-        // アルゴリズムを設定
-        detectPlayerDistance_ = algorithm["detectPlayerDistance"];
-        patrolRadius_ = algorithm["patrolRadius"];
-        approachDistance_ = algorithm["approachDistance"];
-        attackDistance_ = algorithm["attackDistance"];
-    }
 }
 
 Enemy_Explosion::~Enemy_Explosion()
@@ -68,6 +48,6 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     */
 }
 
-void Enemy_Explosion::attack()
+void Enemy_Explosion::Attack()
 {
 }

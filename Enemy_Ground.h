@@ -12,10 +12,7 @@ class Enemy_Ground : public EnemyBase
     float walkSpeed_;
     float attackPower_;
     float attackCooldown_;
-    float detectPlayerDistance_;
-    float patrolRadius_;
-    float approachDistance_;
-    float attackDistance_;
+
 
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
@@ -30,4 +27,7 @@ public:
 
 
     void Attack() override;
+
+    void loadStatsFromXML(const std::string& filename);
+
 };

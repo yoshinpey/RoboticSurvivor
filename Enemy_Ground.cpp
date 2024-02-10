@@ -1,28 +1,11 @@
 #include "Enemy_Ground.h"
-#include "JsonReader.h"
+#include "pugixml.hpp"
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
     : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr)
 {
-    // Jsonファイルからステータスとアルゴリズムを読み込む
-    JsonReader reader("Assets/EnemySetings.json");
-    if (reader.loadJsonData())
-    {
-        auto& data = reader.getData();
-        auto& status = data["Enemy_Ground"]["status"];
-        auto& algorithm = data["Enemy_Ground"]["algorithm"];
-
-        // ステータスを設定
-        walkSpeed_ = status["walkSpeed"];
-        attackPower_ = status["attackPower"];
-        attackCooldown_ = status["attackCooldown"];
-
-        // アルゴリズムを設定
-        detectPlayerDistance_ = algorithm["detectPlayerDistance"];
-        patrolRadius_ = algorithm["patrolRadius"];
-        approachDistance_ = algorithm["approachDistance"];
-        attackDistance_ = algorithm["attackDistance"];
-    }
+    // XMLファイルからステータスを読み込む
+    loadStatsFromXML("EnemySettings.xml");
 }
 
 Enemy_Ground::~Enemy_Ground()
@@ -45,6 +28,10 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
+    if (walkSpeed_ <= 0.3)
+    {
+        transform_.position_.x += 0.01;
+    }
 }
 
 void Enemy_Ground::Draw()
@@ -70,4 +57,24 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
 
 void Enemy_Ground::Attack()
 {
+}
+
+void Enemy_Ground::loadStatsFromXML(const std::string& filename)
+{
+    pugi::xml_document doc;
+    if (!doc.load_file(filename.c_str())) {
+        // XMLファイルの読み込みに失敗した場合の処理
+        return;
+    }
+
+    // XMLノードからステータスを取得
+    pugi::xml_node rootNode = doc.child("Enemy_Ground");
+    if (!rootNode) {
+        // Enemy_Groundノードが見つからなかった場合の処理
+        return;
+    }
+
+    walkSpeed_ = std::stof(rootNode.child("walkSpeed").text().get());
+    attackPower_ = std::stof(rootNode.child("attackPower").text().get());
+    attackCooldown_ = std::stof(rootNode.child("attackCooldown").text().get());
 }

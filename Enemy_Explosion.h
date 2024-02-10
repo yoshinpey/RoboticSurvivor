@@ -28,6 +28,5 @@ public:
     // ‰½‚©‚É“–‚½‚Á‚½
     void OnCollision(GameObject* pTarget);
 
-
-    void attack() override;
+    void Attack() override;
 };

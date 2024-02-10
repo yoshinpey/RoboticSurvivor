@@ -76,8 +76,9 @@
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include</IncludePath>
+    <IncludePath>$(SolutionDir)packages\rapidjson.1.0.2\build\native\include\rapidjson;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\release;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,6 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)packages\rapidjson.1.0.2\build\native\include\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -174,7 +177,6 @@
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
-    <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
@@ -182,6 +184,7 @@
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -241,14 +244,14 @@
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
-    <ClInclude Include="json.hpp" />
-    <ClInclude Include="JsonReader.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="pugiconfig.hpp" />
+    <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SaveLoad.h" />
