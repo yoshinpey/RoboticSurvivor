@@ -34,6 +34,6 @@ static float GetPrivateProfileFloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTST
     DWORD result = GetPrivateProfileString(lpAppName, lpKeyName, lpDefault, buffer, sizeof(buffer), lpFileName);
     
     // •¶Žš—ñ‚ªŽæ“¾‚Å‚«‚½‚çfloat‚É•ÏŠ·‚µ‚Ä’l‚ð•Ô‚·
-    if (result != 0)return atof(buffer);
-    else return atof(lpDefault);
+    if (result != 0) return static_cast<float>(atof(buffer));
+    else return static_cast<float>(atof(lpDefault));
 }

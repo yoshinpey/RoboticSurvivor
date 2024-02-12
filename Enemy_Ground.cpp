@@ -85,7 +85,7 @@ void Enemy_Ground::loadStatsFromXML(const std::string& filename)
 }
 
 // JSONファイルから歩く速さを読み込む関数
-float Enemy_Ground::LoadWalkSpeedFromJson(const std::string& filename)
+void Enemy_Ground::LoadWalkSpeedFromJson(const std::string& filename)
 {
     ////////////////////これインクルード
     //#include <fstream>
