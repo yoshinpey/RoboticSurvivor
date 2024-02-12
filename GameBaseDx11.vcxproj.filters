@@ -38,9 +38,6 @@
     <Filter Include="00Manager">
       <UniqueIdentifier>{7db5fd46-de21-46f9-8afb-266d2183aa91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01Engine\00Resource\imgui">
-      <UniqueIdentifier>{612e8222-8e39-40fd-b667-53c79de35831}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Item">
       <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
     </Filter>
@@ -67,6 +64,9 @@
     </Filter>
     <Filter Include="Character\State">
       <UniqueIdentifier>{47fa3746-8703-4873-a9df-67b2764c55c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\imgui">
+      <UniqueIdentifier>{612e8222-8e39-40fd-b667-53c79de35831}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -203,22 +203,22 @@
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui.cpp">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui_draw.cpp">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui_impl_dx11.cpp">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui_impl_win32.cpp">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui_tables.cpp">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui_widgets.cpp">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Audio.cpp">
       <Filter>01Engine\00Resource</Filter>
@@ -395,28 +395,28 @@
       <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imconfig.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imgui.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imgui_impl_dx11.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imgui_impl_win32.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imgui_internal.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imstb_rectpack.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imstb_textedit.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imstb_truetype.h">
-      <Filter>01Engine\00Resource\imgui</Filter>
+      <Filter>01Engine\imgui</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Character\Player</Filter>
