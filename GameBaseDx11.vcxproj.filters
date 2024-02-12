@@ -469,4 +469,9 @@
       <Filter>02Shader</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Engine\Memo.txt">
+      <Filter>01Engine</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

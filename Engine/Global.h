@@ -24,25 +24,6 @@ static void NormalizeFloat3(XMFLOAT3& vec)
     XMStoreFloat3(&vec, v);
 }
 
-/*自分用のメモ
-名前	意味
-LP	    ＊（ポインタ）
-C	    const
-TSTR	TCHAR(char)
-STR	    char
-WSTR	WCHAR(ユニコード用：2byte)
-
-定義	正体
-LPSTR	char*
-LPCSTR	const char*
-LPTSTR	TCHAR*
-LPCTSTR	const TCHAR*
-LPWSTR	WCHAR*
-LPCWSTR	const WCHAR*
-
-DWORD  32ビット符号なし整数型
-*/
-
 // INIファイルからfloatを取得する関数
 static float GetPrivateProfileFloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTSTR lpDefault, LPCTSTR lpFileName)
 {
