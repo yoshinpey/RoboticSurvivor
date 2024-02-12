@@ -50,7 +50,7 @@ void PlayScene::Initialize()
 	Instantiate<Score>(this);			//スコア表示
 
 	//背景画像データのロード
-	hPict_ = Image::Load("Earth.png");
+	hPict_ = Image::Load("Pictures/Earth.png");
 	assert(hPict_ >= 0);
 
 	//タイマー設定
@@ -87,6 +87,21 @@ void PlayScene::Draw()
 	//背景描画
 	Image::SetTransform(hPict_, transform_);
 	Image::Draw(hPict_);
+
+	/*ちょっと楽しいバグ
+	//背景描画
+	// 画像のサイズ取得
+	XMFLOAT3 size = Image::GetTextureSize(hPict_);
+
+	// ディスプレイサイズに合わせる
+	transform_.scale_.z = (Direct3D::screenWidth_ / size.x);
+	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
+
+	// 描画設定
+	Image::SetAlpha(hPict_, 100);
+	Image::SetTransform(hPict_, transform_);
+	Image::Draw(hPict_);
+	*/
 }
 
 //開放

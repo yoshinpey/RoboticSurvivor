@@ -16,10 +16,10 @@ Gauge::~Gauge()
 void Gauge::Initialize()
 {
     //ТЖРg
-    hpPict_[0] = Image::Load("HitPoint.png");
+    hpPict_[0] = Image::Load("Pictures/HitPoint.png");
     assert(hpPict_[0] >= 0);
     //Шg
-    hpPict_[1] = Image::Load("HitPointFrame.png");
+    hpPict_[1] = Image::Load("Pictures/HitPointFrame.png");
     assert(hpPict_[1] >= 0);
 
     //И╩ТuТ▓Ро

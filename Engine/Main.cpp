@@ -45,11 +45,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//　現在地をアセットフォルダに設定
 	SetCurrentDirectory("Assets");
 
+
+
 	//初期化ファイル（setup.ini）から必要な情報を取得
-	int screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-	int screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");	//スクリーンの高さ
+	//int screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
+	//int screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");		//スクリーンの高さ
 	int fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
+
+	// ディスプレイサイズに合わせる
+	int screenWidth = GetSystemMetrics(SM_CXSCREEN) - 16;		//スクリーンの幅
+	int screenHeight = GetSystemMetrics(SM_CYSCREEN) - 40;		//スクリーンの高さ
 
 #ifdef _DEBUG
 	screenWidth = 800;
@@ -239,7 +245,7 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	HWND hWnd = CreateWindow(
 		WIN_CLASS_NAME,					//ウィンドウクラス名
 		caption,						//タイトルバーに表示する内容
-		WS_OVERLAPPEDWINDOW,			//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）
+		WS_POPUP | WS_VISIBLE,			//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）フルにしたいとき WS_POPUP | WS_VISIBLE
 		CW_USEDEFAULT,					//表示位置左（おまかせ）
 		CW_USEDEFAULT,					//表示位置上（おまかせ）
 		winRect.right - winRect.left,	//ウィンドウ幅
@@ -317,6 +323,15 @@ void LimitMousePointer(HWND hwnd)
 
 	// ウィンドウの矩形領域をスクリーン座標に変換
 	MapWindowPoints(hwnd, nullptr, reinterpret_cast<POINT*>(&windowRect), 2);
+
+	// タスクバーの高さを取得
+	RECT taskbarRect;
+	HWND taskbar = FindWindow("Shell_TrayWnd", nullptr);
+	if (taskbar && GetWindowRect(taskbar, &taskbarRect))
+	{
+		// タスクバーの高さを制限領域から除外
+		windowRect.bottom -= (taskbarRect.bottom - taskbarRect.top);
+	}
 
 	// マウスポインターの制限領域を設定
 	ClipCursor(&windowRect);
