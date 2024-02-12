@@ -1,5 +1,5 @@
 {
     "Enemy_Ground": {
-        "walk_speed": 1
+        "walk_speed": 0.3
     }
 }

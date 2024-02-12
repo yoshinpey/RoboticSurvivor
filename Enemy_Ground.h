@@ -30,4 +30,5 @@ public:
 
     void loadStatsFromXML(const std::string& filename);
 
+    float LoadWalkSpeedFromJson(const std::string& filename);
 };
