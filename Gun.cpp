@@ -35,6 +35,33 @@ void Gun::Initialize()
 //XV
 void Gun::Update()
 {
+#ifdef _DEBUG
+    if (Input::IsKey(DIK_R))
+    {
+        //eƒ‚ƒfƒ‹æ’[
+        XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
+        //eƒ‚ƒfƒ‹ª–{
+        XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
+        //ƒxƒNƒgƒ‹‚É•ÏŠ·
+        XMVECTOR vTop = XMLoadFloat3(&GunTop);
+        XMVECTOR vRoot = XMLoadFloat3(&GunRoot);
+        //eg’·‚³(•ûŒüŠÜ‚Þ)ŽZo
+        XMVECTOR vMove = vTop - vRoot;
+        //³‹K‰»
+        vMove = XMVector3Normalize(vMove);
+        //’e‘¬
+        vMove *= Bullet_speed;
+        //Œ³‚É–ß‚·
+        XMFLOAT3 move;
+        XMStoreFloat3(&move, vMove);
+
+        //’e‚ðŒÄ‚Ô      Gun->Player->PlayScene
+        Bullet* pBullet = Instantiate<Bullet>(GetParent()->GetParent()->GetParent());
+        //’e‚ÌˆÊ’u
+        pBullet->SetPosition(GunTop); // Žå–Cæ’[
+        pBullet->SetMove(move);
+    }
+#endif
     //”­–C
     if (InputManager::IsShoot())
     {

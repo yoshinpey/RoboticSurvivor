@@ -45,21 +45,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//　現在地をアセットフォルダに設定
 	SetCurrentDirectory("Assets");
 
-
+	int screenWidth;		//スクリーンの幅
+	int screenHeight;		//スクリーンの高さ
 
 	//初期化ファイル（setup.ini）から必要な情報を取得
-	//int screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");		//スクリーンの幅
-	//int screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");		//スクリーンの高さ
 	int fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
-
-	// ディスプレイサイズに合わせる
-	int screenWidth = GetSystemMetrics(SM_CXSCREEN) - 16;		//スクリーンの幅
-	int screenHeight = GetSystemMetrics(SM_CYSCREEN) - 40;		//スクリーンの高さ
-
 #ifdef _DEBUG
-	screenWidth = 800;
-	screenHeight = 600;
+	screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");			//スクリーンの幅
+	screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");		//スクリーンの高さ
+#else
+	// ウィンドウをディスプレイサイズに合わせる
+	screenWidth = GetSystemMetrics(SM_CXSCREEN) - 16;		//スクリーンの幅
+	screenHeight = GetSystemMetrics(SM_CYSCREEN) - 40;		//スクリーンの高さ
 #endif
 
 	//ウィンドウを作成
@@ -241,20 +239,37 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	char caption[64];
 	GetPrivateProfileString("SCREEN", "Caption", "***", caption, 64, ".\\setup.ini");
 
+#ifndef DEBUG
 	//ウィンドウを作成
 	HWND hWnd = CreateWindow(
-		WIN_CLASS_NAME,					//ウィンドウクラス名
-		caption,						//タイトルバーに表示する内容
-		WS_POPUP | WS_VISIBLE,			//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）フルにしたいとき WS_POPUP | WS_VISIBLE
-		CW_USEDEFAULT,					//表示位置左（おまかせ）
-		CW_USEDEFAULT,					//表示位置上（おまかせ）
-		winRect.right - winRect.left,	//ウィンドウ幅
-		winRect.bottom - winRect.top,	//ウィンドウ高さ
-		nullptr,						//親ウインドウ（なし）
-		nullptr,						//メニュー（なし）
-		hInstance,						//インスタンス
-		nullptr							//パラメータ（なし）
+		WIN_CLASS_NAME,						//ウィンドウクラス名
+		caption,							//タイトルバーに表示する内容
+		WS_OVERLAPPEDWINDOW,				//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）フルにしたいとき WS_POPUP | WS_VISIBLE
+		CW_USEDEFAULT,						//表示位置左（おまかせ）
+		CW_USEDEFAULT,						//表示位置上（おまかせ）
+		winRect.right - winRect.left,		//ウィンドウ幅
+		winRect.bottom - winRect.top,		//ウィンドウ高さ
+		nullptr,							//親ウインドウ（なし）
+		nullptr,							//メニュー（なし）
+		hInstance,							//インスタンス
+		nullptr								//パラメータ（なし）
 	);
+#else
+	//ウィンドウを作成
+	HWND hWnd = CreateWindow(
+		WIN_CLASS_NAME,						//ウィンドウクラス名
+		caption,							//タイトルバーに表示する内容
+		WS_POPUP | WS_VISIBLE,				//スタイル（普通のウィンドウ WS_OVERLAPPEDWINDOW）フルにしたいとき WS_POPUP | WS_VISIBLE
+		CW_USEDEFAULT,						//表示位置左（おまかせ）
+		CW_USEDEFAULT,						//表示位置上（おまかせ）
+		winRect.right - winRect.left,		//ウィンドウ幅
+		winRect.bottom - winRect.top,		//ウィンドウ高さ
+		nullptr,							//親ウインドウ（なし）
+		nullptr,							//メニュー（なし）
+		hInstance,							//インスタンス
+		nullptr								//パラメータ（なし）
+	);
+#endif
 
 	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
