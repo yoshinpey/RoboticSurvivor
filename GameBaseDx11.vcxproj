@@ -247,6 +247,7 @@
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="ParticleEffect.h" />
+    <ClInclude Include="picojson.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
     <ClInclude Include="PlayerState.h" />

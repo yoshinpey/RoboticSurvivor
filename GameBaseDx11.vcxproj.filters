@@ -253,10 +253,10 @@
     <ClCompile Include="BulletBase.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="Enemy_Explosion.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -448,14 +448,15 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="BulletBase.h">
       <Filter>Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="JsonReader.h" />
     <ClInclude Include="Enemy_Explosion.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="pugiconfig.hpp" />
+    <ClInclude Include="pugixml.hpp" />
+    <ClInclude Include="picojson.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
