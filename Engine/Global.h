@@ -24,34 +24,35 @@ static void NormalizeFloat3(XMFLOAT3& vec)
     XMStoreFloat3(&vec, v);
 }
 
-// INIファイルから浮動小数点数を取得する関数
-static float GetPrivateProfileFloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCSTR lpDefault, LPCTSTR lpFileName)
-{
-    TCHAR buffer[256];
-    GetPrivateProfileString(lpAppName, lpKeyName, lpDefault, buffer, sizeof(buffer), lpFileName);
+/*自分用のメモ
+名前	意味
+LP	    ＊（ポインタ）
+C	    const
+TSTR	TCHAR(char)
+STR	    char
+WSTR	WCHAR(ユニコード用：2byte)
 
-    // 文字列から浮動小数点数に変換
-    float result = std::atof(buffer);
+定義	正体
+LPSTR	char*
+LPCSTR	const char*
+LPTSTR	TCHAR*
+LPCTSTR	const TCHAR*
+LPWSTR	WCHAR*
+LPCWSTR	const WCHAR*
 
-    // 変換エラーが発生した場合はデフォルト値を返す
-    if (result == 0 && buffer[0] != '0')
-    {
-        result = std::atof(lpDefault);
-    }
-
-    return result;
-}
-/*
-//iniファイルからfloat型の変数を取ってくる
-static float GetPrivateProfilefloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTSTR lpDefault, LPCTSTR lpFileName)
-{
-    char caption[64];
-    int len = GetPrivateProfileString(lpAppName, lpKeyName, lpDefault, caption, 64, lpFileName);
-
-    //情報が取れているなら
-    if (len)
-        return strtof(caption, NULL);   //取った情報を返す
-    else
-        return strtof(lpDefault, NULL); //Defaultの情報を返す
-}
+DWORD  32ビット符号なし整数型
 */
+
+// INIファイルからfloatを取得する関数
+static float GetPrivateProfileFloat(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTSTR lpDefault, LPCTSTR lpFileName)
+{
+    // ファイル名
+    TCHAR buffer[MAX_PATH];
+
+    // 文字列を取得
+    DWORD result = GetPrivateProfileString(lpAppName, lpKeyName, lpDefault, buffer, sizeof(buffer), lpFileName);
+    
+    // 文字列が取得できたらfloatに変換して値を返す
+    if (result != 0)return atof(buffer);
+    else return atof(lpDefault);
+}
