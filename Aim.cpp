@@ -7,10 +7,6 @@
 #include "Aim.h"
 #include "Gun.h"
 
-const float Aim::EYE_POSITION = 2.0f;
-const float Aim::MOUSE_SENSITIVITY_X = 0.05f;
-const float Aim::MOUSE_SENSITIVITY_Y = 0.05f;
-
 // コンストラクタ
 Aim::Aim(GameObject* parent) : GameObject(parent, "Aim"), pNum_(nullptr), pPlayer_(nullptr),
 aimDirection_{ 0,0,0 }, camPos_{0,0,0}, mouseSensitivity_ {MOUSE_SENSITIVITY_X, MOUSE_SENSITIVITY_Y}, eyePositon_{0,EYE_POSITION,0}

@@ -36,7 +36,7 @@ void Gun::Initialize()
 void Gun::Update()
 {
 #ifdef _DEBUG
-    if (Input::IsKey(DIK_R))
+    if (Input::IsKey(DIK_E))
     {
         //eƒ‚ƒfƒ‹æ’[
         XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");

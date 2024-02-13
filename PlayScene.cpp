@@ -83,14 +83,11 @@ void PlayScene::Update()
 
 	// デバッグ
 	//敵がすべて消えたらゲームクリア
-	/*
-		if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr)
+	if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr)
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
 	}
-	*/
-
 }
 
 //描画
@@ -106,7 +103,7 @@ void PlayScene::Draw()
 	XMFLOAT3 size = Image::GetTextureSize(hPict_);
 
 	// ディスプレイサイズに合わせる
-	transform_.scale_.z = (Direct3D::screenWidth_ / size.x);
+	transform_.scale_.x = (Direct3D::screenWidth_ / size.x);
 	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
 
 	// 描画設定

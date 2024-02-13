@@ -36,7 +36,7 @@ void TitleScene::Draw()
 	XMFLOAT3 size = Image::GetTextureSize(hPict_);
 
 	// ディスプレイサイズに合わせる
-	transform_.scale_.z = (Direct3D::screenWidth_ / size.x);
+	transform_.scale_.x = (Direct3D::screenWidth_ / size.x);
 	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
 
 	// 描画設定

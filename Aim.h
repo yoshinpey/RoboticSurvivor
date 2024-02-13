@@ -7,9 +7,9 @@ class Player;
 // éãì_Çä«óùÇ∑ÇÈÉNÉâÉX
 class Aim : public GameObject
 {
-    static const float EYE_POSITION;
-    static const float MOUSE_SENSITIVITY_X;
-    static const float MOUSE_SENSITIVITY_Y;
+    const float EYE_POSITION = 2.0f;
+    const float MOUSE_SENSITIVITY_X = GetPrivateProfileFloat("MOUSE_SENSITIVITY", "X", 0, "./setup.ini");
+    const float MOUSE_SENSITIVITY_Y = GetPrivateProfileFloat("MOUSE_SENSITIVITY", "Y", 0, "./setup.ini");
 
     XMFLOAT3 aimDirection_;
     XMFLOAT3 camPos_;

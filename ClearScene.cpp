@@ -1,6 +1,7 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "ClearScene.h"
+#include "Engine/Input.h"
 
 
 //コンストラクタ
@@ -20,6 +21,12 @@ void ClearScene::Initialize()
 //更新
 void ClearScene::Update()
 {
+	// デバッグ用
+	if (Input::IsKeyDown(DIK_R))
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_PLAY);
+	}
 }
 
 //描画
@@ -29,7 +36,7 @@ void ClearScene::Draw()
 	XMFLOAT3 size = Image::GetTextureSize(hPict_);
 
 	// ディスプレイサイズに合わせる
-	transform_.scale_.z = (Direct3D::screenWidth_ / size.x);
+	transform_.scale_.x = (Direct3D::screenWidth_ / size.x);
 	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
 
 	// 描画設定

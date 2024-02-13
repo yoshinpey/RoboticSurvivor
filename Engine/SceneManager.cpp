@@ -21,8 +21,12 @@ void SceneManager::Initialize()
 	//最初のシーンを準備
 	currentSceneID_ = SCENE_ID_TITLE;
 	nextSceneID_ = currentSceneID_;
-	//Instantiate<TitleScene>(this);
+
+#ifdef _DEBUG
 	Instantiate<PlayScene>(this);
+#else
+	Instantiate<TitleScene>(this);
+#endif
 }
 
 //更新

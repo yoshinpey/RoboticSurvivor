@@ -21,9 +21,6 @@ namespace Image
 		//ロードした画像データのアドレス
 		Sprite*		pSprite;
 
-		//テクスチャサイズ取得
-		XMFLOAT3 GetTextureSize() { return pSprite->GetTextureSize(); };
-
 		//切り抜き範囲
 		RECT		rect;
 

@@ -192,6 +192,10 @@ namespace Image
 		return _datas[handle]->transform.GetWorldMatrix();
 	}
 
-	XMFLOAT3 GetTextureSize(int handle) { return _datas[handle]->ImageData::GetTextureSize(); };
+	// テクスチャサイズを取得 
+	XMFLOAT3 GetTextureSize(int handle) 
+	{ 
+		return _datas[handle]->pSprite->GetTextureSize(); 
+	}
 }
 
