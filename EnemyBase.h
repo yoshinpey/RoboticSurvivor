@@ -33,10 +33,10 @@ public:
 
     // アルゴリズム
     struct EnemyAlgorithm {
-        int detectPlayerDistance;
-        int patrolRadius;
-        int approachDistance;
-        int attackDistance;
+        int detectPlayerDistance_;
+        int patrolRadius_;
+        int approachDistance_;
+        int attackDistance_;
     };
 
     // エネミーの種類を取得

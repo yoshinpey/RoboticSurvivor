@@ -427,9 +427,6 @@
     <ClInclude Include="StateManager.h">
       <Filter>Character\State</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterBase.h">
-      <Filter>Character</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerState.h">
       <Filter>Character\Player</Filter>
     </ClInclude>
@@ -457,6 +454,9 @@
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="picojson.h" />
+    <ClInclude Include="PlayerCharacterBase.h">
+      <Filter>Character\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

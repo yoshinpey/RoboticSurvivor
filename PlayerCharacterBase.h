@@ -2,7 +2,7 @@
 #include "Engine/GameObject.h"
 
 // キャラクターのステータスを管理するクラス
-class CharacterBase : public GameObject
+class PlayerCharacterBase : public GameObject
 {
 private:
     // キャラクターのステータス
@@ -15,12 +15,12 @@ private:
     float runSpeed_;     // 走行速度
 
 public:
-    CharacterBase(GameObject* parent, std::string name)
+    PlayerCharacterBase(GameObject* parent, std::string name)
         :GameObject(parent, name), 
         maxHp_(0), attackPower_(0), jumpVelocity_(0.0f), walkSpeed_(0.0f), runSpeed_(0.0f) 
     {}
 
-    virtual ~CharacterBase() {};
+    virtual ~PlayerCharacterBase() {};
 
     ///////////////////////////セッター///////////////////////////
 

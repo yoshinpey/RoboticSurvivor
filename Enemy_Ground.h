@@ -25,9 +25,5 @@ public:
 
     void Attack() override;
 
-    /*
-    void loadStatsFromXML(const std::string& filename);
-    void LoadWalkSpeedFromJson(const std::string& filename);
-    */
 
 };

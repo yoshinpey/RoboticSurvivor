@@ -7,7 +7,7 @@ class Enemy_Fly : public EnemyBase
 {
     int hModel_;    //ƒ‚ƒfƒ‹”Ô†
     SphereCollider* pCollision_;
-    //CharacterBase characterStatus_;
+    //PlayerCharacterBase characterStatus_;
     ///////////////////////////’è”///////////////////////////
     //const float JUMP_HEIGHT = 1.50f;    // ƒWƒƒƒ“ƒv‚Ì‚‚³
     //const float WALK_SPEED = 0.07f;     // •à‚­‘¬‚³
@@ -37,4 +37,9 @@ public:
     void OnCollision(GameObject* pTarget) override;
 
     void Attack() override;
+
+    /*
+    void loadStatsFromXML(const std::string& filename);
+    void LoadWalkSpeedFromJson(const std::string& filename);
+    */
 };

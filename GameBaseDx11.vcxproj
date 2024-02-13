@@ -200,7 +200,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletBase.h" />
-    <ClInclude Include="CharacterBase.h" />
+    <ClInclude Include="PlayerCharacterBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="EffectManager.h" />

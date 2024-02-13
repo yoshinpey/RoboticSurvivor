@@ -3,11 +3,11 @@
 
 #include "InputManager.h"
 #include "StateManager.h"
-#include "CharacterBase.h"
+#include "PlayerCharacterBase.h"
 
 class Aim;
 
-class Player : public CharacterBase
+class Player : public PlayerCharacterBase
 {
 private:
     int maxHp_, nowHp_;                 // HP 
@@ -36,7 +36,7 @@ private:
 
     // インスタンス
     StateManager* stateManager_;        // 状態を切り替える用    
-    CharacterBase* pCharacterBase_;    // キャラクターが持つパラメータ
+    PlayerCharacterBase* pPlayerCharacterBase_;    // キャラクターが持つパラメータ
     Text* pNum;                         // テキスト
     Aim* pAim_;                         // エイム
 
