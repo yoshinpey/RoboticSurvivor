@@ -9,8 +9,11 @@
 
 // コンストラクタ
 Aim::Aim(GameObject* parent) : GameObject(parent, "Aim"), pNum_(nullptr), pPlayer_(nullptr),
-aimDirection_{ 0,0,0 }, camPos_{0,0,0}, mouseSensitivity_ {MOUSE_SENSITIVITY_X, MOUSE_SENSITIVITY_Y}, eyePositon_{0,EYE_POSITION,0}
+aimDirection_{ 0,0,0 }, camPos_{0,0,0}, mouseSensitivity_{0, 0}, eyePositon_{0,0,0}
 {
+    // マウス感度をINIファイルから取得
+    mouseSensitivity_.x = GetPrivateProfileFloat("MOUSE_SENSITIVITY", "X", 0, "./setup.ini");
+    mouseSensitivity_.y = GetPrivateProfileFloat("MOUSE_SENSITIVITY", "Y", 0, "./setup.ini");
 }
 
 // デストラクタ
@@ -24,7 +27,7 @@ void Aim::Initialize()
     // エイムクラスの呼び出し位置
     transform_.position_.y = EYE_POSITION;
 
-    // マウス座標テキスト
+    // マウス座標ポインター
     pNum_ = new Text;
     pNum_->Initialize();
 
@@ -49,9 +52,8 @@ void Aim::Update()
 
 void Aim::UpdateRotation() 
 {
-    XMFLOAT3 mouseMove = Input::GetMouseMove();
-    transform_.rotate_.y += mouseMove.x * mouseSensitivity_.x;
-    transform_.rotate_.x += mouseMove.y * mouseSensitivity_.y;
+    transform_.rotate_.y += Input::GetMouseMove().x * mouseSensitivity_.x;
+    transform_.rotate_.x += Input::GetMouseMove().y * mouseSensitivity_.y;
 }
 
 void Aim::UpdateCameraPosition() 
@@ -61,18 +63,18 @@ void Aim::UpdateCameraPosition()
     XMMATRIX mRotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
     XMMATRIX mView = mRotX * mRotY;
 
-    XMFLOAT3 plaPos = pPlayer_->GetPlaPos();
-
     // カメラ位置の計算
-    camPos_.x = plaPos.x;
-    camPos_.y = plaPos.y + EYE_POSITION; // 目線の高さ
-    camPos_.z = plaPos.z;
+    camPos_.x = pPlayer_->GetPosition().x;
+    camPos_.y = pPlayer_->GetPosition().y + EYE_POSITION; // 目線の高さ
+    camPos_.z = pPlayer_->GetPosition().z;
 
     // カメラの位置と焦点を取得
     XMVECTOR camPosVector = XMLoadFloat3(&camPos_);
-    XMVECTOR forwardVector = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-    forwardVector = XMVector3TransformCoord(forwardVector, mView);
-    XMStoreFloat3(&aimDirection_, forwardVector); //プレイヤークラスに進行方向ベクトル(float3)を伝える
+    XMVECTOR forwardVector = XMVector3TransformCoord(XMLoadFloat3(&FORWARD_VECTOR), mView);
+
+    /////////////////加算する前にプレイヤークラスに見ている方向を伝える
+    XMStoreFloat3(&aimDirection_, forwardVector); 
+    ///////////////
 
     forwardVector = XMVectorAdd(camPosVector, forwardVector);
 
@@ -87,9 +89,11 @@ void Aim::UpdateCameraPosition()
     Camera::SetPosition(camPosFloat3);
     Camera::SetTarget(camTargetFloat3);
 }
+
 // 描画
 void Aim::Draw()
 {
+    // クロスヘアを表示
     pNum_->Draw(Direct3D::screenWidth_ /2, Direct3D::screenHeight_ /2, "+");
 }
 
