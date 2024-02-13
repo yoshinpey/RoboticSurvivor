@@ -18,10 +18,10 @@ public:
     // エネミーの生成を行う
     void SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType);
 
-    // エネミーの削除を行う
+    // 指定したenemyTypeに一致するエネミーだけ全削除する
     void RemoveEnemy(EnemyType enemyType);
 
-    // エネミーの全削除を行う
+    // すべてのエネミーの削除を行う
     void RemoveAllEnemies();
 
 };

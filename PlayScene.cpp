@@ -29,7 +29,6 @@ void PlayScene::Initialize()
 	
 	//敵を出現させるテスト
 	pEnemyManager_ = new EnemyManager(this);
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 2, 10), EnemyType::FLY);
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 
 	for (int i=1; i<=20; i+=5)
@@ -37,9 +36,7 @@ void PlayScene::Initialize()
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
 	}
 
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, 10), EnemyType::EXPLOSION);
-
-	//pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
+	//pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, 10), EnemyType::EXPLOSION);
 
 	pPlayer_ = (Player*)FindObject("Player");
 	Instantiate<Player>(this);			//プレイヤー登場
@@ -61,6 +58,18 @@ void PlayScene::Initialize()
 //更新
 void PlayScene::Update()
 {
+	if (Input::IsKeyDown(DIK_K))
+	{
+		//pEnemyManager_->RemoveAllEnemies();
+		pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
+	}
+
+	if (Input::IsKeyDown(DIK_M))
+	{
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+	}
+
+
 	TimeProcess();	
 
 	//////スコアテスト用
@@ -74,11 +83,14 @@ void PlayScene::Update()
 
 	// デバッグ
 	//敵がすべて消えたらゲームクリア
-	if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr)
+	/*
+		if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr)
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
 	}
+	*/
+
 }
 
 //描画

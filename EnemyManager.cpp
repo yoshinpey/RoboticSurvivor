@@ -44,22 +44,28 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)
 {
-    auto it = std::remove_if(enemies.begin(), enemies.end(),
-        [enemyType](EnemyBase* enemy) { return enemy->GetEnemyType() == enemyType; });
-    for (auto iter = it; iter != enemies.end(); ++iter)
+    // 指定したenemyTypeに一致するエネミーだけ全削除する
+    for (auto it = enemies.begin(); it != enemies.end(); )
     {
-        delete* iter;
+        if ((*it)->GetEnemyType() == enemyType)
+        {
+            (*it)->KillMe(); // エネミーオブジェクトを削除する
+            it = enemies.erase(it); // エネミーをリストから削除し、次の要素を指すイテレータを取得する
+        }
+        else
+        {
+            ++it; // 次の要素に進む
+        }
     }
-    enemies.erase(it, enemies.end());
 }
-
 
 void EnemyManager::RemoveAllEnemies()
 {
+    // 全てのエネミーオブジェクトを削除する
     for (auto enemy : enemies)
     {
-        delete enemy;
+        enemy->KillMe();
     }
-    enemies.clear();
+    // エネミーリストをクリアする
+    enemies.clear(); 
 }
-
