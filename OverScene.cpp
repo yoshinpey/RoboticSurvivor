@@ -9,6 +9,10 @@ OverScene::OverScene(GameObject* parent)
 {
 }
 
+OverScene::~OverScene()
+{
+}
+
 //‰Šú‰»
 void OverScene::Initialize()
 {

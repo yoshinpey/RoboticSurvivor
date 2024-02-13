@@ -9,6 +9,7 @@ public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
 	TitleScene(GameObject* parent);
+	~TitleScene();
 
 	void Initialize() override;     //初期化
 	void Update() override;         //更新

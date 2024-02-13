@@ -12,13 +12,17 @@
 #include "Gauge.h"
 #include "Score.h"
 
-//コンストラクタ
+
 PlayScene::PlayScene(GameObject * parent)
 	: GameObject(parent, "PlayScene"), hPict_(-1), pEnemyManager_(nullptr), pPlayer_(nullptr)
 {
+	pEnemyManager_ = new EnemyManager(this);
 }
 
-//初期化
+PlayScene::~PlayScene()
+{
+}
+
 void PlayScene::Initialize()
 {
 	// シーンの途中で登場するモデルは先に読んでおく
@@ -28,9 +32,7 @@ void PlayScene::Initialize()
 	Instantiate<Ground>(this);			//地面登場
 	
 	//敵を出現させるテスト
-	pEnemyManager_ = new EnemyManager(this);
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
-
 	for (int i=1; i<=20; i+=5)
 	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
@@ -55,13 +57,20 @@ void PlayScene::Initialize()
 	t->SetLimit(15);
 }
 
-//更新
 void PlayScene::Update()
 {
+
+	//デバック用
 	if (Input::IsKeyDown(DIK_K))
 	{
 		//pEnemyManager_->RemoveAllEnemies();
 		pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
+	}
+
+	if (Input::IsKeyDown(DIK_L))
+	{
+		//pEnemyManager_->RemoveAllEnemies();
+		pEnemyManager_->RemoveAllEnemies();
 	}
 
 	if (Input::IsKeyDown(DIK_M))
@@ -90,7 +99,6 @@ void PlayScene::Update()
 	}
 }
 
-//描画
 void PlayScene::Draw()
 {
 	//背景描画
@@ -107,13 +115,11 @@ void PlayScene::Draw()
 	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
 
 	// 描画設定
-	Image::SetAlpha(hPict_, 100);
 	Image::SetTransform(hPict_, transform_);
 	Image::Draw(hPict_);
 	*/
 }
 
-//開放
 void PlayScene::Release()
 {
 	SAFE_DELETE(pEnemyManager_);

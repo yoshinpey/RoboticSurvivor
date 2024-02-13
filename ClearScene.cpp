@@ -4,13 +4,15 @@
 #include "Engine/Input.h"
 
 
-//コンストラクタ
 ClearScene::ClearScene(GameObject* parent)
 	: GameObject(parent, "ClearScene"), hPict_(-1)
 {
 }
 
-//初期化
+ClearScene::~ClearScene()
+{
+}
+
 void ClearScene::Initialize()
 {
 	//画像データのロード
@@ -18,7 +20,6 @@ void ClearScene::Initialize()
 	assert(hPict_ >= 0);
 }
 
-//更新
 void ClearScene::Update()
 {
 	// デバッグ用
@@ -29,7 +30,6 @@ void ClearScene::Update()
 	}
 }
 
-//描画
 void ClearScene::Draw()
 {
 	// 画像のサイズ取得
@@ -44,7 +44,6 @@ void ClearScene::Draw()
 	Image::Draw(hPict_);
 }
 
-//開放
 void ClearScene::Release()
 {
 }

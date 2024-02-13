@@ -10,6 +10,10 @@ TitleScene::TitleScene(GameObject* parent)
 {
 }
 
+TitleScene::~TitleScene()
+{
+}
+
 //‰Šú‰»
 void TitleScene::Initialize()
 {
