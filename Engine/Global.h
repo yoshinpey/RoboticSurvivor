@@ -26,7 +26,7 @@ static void NormalizeFloat3(XMFLOAT3& vec)
 
 // XMFLOAT3‚Ì‰ÁŽZ
 // –ß‚è’l = a + b
-static XMFLOAT3 Float3Add(const XMFLOAT3& a, const XMFLOAT3& b)
+static XMFLOAT3 CalculateFloat3Add(const XMFLOAT3& a, const XMFLOAT3& b)
 {
     XMFLOAT3 result = {0,0,0};
     XMStoreFloat3(&result, XMVectorAdd(XMLoadFloat3(&a), XMLoadFloat3(&b)));
@@ -35,7 +35,7 @@ static XMFLOAT3 Float3Add(const XMFLOAT3& a, const XMFLOAT3& b)
 
 // XMFLOAT3‚ÌŒ¸ŽZ
 // –ß‚è’l = a - b
-static XMFLOAT3 Float3Sub(const XMFLOAT3& a, const XMFLOAT3& b)
+static XMFLOAT3 CalculateFloat3Sub(const XMFLOAT3& a, const XMFLOAT3& b)
 {
     XMFLOAT3 result = { 0,0,0 };
     XMStoreFloat3(&result, XMVectorSubtract(XMLoadFloat3(&a), XMLoadFloat3(&b)));

@@ -24,6 +24,21 @@ public:
 
     virtual ~EnemyBase() = default;
 
+    // 各ステータス
+    struct EnemyStatus {
+        float walkSpeed_;
+        int attackPower_;
+        int attackCooldown_;
+    };
+
+    // アルゴリズム
+    struct EnemyAlgorithm {
+        int detectPlayerDistance;
+        int patrolRadius;
+        int approachDistance;
+        int attackDistance;
+    };
+
     // エネミーの種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
 

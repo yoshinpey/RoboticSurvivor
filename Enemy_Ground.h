@@ -8,11 +8,9 @@ class Enemy_Ground : public EnemyBase
     int hModel_;  // モデル番号
     SphereCollider* pCollision_;
 
-    // 各ステータス
-    float walkSpeed_;
-    float attackPower_;
-    float attackCooldown_;
-
+    // 構造体のインスタンス
+    EnemyStatus status_;
+    EnemyAlgorithm algorithm_;
 
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
@@ -25,10 +23,11 @@ public:
     // 何かに当たった
     void OnCollision(GameObject* pTarget);
 
-
     void Attack() override;
 
+    /*
     void loadStatsFromXML(const std::string& filename);
-
     void LoadWalkSpeedFromJson(const std::string& filename);
+    */
+
 };

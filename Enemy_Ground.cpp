@@ -1,7 +1,7 @@
 #include "Enemy_Ground.h"
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr), walkSpeed_(0)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr)
 {
 }
 
@@ -22,14 +22,16 @@ void Enemy_Ground::Initialize()
     pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 2.0f);
     AddCollider(pCollision_);
 
+    // INIファイルからデータを構造体へ流し込む
+    status_.walkSpeed_ = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
+    status_.attackPower_ = GetPrivateProfileInt("Enemy_Ground", "attackPower", 0, "Settings/EnemySettings.ini");
+    status_.attackCooldown_ = GetPrivateProfileInt("Enemy_Ground", "attackCooldown", 0, "Settings/EnemySettings.ini");
 }
 
 void Enemy_Ground::Update()
 {
-    // 正しい値が入っているか確認。デバック
-    OutputDebugStringA(std::to_string(walkSpeed_).c_str());
-    OutputDebugString("\n");
-    transform_.position_.x += walkSpeed_;
+    OutputDebugStringA(("walkSpeed: " + std::to_string(status_.walkSpeed_) + "\n").c_str());
+    transform_.position_.x += status_.walkSpeed_;
 }
 
 void Enemy_Ground::Draw()
@@ -57,16 +59,17 @@ void Enemy_Ground::Attack()
 {
 }
 
+/*
 void Enemy_Ground::loadStatsFromXML(const std::string& filename)
 {
     ////////////////////これインクルード
     // #include "pugixml.hpp"
-    // 
+    //
     /////////////////////////////これコンストラクタ
     // XMLファイルからステータスを読み込む
     // なぜかデータ入らんかった
     //loadStatsFromXML("EnemySettings.xml");
-    // 
+    //
     /////////////////////これこのまま
     //pugi::xml_document doc;
     //if (!doc.load_file(filename.c_str())) {
@@ -109,3 +112,4 @@ void Enemy_Ground::LoadWalkSpeedFromJson(const std::string& filename)
     //    ["Enemy_Ground"].get<picojson::object>()
     //    ["walk_speed"].get<double>();
 }
+*/

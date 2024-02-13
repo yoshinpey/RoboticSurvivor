@@ -59,3 +59,7 @@ AssetsフォルダにSettingsフォルダを作成し、そこに目的のファイルを移動した。
 .\\Settings\\setup.ini このように書く。しかし、他の互換性を考慮するなら次のように書くと良い。
 ./Settings/setup.ini
 ---------------------------------------------------------
+
+// デバック:数値を文字列にして確認
+OutputDebugStringA(std::to_string(変数).c_str());
+OutputDebugString("\n");
