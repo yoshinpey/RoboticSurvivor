@@ -16,4 +16,7 @@ public:
 
     //‚ ‚½‚è”»’è
     void OnCollision(GameObject* pTarget) override;
+
+    // ƒ‚ƒfƒ‹”Ô†æ“¾—p
+    int GetModelHandle() const { return hModel_; }
 };

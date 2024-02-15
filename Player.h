@@ -33,6 +33,8 @@ private:
     float jumpDelta_;           // 適当なごく小さい値
     bool canJump_;              // ジャンプ可能な状態かどうか
     bool jumping_;              // ジャンプ可能な状態かどうか
+    int hGroundModel_;
+    bool useRayCast_;
 
     // インスタンス
     StateManager* stateManager_;        // 状態を切り替える用    
@@ -65,6 +67,8 @@ public:
 
     // 重力を適用する
     void ApplyGravity();
+
+    bool RayCastStage(XMFLOAT3 position);
 
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }

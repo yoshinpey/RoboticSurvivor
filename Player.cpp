@@ -4,12 +4,14 @@
 #include "Aim.h"
 #include "Player.h"
 #include "Gauge.h"
+#include "Ground.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent) : PlayerCharacterBase(parent, "Player"),
     pNum(nullptr), stateManager_(nullptr), pAim_(nullptr),
     gravity_(-1), canJump_(true), jumping_(false), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f)
+    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f),
+    useRayCast_(true)
 {
     // プレイヤーのステータスを設定
     pPlayerCharacterBase_ = static_cast<Player*>(this);
@@ -36,6 +38,10 @@ void Player::Initialize()
     //視点クラス読み込み
     InstantiateFront<Aim>(this);
     pAim_ = (Aim*)FindObject("Aim");
+
+    //ステージオブジェクトを探す
+    Ground* pGround = (Ground*)FindObject("Ground");
+    hGroundModel_ = pGround->GetModelHandle();    //モデル番号を取得
 }
 
 //更新
@@ -48,6 +54,9 @@ void Player::Update()
     {
         ApplyGravity();
     }
+    else
+        RayCastStage(transform_.position_);
+
 }
 
 //描画
@@ -225,4 +234,25 @@ void Player::ApplyGravity()
         jumping_ = false;
         velocity_.y = 0;
     }
+}
+
+bool Player::RayCastStage(XMFLOAT3 position)
+{
+    if (!useRayCast_) {
+        return false;
+    }
+
+    RayCastData data;
+    data.start = position;                  // レイの発射位置
+    data.start.y = 0;                       // レイの発射位置
+    data.dir = { 0, -1, 0 };                // レイの方向
+    Model::RayCast(hGroundModel_, &data);
+
+    // 当たったら、距離分位置を下げる
+    if (data.hit) 
+    { 
+        transform_.position_.y = -data.dist; 
+        return true;
+    } 
+    return false;
 }

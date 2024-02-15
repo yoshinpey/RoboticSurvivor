@@ -9,8 +9,9 @@
 
 //コンストラクタ
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), Bullet_speed(1)
+    :GameObject(parent, "Gun"), hModel_(-1), Bullet_speed(1), AttackCool_(0), Cool_(0)
 {
+    Cool_ = GetPrivateProfileInt("Gun", "AttackCool", 0, "Settings/WeaponSettings.ini");
 }
 
 //デストラクタ
@@ -35,6 +36,19 @@ void Gun::Initialize()
 //更新
 void Gun::Update()
 {
+    //if (Cool_ >= 0)
+    //{
+    //    Cool_--;
+    //    return;
+    //}
+    //else if(Cool_ == 0)
+    //{
+    //}
+    //else
+    //{
+    //    return;
+    //}
+
 #ifdef _DEBUG
     if (Input::IsKey(DIK_E))
     {
