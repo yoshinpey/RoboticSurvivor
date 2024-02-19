@@ -1,6 +1,4 @@
 #pragma once
-#include <vector>
-#include <string>
 #include "EnemyBase.h"
 
 class EnemyManager
@@ -9,10 +7,7 @@ private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
     GameObject* pParent_;
 public:
-    // コンストラクタ
     EnemyManager(GameObject* parent);
-
-    // デストラクタ
     ~EnemyManager();
 
     // エネミーの生成を行う

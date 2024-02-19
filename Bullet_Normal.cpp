@@ -6,7 +6,7 @@
 
 //コンストラクタ
 Bullet_Normal::Bullet_Normal(GameObject* parent)
-    :BulletBase(parent, "Bullet_Normal"), hModel_(-1)
+    :BulletBase(parent, BulletType::NORMAL, "Bullet_Normal"), hModel_(-1)
 {
     parameter_.damage_          = GetPrivateProfileFloat("Bullet_Normal", "damage", 0, "Settings/WeaponSettings.ini");
     parameter_.shotCoolTime_    = GetPrivateProfileFloat("Bullet_Normal", "shotCoolTime", 0, "Settings/WeaponSettings.ini");

@@ -254,6 +254,9 @@
       <Filter>Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="pugixml.cpp" />
+    <ClCompile Include="Bullet_Explosion.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -452,6 +455,9 @@
       <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="BulletBase.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet_Explosion.h">
       <Filter>Weapon</Filter>
     </ClInclude>
   </ItemGroup>

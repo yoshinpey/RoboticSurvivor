@@ -1,25 +1,63 @@
 #include "BulletManager.h"
+#include "Bullet_Normal.h"
+#include "Bullet_Explosion.h"
 
-BulletManager::BulletManager(GameObject* parent)
+BulletManager::BulletManager(GameObject* parent) : pParent_(parent)
 {
 }
 
-void BulletManager::Initialize()
+BulletManager::~BulletManager()
 {
-    // 武器の初期化処理を記述
+	// バレットの解放(ゲームオブジェクトでやってるからデリートは不要)
+	bullets.clear();
 }
 
-void BulletManager::Update()
+void BulletManager::BulletMakeing(XMFLOAT3 spawnPosition, BulletType bulletType)
 {
-    // 武器の更新処理を記述
+	BulletBase* pNewBullet = nullptr;
+    switch (bulletType)
+    {
+    case BulletType::NORMAL:
+        pNewBullet = Instantiate<Bullet_Normal>(pParent_);
+        static_cast<Bullet_Normal*>(pNewBullet)->SetPosition(spawnPosition);
+        break;
+    // 未実装
+    //case BulletType::EXPLOSION:
+    //    pNewBullet = Instantiate<Bullet_Explosion>(pParent_);
+    //    static_cast<Bullet_Explosion*>(pNewBullet)->SetPosition(spawnPosition);
+    //    break;
+    }
+
+    if (pNewBullet != nullptr)
+    {
+        bullets.push_back(pNewBullet);
+    }
 }
 
-void BulletManager::Draw()
+void BulletManager::RemoveBullet(BulletType bulletType)
 {
-    // 武器の描画処理を記述
+    // 指定したbulletTypeに一致するバレットだけ全削除する
+    for (auto it = bullets.begin(); it != bullets.end(); )
+    {
+        if ((*it)->GetBulletType() == bulletType)
+        {
+            (*it)->KillMe();        // バレットオブジェクトを削除する
+            it = bullets.erase(it); // バレットをリストから削除し、次の要素を指すイテレータを取得する
+        }
+        else
+        {
+            ++it;
+        }
+    }
 }
 
-void BulletManager::Release()
+void BulletManager::RemoveAllBullets()
 {
-    // 武器のリソース解放処理を記述
+    // 全てのバレットオブジェクトを削除する
+    for (auto bullet : bullets)
+    {
+        bullet->KillMe();
+    }
+    // バレットリストをクリアする
+    bullets.clear();
 }

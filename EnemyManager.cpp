@@ -1,7 +1,7 @@
 #include "EnemyManager.h"
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
-#include "GameManager.h"
+
 
 EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
 {
@@ -29,7 +29,7 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
         static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
         break;
 
-        ///////////////一旦別のやつで代用
+        ///////////////一旦別のやつで代用中
     case EnemyType::EXPLOSION:
         pNewEnemy = Instantiate<Enemy_Ground>(pParent_);
         static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
@@ -49,7 +49,7 @@ void EnemyManager::RemoveEnemy(EnemyType enemyType)
     {
         if ((*it)->GetEnemyType() == enemyType)
         {
-            (*it)->KillMe(); // エネミーオブジェクトを削除する
+            (*it)->KillMe();        // エネミーオブジェクトを削除する
             it = enemies.erase(it); // エネミーをリストから削除し、次の要素を指すイテレータを取得する
         }
         else
