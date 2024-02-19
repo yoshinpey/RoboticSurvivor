@@ -133,8 +133,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletBase.cpp" />
+    <ClCompile Include="Bullet_Normal.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="EffectManager.cpp" />
@@ -192,13 +191,13 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="WeaponManager.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet_Normal.h" />
     <ClInclude Include="BulletBase.h" />
     <ClInclude Include="PlayerCharacterBase.h" />
     <ClInclude Include="ClearScene.h" />
@@ -262,7 +261,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIManager.h" />
-    <ClInclude Include="WeaponManager.h" />
+    <ClInclude Include="BulletManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Debug3D.hlsl">

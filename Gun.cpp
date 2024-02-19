@@ -4,14 +4,14 @@
 
 #include "InputManager.h"
 #include "Gun.h"
-#include "Bullet.h"
+#include "Bullet_Normal.h"
+#include "Engine/Imgui/imgui.h"
 
 
 //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Gun::Gun(GameObject* parent)
     :GameObject(parent, "Gun"), hModel_(-1), Bullet_speed(1), AttackCool_(0), Cool_(0)
 {
-    Cool_ = GetPrivateProfileInt("Gun", "AttackCool", 0, "Settings/WeaponSettings.ini");
 }
 
 //ƒfƒXƒgƒ‰ƒNƒ^
@@ -36,46 +36,6 @@ void Gun::Initialize()
 //XV
 void Gun::Update()
 {
-    //if (Cool_ >= 0)
-    //{
-    //    Cool_--;
-    //    return;
-    //}
-    //else if(Cool_ == 0)
-    //{
-    //}
-    //else
-    //{
-    //    return;
-    //}
-
-#ifdef _DEBUG
-    if (Input::IsKey(DIK_E))
-    {
-        //eƒ‚ƒfƒ‹æ’[
-        XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
-        //eƒ‚ƒfƒ‹ª–{
-        XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
-        //ƒxƒNƒgƒ‹‚É•ÏŠ·
-        XMVECTOR vTop = XMLoadFloat3(&GunTop);
-        XMVECTOR vRoot = XMLoadFloat3(&GunRoot);
-        //eg’·‚³(•ûŒüŠÜ‚Þ)ŽZo
-        XMVECTOR vMove = vTop - vRoot;
-        //³‹K‰»
-        vMove = XMVector3Normalize(vMove);
-        //’e‘¬
-        vMove *= Bullet_speed;
-        //Œ³‚É–ß‚·
-        XMFLOAT3 move;
-        XMStoreFloat3(&move, vMove);
-
-        //’e‚ðŒÄ‚Ô      Gun->Player->PlayScene
-        Bullet* pBullet = Instantiate<Bullet>(GetParent()->GetParent()->GetParent());
-        //’e‚ÌˆÊ’u
-        pBullet->SetPosition(GunTop); // Žå–Cæ’[
-        pBullet->SetMove(move);
-    }
-#endif
     //”­–C
     if (InputManager::IsShoot())
     {
@@ -97,10 +57,10 @@ void Gun::Update()
         XMStoreFloat3(&move, vMove);
 
         //’e‚ðŒÄ‚Ô      Gun->Player->PlayScene
-        Bullet* pBullet = Instantiate<Bullet>(GetParent()->GetParent() -> GetParent());
+        Bullet_Normal* pNormalBullet = Instantiate<Bullet_Normal>(GetParent()->GetParent() -> GetParent());
         //’e‚ÌˆÊ’u
-        pBullet->SetPosition(GunTop); // Žå–Cæ’[
-        pBullet->SetMove(move);
+        pNormalBullet->SetPosition(GunTop); // Žå–Cæ’[
+        pNormalBullet->SetMove(move);
     }
 }
 

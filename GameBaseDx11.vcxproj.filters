@@ -163,7 +163,7 @@
     <ClCompile Include="Enemy_Fly.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="Bullet_Normal.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Gun.cpp">
@@ -199,7 +199,7 @@
     <ClCompile Include="SaveLoad.cpp">
       <Filter>Multipurpose</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponManager.cpp">
+    <ClCompile Include="BulletManager.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui.cpp">
@@ -249,9 +249,6 @@
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletBase.cpp">
-      <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Explosion.cpp">
       <Filter>Character\Enemy</Filter>
@@ -355,7 +352,7 @@
     <ClInclude Include="Enemy_Fly.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Bullet_Normal.h">
       <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Gun.h">
@@ -391,7 +388,7 @@
     <ClInclude Include="SaveLoad.h">
       <Filter>Multipurpose</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponManager.h">
+    <ClInclude Include="BulletManager.h">
       <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imconfig.h">
@@ -445,9 +442,6 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="BulletBase.h">
-      <Filter>Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy_Explosion.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
@@ -456,6 +450,9 @@
     <ClInclude Include="picojson.h" />
     <ClInclude Include="PlayerCharacterBase.h">
       <Filter>Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletBase.h">
+      <Filter>Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

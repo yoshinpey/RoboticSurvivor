@@ -10,7 +10,9 @@ public:
     {
     }
 
-    virtual ~PlayerCharacterBase() {};
+    virtual ~PlayerCharacterBase() 
+    {
+    };
 
     // 移動関連のパラメータ
     struct PlayerParameter
