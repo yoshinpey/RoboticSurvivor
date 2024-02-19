@@ -26,12 +26,11 @@ private:
     XMFLOAT3 movement_;         // 移動量
     float acceleration_;        // 加速度
     float friction_;            // 摩擦力(減速度)
-    float jumpFriction_;        // 摩擦力(減速度)
+    float jumpFriction_;        // 滞空中の減速度
 
     int gravity_;               // 重力
     float jumpVelocity_;        // ジャンプの初速度
     float jumpDelta_;           // 適当なごく小さい値
-    bool canJump_;              // ジャンプ可能な状態かどうか
     bool jumping_;              // ジャンプ可能な状態かどうか
     int hGroundModel_;
     bool useRayCast_;
@@ -41,6 +40,9 @@ private:
     PlayerCharacterBase* pPlayerCharacterBase_;    // キャラクターが持つパラメータ
     Text* pNum;                         // テキスト
     Aim* pAim_;                         // エイム
+
+    PlayerParameter parameter_;
+    PlayerStatus status_;
 
 public:
     Player(GameObject* parent);     // コンストラクタ

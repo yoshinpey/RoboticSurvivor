@@ -9,10 +9,15 @@
 //コンストラクタ
 Player::Player(GameObject* parent) : PlayerCharacterBase(parent, "Player"),
     pNum(nullptr), stateManager_(nullptr), pAim_(nullptr),
-    gravity_(-1), canJump_(true), jumping_(false), maxHp_(100), nowHp_(100), jumpVelocity_(JUMP_HEIGHT), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-    walkSpeed_(WALK_SPEED), runSpeed_(RUN_SPEED), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f),
+    gravity_(-1), jumping_(false), maxHp_(), nowHp_(100), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
+    runSpeed_(parameter_.runSpeed_), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f),
     useRayCast_(true)
 {
+    parameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
+    parameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
+    parameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
+    status_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
+
     // プレイヤーのステータスを設定
     pPlayerCharacterBase_ = static_cast<Player*>(this);
     pPlayerCharacterBase_->SetCharacterStatus(maxHp_, nowHp_);
@@ -107,7 +112,7 @@ void Player::PlayerHitPoint()
 
 void Player::Walk()
 {
-    ApplyMovement(CalculateMoveInput(), walkSpeed_);
+    ApplyMovement(CalculateMoveInput(), parameter_.walkSpeed_);
 }
 
 void Player::Run()

@@ -25,14 +25,16 @@ public:
     virtual ~EnemyBase() = default;
 
     // 各ステータス
-    struct EnemyStatus {
+    struct EnemyStatus 
+    {
         float walkSpeed_;
         int attackPower_;
         int attackCooldown_;
     };
 
     // アルゴリズム
-    struct EnemyAlgorithm {
+    struct EnemyAlgorithm 
+    {
         int detectPlayerDistance_;
         int patrolRadius_;
         int approachDistance_;
