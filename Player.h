@@ -10,36 +10,25 @@ class Aim;
 class Player : public PlayerCharacterBase
 {
 private:
-    int maxHp_, nowHp_;                 // HP 
-    ///////////////////////////定数///////////////////////////
-    const float JUMP_HEIGHT = 0.2f;     // ジャンプの高さ
-    const float WALK_SPEED = 0.1f;      // 歩く速さ
-    const float RUN_SPEED = 0.2f;       // 走る速さ
+    float nowHp_;               // HP 
 
-    const float ATK = 0.0f;             // 攻撃力
-    const float MAX_HP = 1.0f;          // 体力
-    //////////////////////////////////////////////////////////
-
-    float walkSpeed_;           // 歩行速度
-    float runSpeed_;            // 走行速度
     XMFLOAT3 velocity_;         // 移動加速
     XMFLOAT3 movement_;         // 移動量
     float acceleration_;        // 加速度
     float friction_;            // 摩擦力(減速度)
-    float jumpFriction_;        // 滞空中の減速度
 
+    float jumpFriction_;        // 滞空中の減速度
     int gravity_;               // 重力
-    float jumpVelocity_;        // ジャンプの初速度
     float jumpDelta_;           // 適当なごく小さい値
     bool jumping_;              // ジャンプ可能な状態かどうか
-    int hGroundModel_;
-    bool useRayCast_;
+
+    int hGroundModel_;          // モデルハンドル
+    bool useRayCast_;           // レイキャストを使うかどうか
 
     // インスタンス
-    StateManager* stateManager_;        // 状態を切り替える用    
-    PlayerCharacterBase* pPlayerCharacterBase_;    // キャラクターが持つパラメータ
-    Text* pNum;                         // テキスト
-    Aim* pAim_;                         // エイム
+    StateManager* pStateManager_;       // 状態を切り替える用
+    Text* pText_;                        // テキスト表示用
+    Aim* pAim_;                         // エイム呼び出し用
 
     PlayerParameter parameter_;
     PlayerStatus status_;
@@ -70,7 +59,7 @@ public:
     // 重力を適用する
     void ApplyGravity();
 
-    bool RayCastStage(XMFLOAT3 position);
+    //bool RayCastStage(XMFLOAT3 position);
 
     // 地面についているかどうかを判定する
     bool OnGround() const { return transform_.position_.y <= 0; }

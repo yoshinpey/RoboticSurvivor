@@ -122,6 +122,20 @@ namespace Input
 	}
 
 
+	// 入力キーを変更する
+	int ChangeKey()
+	{
+		//感知する部分全部
+		for (int i = DIK_ESCAPE; i <= DIK_MEDIASELECT; i++)
+		{
+			if (IsKey(i))
+			{
+				return i;
+			}
+		}
+		return 0;
+	}
+
 	/////////////////////////////　マウス情報取得　//////////////////////////////////
 
 	//マウスのボタンが押されているか調べる

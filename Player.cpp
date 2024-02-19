@@ -8,20 +8,19 @@
 
 //コンストラクタ
 Player::Player(GameObject* parent) : PlayerCharacterBase(parent, "Player"),
-    pNum(nullptr), stateManager_(nullptr), pAim_(nullptr),
-    gravity_(-1), jumping_(false), maxHp_(), nowHp_(100), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-    runSpeed_(parameter_.runSpeed_), movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f),
+    pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr),
+    gravity_(-1), jumping_(false), nowHp_(0), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
+    movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f),
     useRayCast_(true)
 {
-    parameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
-    parameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
-    parameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
-    status_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
+    // パラメータをセット
+    parameter_.walkSpeed_       = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
+    parameter_.runSpeed_        = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
+    parameter_.jumpVelocity_    = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
 
-    // プレイヤーのステータスを設定
-    pPlayerCharacterBase_ = static_cast<Player*>(this);
-    pPlayerCharacterBase_->SetCharacterStatus(maxHp_, nowHp_);
-    pPlayerCharacterBase_->SetMovementParameters(jumpVelocity_, walkSpeed_, runSpeed_);
+    // ステータスをセット
+    status_.maxHp_              = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
+    nowHp_ = status_.maxHp_;
 }
 
 //デストラクタ
@@ -33,54 +32,45 @@ Player::~Player()
 void Player::Initialize()
 {
     // ステートマネージャーの初期化
-    stateManager_ = new StateManager(this);
-    stateManager_ -> Initialize();
+    pStateManager_ = new StateManager(this);
+    pStateManager_-> Initialize();
 
     //テキスト
-    pNum = new Text;
-    pNum->Initialize();
+    pText_ = new Text;
+    pText_->Initialize();
 
     //視点クラス読み込み
     InstantiateFront<Aim>(this);
     pAim_ = (Aim*)FindObject("Aim");
 
     //ステージオブジェクトを探す
-    Ground* pGround = (Ground*)FindObject("Ground");
-    hGroundModel_ = pGround->GetModelHandle();    //モデル番号を取得
+    //Ground* pGround = (Ground*)FindObject("Ground");
+    //hGroundModel_ = pGround->GetModelHandle();
 }
 
 //更新
 void Player::Update()
 {
     // ステートマネージャーの更新
-    stateManager_->Update();
-
-    if (jumping_)
-    {
-        ApplyGravity();
-    }
-    else
-        RayCastStage(transform_.position_);
-
+    pStateManager_->Update();
 }
 
 //描画
 void Player::Draw()
 {
-
     //デバック用
-    pNum->Draw(1150, 100, "X:");
-    pNum->Draw(1200, 100, (int)transform_.position_.x);
-    pNum->Draw(1150, 250, "Y:");
-    pNum->Draw(1200, 250, (int)transform_.position_.y);
-    pNum->Draw(1150, 400, "Z:");
-    pNum->Draw(1200, 400, (int)transform_.position_.z);
+    pText_->Draw(1150, 100, "X:");
+    pText_->Draw(1200, 100, (int)transform_.position_.x);
+    pText_->Draw(1150, 250, "Y:");
+    pText_->Draw(1200, 250, (int)transform_.position_.y);
+    pText_->Draw(1150, 400, "Z:");
+    pText_->Draw(1200, 400, (int)transform_.position_.z);
 }
 
 //開放
 void Player::Release()
 {
-    SAFE_DELETE(pNum);
+    SAFE_DELETE(pText_);
 }
 
 //プレイヤーのHP
@@ -89,23 +79,23 @@ void Player::PlayerHitPoint()
     //////////////////UIマネージャー経由に変更予定。
     //HPゲージ呼び出し
     Gauge* pGauge = (Gauge*)FindObject("Gauge");
-    pGauge->SetHp(maxHp_, nowHp_);
+    pGauge->SetHp(status_.maxHp_, nowHp_);
 
     //デバッグ用
     if (Input::IsKeyDown(DIK_M))
     {
-        nowHp_ += 20;
-        if (nowHp_ > maxHp_)
+        nowHp_ += 20.0f;
+        if (nowHp_ > status_.maxHp_)
         {
-            nowHp_ = maxHp_;
+            nowHp_ = status_.maxHp_;
         }
     }
     if (Input::IsKeyDown(DIK_N))
     {
-        nowHp_ -= 20;
-        if (nowHp_ < 0)
+        nowHp_ -= 20.0f;
+        if (nowHp_ < 0.0f)
         {
-            nowHp_ = 0;
+            nowHp_ = 0.0f;
         }
     }
 }
@@ -117,7 +107,7 @@ void Player::Walk()
 
 void Player::Run()
 {
-    ApplyMovement(CalculateMoveInput(), runSpeed_);
+    ApplyMovement(CalculateMoveInput(), parameter_.runSpeed_);
 }
 
 // 移動に反映する関数
@@ -139,13 +129,6 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     movement_.x += moveVector.x * acceleration_;
     movement_.z += moveVector.z * acceleration_;
 
-    //デバック用
-    OutputDebugStringA(std::to_string(XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)))).c_str());
-    OutputDebugString("\n");
-    OutputDebugStringA(std::to_string(XMVectorGetX(XMVector3Length(XMLoadFloat3(&velocity_)))).c_str());
-    OutputDebugString("\n");
-    OutputDebugStringA(std::to_string(acceleration_).c_str());
-    OutputDebugString("\n");
 
     // 移動量を適用
     transform_.position_.x += movement_.x;
@@ -176,18 +159,17 @@ void Player::ApplyDeceleration()
 // ジャンプ
 void Player::Jump()
 {
-    if (jumping_) return;
-
     // 移動方向を取得
     XMFLOAT3 moveDirection = CalculateMoveInput();
 
     // 移動方向をジャンプの方向として適用
-    velocity_.x = jumpVelocity_ * moveDirection.x;
-    velocity_.y = jumpVelocity_;
-    velocity_.z = jumpVelocity_ * moveDirection.z;
+    velocity_.x = parameter_.jumpVelocity_ * moveDirection.x;
+    velocity_.y = parameter_.jumpVelocity_;
+    velocity_.z = parameter_.jumpVelocity_ * moveDirection.z;
 
-    // ジャンプできなくする
-    jumping_ = true;
+    //デバック用
+    OutputDebugStringA(std::to_string(parameter_.jumpVelocity_).c_str());
+    OutputDebugString("\n");
 }
 
 // 移動計算を行う関数
@@ -241,23 +223,21 @@ void Player::ApplyGravity()
     }
 }
 
-bool Player::RayCastStage(XMFLOAT3 position)
-{
-    if (!useRayCast_) {
-        return false;
-    }
-
-    RayCastData data;
-    data.start = position;                  // レイの発射位置
-    data.start.y = 0;                       // レイの発射位置
-    data.dir = { 0, -1, 0 };                // レイの方向
-    Model::RayCast(hGroundModel_, &data);
-
-    // 当たったら、距離分位置を下げる
-    if (data.hit) 
-    { 
-        transform_.position_.y = -data.dist; 
-        return true;
-    } 
-    return false;
-}
+//bool Player::RayCastStage(XMFLOAT3 position)
+//{
+//    if (!useRayCast_) return false;
+//
+//    RayCastData data;
+//    data.start = position;                  // レイの発射座標
+//    data.start.y = 0;                       // レイの発射位置
+//    data.dir = { 0, -1, 0 };                // レイの方向
+//    Model::RayCast(hGroundModel_, &data);
+//
+//    // 当たったら、距離分位置を下げる
+//    if (data.hit) 
+//    { 
+//        transform_.position_.y = -data.dist; 
+//        return true;
+//    }
+//    return false;
+//}

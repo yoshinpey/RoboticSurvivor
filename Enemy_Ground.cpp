@@ -57,10 +57,12 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
+#if 0
     OutputDebugStringA(("walkSpeed: " + std::to_string(status_.walkSpeed_) + "\n").c_str());
     transform_.position_.x += status_.walkSpeed_;
 
     OutputDebugStringA(("Size of EnemyStatus: " + std::to_string(sizeof(status_)) + "\n").c_str());
+#endif
 }
 
 void Enemy_Ground::Draw()
