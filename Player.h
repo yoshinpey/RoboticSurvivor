@@ -22,16 +22,16 @@ private:
     float jumpDelta_;           // 適当なごく小さい値
     bool jumping_;              // ジャンプ可能な状態かどうか
 
-    int hGroundModel_;          // モデルハンドル
-    bool useRayCast_;           // レイキャストを使うかどうか
+    //int hGroundModel_;          // モデルハンドル
+    //bool useRayCast_;           // レイキャストを使うかどうか
 
     // インスタンス
     StateManager* pStateManager_;       // 状態を切り替える用
     Text* pText_;                        // テキスト表示用
     Aim* pAim_;                         // エイム呼び出し用
 
-    PlayerParameter parameter_;
-    PlayerStatus status_;
+    PlayerParameter parameter_;     // パラメータ
+    PlayerStatus status_;           // ステータス
 
 public:
     Player(GameObject* parent);     // コンストラクタ

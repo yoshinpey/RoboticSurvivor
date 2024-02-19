@@ -10,8 +10,7 @@
 Player::Player(GameObject* parent) : PlayerCharacterBase(parent, "Player"),
     pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr),
     gravity_(-1), jumping_(false), nowHp_(0), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-    movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f),
-    useRayCast_(true)
+    movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f)
 {
     // パラメータをセット
     parameter_.walkSpeed_       = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");

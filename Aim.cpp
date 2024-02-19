@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Aim.h"
 #include "Gun.h"
+#include <algorithm>
 
 // コンストラクタ
 Aim::Aim(GameObject* parent) : GameObject(parent, "Aim"), pNum_(nullptr), pPlayer_(nullptr),
@@ -50,10 +51,14 @@ void Aim::Update()
     UpdateCameraPosition();
 }
 
-void Aim::UpdateRotation() 
+void Aim::UpdateRotation()
 {
+    // 水平方向の回転を更新
     transform_.rotate_.y += Input::GetMouseMove().x * mouseSensitivity_.x;
-    transform_.rotate_.x += Input::GetMouseMove().y * mouseSensitivity_.y;
+
+    // 垂直方向の回転は上下の限界を超えないように制限
+    float newRotationX = transform_.rotate_.x + Input::GetMouseMove().y * mouseSensitivity_.y;
+    transform_.rotate_.x = std::clamp(newRotationX, -89.0f, 89.0f);
 }
 
 void Aim::UpdateCameraPosition() 
