@@ -69,18 +69,18 @@ void Aim::UpdateCameraPosition()
     XMMATRIX mView = mRotX * mRotY;
 
     // カメラ位置の計算
-    camPos_.x = pPlayer_->GetPosition().x;
-    camPos_.y = pPlayer_->GetPosition().y + EYE_POSITION; // 目線の高さ
-    camPos_.z = pPlayer_->GetPosition().z;
+    XMFLOAT3 playerPos = pPlayer_->GetPosition();
+    camPos_.x = playerPos.x;
+    camPos_.y = playerPos.y + EYE_POSITION; // 目線の高さ
+    camPos_.z = playerPos.z;
 
     // カメラの位置と焦点を取得
     XMVECTOR camPosVector = XMLoadFloat3(&camPos_);
     XMVECTOR forwardVector = XMVector3TransformCoord(XMLoadFloat3(&FORWARD_VECTOR), mView);
 
-    /////////////////加算する前にプレイヤークラスに見ている方向を伝える
-    XMStoreFloat3(&aimDirection_, forwardVector); 
-    ///////////////
-
+    ///////////////プレイヤークラスに見ている方向を伝える
+    XMStoreFloat3(&aimDirection_, forwardVector);
+    ////////////////////////////////////////////////////
     forwardVector = XMVectorAdd(camPosVector, forwardVector);
 
     // カメラの位置と焦点を設定
