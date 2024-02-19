@@ -53,6 +53,11 @@ void Player::Update()
 {
     // ステートマネージャーの更新
     pStateManager_->Update();
+
+    if (jumping_)
+    {
+        ApplyGravity();
+    }
 }
 
 //描画
@@ -159,6 +164,8 @@ void Player::ApplyDeceleration()
 // ジャンプ
 void Player::Jump()
 {
+    if (jumping_) return;
+
     // 移動方向を取得
     XMFLOAT3 moveDirection = CalculateMoveInput();
 
@@ -170,6 +177,9 @@ void Player::Jump()
     //デバック用
     OutputDebugStringA(std::to_string(parameter_.jumpVelocity_).c_str());
     OutputDebugString("\n");
+
+    // ジャンプできなくする
+    jumping_ = true;
 }
 
 // 移動計算を行う関数
