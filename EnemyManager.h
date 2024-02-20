@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
+#include <vector>
 
 class EnemyManager
 {

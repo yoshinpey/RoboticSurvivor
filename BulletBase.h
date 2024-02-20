@@ -13,7 +13,6 @@ class BulletBase : public GameObject
 {
 private:
     BulletType bulletType_;
-
 public:
     BulletBase(GameObject* parent, BulletType bulletType, std::string name)
         :GameObject(parent, name), bulletType_(bulletType)
@@ -36,6 +35,10 @@ public:
     // バレットの種類を取得
     BulletType GetBulletType() const { return bulletType_; }
 
-    // 攻撃
-    virtual void Attack() = 0;
+    XMFLOAT3 move_;
+    // バレットの移動を設定
+    void SetMove(const XMFLOAT3& move) { move_ = move; }
+
+    // バレットの移動を取得
+    const XMFLOAT3& GetMove() const { return move_; }
 };

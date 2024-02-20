@@ -19,4 +19,7 @@ public:
 
     // すべてのバレットの削除を行う
     void RemoveAllBullets();
+
+    // バレットのリストを取得する
+    const std::vector<BulletBase*>& GetBullets() const { return bullets; }
 };

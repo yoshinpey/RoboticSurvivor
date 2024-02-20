@@ -37,8 +37,9 @@ void Bullet_Normal::Update()
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
     //’e‚ðÁ‚·
-    parameter_.killTimer_++;
-    if (parameter_.killTimer_ >= 240)
+    parameter_.killTimer_--;
+
+    if (parameter_.killTimer_ <= 0)
     {
         KillMe();
     }

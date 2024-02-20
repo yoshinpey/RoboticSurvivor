@@ -1,5 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
+
+class BulletManager;
+
 //Playerの子供
 //銃を管理するクラス
 class Gun : public GameObject
@@ -8,6 +11,7 @@ class Gun : public GameObject
     float Bullet_speed;
     float AttackCool_;
     float Cool_;
+    BulletManager* pBulletManager_;
 
 public:
     Gun(GameObject* parent);        //コンストラクタ
@@ -16,4 +20,5 @@ public:
     void Update() override;         //更新
     void Draw() override;           //描画
     void Release() override;        //開放
+    XMFLOAT3 CalculateBulletMove(XMFLOAT3 top, XMFLOAT3 root);
 };

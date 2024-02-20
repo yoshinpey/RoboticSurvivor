@@ -7,7 +7,6 @@ class BulletBase;
 class Bullet_Normal : public BulletBase
 {
     int hModel_;            // ƒ‚ƒfƒ‹”Ô†    
-    XMFLOAT3 move_;         // ’e‚Ì“®‚«
 
 public:
     Bullet_Normal(GameObject* parent);
@@ -21,7 +20,4 @@ public:
  
     // ‰½‚©‚É“–‚½‚Á‚½
     void OnCollision(GameObject* pTarget);
-
-    // ’e‚Ì“®‚«İ’è—p
-    void SetMove(XMFLOAT3 move) { move_ = move; }
 };
