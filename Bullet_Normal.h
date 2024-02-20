@@ -7,7 +7,6 @@ class BulletBase;
 class Bullet_Normal : public BulletBase
 {
     int hModel_;            // ÉÇÉfÉãî‘çÜ    
-
 public:
     Bullet_Normal(GameObject* parent);
     ~Bullet_Normal();
@@ -15,7 +14,5 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
-    
-    // âΩÇ©Ç…ìñÇΩÇ¡ÇΩéû
-    void OnCollision(GameObject* pTarget);
+    void OnCollision(GameObject* pTarget)override;
 };

@@ -13,40 +13,34 @@ class BulletBase : public GameObject
 {
 private:
     BulletType bulletType_;
-    XMFLOAT3 move_;
-
-public:
-    BulletBase(GameObject* parent, BulletType bulletType, std::string name)
-        :GameObject(parent, name), bulletType_(bulletType), move_(0,0,0)
-    {
-    };
-
-    virtual ~BulletBase() = default;
-
     // バレットの共通パラメータ
     struct BulletParameter
     {
-        float killTimer_;       // 消失時間
-        float speed_;           // スピード
         float damage_;          // ダメージ
         float shotCoolTime_;    // クールタイム
-        float collisionSize_;   // 当たり判定のサイズ
-        bool penetrationPower_; // 貫通   あり:1 なし:0
+        float speed_;           // スピード
+        float killTimer_;       // 消失時間
+        float collisionScale_;  // 当たり判定のサイズ
+        bool isPenetration_;    // 貫通   あり:1 なし:0
     };
-
 protected:
-    BulletParameter parameter_;
-    
-public:
+    BulletParameter parameter_; // パラメータ
+    XMFLOAT3 move_;             // 移動の速度と方向
+    SphereCollider* collision_; // パラメータ
 
-    // バレットの種類を取得
+public:
+    BulletBase(GameObject* parent, BulletType bulletType, std::string name)
+        :GameObject(parent, name), bulletType_(bulletType), move_(0,0,0), parameter_{ 0, 0, 0, 0, 0, false }, collision_(nullptr)
+    {
+    };
+    virtual ~BulletBase() = default;
+
+    // 銃弾の種類を取得
     BulletType GetBulletType() const { return bulletType_; }
 
-    void SetAddSpeed(float speed) { parameter_.speed_ += speed; }
+    // 銃弾のパラメータを取得
+    BulletParameter GetBulletParameter_() const { return parameter_; }
 
-    // バレットの移動を設定
+    // 銃弾の移動を設定
     void SetMove(const XMFLOAT3& move) { move_ = move; }
-
-    // バレットの移動を取得
-    const XMFLOAT3& GetMove() const { return move_; }
 };

@@ -14,10 +14,5 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
-
-    // 何かに当たった時
-    void OnCollision(GameObject* pTarget);
-
-    // バレットのパラメータを取得
-    const BulletParameter& GetParameter() const { return parameter_; }
+    void OnCollision(GameObject* pTarget)override;
 };

@@ -12,7 +12,7 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), Bullet_speed(1), AttackCool_(0), Cool_(0)
+    :GameObject(parent, "Gun"), hModel_(-1), bulletSpeed_(0.0f), AttackCool_(0), Cool_(0)
 {
 }
 
@@ -32,24 +32,21 @@ void Gun::Initialize()
 
 void Gun::Update()
 {
-    //発砲
-    if (!InputManager::IsShoot()) return;
+    if (!InputManager::IsShoot())return;
 
-    float bulletSpeed = 1.0f;
     // 弾を生成
-    // PlayScene<-Player<-Aim<-Gun(今ここ)
+    // 親:PlayScene<-Player<-Aim<-Gun(今ここ)
     BulletBase* pNewBullet = nullptr;
-
-    // 条件によってバレットタイプを決定する
-    if (false)
+    //発砲
+    if (InputManager::IsWalk())
     {
         pNewBullet = Instantiate<Bullet_Normal>(GetParent()->GetParent()->GetParent());
-        bulletSpeed = 1.0f;
+        bulletSpeed_ = pNewBullet->GetBulletParameter_().speed_;
     }
     else
     {
         pNewBullet = Instantiate<Bullet_Explosion>(GetParent()->GetParent()->GetParent());
-        bulletSpeed = 0.5f;
+        bulletSpeed_ = pNewBullet->GetBulletParameter_().speed_;
     }
 
     // 銃モデル先端
@@ -57,12 +54,9 @@ void Gun::Update()
     // 銃モデル根本
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
     // 速度と向きを設定
-    XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
-
+    XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed_);
     pNewBullet->SetPosition(GunTop);
     pNewBullet->SetMove(move);
-    pNewBullet->SetAddSpeed(1.0f);
-
 }
 
 void Gun::Draw()
@@ -77,12 +71,12 @@ void Gun::Release()
 
 XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletSpeed)
 {
-    // 射出方向計算(top - root)
-    XMVECTOR vMove = XMVectorSubtract(XMLoadFloat3(&top), XMLoadFloat3(&root));
-    // 正規化
-    vMove = XMVector3Normalize(vMove);
-    // 弾速を設定
+    // 射出方向を計算して正規化  (top - root)
+    XMVECTOR vMove = XMVector3Normalize(XMVectorSubtract(XMLoadFloat3(&top), XMLoadFloat3(&root)));
+
+    // 弾速を追加設定
     vMove *= bulletSpeed;
+
     // float3型に戻す
     XMFLOAT3 move;
     XMStoreFloat3(&move, vMove);

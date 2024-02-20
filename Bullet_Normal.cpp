@@ -12,6 +12,8 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
     parameter_.shotCoolTime_    = GetPrivateProfileFloat("Bullet_Normal", "shotCoolTime", 0, "Settings/WeaponSettings.ini");
     parameter_.speed_           = GetPrivateProfileFloat("Bullet_Normal", "speed", 0, "Settings/WeaponSettings.ini");
     parameter_.killTimer_       = GetPrivateProfileFloat("Bullet_Normal", "killTimer", 0, "Settings/WeaponSettings.ini");
+    parameter_.collisionScale_  = GetPrivateProfileFloat("Bullet_Normal", "collisionScale", 0, "Settings/WeaponSettings.ini");
+    parameter_.isPenetration_   = GetPrivateProfileInt("Bullet_Normal", "isPenetration", 0, "Settings/WeaponSettings.ini");
 }
 
 //デストラクタ
@@ -27,15 +29,15 @@ void Bullet_Normal::Initialize()
     assert(hModel_ >= 0);
 
     //当たり判定
-    SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 0.1f);
-    AddCollider(collision);
+    collision_ = new SphereCollider(XMFLOAT3(0, 0, 0), parameter_.collisionScale_);
+    AddCollider(collision_);
 }
 
 //更新
 void Bullet_Normal::Update()
 {
     //弾を飛ばす
-    transform_.position_ = CalculateFloat3Add(transform_.position_, GetMove());
+    transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
     //弾を消す
     parameter_.killTimer_--;
@@ -60,5 +62,8 @@ void Bullet_Normal::OnCollision(GameObject* pTarget)
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
         pTarget->KillMe();
+
+        // 貫通しない場合は自身も消す
+        if (parameter_.isPenetration_ == 0) KillMe();
     }
 }
