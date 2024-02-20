@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "Gun.h"
 #include "Bullet_Normal.h"
+#include "Bullet_Explosion.h"
 
 namespace
 {
@@ -31,23 +32,37 @@ void Gun::Initialize()
 
 void Gun::Update()
 {
+    //発砲
+    if (!InputManager::IsShoot()) return;
+
+    float bulletSpeed = 1.0f;
+    // 弾を生成
+    // PlayScene<-Player<-Aim<-Gun(今ここ)
+    BulletBase* pNewBullet = nullptr;
+
+    // 条件によってバレットタイプを決定する
+    if (false)
+    {
+        pNewBullet = Instantiate<Bullet_Normal>(GetParent()->GetParent()->GetParent());
+        bulletSpeed = 1.0f;
+    }
+    else
+    {
+        pNewBullet = Instantiate<Bullet_Explosion>(GetParent()->GetParent()->GetParent());
+        bulletSpeed = 0.5f;
+    }
+
     // 銃モデル先端
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
-
     // 銃モデル根本
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
-
     // 速度と向きを設定
-    XMFLOAT3 move = CalculateBulletMove(GunTop, GunRoot);
+    XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
 
-    //発砲
-    if (InputManager::IsShoot())
-    {
-        // 弾を生成
-        Bullet_Normal* pBullet_Normal = Instantiate<Bullet_Normal>(GetParent()->GetParent()->GetParent());
-        pBullet_Normal->SetPosition(GunTop);
-        pBullet_Normal->SetMove(move);
-    }
+    pNewBullet->SetPosition(GunTop);
+    pNewBullet->SetMove(move);
+    pNewBullet->SetAddSpeed(1.0f);
+
 }
 
 void Gun::Draw()
@@ -60,14 +75,14 @@ void Gun::Release()
 {
 }
 
-XMFLOAT3 Gun::CalculateBulletMove(XMFLOAT3 top, XMFLOAT3 root)
+XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletSpeed)
 {
     // 射出方向計算(top - root)
     XMVECTOR vMove = XMVectorSubtract(XMLoadFloat3(&top), XMLoadFloat3(&root));
     // 正規化
     vMove = XMVector3Normalize(vMove);
     // 弾速を設定
-    vMove *= Bullet_speed;
+    vMove *= bulletSpeed;
     // float3型に戻す
     XMFLOAT3 move;
     XMStoreFloat3(&move, vMove);

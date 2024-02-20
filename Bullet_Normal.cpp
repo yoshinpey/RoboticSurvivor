@@ -39,11 +39,7 @@ void Bullet_Normal::Update()
 
     //’e‚ğÁ‚·
     parameter_.killTimer_--;
-
-    if (parameter_.killTimer_ <= 0)
-    {
-        KillMe();
-    }
+    if (parameter_.killTimer_ <= 0) { KillMe(); }
 }
 
 //•`‰æ

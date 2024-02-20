@@ -17,5 +17,5 @@ public:
     void Update() override;         //çXêV
     void Draw() override;           //ï`âÊ
     void Release() override;        //äJï˙
-    XMFLOAT3 CalculateBulletMove(XMFLOAT3 top, XMFLOAT3 root);
+    XMFLOAT3 CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletSpeed);
 };

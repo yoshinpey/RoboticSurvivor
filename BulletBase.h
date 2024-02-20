@@ -34,8 +34,15 @@ public:
         bool penetrationPower_; // 貫通   あり:1 なし:0
     };
 
+protected:
+    BulletParameter parameter_;
+    
+public:
+
     // バレットの種類を取得
     BulletType GetBulletType() const { return bulletType_; }
+
+    void SetAddSpeed(float speed) { parameter_.speed_ += speed; }
 
     // バレットの移動を設定
     void SetMove(const XMFLOAT3& move) { move_ = move; }

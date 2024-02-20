@@ -16,8 +16,6 @@ public:
     void Draw() override;
     void Release() override;
     
-    BulletParameter parameter_;
- 
     // ‰½‚©‚É“–‚½‚Á‚½Žž
     void OnCollision(GameObject* pTarget);
 };
