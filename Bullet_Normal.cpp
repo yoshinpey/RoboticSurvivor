@@ -25,6 +25,7 @@ void Bullet_Normal::Initialize()
     //モデルデータのロード
     hModel_ = Model::Load("Entity/Bullet.fbx");
     assert(hModel_ >= 0);
+
     //当たり判定
     SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0, 0), 0.1f);
     AddCollider(collision);
@@ -34,7 +35,7 @@ void Bullet_Normal::Initialize()
 void Bullet_Normal::Update()
 {
     //弾を飛ばす
-    transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
+    transform_.position_ = CalculateFloat3Add(transform_.position_, GetMove());
 
     //弾を消す
     parameter_.killTimer_--;

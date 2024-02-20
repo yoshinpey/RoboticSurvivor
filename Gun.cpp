@@ -1,13 +1,13 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 
-#include "BulletManager.h"
 #include "InputManager.h"
 #include "Gun.h"
 #include "Bullet_Normal.h"
 
-namespace {
-    XMFLOAT3 offset = { -1.25f, 0.25f, 1.5f };
+namespace
+{
+    XMFLOAT3 offset = {0.25f, -1.25f, 1.50f };
 }
 
 Gun::Gun(GameObject* parent)
@@ -26,21 +26,16 @@ void Gun::Initialize()
     assert(hModel_ >= 0);
 
     //プレイヤーの手の位置まで調整
-    transform_.position_.y = offset.y;
-    transform_.position_.x = offset.x;
-    transform_.position_.z = offset.z;
-
+    transform_.position_ = offset;
 }
 
 void Gun::Update()
 {
     // 銃モデル先端
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
-    GunTop = { GunTop.x - offset.x, GunTop.y - offset.y, GunTop.z - offset.z };
 
     // 銃モデル根本
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
-    GunRoot = { GunRoot.x - offset.x, GunRoot.y - offset.y, GunRoot.z - offset.z };
 
     // 速度と向きを設定
     XMFLOAT3 move = CalculateBulletMove(GunTop, GunRoot);
@@ -49,11 +44,10 @@ void Gun::Update()
     if (InputManager::IsShoot())
     {
         // 弾を生成
-        Bullet_Normal* b = Instantiate<Bullet_Normal>(GetParent()->GetParent());
-        b->SetPosition(GunTop);
-        b->SetMove(move);
+        Bullet_Normal* pBullet_Normal = Instantiate<Bullet_Normal>(GetParent()->GetParent()->GetParent());
+        pBullet_Normal->SetPosition(GunTop);
+        pBullet_Normal->SetMove(move);
     }
-
 }
 
 void Gun::Draw()

@@ -199,9 +199,6 @@
     <ClCompile Include="SaveLoad.cpp">
       <Filter>Multipurpose</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManager.cpp">
-      <Filter>Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\imgui\imgui.cpp">
       <Filter>01Engine\imgui</Filter>
     </ClCompile>
@@ -390,9 +387,6 @@
     </ClInclude>
     <ClInclude Include="SaveLoad.h">
       <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletManager.h">
-      <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imconfig.h">
       <Filter>01Engine\imgui</Filter>

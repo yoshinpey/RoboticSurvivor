@@ -1,8 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-class BulletManager;
-
 //Playerの子供
 //銃を管理するクラス
 class Gun : public GameObject
@@ -11,7 +9,6 @@ class Gun : public GameObject
     float Bullet_speed;
     float AttackCool_;
     float Cool_;
-    BulletManager* pBulletManager_;
 
 public:
     Gun(GameObject* parent);        //コンストラクタ
