@@ -6,7 +6,7 @@ class BulletBase;
 // e’e‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Bullet_Explosion : public BulletBase
 {
-    int hModel_;            // ƒ‚ƒfƒ‹”Ô†    
+    int hModel_; 
 public:
     Bullet_Explosion(GameObject* parent);
     ~Bullet_Explosion();
