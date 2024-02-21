@@ -3,10 +3,15 @@
 Enemy_Fly::Enemy_Fly(GameObject* parent)
     : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), pCollision_(nullptr)
 {
-    // プレイヤーのステータスを設定
-    //characterStatus_.SetCharacterStatus(MAX_HP, ATK);
-    //characterStatus_.SetMovementParameters(JUMP_HEIGHT, WALK_SPEED, RUN_SPEED);
+    // INIファイルからデータを構造体へ流し込む
+    status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
+    status_.attackPower_                = GetPrivateProfileInt("Enemy_Fly", "attackPower", 0, "Settings/EnemySettings.ini");
+    status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Fly", "attackCooldown", 0, "Settings/EnemySettings.ini");
 
+    algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Fly", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
+    algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Fly", "patrolRadius", 0, "Settings/EnemySettings.ini");
+    algorithm_.approachDistance_        = GetPrivateProfileInt("Enemy_Fly", "approachDistance", 0, "Settings/EnemySettings.ini");
+    algorithm_.attackDistance_          = GetPrivateProfileInt("Enemy_Fly", "attackDistance", 0, "Settings/EnemySettings.ini");
 }
 
 Enemy_Fly::~Enemy_Fly()
@@ -58,57 +63,3 @@ void Enemy_Fly::Attack()
 {
 }
 
-/*
-void Enemy_Ground::loadStatsFromXML(const std::string& filename)
-{
-    ////////////////////これインクルード
-    // #include "pugixml.hpp"
-    //
-    /////////////////////////////これコンストラクタ
-    // XMLファイルからステータスを読み込む
-    // なぜかデータ入らんかった
-    //loadStatsFromXML("EnemySettings.xml");
-    //
-    /////////////////////これこのまま
-    //pugi::xml_document doc;
-    //if (!doc.load_file(filename.c_str())) {
-    //    // XMLファイルの読み込みに失敗した場合の処理
-    //    return;
-    //}
-    //// XMLノードからステータスを取得
-    //pugi::xml_node rootNode = doc.child("Enemy_Ground");
-    //if (!rootNode) {
-    //    // Enemy_Groundノードが見つからなかった場合の処理
-    //    return;
-    //}
-    //walkSpeed_ = std::stof(rootNode.child("walkSpeed").text().get());
-    //attackPower_ = std::stof(rootNode.child("attackPower").text().get());
-    //attackCooldown_ = std::stof(rootNode.child("attackCooldown").text().get());
-}
-
-// JSONファイルから歩く速さを読み込む関数
-void Enemy_Ground::LoadWalkSpeedFromJson(const std::string& filename)
-{
-    ////////////////////これインクルード
-    //#include <fstream>
-    //#include "picojson.h"
-    //////////////////////////これコンストラクタ
-    // JSONファイルから歩く速さを読み込む
-    //walkSpeed_ = LoadWalkSpeedFromJson("EnemySettings.json");
-    ///////////////////////////これこのまま
-    //picojson::value json_data;
-    //// JSONファイルを読み込む
-    //std::ifstream file("EnemySettings.json");
-    //if (!file.is_open()) {
-    //    return;
-    //}
-    //// picojson::valueにJSONデータをパースする
-    //file >> json_data;
-    //file.close();
-    //// JSONオブジェクトからEnemy_Groundの歩く速さを取得する
-    //// 歩く速さを取得してメンバ変数に設定する
-    //walkSpeed_ = json_data.get<picojson::object>()
-    //    ["Enemy_Ground"].get<picojson::object>()
-    //    ["walk_speed"].get<double>();
-}
-*/

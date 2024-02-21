@@ -5,12 +5,8 @@
 // 地上敵を管理するクラス
 class Enemy_Ground : public EnemyBase
 {
-    int hModel_;  // モデル番号
-    SphereCollider* pCollision_;
-
-    // 構造体のインスタンス
-    EnemyStatus status_;
-    EnemyAlgorithm algorithm_;
+    int hModel_;                        // モデル番号
+    SphereCollider* pCollision_;        // コリジョン
 
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
@@ -24,6 +20,4 @@ public:
     void OnCollision(GameObject* pTarget);
 
     void Attack() override;
-
-
 };

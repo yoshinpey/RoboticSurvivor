@@ -14,18 +14,8 @@ class EnemyBase : public GameObject
 {
 private:
     EnemyType enemyType_;  // エネミーの種類
-
-public:
-    // コンストラクタ
-    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-        : GameObject(parent, name), enemyType_(enemyType)
-    {
-    }
-
-    virtual ~EnemyBase() = default;
-
     // 各ステータス
-    struct EnemyStatus 
+    struct EnemyStatus
     {
         float walkSpeed_;
         int attackPower_;
@@ -33,13 +23,28 @@ public:
     };
 
     // アルゴリズム
-    struct EnemyAlgorithm 
+    struct EnemyAlgorithm
     {
         int detectPlayerDistance_;
         int patrolRadius_;
         int approachDistance_;
         int attackDistance_;
     };
+
+protected:
+    // 構造体のインスタンス
+    EnemyStatus status_;
+    EnemyAlgorithm algorithm_;
+    
+public:
+    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
+        : GameObject(parent, name), enemyType_(enemyType)
+    {
+        status_ = { 0,0,0 };
+        algorithm_ = { 0,0,0,0 };
+    }
+
+    virtual ~EnemyBase() = default;
 
     // エネミーの種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
