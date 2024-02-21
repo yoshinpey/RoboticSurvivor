@@ -1,8 +1,9 @@
 #include "StateManager.h"
+#include "PlayerState.h"
 
 // コンストラクタ
-StateManager::StateManager(GameObject* gameObj)
-    : gameObj_(gameObj), currentState_(nullptr)
+StateManager::StateManager(GameObject* parent)
+    : pParent_(parent), currentState_(nullptr)
 {
 }
 

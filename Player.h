@@ -3,11 +3,11 @@
 
 #include "InputManager.h"
 #include "StateManager.h"
-#include "PlayerCharacterBase.h"
+#include "PlayerBase.h"
 
 class Aim;
 
-class Player : public PlayerCharacterBase
+class Player : public PlayerBase
 {
 private:
     float nowHp_;               // HP 

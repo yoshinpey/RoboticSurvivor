@@ -1,6 +1,5 @@
 #pragma once
 #include "StateBase.h"
-#include "PlayerState.h"
 #include <string>
 #include <map>
 
@@ -12,15 +11,15 @@ class StateManager
 private:
     std::map<std::string, StateBase*> statesMap_;     // 状態を名前で管理するマップ
     StateBase* currentState_;
-    GameObject* gameObj_;
+    GameObject* pParent_;
 
 public:
-    StateManager(GameObject* gameObj);
+    StateManager(GameObject* parent);
     ~StateManager();
 
     void Initialize();
     void Update();
     void ChangeState(const std::string& stateName);                         // 状態の名前を受け取る
     StateBase* AddState(const std::string& stateName, StateBase* state);    // 名前と対応するインスタンスを追加
-    GameObject* GetGameobject() { return gameObj_; }
+    GameObject* GetGameobject() { return pParent_; }
 };

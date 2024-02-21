@@ -140,6 +140,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EnemyBase.h" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="Enemy_Explosion.cpp" />
     <ClCompile Include="Enemy_Fly.cpp" />
     <ClCompile Include="Enemy_Ground.cpp" />
@@ -200,7 +201,8 @@
     <ClInclude Include="Bullet_Explosion.h" />
     <ClInclude Include="Bullet_Normal.h" />
     <ClInclude Include="BulletBase.h" />
-    <ClInclude Include="PlayerCharacterBase.h" />
+    <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="EffectManager.h" />

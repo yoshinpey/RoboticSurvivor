@@ -254,6 +254,9 @@
     <ClCompile Include="Bullet_Explosion.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
+      <Filter>Character\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -445,7 +448,7 @@
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="picojson.h" />
-    <ClInclude Include="PlayerCharacterBase.h">
+    <ClInclude Include="PlayerBase.h">
       <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="BulletBase.h">
@@ -453,6 +456,9 @@
     </ClInclude>
     <ClInclude Include="Bullet_Explosion.h">
       <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>Character\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
 
 
 // ‘Ò‹@ó‘Ô
-PlayerIdleState::PlayerIdleState(StateManager* manager) : StateBase(manager)
+PlayerIdleState::PlayerIdleState(StateManager* manager) : StateBase(manager), pPlayer_(nullptr)
 {
     pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
@@ -38,7 +38,7 @@ void PlayerIdleState::ExitState()
 
 
 // •àsó‘Ô
-PlayerWalkingState::PlayerWalkingState(StateManager* manager) : StateBase(manager)
+PlayerWalkingState::PlayerWalkingState(StateManager* manager) : StateBase(manager), pPlayer_(nullptr)
 {
     pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
@@ -72,7 +72,7 @@ void PlayerWalkingState::ExitState()
 
 
 // ‘–só‘Ô
-PlayerRunningState::PlayerRunningState(StateManager* manager) : StateBase(manager)
+PlayerRunningState::PlayerRunningState(StateManager* manager) : StateBase(manager), pPlayer_(nullptr)
 {
     pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }
@@ -102,7 +102,7 @@ void PlayerRunningState::ExitState()
 
 
 // ’µ–ôó‘Ô
-PlayerJumpingState::PlayerJumpingState(StateManager* manager) : StateBase(manager)
+PlayerJumpingState::PlayerJumpingState(StateManager* manager) : StateBase(manager), pPlayer_(nullptr)
 {
     pPlayer_ = static_cast<Player*>(pStateManager_->GetGameobject());
 }

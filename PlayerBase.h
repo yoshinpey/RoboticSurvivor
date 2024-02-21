@@ -2,18 +2,9 @@
 #include "Engine/GameObject.h"
 
 // プレイヤーの元になるクラス
-class PlayerCharacterBase : public GameObject
+class PlayerBase : public GameObject
 {
-public:
-    PlayerCharacterBase(GameObject* parent, std::string name)
-        :GameObject(parent, name)
-    {
-    }
-
-    virtual ~PlayerCharacterBase() 
-    {
-    };
-
+protected:
     // 移動関連のパラメータ
     struct PlayerParameter
     {
@@ -26,5 +17,15 @@ public:
     struct PlayerStatus
     {
         float maxHp_ = 100;         // 体力
+    };
+
+public:
+    PlayerBase(GameObject* parent, std::string name)
+        :GameObject(parent, name)
+    {
+    }
+
+    virtual ~PlayerBase() 
+    {
     };
 };
