@@ -32,31 +32,17 @@ void Gun::Initialize()
 
 void Gun::Update()
 {
-    if (!InputManager::IsShoot())return;
+    if (!InputManager::IsShoot() && !InputManager::IsWeaponAction()) return;
 
-    // íeÇê∂ê¨
-    // êe:PlayScene<-Player<-Aim<-Gun(ç°Ç±Ç±)
-    BulletBase* pNewBullet = nullptr;
-    //î≠ñC
-    if (InputManager::IsWalk())
+    if (InputManager::IsShoot())
     {
-        pNewBullet = Instantiate<Bullet_Normal>(GetParent()->GetParent()->GetParent());
-        bulletSpeed_ = pNewBullet->GetBulletParameter_().speed_;
-    }
-    else
-    {
-        pNewBullet = Instantiate<Bullet_Explosion>(GetParent()->GetParent()->GetParent());
-        bulletSpeed_ = pNewBullet->GetBulletParameter_().speed_;
+        ShootBullet<Bullet_Normal>();
     }
 
-    // èeÉÇÉfÉãêÊí[
-    XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
-    // èeÉÇÉfÉãç™ñ{
-    XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
-    // ë¨ìxÇ∆å¸Ç´Çê›íË
-    XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed_);
-    pNewBullet->SetPosition(GunTop);
-    pNewBullet->SetMove(move);
+    if (InputManager::IsWeaponAction())
+    {
+        ShootBullet<Bullet_Explosion>();
+    }
 }
 
 void Gun::Draw()
@@ -81,4 +67,18 @@ XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletS
     XMFLOAT3 move;
     XMStoreFloat3(&move, vMove);
     return move;
+}
+
+template <class T>
+void Gun::ShootBullet()
+{
+    BulletBase* pNewBullet = Instantiate<T>(GetParent()->GetParent()->GetParent());
+    bulletSpeed_ = pNewBullet->GetBulletParameter_().speed_;
+
+    XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
+    XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
+    XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed_);
+
+    pNewBullet->SetPosition(GunTop);
+    pNewBullet->SetMove(move);
 }

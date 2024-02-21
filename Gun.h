@@ -17,4 +17,6 @@ public:
     void Draw() override;           //•`‰æ
     void Release() override;        //ŠJ•ú
     XMFLOAT3 CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletSpeed);
+    template<class T>
+    void ShootBullet();
 };
