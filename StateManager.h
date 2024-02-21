@@ -17,7 +17,6 @@ public:
     StateManager(GameObject* parent);
     ~StateManager();
 
-    void Initialize();
     void Update();
     void ChangeState(const std::string& stateName);                         // 状態の名前を受け取る
     StateBase* AddState(const std::string& stateName, StateBase* state);    // 名前と対応するインスタンスを追加

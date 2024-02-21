@@ -18,24 +18,6 @@ StateManager::~StateManager()
     }
 }
 
-void StateManager::Initialize()
-{
-    // あらかじめ状態インスタンスを生成して登録
-    PlayerIdleState* idleState = dynamic_cast<PlayerIdleState*>(AddState("IdleState", new PlayerIdleState(this)));
-    PlayerWalkingState* walkingState = dynamic_cast<PlayerWalkingState*>(AddState("WalkingState", new PlayerWalkingState(this)));
-    PlayerRunningState* runningState = dynamic_cast<PlayerRunningState*>(AddState("RunningState", new PlayerRunningState(this)));
-    PlayerJumpingState* jumpingState = dynamic_cast<PlayerJumpingState*>(AddState("JumpingState", new PlayerJumpingState(this)));
-
-    // 各状態の初期化
-    if (idleState != nullptr) idleState->EnterState();
-    if (walkingState != nullptr) walkingState->EnterState();
-    if (runningState != nullptr) runningState->EnterState();
-    if (jumpingState != nullptr) jumpingState->EnterState();
-
-    // 初期状態
-    ChangeState("IdleState");
-}
-
 void StateManager::Update()
 {
     if (currentState_ != nullptr)

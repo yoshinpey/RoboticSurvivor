@@ -1,10 +1,13 @@
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
+#include "Engine/Text.h"
 
+#include "StateManager.h"
 #include "Aim.h"
 #include "Player.h"
 #include "Gauge.h"
 #include "Ground.h"
+#include "PlayerState.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
@@ -19,23 +22,25 @@ Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
 
     // ステータスをセット
     status_.maxHp_              = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
-    nowHp_ = status_.maxHp_;
+    nowHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
+
+    // ステートマネージャー
+    pStateManager_ = new StateManager(this);
+
+    //テキスト
+    pText_ = new Text;
+
 }
 
 //デストラクタ
 Player::~Player()
 {
+    SAFE_DELETE(pStateManager_);
 }
 
 //初期化
 void Player::Initialize()
 {
-    // ステートマネージャーの初期化
-    pStateManager_ = new StateManager(this);
-    pStateManager_-> Initialize();
-
-    //テキスト
-    pText_ = new Text;
     pText_->Initialize();
 
     //視点クラス読み込み
@@ -45,6 +50,15 @@ void Player::Initialize()
     //ステージオブジェクトを探す
     //Ground* pGround = (Ground*)FindObject("Ground");
     //hGroundModel_ = pGround->GetModelHandle();
+
+    // あらかじめ状態インスタンスを生成して登録
+    pStateManager_->AddState("IdleState", new PlayerIdleState(pStateManager_));
+    pStateManager_->AddState("WalkingState", new PlayerWalkingState(pStateManager_));
+    pStateManager_->AddState("RunningState", new PlayerRunningState(pStateManager_));
+    pStateManager_->AddState("JumpingState", new PlayerJumpingState(pStateManager_));
+
+    // 初期状態
+    pStateManager_->ChangeState("IdleState");
 }
 
 //更新

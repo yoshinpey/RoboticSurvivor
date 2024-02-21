@@ -1,11 +1,11 @@
 #pragma once
-#include "Engine/Text.h"
 
 #include "InputManager.h"
-#include "StateManager.h"
 #include "PlayerBase.h"
 
 class Aim;
+class StateManager;
+class Text;
 
 class Player : public PlayerBase
 {
