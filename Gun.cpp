@@ -32,8 +32,6 @@ void Gun::Initialize()
 
 void Gun::Update()
 {
-    if (!InputManager::IsShoot() && !InputManager::IsWeaponAction()) return;
-
     if (InputManager::IsShoot())
     {
         ShootBullet<Bullet_Normal>();

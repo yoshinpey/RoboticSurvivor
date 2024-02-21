@@ -226,9 +226,6 @@
     <ClCompile Include="StateManager.cpp">
       <Filter>Character\State</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Character\Player</Filter>
-    </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
@@ -255,6 +252,9 @@
       <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="EnemyState.cpp">
+      <Filter>Character\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
       <Filter>Character\State</Filter>
     </ClCompile>
   </ItemGroup>
@@ -424,9 +424,6 @@
     <ClInclude Include="StateManager.h">
       <Filter>Character\State</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
@@ -458,6 +455,9 @@
       <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="EnemyState.h">
+      <Filter>Character\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
       <Filter>Character\State</Filter>
     </ClInclude>
   </ItemGroup>
