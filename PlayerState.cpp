@@ -1,9 +1,6 @@
-#include "Engine/Global.h"
-
 #include "PlayerState.h"
-#include "StateManager.h"
 #include "Player.h"
-
+#include "StateManager.h"
 
 // ‘Ò‹@ó‘Ô
 PlayerIdleState::PlayerIdleState(StateManager* manager) : StateBase(manager), pPlayer_(nullptr)

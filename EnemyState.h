@@ -1,8 +1,7 @@
 #pragma once
+#include "StateBase.h"
 
 class EnemyBase;
-class StateBase;
-class StateManager;
 
 // 待機状態
 class EnemyIdleState : public StateBase
@@ -48,7 +47,7 @@ public:
     void ExitState() override;
 };
 
-// ダメージ状態
+// 被ダメージ状態
 class EnemyDamageState : public StateBase
 {
     EnemyBase* pEnemyBase_;

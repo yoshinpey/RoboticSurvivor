@@ -1,7 +1,4 @@
 #pragma once
-#include "Engine/Text.h"
-
-#include "StateManager.h"
 #include "StateBase.h"
 
 class Player;
