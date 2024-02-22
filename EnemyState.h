@@ -1,11 +1,10 @@
 #pragma once
-#include "StateBase.h"
 
 class EnemyBase;
 class StateBase;
 class StateManager;
 
-// エネミー待機状態
+// 待機状態
 class EnemyIdleState : public StateBase
 {
     EnemyBase* pEnemyBase_;
@@ -16,7 +15,18 @@ public:
     void ExitState() override;
 };
 
-// エネミー追跡状態
+// 徘徊索敵状態
+class EnemyWanderingState : public StateBase
+{
+    EnemyBase* pEnemyBase_;
+public:
+    EnemyWanderingState(StateManager* manager);
+    void EnterState() override;
+    void UpdateState() override;
+    void ExitState() override;
+};
+
+// 発見追跡状態
 class EnemyChaseState : public StateBase
 {
     EnemyBase* pEnemyBase_;
@@ -27,7 +37,7 @@ public:
     void ExitState() override;
 };
 
-// エネミー攻撃状態
+// 攻撃状態
 class EnemyAttackState : public StateBase
 {
     EnemyBase* pEnemyBase_;
@@ -38,7 +48,7 @@ public:
     void ExitState() override;
 };
 
-// エネミーダメージ状態
+// ダメージ状態
 class EnemyDamageState : public StateBase
 {
     EnemyBase* pEnemyBase_;

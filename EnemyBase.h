@@ -25,7 +25,7 @@ private:
     // ƒAƒ‹ƒSƒŠƒYƒ€
     struct EnemyAlgorithm
     {
-        int detectPlayerDistance_;
+        int ‚„istance_;
         int patrolRadius_;
         int approachDistance_;
         int attackDistance_;
