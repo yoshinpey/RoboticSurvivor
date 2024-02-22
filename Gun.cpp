@@ -8,7 +8,7 @@
 
 namespace
 {
-    XMFLOAT3 offset = {0.25f, -1.25f, 1.50f };
+    XMFLOAT3 offset = {0.6f, -1.25f, 1.50f };
 }
 
 Gun::Gun(GameObject* parent)
