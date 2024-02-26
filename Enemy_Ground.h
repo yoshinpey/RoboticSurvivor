@@ -2,14 +2,12 @@
 #include "Engine/Model.h"
 #include "EnemyBase.h"
 
-
-
 // 地上敵を管理するクラス
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // モデル番号
     SphereCollider* pCollision_;        // コリジョン
-
+    float lastAngle_;
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
     ~Enemy_Ground() override;           // デストラクタ

@@ -15,7 +15,7 @@ class EnemyBase : public GameObject
 {
 private:
     EnemyType enemyType_;  // エネミーの種類
-    Player* pPlayer_;
+    
     // 各ステータス
     struct EnemyStatus
     {
@@ -37,8 +37,7 @@ protected:
     // 構造体のインスタンス
     EnemyStatus status_;
     EnemyAlgorithm algorithm_;
-
-
+    Player* pPlayer_;
 
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
