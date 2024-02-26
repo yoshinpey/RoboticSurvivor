@@ -1,8 +1,7 @@
 #include "Enemy_Ground.h"
-#include "Player.h"
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr), pPlayer_(nullptr)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -32,13 +31,27 @@ void Enemy_Ground::Initialize()
     pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 2.0f);
     AddCollider(pCollision_);
 
-    // プレイヤーオブジェクト取得
-    pPlayer_ = static_cast<Player*>(FindObject("Player"));
 }
 
 void Enemy_Ground::Update()
 {
-    CheckPlayerDistance();
+    // プレイヤーの位置までの距離を計算
+    float dist = CheckPlayerDistance();
+
+    // プレイヤーの位置までの方向ベクトルを計算
+    XMFLOAT3 direction = CheckPlayerDirection();
+
+    // 移動速度に応じて移動量を計算
+    XMFLOAT3 moveVector = { direction.x * status_.walkSpeed_, 0, direction.z * status_.walkSpeed_ };
+
+    // 新しい位置を計算
+    XMFLOAT3 newPosition = CalculateFloat3Add(transform_.position_, moveVector);
+
+    // 新しい位置を適用
+    transform_.position_ = newPosition;
+
+    OutputDebugString(std::to_string(dist).c_str());
+    OutputDebugString("\n");
 }
 
 void Enemy_Ground::Draw()
@@ -66,20 +79,3 @@ void Enemy_Ground::Attack()
 {
 }
 
-// プレイヤーとの距離を計算する関数
-void Enemy_Ground::CheckPlayerDistance()
-{
-    float distanceToPlayer = CalculateDistance(transform_.position_, pPlayer_->GetPosition());
-    OutputDebugString(std::to_string(distanceToPlayer).c_str());
-    OutputDebugString("\n");
-    //if (distanceToPlayer < someThreshold_)
-    //{
-    //    // プレイヤーが近くにいる場合
-
-    //}
-    //else
-    //{
-    //    // プレイヤーが遠い場合
-
-    //}
-}
