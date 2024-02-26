@@ -34,6 +34,7 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
+    CheckPlayerDistance();
 }
 
 void Enemy_Ground::Draw()
@@ -59,4 +60,21 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
 
 void Enemy_Ground::Attack()
 {
+}
+
+// プレイヤーとの距離を計算する関数
+void Enemy_Ground::CheckPlayerDistance()
+{
+    float distanceToPlayer = CalculateDistance(this->GetPosition(), pPlayer_->GetPosition());
+    OutputDebugString(std::to_string(distanceToPlayer).c_str());
+    //if (distanceToPlayer < someThreshold_)
+    //{
+    //    // プレイヤーが近くにいる場合
+
+    //}
+    //else
+    //{
+    //    // プレイヤーが遠い場合
+
+    //}
 }

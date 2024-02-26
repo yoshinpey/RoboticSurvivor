@@ -20,4 +20,5 @@ public:
     void OnCollision(GameObject* pTarget);
 
     void Attack() override;
+    void CheckPlayerDistance()override;
 };

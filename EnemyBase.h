@@ -1,6 +1,9 @@
 #pragma once
 #include "Engine/GameObject.h"
 
+#include "Player.h"
+#include "PlayScene.h"
+
 // エネミーの名前とIDを管理するenum
 enum class EnemyType
 {
@@ -25,7 +28,7 @@ private:
     // アルゴリズム
     struct EnemyAlgorithm
     {
-        int ｄistance_;
+        int detectPlayerDistance_;
         int patrolRadius_;
         int approachDistance_;
         int attackDistance_;
@@ -35,13 +38,17 @@ protected:
     // 構造体のインスタンス
     EnemyStatus status_;
     EnemyAlgorithm algorithm_;
-    
+
+    PlayScene* pPlayScene;
+    Player* pPlayer_;
+
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
         : GameObject(parent, name), enemyType_(enemyType)
     {
         status_ = { 0,0,0 };
         algorithm_ = { 0,0,0,0 };
+        pPlayer_ = dynamic_cast<Player*>(FindObject("Player"));
     }
 
     virtual ~EnemyBase() = default;
@@ -52,6 +59,11 @@ public:
     // 攻撃
     virtual void Attack() = 0;
 
+    // 敵の座標を取得
+    XMFLOAT3 GetPosition() const { return transform_.position_; }
+
+    // プレイヤーとの距離を計算する関数
+    virtual void CheckPlayerDistance() {};
 
     void detectPlayer() {
         // 視界内のプレイヤーを検出する処理
