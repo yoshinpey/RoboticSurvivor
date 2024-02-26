@@ -52,21 +52,22 @@ public:
 
     virtual ~EnemyBase() = default;
 
-    // エネミーの種類を取得
+    // 敵の種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
-
-    // 攻撃
-    virtual void Attack() = 0;
 
     // 敵の座標を取得
     XMFLOAT3 GetPosition() const { return transform_.position_; }
 
-    // プレイヤーとの距離を計算する関数
+    // 攻撃
+    virtual void Attack() = 0;
+
+    // プレイヤーとの距離を算出する
     float CheckPlayerDistance() 
     {
         return CalculateDistance(this->GetPosition(), pPlayer_->GetPosition());
     }
 
+    // プレイヤーへの方向を算出する
     XMFLOAT3 CheckPlayerDirection()
     {
         return CalculateDirection(this->GetPosition(), pPlayer_->GetPosition());

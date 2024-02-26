@@ -35,23 +35,22 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
-    // プレイヤーの位置までの距離を計算
+    // プレイヤーまでの距離を計算
     float dist = CheckPlayerDistance();
 
-    // プレイヤーの位置までの方向ベクトルを計算
+    // プレイヤー位置までの方向ベクトルを計算
     XMFLOAT3 direction = CheckPlayerDirection();
 
     // 移動速度に応じて移動量を計算
     XMFLOAT3 moveVector = { direction.x * status_.walkSpeed_, 0, direction.z * status_.walkSpeed_ };
 
     // 新しい位置を計算
-    XMFLOAT3 newPosition = CalculateFloat3Add(transform_.position_, moveVector);
-
-    // 新しい位置を適用
-    transform_.position_ = newPosition;
-
-    OutputDebugString(std::to_string(dist).c_str());
-    OutputDebugString("\n");
+    if (algorithm_.approachDistance_ <= dist)
+    {
+        transform_.position_ = CalculateFloat3Add(transform_.position_, moveVector);
+        OutputDebugString(std::to_string(dist).c_str());
+        OutputDebugString("\n");
+    }
 }
 
 void Enemy_Ground::Draw()
