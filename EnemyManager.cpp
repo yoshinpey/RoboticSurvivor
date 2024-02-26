@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
+#include "Enemy_Explosion.h"
 
 
 EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
@@ -31,8 +32,8 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 
         ///////////////ˆê’U•Ê‚Ì‚â‚Â‚Å‘ã—p’†
     case EnemyType::EXPLOSION:
-        pNewEnemy = Instantiate<Enemy_Ground>(pParent_);
-        static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
+        pNewEnemy = Instantiate<Enemy_Explosion>(pParent_);
+        static_cast<Enemy_Explosion*>(pNewEnemy)->SetPosition(spawnPosition);
         break;
     }
 

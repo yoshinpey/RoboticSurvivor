@@ -2,12 +2,14 @@
 #include "Engine/Model.h"
 #include "EnemyBase.h"
 
+class Player;
+
 // 地上敵を管理するクラス
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // モデル番号
     SphereCollider* pCollision_;        // コリジョン
-
+    Player* pPlayer_;
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
     ~Enemy_Ground() override;           // デストラクタ
@@ -20,5 +22,6 @@ public:
     void OnCollision(GameObject* pTarget);
 
     void Attack() override;
+
     void CheckPlayerDistance()override;
 };

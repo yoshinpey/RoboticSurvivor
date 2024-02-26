@@ -1,7 +1,8 @@
 #include "Enemy_Ground.h"
+#include "Player.h"
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr), pPlayer_(nullptr)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -30,6 +31,9 @@ void Enemy_Ground::Initialize()
     // 当たり判定付与
     pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 2.0f);
     AddCollider(pCollision_);
+
+    // プレイヤーオブジェクト取得
+    pPlayer_ = static_cast<Player*>(FindObject("Player"));
 }
 
 void Enemy_Ground::Update()

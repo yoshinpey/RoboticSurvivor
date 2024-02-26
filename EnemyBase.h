@@ -1,8 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-#include "Player.h"
-#include "PlayScene.h"
 
 // エネミーの名前とIDを管理するenum
 enum class EnemyType
@@ -39,16 +37,15 @@ protected:
     EnemyStatus status_;
     EnemyAlgorithm algorithm_;
 
-    PlayScene* pPlayScene;
-    Player* pPlayer_;
+
 
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
         : GameObject(parent, name), enemyType_(enemyType)
     {
         status_ = { 0,0,0 };
-        algorithm_ = { 0,0,0,0 };
-        pPlayer_ = dynamic_cast<Player*>(FindObject("Player"));
+        algorithm_ = { 0,0,0,0 };    
+
     }
 
     virtual ~EnemyBase() = default;

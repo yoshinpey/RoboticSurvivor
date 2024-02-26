@@ -38,9 +38,6 @@
     <Filter Include="00Manager">
       <UniqueIdentifier>{7db5fd46-de21-46f9-8afb-266d2183aa91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Item">
-      <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Stage">
       <UniqueIdentifier>{7f0c301f-851a-4def-8b67-bd80aaf54e9e}</UniqueIdentifier>
     </Filter>
@@ -67,6 +64,9 @@
     </Filter>
     <Filter Include="01Engine\imgui">
       <UniqueIdentifier>{612e8222-8e39-40fd-b667-53c79de35831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Player\Item">
+      <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -143,7 +143,7 @@
       <Filter>03Scene\04Clear</Filter>
     </ClCompile>
     <ClCompile Include="Crystal.cpp">
-      <Filter>Item</Filter>
+      <Filter>Character\Player\Item</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>Stage</Filter>
@@ -182,7 +182,7 @@
       <Filter>00Manager</Filter>
     </ClCompile>
     <ClCompile Include="ItemManager.cpp">
-      <Filter>Item</Filter>
+      <Filter>Character\Player\Item</Filter>
     </ClCompile>
     <ClCompile Include="MiniMap.cpp">
       <Filter>Multipurpose</Filter>
@@ -332,7 +332,7 @@
       <Filter>03Scene\04Clear</Filter>
     </ClInclude>
     <ClInclude Include="Crystal.h">
-      <Filter>Item</Filter>
+      <Filter>Character\Player\Item</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
       <Filter>Stage</Filter>
@@ -374,7 +374,7 @@
       <Filter>00Manager</Filter>
     </ClInclude>
     <ClInclude Include="ItemManager.h">
-      <Filter>Item</Filter>
+      <Filter>Character\Player\Item</Filter>
     </ClInclude>
     <ClInclude Include="MiniMap.h">
       <Filter>Multipurpose</Filter>

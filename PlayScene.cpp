@@ -14,7 +14,7 @@
 
 
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), hPict_(-1), pEnemyManager_(nullptr), pPlayer_(nullptr)
+	: GameObject(parent, "PlayScene"), hPict_(-1), pEnemyManager_(nullptr)
 {
 	pEnemyManager_ = new EnemyManager(this);
 }
@@ -30,7 +30,9 @@ void PlayScene::Initialize()
 	Model::Load("Entity/Bullet.fbx");
 
 	Instantiate<Ground>(this);			//地面登場
-	
+
+	Instantiate<Player>(this);			//プレイヤー登場
+
 	//敵を出現させるテスト
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
 	for (int i=1; i<=20; i+=5)
@@ -38,10 +40,7 @@ void PlayScene::Initialize()
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
 	}
 
-	//pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, 10), EnemyType::EXPLOSION);
-
-	pPlayer_ = (Player*)FindObject("Player");
-	Instantiate<Player>(this);			//プレイヤー登場
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, -5), EnemyType::EXPLOSION);
 
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
@@ -123,7 +122,6 @@ void PlayScene::Draw()
 void PlayScene::Release()
 {
 	SAFE_DELETE(pEnemyManager_);
-	SAFE_DELETE(pPlayer_);
 }
 
 //タイマー
