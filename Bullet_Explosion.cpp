@@ -31,6 +31,11 @@ void Bullet_Explosion::Initialize()
     //ìñÇΩÇËîªíË
     collision_ = new SphereCollider(XMFLOAT3(0, 0, 0), parameter_.collisionScale_);
     AddCollider(collision_);
+
+    transform_.scale_.x = 5.0f;
+    transform_.scale_.y = 5.0f;
+    transform_.scale_.z = 5.0f;
+
 }
 
 //çXêV
