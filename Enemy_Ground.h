@@ -13,6 +13,8 @@ public:
     ~Enemy_Ground() override;           // デストラクタ
     void Initialize() override;         // 初期化
     void Update() override;             // 更新
+    void Draw() override;               // 描画
+    void Release() override;            // 開放
 
     // 内積計算
     float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
@@ -23,12 +25,10 @@ public:
     // 敵の体をプレイヤーの方向へ回転させる
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
 
-    void Draw() override;               // 描画
-    void Release() override;            // 開放
-
     // 何かに当たった
     void OnCollision(GameObject* pTarget);
 
+    // 攻撃
     void Attack() override;
 
 };

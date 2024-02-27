@@ -32,10 +32,9 @@ void Bullet_Explosion::Initialize()
     collision_ = new SphereCollider(XMFLOAT3(0, 0, 0), parameter_.collisionScale_);
     AddCollider(collision_);
 
-    transform_.scale_.x = 5.0f;
-    transform_.scale_.y = 5.0f;
-    transform_.scale_.z = 5.0f;
-
+    //transform_.scale_.x = 5.0f;
+    //transform_.scale_.y = 5.0f;
+    //transform_.scale_.z = 5.0f;
 }
 
 //çXêV
@@ -43,6 +42,15 @@ void Bullet_Explosion::Update()
 {
     //íeÇîÚÇŒÇ∑
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
+
+    // îöî≠Ç∑ÇÈ
+    if (parameter_.killTimer_ <= 10)
+    {
+        transform_.scale_.x *= 1.3;
+        transform_.scale_.y *= 1.3;
+        transform_.scale_.z *= 1.3;
+        collision_->SetRadius(transform_.scale_.x);
+    }
 
     //íeÇè¡Ç∑
     parameter_.killTimer_--;

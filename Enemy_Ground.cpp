@@ -28,7 +28,7 @@ void Enemy_Ground::Initialize()
     Model::SetAnimFrame(hModel_, 0, 120, 0.75);
 
     // 当たり判定付与
-    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 2.0f);
+    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
     AddCollider(pCollision_);
 }
 
@@ -39,8 +39,6 @@ void Enemy_Ground::Update()
 
     // プレイヤーとの内積を計算して視界角度を取得
     float dotProduct = CalculateDotProduct(directionToPlayer);
-
-    // エネミーの視界角度(半角)
     const float fovAngle = XMConvertToRadians(1.0f);
 
     // プレイヤーが視界内にいる場合
@@ -49,7 +47,7 @@ void Enemy_Ground::Update()
         // 視界内にいることを示すためにスケールを変更
         transform_.scale_.y = 1.0f;
 
-        // プレイヤーに接近する距離にあればプレイヤーに接近
+        // 許可された距離までプレイヤーに接近
         if (algorithm_.approachDistance_ <= CheckPlayerDistance())
         {
             ApproachPlayer(directionToPlayer);
