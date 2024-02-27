@@ -13,6 +13,7 @@ public:
     ~Enemy_Ground() override;           // デストラクタ
     void Initialize() override;         // 初期化
     void Update() override;             // 更新
+    bool IsPlayerInFieldOfView();
     void Draw() override;               // 描画
     void Release() override;            // 開放
 

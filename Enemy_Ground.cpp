@@ -35,65 +35,54 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
-    // プレイヤーの向いている方向
-    //float rotY = pPlayer_->GetRotate().y;
+    // プレイヤーへの方向ベクトル(正規化済)
+    XMFLOAT3 direction = CheckPlayerDirection();
 
-    // エネミーの向いている方向
-    XMFLOAT3 charaFoword;
-    charaFoword.x = (float)sin(XMConvertToRadians(transform_.rotate_.y));
-    charaFoword.z = (float)cos(XMConvertToRadians(transform_.rotate_.y));
-
-    // 正規化
-    /////////////////////////ここ
-
-    // エネミーの視界角度（半角）
-    const float fovAngle = XMConvertToRadians(180.0f);
-
-    // プレイヤーが視界内にいるかどうかを判定
-    XMFLOAT3 toPlayer = CheckPlayerDirection();
-    XMVECTOR vecToPlayer = XMLoadFloat3(&toPlayer);
-
-    float dotProduct;
-    XMStoreFloat(&dotProduct, XMVector3Dot(XMLoadFloat3(&transform_.rotate_), vecToPlayer));
-
-    if (dotProduct >= cos(fovAngle / 2))
+    // プレイヤーが視界内にいるかどうか
+    if (IsPlayerInFieldOfView())
     {
-        transform_.scale_.y = 0.2f;
-        // プレイヤーが視界内にいる場合の処理を記述
-        // プレイヤーまでの距離を計算
+        // プレイヤーまでの距離
         float dist = CheckPlayerDistance();
+        //OutputDebugString(std::to_string(dist).c_str());
+        //OutputDebugString("\n");
+    }
 
-        // プレイヤー位置までの方向ベクトルを計算
-        XMFLOAT3 direction = CheckPlayerDirection();
-        
-        // 移動速度に応じて移動量を計算
-        XMFLOAT3 moveVector = { direction.x * status_.walkSpeed_, 0, direction.z * status_.walkSpeed_ };
+    // デバッグ用、視野角に入ってるか確認するための変形
+    transform_.scale_.y = IsPlayerInFieldOfView() ? 0.2f : 1.0f;
+}
 
-        // 新しい位置を計算
-        if (algorithm_.approachDistance_ <= dist)
-        {
-            transform_.position_ = CalculateFloat3Add(transform_.position_, moveVector);
+bool Enemy_Ground::IsPlayerInFieldOfView()
+{
+    const float fieldOfView = XMConvertToRadians(20.0f); // 視界角度をラジアンに変換
+    XMFLOAT3 enemyForward = CheckPlayerDirection();
 
-            // エネミーをプレイヤーの方向に向ける
-            float newAngle = atan2(direction.z, direction.x);
-            float angleDiff = newAngle - lastAngle_;
-            if (angleDiff > XM_PI)
-            {
-                newAngle -= XM_2PI;
-            }
-            else if (angleDiff < -XM_PI)
-            {
-                newAngle += XM_2PI;
-            }
-            transform_.rotate_.y = -XMConvertToDegrees(newAngle);
-            lastAngle_ = newAngle;
+    // プレイヤーへの方向ベクトル(正規化済)
+    XMFLOAT3 toPlayer = CheckPlayerDirection();
 
-            OutputDebugString(std::to_string(dist).c_str());
-            OutputDebugString("\n");
-        }
+    // 視界の方向ベクトルをプレイヤーへの方向ベクトルに向けて徐々に回転させる
+    float angle = acos(XMVectorGetX(XMVector3Dot(XMLoadFloat3(&enemyForward), XMLoadFloat3(&toPlayer)))); // 敵とプレイヤーの方向ベクトルの内積から角度を求める
+    float rotateSpeed = XMConvertToRadians(1.0f); // 視界の回転速度（1度ずつ回転）
+
+    if (angle > rotateSpeed)
+    {
+        // 視界の方向ベクトルを徐々にプレイヤーへの方向ベクトルに向ける
+        XMFLOAT3 newEnemyForward;
+        XMStoreFloat3(&newEnemyForward, XMVector3Normalize(XMLoadFloat3(&enemyForward) + XMLoadFloat3(&toPlayer) * rotateSpeed));
+        enemyForward = newEnemyForward;
     }
     else
-        transform_.scale_.y = 1.0f;
+    {
+        // 視界の方向ベクトルがほぼプレイヤーへの方向ベクトルと一致する場合、完全に一致させる
+        enemyForward = toPlayer;
+    }
+
+    // 視界の方向ベクトルとプレイヤーへの方向ベクトルの角度が視界角度の半分以下であればプレイヤーが視界内にいると判定
+    angle = acos(XMVectorGetX(XMVector3Dot(XMLoadFloat3(&enemyForward), XMLoadFloat3(&toPlayer)))); // 更新した視界の方向ベクトルとプレイヤーへの方向ベクトルの内積から角度を再計算
+
+    // 視界の方向を更新
+    transform_.rotate_.y = atan2(enemyForward.x, enemyForward.z);
+
+    return angle <= fieldOfView / 2;
 }
 
 void Enemy_Ground::Draw()
