@@ -25,7 +25,7 @@ void Enemy_Ground::Initialize()
     assert(hModel_ >= 0);
 
     //アニメーション
-    Model::SetAnimFrame(hModel_, 0, 120, 0.75);
+    //Model::SetAnimFrame(hModel_, 0, 120, 0.75);
 
     // 当たり判定付与
     pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
