@@ -13,7 +13,16 @@ public:
     ~Enemy_Ground() override;           // デストラクタ
     void Initialize() override;         // 初期化
     void Update() override;             // 更新
-    bool IsPlayerInFieldOfView();
+
+    // 内積計算
+    float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
+
+    // 移動速度に応じた移動量でプレイヤーに接近する
+    void ApproachPlayer(const XMFLOAT3& directionToPlayer);
+
+    // 敵の体をプレイヤーの方向へ回転させる
+    void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
+
     void Draw() override;               // 描画
     void Release() override;            // 開放
 
