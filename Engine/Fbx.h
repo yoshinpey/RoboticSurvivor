@@ -17,8 +17,8 @@ struct RayCastData
 	XMFLOAT3 normal;	//法線
 
 	RayCastData() :start(0.0f, 0.0f, 0.0f), normal(0.0f, 0.0f, 0.0f), dir(0.0f, 0.0f, 0.0f), dist(0.0f), hit(false)
-	{ 
-		dist = 99999.0f; 
+	{
+		dist = 99999.0f;
 	}
 };
 
@@ -41,7 +41,7 @@ class Fbx
 	FbxManager* pFbxManager_;
 
 	//FBXファイルのシーン（Mayaで作ったすべての物体）を扱う
-	FbxScene*	pFbxScene_;
+	FbxScene* pFbxScene_;
 
 
 	// アニメーションのフレームレート
@@ -60,7 +60,9 @@ class Fbx
 	//ノードの中身を調べる
 	//引数：pNode		調べるノード
 	//引数：pPartsList	パーツのリスト
-	void CheckNode(FbxNode* pNode, std::vector<FbxParts*> *pPartsList);
+	void CheckNode(FbxNode* pNode, std::vector<FbxParts*>* pPartsList);
+
+
 
 
 
@@ -76,7 +78,16 @@ public:
 
 	//描画
 	//引数：World	ワールド行列
-	void    Draw(Transform& transform, int frame);
+	void	Draw(Transform& transform, int frame);
+
+	//描画
+	//引数：World	ワールド行列
+	//SHADEMODE : 0=3D, 1=2D, 2=UNLIT(DEBUG用), 3=BillBoard, 4=NoShadow
+	void    Draw(Transform& transform, int frame, int type = 0);
+
+	//描画
+	//引数：World	ワールド行列
+	void    Draw(Transform& transform, int frame1, int frame2, float blendFactor);
 
 	//解放
 	void    Release();
@@ -86,9 +97,11 @@ public:
 	//戻値：ボーンの位置
 	XMFLOAT3 GetBonePosition(std::string boneName);
 
+	XMFLOAT3 GetBoneAnimPosition(std::string boneName, int frame);
+
 	//レイキャスト（レイを飛ばして当たり判定）
 	//引数：data	必要なものをまとめたデータ
-	void RayCast(RayCastData *data);
+	void RayCast(RayCastData* data);
 
 };
 

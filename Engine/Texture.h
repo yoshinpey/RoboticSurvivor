@@ -19,8 +19,8 @@ using namespace DirectX;
 //-----------------------------------------------------------
 class Texture
 {
-	ID3D11SamplerState*			pSampleLinear_;		//テクスチャサンプラー（テクスチャの貼り方）
-	ID3D11ShaderResourceView*	pTextureSRV_;		//シェーダーリソースビュー（テクスチャをシェーダーに送るためのもの）
+	ID3D11SamplerState* pSampleLinear_;		//テクスチャサンプラー（テクスチャの貼り方）
+	ID3D11ShaderResourceView* pTextureSRV_;		//シェーダーリソースビュー（テクスチャをシェーダーに送るためのもの）
 	XMFLOAT3					size_;				//画像ファイルのサイズ
 
 public:

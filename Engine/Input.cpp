@@ -122,16 +122,14 @@ namespace Input
 	}
 
 
-	// 入力キーを変更する
-	int ChangeKey()
+	// 何のキーが押されたか調べる
+	// 戻り値:入力キー番号
+	int GetKeyCode()
 	{
-		//感知する部分全部
-		for (int i = DIK_ESCAPE; i <= DIK_MEDIASELECT; i++)
+		// 全部のキーコードから入力されたキーを探す
+		for (int keyCode = DIK_ESCAPE; keyCode <= DIK_MEDIASELECT; keyCode++)
 		{
-			if (IsKey(i))
-			{
-				return i;
-			}
+			if (IsKey(keyCode)) return keyCode;
 		}
 		return 0;
 	}

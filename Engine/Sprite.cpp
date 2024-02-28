@@ -3,7 +3,7 @@
 #include "Global.h"
 
 //コンストラクタ
-Sprite::Sprite():
+Sprite::Sprite() :
 	pTexture_(nullptr)
 {
 }
@@ -21,7 +21,7 @@ HRESULT Sprite::Load(std::string fileName)
 {
 	//テクスチャ準備
 	pTexture_ = new Texture();
-	if(FAILED(pTexture_->Load(fileName)))
+	if (FAILED(pTexture_->Load(fileName)))
 	{
 		return E_FAIL;
 	}
@@ -31,7 +31,7 @@ HRESULT Sprite::Load(std::string fileName)
 
 	//インデックス情報準備
 	InitIndex();
-	
+
 	//コンスタントバッファ準備
 	InitConstantBuffer();
 
@@ -43,11 +43,11 @@ void Sprite::InitConstantBuffer()
 {
 	//必要な設定項目
 	D3D11_BUFFER_DESC cb;
-	cb.ByteWidth =		sizeof(CONSTANT_BUFFER);
-	cb.Usage =			D3D11_USAGE_DYNAMIC;
-	cb.BindFlags =		D3D11_BIND_CONSTANT_BUFFER;
+	cb.ByteWidth = sizeof(CONSTANT_BUFFER);
+	cb.Usage = D3D11_USAGE_DYNAMIC;
+	cb.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	cb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	cb.MiscFlags =		0;
+	cb.MiscFlags = 0;
 	cb.StructureByteStride = 0;
 
 	// 定数バッファの作成
@@ -61,9 +61,9 @@ void Sprite::InitVertex()
 	VERTEX vertices[] =
 	{
 		{ XMFLOAT3(-1.0f,  1.0f, 0.0f),	XMFLOAT3(0.0f, 0.0f, 0.0f) },   // 四角形の頂点（左上）
-		{ XMFLOAT3( 1.0f,  1.0f, 0.0f),	XMFLOAT3(1.0f, 0.0f, 0.0f) },   // 四角形の頂点（右上）
+		{ XMFLOAT3(1.0f,  1.0f, 0.0f),	XMFLOAT3(1.0f, 0.0f, 0.0f) },   // 四角形の頂点（右上）
 		{ XMFLOAT3(-1.0f, -1.0f, 0.0f),	XMFLOAT3(0.0f, 1.0f, 0.0f) },   // 四角形の頂点（左下）
-		{ XMFLOAT3( 1.0f, -1.0f, 0.0f),	XMFLOAT3(1.0f, 1.0f, 0.0f) },   // 四角形の頂点（右下）
+		{ XMFLOAT3(1.0f, -1.0f, 0.0f),	XMFLOAT3(1.0f, 1.0f, 0.0f) },   // 四角形の頂点（右下）
 	};
 
 
@@ -82,7 +82,7 @@ void Sprite::InitVertex()
 
 void Sprite::InitIndex()
 {
-	int index[] = {2,1,0, 2,3,1 };
+	int index[] = { 2,1,0, 2,3,1 };
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -124,7 +124,7 @@ void Sprite::Draw(Transform& transform, RECT rect, float alpha)
 
 
 	//表示するサイズに合わせる
-	XMMATRIX cut = XMMatrixScaling((float)rect.right, (float)rect.bottom ,1);
+	XMMATRIX cut = XMMatrixScaling((float)rect.right, (float)rect.bottom, 1);
 
 	//画面に合わせる
 	XMMATRIX view = XMMatrixScaling(1.0f / Direct3D::screenWidth_, 1.0f / Direct3D::screenHeight_, 1.0f);
@@ -134,13 +134,11 @@ void Sprite::Draw(Transform& transform, RECT rect, float alpha)
 	cb.world = XMMatrixTranspose(world);
 
 	// テクスチャ座標変換行列を渡す
-	XMMATRIX mTexTrans = XMMatrixTranslation((float)rect.left / (float)pTexture_->GetSize().x,
-		(float)rect.top / (float)pTexture_->GetSize().y, 0.0f);
-	XMMATRIX mTexScale = XMMatrixScaling((float)rect.right / (float)pTexture_->GetSize().x,
-		(float)rect.bottom / (float)pTexture_->GetSize().y, 1.0f);
+	XMFLOAT3 texSize = pTexture_->GetSize();
+	XMMATRIX mTexTrans = XMMatrixTranslation((float)rect.left / texSize.x, (float)rect.top / texSize.y, 0.0f);
+	XMMATRIX mTexScale = XMMatrixScaling((float)rect.right / texSize.x, (float)rect.bottom / texSize.y, 1.0f);
 	XMMATRIX mTexel = mTexScale * mTexTrans;
 	cb.uvTrans = XMMatrixTranspose(mTexel);
-	
 
 	// テクスチャ合成色情報を渡す
 	cb.color = XMFLOAT4(1, 1, 1, alpha);
@@ -149,10 +147,10 @@ void Sprite::Draw(Transform& transform, RECT rect, float alpha)
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));		// リソースへ値を送る
 
 
-	ID3D11SamplerState*			pSampler = pTexture_->GetSampler();
+	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
 	Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
 
-	ID3D11ShaderResourceView*	pSRV = pTexture_->GetSRV();
+	ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
 	Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
 
 	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);									// GPUからのリソースアクセスを再開

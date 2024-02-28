@@ -26,7 +26,7 @@ PlayScene::~PlayScene()
 void PlayScene::Initialize()
 {
 	// シーンの途中で登場するモデルは先に読んでおく
-	Model::Load("DebugCollision/sphereCollider.fbx");
+	Model::Load("DebugCollision/sphereCollider.fbx",0, Direct3D::SHADER_TYPE::SHADER_UNLIT);
 	Model::Load("Entity/Bullet.fbx");
 
 	Instantiate<Ground>(this);			//地面登場

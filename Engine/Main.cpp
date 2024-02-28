@@ -276,6 +276,7 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 
 	return hWnd;
 }
+
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -294,23 +295,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
         if (isCursorLimited)
         {
-            // マウスカーソルをウィンドウの中心に移動
-            LimitMousePointer(hWnd);
-            Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
-			// カーソルを非表示
-			while (ShowCursor(FALSE) >= 0);
+			Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+            LimitMousePointer(hWnd);			// マウスカーソルをウィンドウの中心に移動
+			while (ShowCursor(FALSE) >= 0);		// カーソルを非表示
         }
         return 0;
-
         //キーボードのキーが押された
     case WM_KEYDOWN:
         // エスケープキーが押された場合
         if (wParam == VK_ESCAPE)
         {
+			ReleaseMousePointer();			// マウスポインターの制限を解除
             while (ShowCursor(TRUE) < 0);   // マウスカーソルを表示する
-            ReleaseMousePointer();  // マウスポインターの制限を解除
-            int result = MessageBox(hWnd, "プログラムを終了しますか？", "確認", MB_OKCANCEL | MB_ICONQUESTION);
 
+            int result = MessageBox(hWnd, "プログラムを終了しますか？", "確認", MB_OKCANCEL | MB_ICONQUESTION);
             // OKボタンが押された場合、プログラムを終了
             if (result == IDOK)
             {
@@ -362,13 +360,22 @@ void LimitMousePointer(HWND hwnd)
 	GetClientRect(hwnd, &windowRect);
 
 	// ウィンドウの中心座標を計算
-	POINT windowCenter = { (windowRect.left + windowRect.right) / 2, (windowRect.top + windowRect.bottom) / 2 };
-
-	// ウィンドウの中心座標をスクリーン座標に変換
-	ClientToScreen(hwnd, &windowCenter);
+	POINT windowCenter = { Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2 };
 
 	// マウスポインターをウィンドウの中心に移動
 	SetCursorPos(windowCenter.x, windowCenter.y);
+
+	// ウィンドウの矩形領域をスクリーン座標に変換
+	MapWindowPoints(hwnd, nullptr, reinterpret_cast<POINT*>(&windowRect), 2);
+
+	// タスクバーの高さを取得
+	RECT taskbarRect;
+	HWND taskbar = FindWindow("Shell_TrayWnd", nullptr);
+	if (taskbar && GetWindowRect(taskbar, &taskbarRect))
+	{
+		// タスクバーの高さを制限領域から除外
+		windowRect.bottom -= (taskbarRect.bottom - taskbarRect.top);
+	}
 
 	// マウスポインターを制限
 	ClipCursor(&windowRect);

@@ -1,6 +1,7 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Model.h"
+#include "Direct3D.h"
 
 
 //コンストラクタ（当たり判定の作成）

@@ -20,35 +20,53 @@ namespace Direct3D
 	////////////////////////外部からもアクセスする変数群///////////////////////////////
 	//【デバイス】
 	//描画を行うための環境やリソースの作成に使う
-	extern ID3D11Device*           pDevice_;
+	extern ID3D11Device* pDevice_;
 
 	//【コンテキスト】
 	//GPUに命令を出すためのやつ
-	extern ID3D11DeviceContext*    pContext_;
+	extern ID3D11DeviceContext* pContext_;
 
 
 	//■シェーダー関連で必要なセット
-	enum SHADER_TYPE{SHADER_3D, SHADER_2D, SHADER_UNLIT, SHADER_MAX};	//3タイプ（3D用、2D用、当たり判定枠表示用）
+	enum SHADER_TYPE 
+	{
+		SHADER_3D, 
+		SHADER_2D, 
+		SHADER_UNLIT, 
+		SHADER_BILLBOARD,
+		SHADER_NOSHADOW, 
+		SHADER_NOSHADOWALPHA, 
+		SHADER_SKYBOX, 
+		SHADER_MAX
+	};	//（3D用、2D用、当たり判定枠表示用）
+
 	struct SHADER_BUNDLE
 	{
 		//【頂点入力レイアウト情報】
 		//1つの頂点データがどんな情報をどんな順番で格納してるか（位置と色と法線と…とか）
-		ID3D11InputLayout *pVertexLayout;
+		ID3D11InputLayout* pVertexLayout;
 
 		//【頂点シェーダ】
 		//シェーダー（〇〇.hlsl）の中の頂点シェーダー（VS）部分をコンパイルしたものが入る
 		//シェーダーはハードによって動作が異なるので、実行時にコンパイルする。
-		ID3D11VertexShader *pVertexShader;
+		ID3D11VertexShader* pVertexShader;
 
 		//【ピクセルシェーダ】
 		//シェーダー（〇〇.hlsl）の中のピクセルシェーダー（PS）部分をコンパイルしたものが入る
-		ID3D11PixelShader *pPixelShader;
+		ID3D11PixelShader* pPixelShader;
 
 		//【ラスタライザ】
 		//頂点の表示位置確定後、画面のどのピクセルを光らせればいいか求めるもの
-		ID3D11RasterizerState*	pRasterizerState;
+		ID3D11RasterizerState* pRasterizerState;
 	};
-	extern SHADER_BUNDLE shaderBundle[SHADER_MAX];
+
+	//■ブレンドモード
+	enum BLEND_MODE
+	{
+		BLEND_DEFAULT, 
+		BLEND_ADD, 
+		BLEND_MAX
+	};
 
 
 
@@ -74,8 +92,13 @@ namespace Direct3D
 	void InitShaderBundle();
 
 	//今から描画するShaderBundleを設定
-	//引数：type	SHADER_3D, SHADER_2D, SHADER_UNLITのどれか
+	//引数：type	SHADER_3D, SHADER_2D, SHADER_UNLIT, SHADER_NOSHADOW のどれか
 	void SetShader(SHADER_TYPE type);
+
+	//ブレンドモードの変更
+	//引数：blendMode	BLEND_DEFAULT	通常
+	//					BLEND_ADD		加算合成（パーティクル用）
+	void SetBlendMode(BLEND_MODE blendMode);
 
 	//描画開始
 	void BeginDraw();
@@ -93,7 +116,7 @@ namespace Direct3D
 	//引数：v0,v1,v2	三角形の各頂点位置
 	//引数：distance	衝突点までの距離を返す
 	//戻値：衝突したかどうか
-	bool Intersect(XMFLOAT3& start, XMFLOAT3& direction, XMFLOAT3 &v0, XMFLOAT3& v1, XMFLOAT3& v2, float* distance);
+	bool Intersect(XMFLOAT3& start, XMFLOAT3& direction, XMFLOAT3& v0, XMFLOAT3& v1, XMFLOAT3& v2, float* distance);
 
 	//Zバッファへの書き込みON/OFF
 	//引数：isWrite	  true=書き込みON／false=書き込みOFF

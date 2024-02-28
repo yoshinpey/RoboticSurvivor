@@ -2,8 +2,8 @@
 #include "Direct3D.h"
 #include "Global.h"
 
-Texture::Texture():
-	pSampleLinear_(nullptr), pTextureSRV_(nullptr), size_(XMFLOAT3(0,0,0))
+Texture::Texture() :
+	pSampleLinear_(nullptr), pTextureSRV_(nullptr), size_(XMFLOAT3(0, 0, 0))
 {
 }
 
@@ -23,14 +23,17 @@ HRESULT Texture::Load(std::string fileName)
 
 	// テクスチャを読み込む
 	CoInitialize(NULL);
-	IWICImagingFactory *pFactory = NULL;
-	IWICBitmapDecoder *pDecoder = NULL;
+	IWICImagingFactory* pFactory = NULL;
+	IWICBitmapDecoder* pDecoder = NULL;
 	IWICBitmapFrameDecode* pFrame = NULL;
 	IWICFormatConverter* pFormatConverter = NULL;
-	CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, reinterpret_cast<void **>(&pFactory));
+	CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, reinterpret_cast<void**>(&pFactory));
 	HRESULT hr = pFactory->CreateDecoderFromFilename(wtext, NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &pDecoder);
-	if(FAILED(hr))
+	if (FAILED(hr))
 	{
+		char message[256];
+		wsprintf(message, "「%s」が見つかりまん", fileName.c_str());
+		MessageBox(0, message, "画像ファイルの読み込みに失敗", MB_OK);
 		return hr;
 	}
 	pDecoder->GetFrame(0, &pFrame);
@@ -42,7 +45,7 @@ HRESULT Texture::Load(std::string fileName)
 	size_ = XMFLOAT3((float)imgWidth, (float)imgHeight, 0);
 
 	// テクスチャの設定
-	ID3D11Texture2D*	pTexture;			// テクスチャデータ
+	ID3D11Texture2D* pTexture;			// テクスチャデータ
 	D3D11_TEXTURE2D_DESC texdec;
 	texdec.Width = imgWidth;
 	texdec.Height = imgHeight;
@@ -81,6 +84,11 @@ HRESULT Texture::Load(std::string fileName)
 	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	Direct3D::pDevice_->CreateSamplerState(&SamDesc, &pSampleLinear_);
 
+	pTexture->Release();
+	pFormatConverter->Release();
+	pFrame->Release();
+	pDecoder->Release();
+	pFactory->Release();
 
 	return S_OK;
 }

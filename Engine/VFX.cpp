@@ -111,7 +111,7 @@ void VFX::EmitterUpdate()
 void VFX::CreateParticle(std::list<VFX::Emitter*>::iterator& emitter)
 {
     //指定個数分
-    for (int i = 0; i < (*emitter)->data.number; i++)
+    for (DWORD i = 0; i < (*emitter)->data.number; i++)
     {
         //パーティクル発生
         Particle* pParticle = new Particle;

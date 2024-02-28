@@ -25,10 +25,10 @@ struct EmitterData
 	XMFLOAT2 size;			//サイズ
 	XMFLOAT2 sizeRnd;		//サイズ誤差（0～1）
 	XMFLOAT2 scale;			//1フレームの拡大率
-	float    lifeTime;		//パーティクルの寿命（フレーム数）
-	int delay;				//何フレームおきにパーティクルを発生させるか
-	int number;				//1度に出すパーティクル量
-	bool isBillBoard;		//ビルボードかどうか
+	DWORD	 lifeTime;		//パーティクルの寿命（フレーム数）
+	DWORD	 delay;			//何フレームおきにパーティクルを発生させるか
+	DWORD	 number;		//1度に出すパーティクル量
+	bool	 isBillBoard;	//ビルボードかどうか
 
 	//初期化
 	EmitterData()
@@ -44,7 +44,7 @@ struct EmitterData
 		deltaColor = XMFLOAT4(0, 0, 0, 0);
 		size = scale = XMFLOAT2(1.0f, 1.0f);
 		sizeRnd = XMFLOAT2(0.0f, 0.0f);
-		lifeTime = 30.0f;
+		lifeTime = 30;
 		delay = 10;
 		number = 1;
 		isBillBoard = true;
@@ -59,7 +59,7 @@ namespace VFX
 	//エミッター（パーティクルの噴射口）
 	struct Emitter
 	{
-		EmitterData data ;		//作成時に指定されたデータ
+		EmitterData data;		//作成時に指定されたデータ
 		int handle = -1;		//ハンドル（番号）
 		DWORD frameCount = 0;	//開始してからのフレーム数
 		BillBoard* pBillBoard = nullptr;	//パーティクルに使うポリゴン
@@ -88,7 +88,7 @@ namespace VFX
 		Emitter* pEmitter;	//発生元エミッタ
 	};
 
-	
+
 
 
 

@@ -145,6 +145,7 @@
     <ClCompile Include="Enemy_Fly.cpp" />
     <ClCompile Include="Enemy_Ground.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
+    <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\BoxCollider.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Collider.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Engine\Text.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Engine\VFX.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameSettings.cpp" />
@@ -189,6 +191,7 @@
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -202,6 +205,9 @@
     <ClInclude Include="Bullet_Normal.h" />
     <ClInclude Include="BulletBase.h" />
     <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="Engine\BillBoard.h" />
+    <ClInclude Include="Engine\VFX.h" />
+    <ClInclude Include="ItemBase.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
@@ -256,6 +262,7 @@
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SaveLoad.h" />
@@ -266,10 +273,22 @@
     <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Assets\Shader\BillBoard.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Assets\Shader\Debug3D.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\NoShadow.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\NoShadowAlpha.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
@@ -278,6 +297,10 @@
     <FxCompile Include="Assets\Shader\Simple3D.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Assets\Shader\SkyBox.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

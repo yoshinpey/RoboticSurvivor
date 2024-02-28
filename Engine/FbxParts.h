@@ -48,15 +48,17 @@ class FbxParts
 		XMFLOAT4	ambient;			//環境光（アンビエント）への反射強度
 		XMFLOAT4	specular;			//鏡面反射光（スペキュラ）への反射強度
 		float		shininess;			//ハイライトの強さ（サイズ）
-		Texture*	pTexture;			//テクスチャ
+		Texture* pTexture;			//テクスチャ
 	}*pMaterial_;
 
 	// ボーン構造体（関節情報）
 	struct  Bone
 	{
 		XMMATRIX  bindPose;      // 初期ポーズ時のボーン変換行列
-		XMMATRIX  newPose;       // アニメーションで変化したときのボーン変換行列
-		XMMATRIX  diffPose;      // mBindPose に対する mNowPose の変化量
+		XMMATRIX  newPose1;      // time1のフレームのボーン変換行列
+		XMMATRIX  diffPose1;     // mBindPose に対する newPose1 の変化量
+		XMMATRIX  newPose2;      // time2のフレームのボーン変換行列
+		XMMATRIX  diffPose2;     // mBindPose に対する newPose2 の変化量
 	};
 
 	// ウェイト構造体（ボーンと頂点の関連付け）
@@ -64,8 +66,8 @@ class FbxParts
 	{
 		XMFLOAT3	posOrigin;		// 元々の頂点座標
 		XMFLOAT3	normalOrigin;	// 元々の法線ベクトル
-		int*		pBoneIndex;		// 関連するボーンのID
-		float*		pBoneWeight;	// ボーンの重み
+		int* pBoneIndex;		// 関連するボーンのID
+		float* pBoneWeight;	// ボーンの重み
 	};
 
 
@@ -77,40 +79,40 @@ class FbxParts
 	DWORD materialCount_;		//マテリアルの個数
 	DWORD polygonVertexCount_;//ポリゴン頂点インデックス数 
 
-		
-	VERTEX *pVertexData_;
+
+	VERTEX* pVertexData_;
 	DWORD** ppIndexData_;
 
 
 	//【頂点バッファ】
 	//各頂点の情報（位置とか色とか）を格納するところ
 	//頂点数分の配列にして使う
-	ID3D11Buffer *pVertexBuffer_;
+	ID3D11Buffer* pVertexBuffer_;
 
 	//【インデックスバッファ】
 	//「どの頂点」と「どの頂点」と「どの頂点」で３角形ポリゴンになるかの情報を格納するところ
-	ID3D11Buffer **ppIndexBuffer_ = NULL;
+	ID3D11Buffer** ppIndexBuffer_ = NULL;
 
 	//【定数バッファ】
 	//シェーダー（Simple3D.hlsl）のグローバル変数に値を渡すためのもの
-	ID3D11Buffer *pConstantBuffer_;
+	ID3D11Buffer* pConstantBuffer_;
 
 
 	// ボーン制御情報
-	FbxSkin*		pSkinInfo_;		// スキンメッシュ情報（スキンメッシュアニメーションのデータ本体）
-	FbxCluster**	ppCluster_;		// クラスタ情報（関節ごとに関連付けられた頂点情報）
+	FbxSkin* pSkinInfo_;		// スキンメッシュ情報（スキンメッシュアニメーションのデータ本体）
+	FbxCluster** ppCluster_;		// クラスタ情報（関節ごとに関連付けられた頂点情報）
 	int				numBone_;		// FBXに含まれている関節の数
-	Bone*			pBoneArray_;	// 各関節の情報
-	Weight*			pWeightArray_;	// ウェイト情報（頂点の対する各関節の影響度合い）
+	Bone* pBoneArray_;	// 各関節の情報
+	Weight* pWeightArray_;	// ウェイト情報（頂点の対する各関節の影響度合い）
 
 
 
 	/////////privateな関数（Init関数から呼ばれる）//////////////////////////
-	void InitVertex(fbxsdk::FbxMesh * mesh);	//頂点バッファ準備
-	void InitMaterial(fbxsdk::FbxNode * pNode);	//マテリアル準備
-	void InitTexture(fbxsdk::FbxSurfaceMaterial * pMaterial, const DWORD &i);	//テクスチャ準備
-	void InitIndex(fbxsdk::FbxMesh * mesh);		//インデックスバッファ準備
-	void InitSkelton(FbxMesh * pMesh);			//骨の情報を準備
+	void InitVertex(fbxsdk::FbxMesh* mesh);	//頂点バッファ準備
+	void InitMaterial(fbxsdk::FbxNode* pNode);	//マテリアル準備
+	void InitTexture(fbxsdk::FbxSurfaceMaterial* pMaterial, const DWORD& i);	//テクスチャ準備
+	void InitIndex(fbxsdk::FbxMesh* mesh);		//インデックスバッファ準備
+	void InitSkelton(FbxMesh* pMesh);			//骨の情報を準備
 	void IntConstantBuffer();	//コンスタントバッファ（シェーダーに情報を送るやつ）準備
 
 public:
@@ -120,12 +122,15 @@ public:
 	//FBXファイルから情報をロードして諸々準備する
 	//引数：pNode　情報が入っているノード
 	//戻値：結果
-	HRESULT Init(FbxNode * pNode);
+	HRESULT Init(FbxNode* pNode);
 
 
 	//描画
 	//引数：world	ワールド行列
 	void Draw(Transform& transform);
+
+	// アニメーションのブレンディングを行う（失敗作
+	void DrawBlendedSkinAnime(Transform& transform, FbxTime time1, FbxTime time2, float blendFactor);
 
 	//ボーン有りのモデルを描画
 	//引数：transform	行列情報
@@ -142,7 +147,13 @@ public:
 	//引数：boneName	取得したいボーンの位置
 	//引数：position	ワールド座標での位置【out】
 	//戻値：見つかればtrue
-	bool GetBonePosition(std::string boneName, XMFLOAT3	* position);
+	bool GetBonePosition(std::string boneName, XMFLOAT3* position);
+
+	//任意のボーンの位置を取得
+	//引数：boneName	取得したいボーンの位置
+	//引数：position	ワールド座標での位置【out】
+	//戻値：見つかればtrue
+	bool GetBonePosition(std::string boneName, FbxTime time, XMFLOAT3* position);
 
 	//スキンメッシュ情報を取得
 	//戻値：スキンメッシュ情報
@@ -150,6 +161,6 @@ public:
 
 	//レイキャスト（レイを飛ばして当たり判定）
 	//引数：data	必要なものをまとめたデータ
-	void RayCast(RayCastData *data);
+	void RayCast(RayCastData* data);
 };
 

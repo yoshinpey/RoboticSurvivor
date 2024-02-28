@@ -44,11 +44,11 @@ void Bullet_Explosion::Update()
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
     // ”š”­‚·‚é
-    if (parameter_.killTimer_ <= 10)
+    if (parameter_.killTimer_ <= 30)
     {
-        transform_.scale_.x *= 1.3;
-        transform_.scale_.y *= 1.3;
-        transform_.scale_.z *= 1.3;
+        transform_.scale_.x *= 1.1;
+        transform_.scale_.y *= 1.1;
+        transform_.scale_.z *= 1.1;
         collision_->SetRadius(transform_.scale_.x);
     }
 

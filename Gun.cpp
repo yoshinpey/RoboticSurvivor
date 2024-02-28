@@ -23,7 +23,7 @@ Gun::~Gun()
 void Gun::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Entity/Rifle_re.fbx");
+    hModel_ = Model::Load("Entity/Rifle.fbx");
     assert(hModel_ >= 0);
 
     //プレイヤーの手の位置まで調整

@@ -16,6 +16,7 @@ using namespace DirectX;
 //-----------------------------------------------------------
 class Sprite
 {
+protected:
 	// 一つの頂点情報を格納する構造体
 	struct VERTEX
 	{
@@ -37,18 +38,18 @@ class Sprite
 	//【頂点バッファ】
 	//各頂点の情報（位置とか色とか）を格納するところ
 	//頂点数分の配列にして使う
-	ID3D11Buffer *pVertexBuffer_;
+	ID3D11Buffer* pVertexBuffer_;
 
 	//【インデックスバッファ】
 	//「どの頂点」と「どの頂点」と「どの頂点」で３角形ポリゴンになるかの情報を格納するところ
-	ID3D11Buffer *pIndexBuffer_;
+	ID3D11Buffer* pIndexBuffer_;
 
 	//【テクスチャ】
-	Texture*	pTexture_;
+	Texture* pTexture_;
 
 	//【定数バッファ】
 	//シェーダー（Simple2D.hlsl）のグローバル変数に値を渡すためのもの
-	ID3D11Buffer *pConstantBuffer_;
+	ID3D11Buffer* pConstantBuffer_;
 
 
 	//////////////////////////private関数（Load関数から呼ばれる）/////////////////////////////
@@ -75,6 +76,6 @@ public:
 
 	//画像サイズの取得
 	//戻値：画像サイズ
-	XMFLOAT3 GetTextureSize() {	return pTexture_->GetSize();}
+	XMFLOAT3 GetTextureSize() { return pTexture_->GetSize(); }
 
 };
