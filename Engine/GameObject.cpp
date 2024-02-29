@@ -39,6 +39,12 @@ GameObject::~GameObject()
 		SAFE_DELETE(*it);
 	}
 	colliderList_.clear();
+
+	//for (auto it = headColliderList_.begin(); it != headColliderList_.end(); it++)
+	//{
+	//	SAFE_DELETE(*it);
+	//}
+	//headColliderList_.clear();
 }
 
 // 削除するかどうか
@@ -220,6 +226,13 @@ void GameObject::AddCollider(Collider* collider)
 	colliderList_.push_back(collider);
 }
 
+//// ヘッド判定用コライダーを追加する
+//void GameObject::AddHeadCollider(Collider* collider)
+//{
+//	collider->SetGameObject(this);
+//	headColliderList_.push_back(collider);
+//}
+
 //コライダー（衝突判定）を削除
 void GameObject::ClearCollider()
 {
@@ -229,6 +242,16 @@ void GameObject::ClearCollider()
 	}
 	colliderList_.clear();
 }
+
+//// ヘッド判定用コライダーを削除
+//void GameObject::ClearHeadCollider()
+//{
+//	for (auto it = headColliderList_.begin(); it != headColliderList_.end(); it++)
+//	{
+//		SAFE_DELETE(*it);
+//	}
+//	headColliderList_.clear();
+//}
 
 //衝突判定
 void GameObject::Collision(GameObject* pTarget)
@@ -252,6 +275,19 @@ void GameObject::Collision(GameObject* pTarget)
 			}
 		}
 	}
+
+	//// ヘッド判定
+	//for (auto i : headColliderList_)
+	//{
+	//	for (auto j : pTarget->headColliderList_)
+	//	{
+	//		if (i->IsHit(j))
+	//		{
+	//			this->HeadOnCollision(pTarget);
+	//		}
+	//	}
+	//}
+	
 
 	//子供も当たり判定
 	for (auto i : pTarget->childList_)
@@ -339,6 +375,7 @@ void GameObject::ReleaseSub()
 {
 	//コライダーを削除
 	ClearCollider();
+	//ClearHeadCollider();
 
 
 	for (auto it = childList_.begin(); it != childList_.end(); it++)
@@ -349,12 +386,6 @@ void GameObject::ReleaseSub()
 
 	Release();
 }
-
-////ローカル行列の取得（このオブジェクトの行列）
-//XMMATRIX GameObject::GetLocalMatrix(void)
-//{
-//	return transform_.GetWorldMatrix();
-//}
 
 //ワールド行列の取得（親の影響を受けた最終的な行列）
 XMMATRIX GameObject::GetWorldMatrix(void)

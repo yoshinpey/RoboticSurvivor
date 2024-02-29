@@ -29,7 +29,13 @@ void Enemy_Fly::Initialize()
 
     // “–‚½‚è”»’è•t—^
     pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
+    //pCollision_->SetObjectName
     AddCollider(pCollision_);
+
+    //// “–‚½‚è”»’è•t—^
+    //pHeadCollision_ = new SphereCollider(XMFLOAT3(0.0f, 3.0f, 0.0f), 5.0f);
+    //AddHeadCollider(pHeadCollision_);
+
 }
 
 void Enemy_Fly::Update()
@@ -50,14 +56,23 @@ void Enemy_Fly::Release()
 
 void Enemy_Fly::OnCollision(GameObject* pTarget)
 {
-    /*
+
     // e’e‚É“–‚½‚Á‚½‚Æ‚«
     if (pTarget->GetObjectName() == "Bullet")
     {
+        transform_.scale_.y = 0.2f;
         //KillMe();
     }
-    */
 }
+
+//void Enemy_Fly::HeadOnCollision(GameObject* pTarget)
+//{
+//    // e’e‚É“–‚½‚Á‚½‚Æ‚«
+//    if (pTarget->GetObjectName() == "Bullet")
+//    {
+//        KillMe();
+//    }
+//}
 
 void Enemy_Fly::Attack()
 {

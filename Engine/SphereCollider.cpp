@@ -20,18 +20,9 @@ SphereCollider::SphereCollider(XMFLOAT3 center, float radius)
 #endif
 }
 
-void SphereCollider::Update()
-{
-}
-
 void SphereCollider::SetRadius(float radius)
 {
 	size_ = XMFLOAT3(radius, radius, radius);
-}
-
-void SphereCollider::SetCenter(XMFLOAT3 center)
-{
-	center_ = center;
 }
 
 //ÚG”»’è

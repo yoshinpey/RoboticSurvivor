@@ -23,7 +23,7 @@ Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
     // ステータスをセット
     status_.maxHp_              = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
     nowHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
-
+    
     // ステートマネージャー
     pStateManager_ = new StateManager(this);
 
@@ -66,7 +66,7 @@ void Player::Update()
 {
     // ステートマネージャーの更新
     pStateManager_->Update();
-
+    PlayerHitPoint();
     if (jumping_)
     {
         ApplyGravity();

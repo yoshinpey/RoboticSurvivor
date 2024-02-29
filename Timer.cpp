@@ -49,13 +49,18 @@ void Timer::Draw()
     else
         pNum->SetScale(1.0f);
 
-    int sec = Frame / FPS;                                  //秒数
-    pNum->Draw((int)drawX + 100, (int)drawY, sec);
+    int sec_ = Frame / FPS;                                  //秒数
+    pNum->Draw((int)drawX + 100, (int)drawY, sec_);
 }
 
 //開放
 void Timer::Release()
 {
+}
+
+int Timer::GetFlame()
+{
+    return Frame;
 }
 
 //タイマー設定

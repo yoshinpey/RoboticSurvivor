@@ -33,6 +33,9 @@ protected:
 	//衝突判定リスト
 	std::list<Collider*>	colliderList_;	
 
+	//// ヘッド判定用のコリジョンリスト
+	//std::list<Collider*>	headColliderList_;
+
 public:
 	//コンストラクタ
 	GameObject();
@@ -114,13 +117,20 @@ public:
 
 	//コライダー（衝突判定）を追加する
 	void AddCollider(Collider * collider);
+	//// ヘッド判定用コライダーを追加する
+	//void AddHeadCollider(Collider * collider);
 
 	//何かと衝突した場合に呼ばれる（オーバーライド用）
 	//引数：pTarget	衝突した相手
 	virtual void OnCollision(GameObject* pTarget) {};
+	//// ヘッドコリジョンが何かと衝突した場合に呼ばれる
+	//// 引数：pTarget	衝突した相手
+	//virtual void HeadOnCollision(GameObject* pTarget) {};
 
 	//コライダー（衝突判定）を削除
 	void ClearCollider();
+	//// ヘッド判定用コライダーを削除
+	//void ClearHeadCollider();
 
 	//衝突判定
 	//引数：pTarget	衝突してるか調べる相手

@@ -19,6 +19,9 @@ public:
     void Draw() override;           //描画
     void Release() override;        //開放
 
+    // フレーム取得
+    int GetFlame();
+
     //タイマー設定
     void SetLimit(float seconds);
 
