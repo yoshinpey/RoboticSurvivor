@@ -1,12 +1,13 @@
 #pragma once
-#include "EnemyBase.h"
 #include <vector>
+#include "EnemyBase.h"
 
 class EnemyManager
 {
 private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
     GameObject* pParent_;
+    EnemyBase* pNewEnemy_;
 public:
     EnemyManager(GameObject* parent);
     ~EnemyManager();

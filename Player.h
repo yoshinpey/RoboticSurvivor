@@ -50,12 +50,6 @@ public:
     void Jump();                    // ジャンプ
     void PlayerHitPoint();          // 体力
 
-    // プレイヤー座標のゲッター
-    XMFLOAT3 GetPosition() const { return transform_.position_; }
-
-    // プレイヤーの回転角のゲッター
-    XMFLOAT3 GetRotate() const { return transform_.rotate_; }
-
     // 移動計算を行う関数
     XMFLOAT3 CalculateMoveInput();
 

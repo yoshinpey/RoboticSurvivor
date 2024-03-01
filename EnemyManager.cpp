@@ -1,10 +1,11 @@
 #include "EnemyManager.h"
+
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
 #include "Enemy_Explosion.h"
 
 
-EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
+EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent), pNewEnemy_(nullptr)
 {
 }
 
@@ -16,30 +17,29 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 {
-    EnemyBase* pNewEnemy = nullptr;
 
     switch (enemyType)
     {
     case EnemyType::FLY:
-        pNewEnemy = Instantiate<Enemy_Fly>(pParent_);
-        static_cast<Enemy_Fly*>(pNewEnemy)->SetPosition(spawnPosition);
+        pNewEnemy_ = Instantiate<Enemy_Fly>(pParent_);
+        static_cast<Enemy_Fly*>(pNewEnemy_)->SetPosition(spawnPosition);
         break;
 
     case EnemyType::GROUND:
-        pNewEnemy = Instantiate<Enemy_Ground>(pParent_);
-        static_cast<Enemy_Ground*>(pNewEnemy)->SetPosition(spawnPosition);
+        pNewEnemy_ = Instantiate<Enemy_Ground>(pParent_);
+        static_cast<Enemy_Ground*>(pNewEnemy_)->SetPosition(spawnPosition);
         break;
 
         ///////////////ˆê’U•Ê‚Ì‚â‚Â‚Å‘ã—p’†
     case EnemyType::EXPLOSION:
-        pNewEnemy = Instantiate<Enemy_Explosion>(pParent_);
-        static_cast<Enemy_Explosion*>(pNewEnemy)->SetPosition(spawnPosition);
+        pNewEnemy_ = Instantiate<Enemy_Explosion>(pParent_);
+        static_cast<Enemy_Explosion*>(pNewEnemy_)->SetPosition(spawnPosition);
         break;
     }
 
-    if (pNewEnemy != nullptr)
+    if (pNewEnemy_ != nullptr)
     {
-        enemies.push_back(pNewEnemy);
+        enemies.push_back(pNewEnemy_);
     }
 }
 

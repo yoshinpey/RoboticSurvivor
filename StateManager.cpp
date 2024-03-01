@@ -1,5 +1,4 @@
 #include "StateManager.h"
-#include "PlayerState.h"
 
 // コンストラクタ
 StateManager::StateManager(GameObject* parent)

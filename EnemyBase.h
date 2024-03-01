@@ -54,9 +54,6 @@ public:
     // “G‚Ìí—Ş‚ğæ“¾
     EnemyType GetEnemyType() const { return enemyType_; }
 
-    // “G‚ÌÀ•W‚ğæ“¾
-    XMFLOAT3 GetPosition() const { return transform_.position_; }
-
     // UŒ‚
     virtual void Attack() = 0;
 

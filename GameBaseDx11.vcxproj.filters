@@ -157,9 +157,6 @@
     <ClCompile Include="Enemy_Ground.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Attack.cpp">
-      <Filter>Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy_Fly.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
@@ -356,9 +353,6 @@
       <Filter>Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Ground.h">
-      <Filter>Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Attack.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Fly.h">
