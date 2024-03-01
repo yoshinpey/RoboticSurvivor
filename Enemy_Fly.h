@@ -7,6 +7,7 @@ class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
     SphereCollider* pCollision_;        // コリジョン
+    //SphereCollider* pHeadCollision_;        // コリジョン
 
 public:
     Enemy_Fly(GameObject* parent);      // コンストラクタ
@@ -18,6 +19,8 @@ public:
 
     // 何かに当たった
     void OnCollision(GameObject* pTarget) override;
+
+    //void HeadOnCollision(GameObject* pTarget) override;
 
     void Attack() override;
 

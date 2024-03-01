@@ -1,7 +1,6 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "Model.h"
-#include "Direct3D.h"
 
 
 //コンストラクタ（当たり判定の作成）
@@ -20,9 +19,6 @@ BoxCollider::BoxCollider(XMFLOAT3 basePos, XMFLOAT3 size)
 #endif
 }
 
-void BoxCollider::Update()
-{
-}
 
 //接触判定
 //引数：target	相手の当たり判定

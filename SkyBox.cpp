@@ -1,9 +1,9 @@
 #include "SkyBox.h"
 #include "Engine/Model.h"
-#include "Player.h"
+//#include "Player.h"
 
 SkyBox::SkyBox(GameObject* parent)
-	:GameObject(parent, "SkyBos"), hModel_(-1), pPlayer_(nullptr)
+	:GameObject(parent, "SkyBox"), hModel_(-1)//, pPlayer_(nullptr)
 {
 }
 
@@ -13,7 +13,7 @@ SkyBox::~SkyBox()
 
 void SkyBox::Initialize()
 {
-	hModel_ = Model::Load("Model/SkyBox.fbx");
+	hModel_ = Model::Load("Stage/skyBox.fbx");
 	assert(hModel_ >= 0);
 
 	//Max950‚­‚ç‚¢
@@ -29,12 +29,12 @@ void SkyBox::Update()
 void SkyBox::Draw()
 {
 	//ƒ‚ƒfƒ‹•`‰æ
-	if(pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();
-	else pPlayer_ = (Player*)FindObject("Player");
+	//if(pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();
+	//else pPlayer_ = (Player*)FindObject("Player");
 	
-	transform_.position_.y += 1.5f;	//Aim‚ÌHeight‚Ì’l
+	//transform_.position_.y += 1.5f;	//Aim‚ÌHeight‚Ì’l
 	Model::SetTransform(hModel_, transform_);
-	Model::Draw(hModel_, 6);
+	Model::Draw(hModel_, Direct3D::SHADER_TYPE::SHADER_SKYBOX);
 }
 
 void SkyBox::Release()

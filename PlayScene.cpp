@@ -11,7 +11,7 @@
 #include "Timer.h"
 #include "Gauge.h"
 #include "Score.h"
-
+#include "SkyBox.h"
 
 PlayScene::PlayScene(GameObject * parent)
 	: GameObject(parent, "PlayScene"), hPict_(-1), pEnemyManager_(nullptr)
@@ -32,6 +32,7 @@ void PlayScene::Initialize()
 	Instantiate<Ground>(this);			//地面登場
 
 	Instantiate<Player>(this);			//プレイヤー登場
+	Instantiate<SkyBox>(this);			//プレイヤー登場
 
 	//敵を出現させるテスト
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
@@ -53,7 +54,8 @@ void PlayScene::Initialize()
 
 	//タイマー設定
 	Timer* t = (Timer*)FindObject("Timer");
-	t->SetLimit(15);
+	t->SetLimit(30);
+	t->Start();
 }
 
 void PlayScene::Update()
@@ -80,6 +82,24 @@ void PlayScene::Update()
 
 	TimeProcess();	
 
+	// 
+	Timer* t = (Timer*)FindObject("Timer");
+	int time = t->GetFlame();
+	if (time % 300 == 0)
+	{
+		for (int i = 1; i < 20; i+=4)
+		{
+			pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 30), EnemyType::GROUND);
+		}
+	}
+	if (time == 0)
+	{
+		pEnemyManager_->RemoveAllEnemies();
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+	}
+
+
 	//////スコアテスト用
 	Score* s = (Score*)FindObject("Score");
 	static float score = 0;	
@@ -91,7 +111,7 @@ void PlayScene::Update()
 
 	// デバッグ
 	//敵がすべて消えたらゲームクリア
-	if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr)
+	if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr && FindObject("Enemy_Explosion") == nullptr)
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_CLEAR);

@@ -6,7 +6,11 @@
 
 //コンストラクタ
 Collider::Collider() :
-	pGameObject_(nullptr)
+	pGameObject_(nullptr),
+	type_(COLLIDER_CIRCLE),
+	center_(XMFLOAT3(0.0f, 0.0f, 0.0f)),
+	size_(XMFLOAT3(1.0f, 1.0f, 1.0f)),
+	hDebugModel_(-1)
 {
 }
 
@@ -98,13 +102,5 @@ void Collider::Draw(XMFLOAT3 position)
 
 
 void Collider::SetRadius(float radius)
-{
-}
-
-void Collider::SetCenter(XMFLOAT3 center)
-{
-}
-
-void Collider::Update()
 {
 }
