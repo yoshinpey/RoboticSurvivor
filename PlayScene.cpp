@@ -35,11 +35,11 @@ void PlayScene::Initialize()
 	Instantiate<SkyBox>(this);			//プレイヤー登場
 
 	//敵を出現させるテスト
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
-	for (int i=1; i<=20; i+=5)
-	{
-		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
-	}
+	//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+	//for (int i=1; i<=20; i+=5)
+	//{
+	//	pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
+	//}
 
 	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, -5), EnemyType::EXPLOSION);
 
@@ -76,7 +76,9 @@ void PlayScene::Update()
 
 	if (Input::IsKeyDown(DIK_M))
 	{
-		pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+		//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+
+		pEnemyManager_->SpawnRandomEnemy(EnemyType::FLY, XMFLOAT3(10, 2, 10), XMFLOAT3(20, 5, 20), 3);
 	}
 
 
@@ -85,19 +87,19 @@ void PlayScene::Update()
 	// 
 	Timer* t = (Timer*)FindObject("Timer");
 	int time = t->GetFlame();
-	if (time % 300 == 0)
-	{
-		for (int i = 1; i < 20; i+=4)
-		{
-			pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 30), EnemyType::GROUND);
-		}
-	}
-	if (time == 0)
-	{
-		pEnemyManager_->RemoveAllEnemies();
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
-	}
+	//if (time % 300 == 0)
+	//{
+	//	for (int i = 1; i < 20; i+=4)
+	//	{
+	//		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 30), EnemyType::GROUND);
+	//	}
+	//}
+	//if (time == 0)
+	//{
+	//	pEnemyManager_->RemoveAllEnemies();
+	//	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+	//	pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+	//}
 
 
 	//////スコアテスト用

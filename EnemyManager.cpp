@@ -3,6 +3,7 @@
 #include "Enemy_Ground.h"
 #include "Enemy_Fly.h"
 #include "Enemy_Explosion.h"
+#include <random>
 
 
 EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent), pNewEnemy_(nullptr)
@@ -69,4 +70,22 @@ void EnemyManager::RemoveAllEnemies()
     }
     // エネミーリストをクリアする
     enemies.clear(); 
+}
+
+void EnemyManager::SpawnRandomEnemy(EnemyType enemyType, XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount)
+{
+    std::random_device rd;
+    std::mt19937 mt(rd());
+
+    std::uniform_real_distribution<float> distPosX(minPosition.x, maxPosition.x);
+    std::uniform_real_distribution<float> distPosY(minPosition.y, maxPosition.y);
+    std::uniform_real_distribution<float> distPosZ(minPosition.z, maxPosition.z);
+
+    for (int i = 0; i < spawnCount; ++i) {
+        // ランダムに位置を決定
+        XMFLOAT3 spawnPosition = XMFLOAT3(distPosX(mt), distPosY(mt), distPosZ(mt));
+
+        // 指定されたエネミータイプでエネミーをスポーン
+        SpawnEnemy(spawnPosition, enemyType);
+    }
 }
