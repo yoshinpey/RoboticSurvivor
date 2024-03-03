@@ -61,7 +61,7 @@ void PlayScene::Initialize()
 void PlayScene::Update()
 {
 
-	//デバック用
+	////////////////////////デバック用
 	if (Input::IsKeyDown(DIK_K))
 	{
 		//pEnemyManager_->RemoveAllEnemies();
@@ -74,13 +74,21 @@ void PlayScene::Update()
 		pEnemyManager_->RemoveAllEnemies();
 	}
 
-	if (Input::IsKeyDown(DIK_M))
+	if (Input::IsKeyDown(DIK_J))
 	{
-		//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
-
-		pEnemyManager_->SpawnRandomEnemy(EnemyType::FLY, XMFLOAT3(10, 2, 10), XMFLOAT3(20, 5, 20), 3);
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(10, 2, 10), XMFLOAT3(20, 5, 20), 3);
 	}
 
+	//////////////////これだけなぜかエラー
+	if (Input::IsKeyDown(DIK_H))
+	{
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 1, 20), XMFLOAT3(-10, 2, 10), 3, EnemyType::FLY);
+	}
+
+	if (Input::IsKeyDown(DIK_G))
+	{
+		pEnemyManager_->SpawnMultiEnemy(XMFLOAT3(-5, 0, 20), XMFLOAT3(5, 10, 30), 3, EnemyType::FLY);
+	}
 
 	TimeProcess();	
 
@@ -118,6 +126,7 @@ void PlayScene::Update()
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
 	}
+	////////////////////////
 }
 
 void PlayScene::Draw()
