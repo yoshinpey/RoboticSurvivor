@@ -72,7 +72,7 @@ void EnemyManager::RemoveAllEnemies()
     enemies.clear(); 
 }
 
-void EnemyManager::SpawnRandomEnemy(EnemyType enemyType, XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount)
+void EnemyManager::SpawnMultiEnemy(EnemyType enemyType, XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount)
 {
     std::random_device rd;
     std::mt19937 mt(rd());
@@ -87,5 +87,29 @@ void EnemyManager::SpawnRandomEnemy(EnemyType enemyType, XMFLOAT3 minPosition, X
 
         // 指定されたエネミータイプでエネミーをスポーン
         SpawnEnemy(spawnPosition, enemyType);
+    }
+}
+
+
+void EnemyManager::SpawnRandomEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount, EnemyType excludeType)
+{
+    std::random_device rd;
+    std::mt19937 mt(rd());
+
+    std::uniform_real_distribution<float> distPosX(minPosition.x, maxPosition.x);
+    std::uniform_real_distribution<float> distPosY(minPosition.y, maxPosition.y);
+    std::uniform_real_distribution<float> distPosZ(minPosition.z, maxPosition.z);
+    std::uniform_int_distribution<int> distType(0, static_cast<int>(EnemyType::MAX) - 1); // EnemyType::MAXは最大値を示す仮定の値
+
+    for (int i = 0; i < spawnCount; ++i) {
+        EnemyType spawnEnemyType;
+        do {
+            spawnEnemyType = static_cast<EnemyType>(distType(mt)); // ランダムにエネミータイプを選択
+        } while (spawnEnemyType == excludeType); // 除外するタイプが指定されていれば再選択
+
+        XMFLOAT3 spawnPosition = XMFLOAT3(distPosX(mt), distPosY(mt), distPosZ(mt));
+
+        // 指定されたエネミータイプでエネミーをスポーン
+        SpawnEnemy(spawnPosition, spawnEnemyType);
     }
 }

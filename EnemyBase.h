@@ -7,7 +7,8 @@ enum class EnemyType
 {
     FLY,
     GROUND,
-    EXPLOSION
+    EXPLOSION,
+    MAX
 };
 
 // エネミーベースクラス
