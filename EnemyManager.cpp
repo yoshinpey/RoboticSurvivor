@@ -32,7 +32,6 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
     case EnemyType::EXPLOSION:
         pNewEnemy_ = Instantiate<Enemy_Explosion>(pParent_);
         pNewEnemy_->SetPosition(spawnPosition);
-        //static_cast<Enemy_Explosion*>(pNewEnemy_)->SetPosition(spawnPosition);
         break;
     case EnemyType::MAX:
         return;
@@ -84,22 +83,33 @@ XMFLOAT3 EnemyManager::GenerateRandomPosition(std::mt19937& mt, XMFLOAT3 minPosi
     return XMFLOAT3(distPosX(mt), distPosY(mt), distPosZ(mt));
 }
 
-EnemyType EnemyManager::GenerateRandomEnemyType(std::mt19937& mt, EnemyType excludeType)
+EnemyType EnemyManager::GenerateRandomEnemyType(std::mt19937& mt, EnemyType excludeType = EnemyType::MAX, const std::vector<EnemyType>& excludeList = {})
 {
     std::uniform_int_distribution<int> distType(0, static_cast<int>(EnemyType::MAX) - 1);
-    EnemyType spawnEnemyType;
 
-    // 除外するタイプが指定されていれば再選択
-    do
+    // 選択候補リストの作成
+    std::vector<EnemyType> candidateTypes = {};
+    for (int i = 0; i < static_cast<int>(EnemyType::MAX); ++i)
     {
-        spawnEnemyType = static_cast<EnemyType>(distType(mt));
-    } 
-    while (spawnEnemyType == excludeType);
+        EnemyType type = static_cast<EnemyType>(i);
+        if (type != excludeType && std::find(excludeList.begin(), excludeList.end(), type) == excludeList.end())
+        {
+            candidateTypes.push_back(type);
+        }
+    }
 
-    return spawnEnemyType;
+    // 除外される候補がない場合は除外リストを無視してランダムに選択
+    if (candidateTypes.empty())
+    {
+        return static_cast<EnemyType>(distType(mt));
+    }
+
+    // ランダムにエネミータイプを選択
+    int index = distType(mt) % candidateTypes.size();
+    return candidateTypes[index];
 }
 
-void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount, EnemyType enemyType)
+void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount = 1, EnemyType enemyType = EnemyType::MAX)
 {
     // 乱数生成器
     std::mt19937 mt = InitializeRandomGenerator();
@@ -112,13 +122,15 @@ void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, i
     }
 }
 
-void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount, EnemyType excludeType)
+void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount = 1, 
+    EnemyType excludeType = EnemyType::MAX, const std::vector<EnemyType>& excludeList = {})
 {
     // 乱数生成器
     std::mt19937 mt = InitializeRandomGenerator();
 
     for (int i = 0; i < spawnCount; ++i) 
     {
+        // ランダムな敵の種類を選択
         EnemyType spawnEnemyType = GenerateRandomEnemyType(mt, excludeType);
 
         // 位置を決定

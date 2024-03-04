@@ -76,13 +76,13 @@ void PlayScene::Update()
 
 	if (Input::IsKeyDown(DIK_J))
 	{
-		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(10, 2, 10), XMFLOAT3(20, 5, 20), 3);
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(10, 2, 10), XMFLOAT3(20, 5, 20), 3, EnemyType::FLY);
 	}
 
-	//////////////////‚±‚ê‚¾‚¯‚È‚º‚©ƒGƒ‰[
+
 	if (Input::IsKeyDown(DIK_H))
 	{
-		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 1, 20), XMFLOAT3(-10, 2, 10), 3, EnemyType::FLY);
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 2, 10), XMFLOAT3(-10, 5, 20), 3, EnemyType::FLY);
 	}
 
 	if (Input::IsKeyDown(DIK_G))
