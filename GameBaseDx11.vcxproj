@@ -134,6 +134,8 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Bullet_Explosion.cpp" />
     <ClCompile Include="Bullet_Normal.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonFactory.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="EffectManager.cpp" />
@@ -202,6 +204,8 @@
     <ClInclude Include="Bullet_Explosion.h" />
     <ClInclude Include="Bullet_Normal.h" />
     <ClInclude Include="BulletBase.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonFactory.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\VFX.h" />
