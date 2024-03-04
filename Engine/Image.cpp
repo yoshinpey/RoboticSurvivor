@@ -93,25 +93,34 @@ namespace Image
 			return;
 		}
 
-		//同じモデルを他でも使っていないか
+		// 解放対象のデータを取得
+		ImageData* pData = _datas[handle];
+		if (pData == nullptr)
+		{
+			return;
+		}
+
+		// 同じデータを他で使用していないかチェック
 		bool isExist = false;
 		for (int i = 0; i < _datas.size(); i++)
 		{
-			//すでに開いている場合
-			if (_datas[i] != nullptr && i != handle && _datas[i]->pSprite == _datas[handle]->pSprite)
+			if (_datas[i] != nullptr && i != handle && _datas[i]->pSprite == pData->pSprite)
 			{
 				isExist = true;
 				break;
 			}
 		}
 
-		//使ってなければモデル解放
-		if (isExist == false)
+		// 使用されていなければデータを解放
+		if (!isExist)
 		{
-			SAFE_DELETE(_datas[handle]->pSprite);
+			// モデル解放
+			SAFE_DELETE(pData->pSprite);
 		}
 
-		SAFE_DELETE(_datas[handle]);
+		// データを削除して nullptr に設定
+		_datas[handle] = nullptr;
+		SAFE_DELETE(pData);
 	}
 
 

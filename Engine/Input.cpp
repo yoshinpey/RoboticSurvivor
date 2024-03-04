@@ -18,7 +18,7 @@ namespace Input
 	LPDIRECTINPUTDEVICE8	pMouseDevice_;	//デバイスオブジェクト
 	DIMOUSESTATE mouseState_;				//マウスの状態
 	DIMOUSESTATE prevMouseState_;			//前フレームのマウスの状態
-	POINT mousePos_;							//マウスカーソルの位置
+	XMFLOAT2 mousePos_;							//マウスカーソルの位置
 
 	//コントローラー
 	const int MAX_PAD_NUM = 4;
@@ -47,6 +47,7 @@ namespace Input
 		pDInput_->CreateDevice(GUID_SysMouse, &pMouseDevice_, nullptr);
 		pMouseDevice_->SetDataFormat(&c_dfDIMouse);
 		pMouseDevice_->SetCooperativeLevel(hWnd_, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+		mousePos_ = { 0.0f, 0.0f };
 	}
 
 
@@ -69,6 +70,12 @@ namespace Input
 			memcpy(&prevControllerState_[i], &controllerState_[i], sizeof(controllerState_[i]));
 			XInputGetState(i, &controllerState_[i]);
 		}
+
+		//マウスの座標計算
+		// -screensize ~ screensizeの範囲
+		mousePos_ = { mousePos_.x + GetMouseMove().x, mousePos_.y + GetMouseMove().y};
+		mousePos_.x = max(-Direct3D::screenWidth_, min(Direct3D::screenWidth_, mousePos_.x));
+		mousePos_.y = max(-Direct3D::screenHeight_, min(Direct3D::screenHeight_, mousePos_.y));
 
 	}
 

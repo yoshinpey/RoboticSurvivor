@@ -64,13 +64,11 @@ void PlayScene::Update()
 	////////////////////////デバック用
 	if (Input::IsKeyDown(DIK_K))
 	{
-		//pEnemyManager_->RemoveAllEnemies();
 		pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 	}
 
 	if (Input::IsKeyDown(DIK_L))
 	{
-		//pEnemyManager_->RemoveAllEnemies();
 		pEnemyManager_->RemoveAllEnemies();
 	}
 
@@ -82,7 +80,7 @@ void PlayScene::Update()
 
 	if (Input::IsKeyDown(DIK_H))
 	{
-		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 2, 10), XMFLOAT3(-10, 5, 20), 3, EnemyType::FLY);
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 2, 20), XMFLOAT3(-20, 2, 20), 1);
 	}
 
 	if (Input::IsKeyDown(DIK_G))

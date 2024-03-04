@@ -1,8 +1,8 @@
 #include <xaudio2.h>
 #include <vector>
 #include "Audio.h"
+#include "Global.h"
 
-#define SAFE_DELETE_ARRAY(p) if(p){delete[] p; p = nullptr;}
 
 namespace Audio
 {
@@ -144,7 +144,7 @@ int Audio::Load(std::string fileName, bool isLoop, int svNum)
 	ad.svNum = svNum;
 	audioDatas.push_back(ad);
 
-	//SAFE_DELETE_ARRAY(pBuffer);
+	SAFE_DELETE_ARRAY(pBuffer);
 
 	return (int)audioDatas.size() - 1;
 }
