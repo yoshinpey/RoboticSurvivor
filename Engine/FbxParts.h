@@ -129,9 +129,6 @@ public:
 	//引数：world	ワールド行列
 	void Draw(Transform& transform);
 
-	// アニメーションのブレンディングを行う（失敗作
-	void DrawBlendedSkinAnime(Transform& transform, FbxTime time1, FbxTime time2, float blendFactor);
-
 	//ボーン有りのモデルを描画
 	//引数：transform	行列情報
 	//引数：time		フレーム情報（１アニメーション内の今どこか）

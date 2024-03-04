@@ -140,8 +140,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//ImGuiの更新処理
 				ImGui_ImplDX11_NewFrame();
 				ImGui_ImplWin32_NewFrame();
-				ImGui::NewFrame();
 
+				ImGui::NewFrame();
 				ImGui::Begin("Hello");//ImGuiの処理を開始
 				{
 					//描画されるボタンを押したら...

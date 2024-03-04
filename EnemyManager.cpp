@@ -83,7 +83,7 @@ XMFLOAT3 EnemyManager::GenerateRandomPosition(std::mt19937& mt, XMFLOAT3 minPosi
     return XMFLOAT3(distPosX(mt), distPosY(mt), distPosZ(mt));
 }
 
-EnemyType EnemyManager::GenerateRandomEnemyType(std::mt19937& mt, EnemyType excludeType = EnemyType::MAX, const std::vector<EnemyType>& excludeList = {})
+EnemyType EnemyManager::GenerateRandomEnemyType(std::mt19937& mt, EnemyType excludeType, const std::vector<EnemyType>& excludeList)
 {
     std::uniform_int_distribution<int> distType(0, static_cast<int>(EnemyType::MAX) - 1);
 
@@ -109,7 +109,7 @@ EnemyType EnemyManager::GenerateRandomEnemyType(std::mt19937& mt, EnemyType excl
     return candidateTypes[index];
 }
 
-void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount = 1, EnemyType enemyType = EnemyType::MAX)
+void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount, EnemyType enemyType)
 {
     // óêêîê∂ê¨äÌ
     std::mt19937 mt = InitializeRandomGenerator();
@@ -122,8 +122,8 @@ void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, i
     }
 }
 
-void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount = 1, 
-    EnemyType excludeType = EnemyType::MAX, const std::vector<EnemyType>& excludeList = {})
+void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount, 
+    EnemyType excludeType, const std::vector<EnemyType>& excludeList)
 {
     // óêêîê∂ê¨äÌ
     std::mt19937 mt = InitializeRandomGenerator();
