@@ -3,11 +3,10 @@
 
 class Player;
 
-class SkyBox :
-    public GameObject
+class SkyBox : public GameObject
 {
     int hModel_;
-    //Player* pPlayer_;
+    Player* pPlayer_;
 
 public:
     SkyBox(GameObject* parent);

@@ -1,4 +1,4 @@
-#include "Engine/BoxCollider.h"
+//#include "Engine/BoxCollider.h"
 #include "Engine/Model.h"
 
 #include "Ground.h"
@@ -23,8 +23,8 @@ void Ground::Initialize()
     assert(hModel_ >= 0);
 
     //‚ ‚½‚è”»’è
-    BoxCollider* collision = new BoxCollider(XMFLOAT3(0, -4, 0), XMFLOAT3(5, 7, 5));
-    AddCollider(collision);
+    //BoxCollider* collision = new BoxCollider(XMFLOAT3(0, -4, 0), XMFLOAT3(5, 7, 5));
+    //AddCollider(collision);
 }
 
 //XV
@@ -47,22 +47,22 @@ void Ground::Release()
 //‚ ‚½‚è”»’è
 void Ground::OnCollision(GameObject* pTarget)
 {
-    //’e‚É“–‚½‚Á‚½‚Æ‚«
-    if (pTarget->GetObjectName() == "Bullet")
-    {
+    ////’e‚É“–‚½‚Á‚½‚Æ‚«
+    //if (pTarget->GetObjectName() == "Bullet")
+    //{
 
-    }
+    //}
 
-    //“G‚É“–‚½‚Á‚½‚Æ‚«
-    if (pTarget->GetObjectName() == "Enemy")
-    {
+    ////“G‚É“–‚½‚Á‚½‚Æ‚«
+    //if (pTarget->GetObjectName() == "Enemy")
+    //{
 
-    }
+    //}
 
-    //ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚Æ‚«
-    if (pTarget->GetObjectName() == "Player")
-    {
+    ////ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚Æ‚«
+    //if (pTarget->GetObjectName() == "Player")
+    //{
 
-    }
+    //}
 
 }
