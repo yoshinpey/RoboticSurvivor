@@ -11,9 +11,4 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
-
-    // アイテム関連のメソッドを追加
-
-private:
-    // アイテムデータを管理するためのコンテナなどを宣言
 };

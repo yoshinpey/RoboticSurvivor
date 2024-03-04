@@ -1,23 +1,112 @@
-#include "AudioManager.h"
+ï»¿#include "AudioManager.h"
+#include "Engine/Audio.h"
+#include <cassert>
+#include <vector>
 
-AudioManager::AudioManager(GameObject* parent)
-    : GameObject(parent, "AudioManager")
+#include <fstream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+namespace AudioManager
 {
-}
+    std::vector<int> hSound_;
+    float gameVolue_ = 1.0f; //0.0f ï½1.0f
 
-void AudioManager::Initialize()
-{
-    // ƒI[ƒfƒBƒI‚Ì‰Šú‰»ˆ—‚ğ‹Lq
-}
+    void Initialize(INIT_TYPE type) {
 
-void AudioManager::Update()
-{
-    // ƒI[ƒfƒBƒI‚ÌXVˆ—‚ğ‹Lq
-}
+        struct MyStruct
+        {
+            std::string fileName;
+            bool loop;
+            int max;
+        };
+        std::vector<MyStruct> sceneTables;
 
-void AudioManager::Release()
-{
-    // ƒI[ƒfƒBƒI‚ÌƒŠƒ\[ƒX‰ğ•úˆ—‚ğ‹Lq
-}
+        //ãƒ˜ãƒƒãƒ€ãƒ¼ã®é †ç•ªã¨åˆã‚ã›ãªã„ã¨ã„ã‘ãªã„
+        switch (type) {
+        case TITLE:
+            sceneTables = {
+                {"Sound/EnterCursor.wav", false, 3},
+                {"Sound/PointCursor.wav", false, 10},
+                {"Sound/EnterStage.wav",  false, 3},
+            };
+            break;
+        case PLAY:
+            sceneTables = {
+                //æ•µã®Audio
+                {"Sound/RobotHit.wav", false, 3},
+                {"Sound/MissileExplode.wav", false, 3},
+                {"Sound/MissileShot.wav", false, 1},
+                {"Sound/UFO_Charging.wav", false, 1},
+                {"Sound/UFO_Attack.wav", false, 1},
+                {"Sound/BeamShot.wav", false, 1},
 
-// ƒI[ƒfƒBƒIŠÖ˜A‚Ìƒƒ\ƒbƒh‚ğ’Ç‰Á
+                //Playerã®Audio
+                {"Sound/Running.wav", true, 1},
+                {"Sound/Missile_Reflection.wav", false, 1},
+                {"Sound/JumpingEnd.wav", false, 1}, //ã“ã“å¤‰ãˆã‚ˆã†
+                {"Sound/JumpingEnd.wav", false, 1},
+
+            };
+            break;
+        case PLAYMENUE:
+            sceneTables = {
+                {"Sound/EnterCursor.wav", false, 3},
+                {"Sound/PointCursor.wav", false, 10},
+            };
+            break;
+        case RESULT:
+            sceneTables = {
+                { "Sound/EnterCursor.wav", false, 3 },
+                { "Sound/PointCursor.wav", false, 10 },
+            };
+            break;
+        }
+
+        hSound_.resize(sceneTables.size()); //hSound_ãƒ™ã‚¯ã‚¿ãƒ¼ã®ã‚µã‚¤ã‚ºã‚’è¨­å®š
+
+        for (int i = 0; i < sceneTables.size(); i++) {
+            hSound_[i] = Audio::Load(sceneTables[i].fileName, sceneTables[i].loop, sceneTables[i].max);
+            assert(hSound_[i] >= 0);
+        }
+    }
+
+    void InitVolue()
+    {
+        //ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
+        std::ifstream ifs2("GameAudioValue");
+        std::string data2;
+        ifs2 >> data2;
+        //stringã‹ã‚‰intã¸å¤‰æ›ã—ã€ãã®ã‚ã¨å€¤ã‚’ã‚»ãƒƒãƒˆ
+        std::istringstream ss2 = std::istringstream(data2);
+        ss2 >> gameVolue_;
+        gameVolue_ /= 100.0f;
+    }
+
+    void Release()
+    {
+        Audio::Release();
+    }
+
+    void PlaySoundMa(TITLE_AUDIO i, float volume)
+    {
+        Audio::Play(hSound_[i], volume * gameVolue_);
+    }
+
+    void PlaySoundMa(PLAY_AUDIO i, float volume)
+    {
+        Audio::Play(hSound_[i], volume * gameVolue_);
+    }
+
+    void StopSoundMa(TITLE_AUDIO i)
+    {
+        Audio::Stop(hSound_[i]);
+    }
+
+    void StopSoundMa(PLAY_AUDIO i)
+    {
+        Audio::Stop(hSound_[i]);
+    }
+
+}

@@ -10,9 +10,4 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
-
-    // エフェクト関連のメソッドを追加
-
-private:
-    // エフェクトデータを管理するためのコンテナなどを宣言
 };

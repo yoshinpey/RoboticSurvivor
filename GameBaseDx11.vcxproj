@@ -130,7 +130,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Bullet_Explosion.cpp" />
     <ClCompile Include="Bullet_Normal.cpp" />
@@ -184,7 +183,6 @@
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="OverScene.cpp" />
-    <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -199,7 +197,6 @@
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Bullet_Explosion.h" />
     <ClInclude Include="Bullet_Normal.h" />
@@ -257,7 +254,6 @@
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
-    <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="picojson.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
@@ -283,14 +279,6 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
-    </FxCompile>
-    <FxCompile Include="Assets\Shader\NoShadow.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
-    </FxCompile>
-    <FxCompile Include="Assets\Shader\NoShadowAlpha.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>

@@ -31,7 +31,6 @@ public:
     void UpdateEvents();
     void CompleteEvent(int eventIndex);
 
-    // 他のイベント管理関連のメソッドを追加
 
 private:
     std::vector<GameEvent> events;
