@@ -30,10 +30,11 @@ void PlayScene::Initialize()
 	Model::Load("DebugCollision/sphereCollider.fbx");
 	Model::Load("Entity/Bullet.fbx");
 
-	Instantiate<Ground>(this);			//地面登場
+	Instantiate<Ground>(this);			// 地面登場
+	Instantiate<SkyBox>(this);			// 空登場
 
 	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
-	Instantiate<SkyBox>(this);			//プレイヤー登場
+	
 
 	////初回の敵を出現させるテスト
 	for (int i=1; i<=20; i+=5)
