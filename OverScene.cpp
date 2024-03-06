@@ -1,5 +1,6 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
+#include "Engine/Input.h"
 #include "OverScene.h"
 
 
@@ -24,6 +25,12 @@ void OverScene::Initialize()
 //更新
 void OverScene::Update()
 {
+	// デバッグ用
+	if (Input::IsKeyDown(DIK_R))
+	{
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_PLAY);
+	}
 }
 
 //描画

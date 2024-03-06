@@ -14,7 +14,7 @@
 #include "SkyBox.h"
 
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr), pSceneManager_(nullptr)
+	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr), pSceneManager_(nullptr), pPlayer_(nullptr)
 {
 	pEnemyManager_ = new EnemyManager(this);
 	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
