@@ -7,9 +7,8 @@ class EnemyManager;
 //Playシーンを管理するクラス
 class PlayScene : public GameObject
 {
-	int hPict_;    //画像番号
 	EnemyManager* pEnemyManager_; // エネミーマネージャー
-
+	Player* pPlayer_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

@@ -142,14 +142,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				ImGui_ImplWin32_NewFrame();
 
 				ImGui::NewFrame();
-				ImGui::Begin("Hello");//ImGuiの処理を開始
-				{
-					//描画されるボタンを押したら...
-					if (ImGui::Button("button")) {
-						PostQuitMessage(0);	//プログラム終了
-					}
-				}
-				ImGui::End();//ImGuiの処理を終了
+				//ImGui::Begin("Hello");//ImGuiの処理を開始
+				//{
+				//	//描画されるボタンを押したら...
+				//	if (ImGui::Button("button")) {
+				//		PostQuitMessage(0);	//プログラム終了
+				//	}
+				//}
+				//ImGui::End();//ImGuiの処理を終了
 
 
 				//入力（キーボード、マウス、コントローラー）情報を更新

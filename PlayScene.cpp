@@ -14,7 +14,7 @@
 #include "SkyBox.h"
 
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), hPict_(-1), pEnemyManager_(nullptr)
+	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr)
 {
 	pEnemyManager_ = new EnemyManager(this);
 }
@@ -26,31 +26,26 @@ PlayScene::~PlayScene()
 void PlayScene::Initialize()
 {
 	// シーンの途中で登場するモデルは先に読んでおく
-	Model::Load("DebugCollision/sphereCollider.fbx",0, Direct3D::SHADER_TYPE::SHADER_UNLIT);
+	Model::Load("DebugCollision/sphereCollider.fbx");
 	Model::Load("Entity/Bullet.fbx");
 
 	Instantiate<Ground>(this);			//地面登場
 
-	Instantiate<Player>(this);			//プレイヤー登場
+	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	Instantiate<SkyBox>(this);			//プレイヤー登場
 
-	//敵を出現させるテスト
-	//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::GROUND);
+	////初回の敵を出現させるテスト
+	//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::EXPLOSION);
 	//for (int i=1; i<=20; i+=5)
 	//{
 	//	pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
 	//}
-
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, -5), EnemyType::EXPLOSION);
+	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, 5), EnemyType::GROUND);
 
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
 	Instantiate<Gauge>(this);			//HPゲージ	
 	Instantiate<Score>(this);			//スコア表示
-
-	//背景画像データのロード
-	hPict_ = Image::Load("Pictures/Earth.png");
-	assert(hPict_ >= 0);
 
 	//タイマー設定
 	Timer* t = (Timer*)FindObject("Timer");
@@ -62,50 +57,80 @@ void PlayScene::Update()
 {
 
 	////////////////////////デバック用
-	if (Input::IsKeyDown(DIK_K))
+	// 敵の出現テスト 
+	// プレイヤーの位置を使って相対座標で出現させる用の変数
+	XMFLOAT3 plaPos = pPlayer_->GetPosition();
+
+	// 指定した座標に指定した敵をスポーン
+	if (Input::IsKeyDown(DIK_1))
+	{
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(plaPos.x, plaPos.y, plaPos.z + 5), EnemyType::FLY);
+	}
+	
+	// 指定した座標に指定した敵を複数体スポーン
+	if (Input::IsKeyDown(DIK_2))
+	{
+		pEnemyManager_->SpawnMultiEnemy
+		(
+			CalculateFloat3Add(plaPos, XMFLOAT3(0, 0, 5)),
+			CalculateFloat3Add(plaPos, XMFLOAT3(0, 0, 10)),
+			3, 
+			EnemyType::FLY);
+	}
+
+	// 指定した座標にランダムな敵を出現させる。
+	if (Input::IsKeyDown(DIK_3))
+	{
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 0, 20), XMFLOAT3(-10, 0, 30), 2);
+	}
+
+	// 指定した座標にランダムな敵を出現させる。今回グラウンドを除外してる
+	if (Input::IsKeyDown(DIK_4))
+	{
+		pEnemyManager_->SpawnRandomMultiEnemy
+		(
+			CalculateFloat3Add(plaPos, XMFLOAT3(10, 2, 10)),
+			CalculateFloat3Add(plaPos, XMFLOAT3(20, 5, 20)),
+			3,
+			EnemyType::GROUND);
+	}
+
+
+
+	// 特定のエネミー消す
+	if (Input::IsKeyDown(DIK_4))
 	{
 		pEnemyManager_->RemoveEnemy(EnemyType::GROUND);
 	}
 
-	if (Input::IsKeyDown(DIK_L))
+	// 全部のエネミー消し炭
+	if (Input::IsKeyDown(DIK_5))
 	{
 		pEnemyManager_->RemoveAllEnemies();
 	}
 
-	if (Input::IsKeyDown(DIK_J))
-	{
-		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(10, 2, 10), XMFLOAT3(20, 5, 20), 3, EnemyType::FLY);
-	}
 
 
-	if (Input::IsKeyDown(DIK_H))
-	{
-		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 2, 20), XMFLOAT3(-20, 2, 20), 1);
-	}
 
-	if (Input::IsKeyDown(DIK_G))
-	{
-		pEnemyManager_->SpawnMultiEnemy(XMFLOAT3(-5, 0, 20), XMFLOAT3(5, 10, 30), 3, EnemyType::FLY);
-	}
 
 	TimeProcess();	
 
-	// 
+	// タイム制ウェーブスポーンのテスト用
 	Timer* t = (Timer*)FindObject("Timer");
 	int time = t->GetFlame();
-	//if (time % 300 == 0)
-	//{
-	//	for (int i = 1; i < 20; i+=4)
-	//	{
-	//		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 30), EnemyType::GROUND);
-	//	}
-	//}
-	//if (time == 0)
-	//{
-	//	pEnemyManager_->RemoveAllEnemies();
-	//	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//	pSceneManager->ChangeScene(SCENE_ID_CLEAR);
-	//}
+	if (time % 300 == 0)
+	{
+		for (int i = 1; i < 20; i+=4)
+		{
+			pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 30), EnemyType::GROUND);
+		}
+	}
+	if (time == 0)
+	{
+		pEnemyManager_->RemoveAllEnemies();
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+	}
 
 
 	//////スコアテスト用
@@ -129,23 +154,6 @@ void PlayScene::Update()
 
 void PlayScene::Draw()
 {
-	//背景描画
-	Image::SetTransform(hPict_, transform_);
-	Image::Draw(hPict_);
-
-	/*ちょっと楽しいバグ
-	//背景描画
-	// 画像のサイズ取得
-	XMFLOAT3 size = Image::GetTextureSize(hPict_);
-
-	// ディスプレイサイズに合わせる
-	transform_.scale_.x = (Direct3D::screenWidth_ / size.x);
-	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
-
-	// 描画設定
-	Image::SetTransform(hPict_, transform_);
-	Image::Draw(hPict_);
-	*/
 }
 
 void PlayScene::Release()

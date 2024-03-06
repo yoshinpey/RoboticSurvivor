@@ -35,9 +35,6 @@
     <Filter Include="01Engine\00Resource">
       <UniqueIdentifier>{bedee914-5063-4c08-95bb-79c861b4969c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00Manager">
-      <UniqueIdentifier>{7db5fd46-de21-46f9-8afb-266d2183aa91}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Stage">
       <UniqueIdentifier>{7f0c301f-851a-4def-8b67-bd80aaf54e9e}</UniqueIdentifier>
     </Filter>
@@ -67,6 +64,9 @@
     </Filter>
     <Filter Include="Item">
       <UniqueIdentifier>{fd3012e6-becc-45de-98af-002547e727d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multipurpose\Manager">
+      <UniqueIdentifier>{7db5fd46-de21-46f9-8afb-266d2183aa91}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,17 +166,11 @@
     <ClCompile Include="Gun.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleEffect.cpp">
-      <Filter>00Manager</Filter>
-    </ClCompile>
     <ClCompile Include="EffectManager.cpp">
-      <Filter>00Manager</Filter>
+      <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
-      <Filter>00Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>00Manager</Filter>
+      <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
     <ClCompile Include="ItemManager.cpp">
       <Filter>Item</Filter>
@@ -370,17 +364,11 @@
     <ClInclude Include="Gun.h">
       <Filter>Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEffect.h">
-      <Filter>00Manager</Filter>
-    </ClInclude>
     <ClInclude Include="EffectManager.h">
-      <Filter>00Manager</Filter>
+      <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
-      <Filter>00Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>00Manager</Filter>
+      <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
     <ClInclude Include="ItemManager.h">
       <Filter>Item</Filter>
@@ -502,12 +490,6 @@
       <Filter>02Shader</Filter>
     </FxCompile>
     <FxCompile Include="Assets\Shader\SkyBox.hlsl">
-      <Filter>02Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Assets\Shader\NoShadow.hlsl">
-      <Filter>02Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Assets\Shader\NoShadowAlpha.hlsl">
       <Filter>02Shader</Filter>
     </FxCompile>
   </ItemGroup>
