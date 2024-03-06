@@ -20,17 +20,17 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
     switch (enemyType)
     {
     case EnemyType::FLY:
-        pNewEnemy_ = Instantiate<Enemy_Fly>(pParent_);
+        pNewEnemy_ = InstantiateFront<Enemy_Fly>(pParent_);
         pNewEnemy_->SetPosition(spawnPosition);
         break;
 
     case EnemyType::GROUND:
-        pNewEnemy_ = Instantiate<Enemy_Ground>(pParent_);
+        pNewEnemy_ = InstantiateFront<Enemy_Ground>(pParent_);
         pNewEnemy_->SetPosition(spawnPosition);
         break;
 
     case EnemyType::EXPLOSION:
-        pNewEnemy_ = Instantiate<Enemy_Explosion>(pParent_);
+        pNewEnemy_ = InstantiateFront<Enemy_Explosion>(pParent_);
         pNewEnemy_->SetPosition(spawnPosition);
         break;
     case EnemyType::MAX:

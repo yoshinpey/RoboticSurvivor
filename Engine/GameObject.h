@@ -187,7 +187,7 @@ private:
 };
 
 
-//オブジェクトを作成するテンプレート
+//オブジェクトを作成するテンプレート(末尾に追加)
 template <class T>
 T* Instantiate(GameObject* pParent)
 {
@@ -200,7 +200,7 @@ T* Instantiate(GameObject* pParent)
 	return pNewObject;
 }
 
-//オブジェクトを作成するテンプレート
+//オブジェクトを作成するテンプレート(先頭に追加)
 template <class T>
 T* InstantiateFront(GameObject* pParent)
 {
