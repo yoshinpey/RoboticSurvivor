@@ -1,8 +1,11 @@
-//#include "Engine/BoxCollider.h"
 #include "Engine/Model.h"
 
 #include "Ground.h"
 
+namespace
+{
+    std::string modelName = "Stage/Ground.fbx";     // モデル名
+}
 
 //コンストラクタ
 Ground::Ground(GameObject* parent)
@@ -19,12 +22,8 @@ Ground::~Ground()
 void Ground::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Stage/Ground.fbx");
+    hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
-
-    //あたり判定
-    //BoxCollider* collision = new BoxCollider(XMFLOAT3(0, -4, 0), XMFLOAT3(5, 7, 5));
-    //AddCollider(collision);
 }
 
 //更新
@@ -42,27 +41,4 @@ void Ground::Draw()
 //開放
 void Ground::Release()
 {
-}
-
-//あたり判定
-void Ground::OnCollision(GameObject* pTarget)
-{
-    ////弾に当たったとき
-    //if (pTarget->GetObjectName() == "Bullet")
-    //{
-
-    //}
-
-    ////敵に当たったとき
-    //if (pTarget->GetObjectName() == "Enemy")
-    //{
-
-    //}
-
-    ////プレイヤーに当たったとき
-    //if (pTarget->GetObjectName() == "Player")
-    //{
-
-    //}
-
 }

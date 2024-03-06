@@ -1,5 +1,0 @@
-<Enemy_Ground>
-    <walkSpeed>0.3</walkSpeed>
-    <attackPower>10</attackPower>
-    <attackCooldown>30</attackCooldown>
-</Enemy_Ground>

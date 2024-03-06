@@ -6,7 +6,6 @@
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    SphereCollider* pCollision_;        // コリジョン
     //SphereCollider* pHeadCollision_;        // コリジョン
 
 public:

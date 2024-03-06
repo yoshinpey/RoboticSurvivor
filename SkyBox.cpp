@@ -3,9 +3,11 @@
 #include "SkyBox.h"
 #include "Player.h"
 
-namespace {
+namespace 
+{
 	//Maxで950くらい
 	XMFLOAT3 SPHERE_SCALE = { 300,300,300 };
+	std::string modelName = "Stage/skyBox.fbx";     // モデル名
 }
 
 SkyBox::SkyBox(GameObject* parent)
@@ -19,7 +21,7 @@ SkyBox::~SkyBox()
 
 void SkyBox::Initialize()
 {
-	hModel_ = Model::Load("Stage/skyBox.fbx");
+	hModel_ = Model::Load(modelName);
 	assert(hModel_ >= 0);
 
 	transform_.scale_ = SPHERE_SCALE;
@@ -28,7 +30,7 @@ void SkyBox::Initialize()
 
 void SkyBox::Update()
 {
-	// スカイボックスはプレイヤーにつける
+	// スカイボックスはプレイヤーに付いて常に移動する
 	if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
 }
 

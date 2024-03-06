@@ -175,26 +175,22 @@
     <ClCompile Include="Engine\VFX.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameSettings.cpp" />
     <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
-    <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="pugixml.cpp" />
-    <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -246,13 +242,11 @@
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameSettings.h" />
     <ClInclude Include="Gauge.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
-    <ClInclude Include="MiniMap.h" />
     <ClInclude Include="OverScene.h" />
     <ClInclude Include="picojson.h" />
     <ClInclude Include="Player.h" />
@@ -263,12 +257,10 @@
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="PlayScene.h" />
-    <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

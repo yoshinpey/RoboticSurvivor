@@ -8,7 +8,8 @@
 
 namespace
 {
-    XMFLOAT3 offset = {0.6f, -1.25f, 1.50f };
+    XMFLOAT3 handOffset = {0.6f, -1.25f, 1.50f };       // 移動量
+    std::string modelName = "Entity/Rifle.fbx";         // 
 }
 
 Gun::Gun(GameObject* parent)
@@ -23,20 +24,22 @@ Gun::~Gun()
 void Gun::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Entity/Rifle.fbx");
+    hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
     //プレイヤーの手の位置まで調整
-    transform_.position_ = offset;
+    transform_.position_ = handOffset;
 }
 
 void Gun::Update()
 {
+    // 通常射撃
     if (InputManager::IsShoot())
     {
         ShootBullet<Bullet_Normal>();
     }
 
+    // 特殊射撃
     if (InputManager::IsWeaponAction())
     {
         ShootBullet<Bullet_Explosion>();

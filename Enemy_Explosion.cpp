@@ -1,5 +1,11 @@
 #include "Enemy_Explosion.h"
 
+namespace
+{
+    float collisionScale = 2.0f;                            // 当たり判定の大きさ
+    XMFLOAT3 collisionPosition = { 0.0f, 1.0f, 0.0f };      // 当たり判定の位置
+}
+
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
     : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), pCollision_(nullptr)
 {
@@ -21,19 +27,21 @@ Enemy_Explosion::~Enemy_Explosion()
 void Enemy_Explosion::Initialize()
 {
     // モデルデータのロード
-    hModel_ = Model::Load("Character/Enemy_02.fbx");
+    hModel_ = Model::Load("Character/Enemy_Explosion.fbx");
     assert(hModel_ >= 0);
 
     //アニメーション
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
     // 当たり判定付与
-    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 2.0f);
+    pCollision_ = new SphereCollider(collisionPosition, collisionScale);
     AddCollider(pCollision_);
 }
 
 void Enemy_Explosion::Update()
 {
+    // 爆発でコライダーを拡大する
+    //pCollision_->SetRadius(transform_.scale_.x);
 }
 
 void Enemy_Explosion::Draw()
@@ -48,13 +56,11 @@ void Enemy_Explosion::Release()
 
 void Enemy_Explosion::OnCollision(GameObject* pTarget)
 {
-    /*
     // 銃弾に当たったとき
-    if (pTarget->GetObjectName() == "Bullet")
+    if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        //KillMe();
+        KillMe();
     }
-    */
 }
 
 void Enemy_Explosion::Attack()

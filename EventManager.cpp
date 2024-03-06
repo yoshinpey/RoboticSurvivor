@@ -54,5 +54,3 @@ void EventManager::CompleteEvent(int eventIndex)
         events[eventIndex].state = EVENT_STATE_COMPLETED;
     }
 }
-
-// 他のイベント管理関連のメソッドを追加

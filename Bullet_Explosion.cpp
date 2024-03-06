@@ -3,6 +3,10 @@
 
 #include "Bullet_Explosion.h"
 
+namespace
+{
+    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };      // 当たり判定の位置
+}
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
@@ -29,8 +33,8 @@ void Bullet_Explosion::Initialize()
     assert(hModel_ >= 0);
 
     //当たり判定
-    collision_ = new SphereCollider(XMFLOAT3(0, 0, 0), parameter_.collisionScale_);
-    AddCollider(collision_);
+    pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
+    AddCollider(pCollision_);
 
     //transform_.scale_.x = 5.0f;
     //transform_.scale_.y = 5.0f;
@@ -49,7 +53,7 @@ void Bullet_Explosion::Update()
         transform_.scale_.x *= 1.1;
         transform_.scale_.y *= 1.1;
         transform_.scale_.z *= 1.1;
-        collision_->SetRadius(transform_.scale_.x);
+        pCollision_->SetRadius(transform_.scale_.x);
     }
 
     //弾を消す
@@ -74,9 +78,8 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
     // 名前にエネミーが含まれるオブジェクトに衝突したとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        pTarget->KillMe();
 
-        // 貫通しない場合は自身も消す
-        if (parameter_.isPenetration_ == 0) KillMe();
+        // 貫通しない場合は自身を消す
+        if (!parameter_.isPenetration_) KillMe();
     }
 }

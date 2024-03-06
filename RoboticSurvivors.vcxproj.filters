@@ -175,19 +175,10 @@
     <ClCompile Include="ItemManager.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="MiniMap.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
-    <ClCompile Include="GameSettings.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
-    <ClCompile Include="SaveLoad.cpp">
       <Filter>Multipurpose</Filter>
     </ClCompile>
     <ClCompile Include="Engine\imgui\imgui.cpp">
@@ -216,9 +207,6 @@
     </ClCompile>
     <ClCompile Include="StateManager.cpp">
       <Filter>Character\State</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Multipurpose\UI</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Multipurpose\UI</Filter>
@@ -373,19 +361,10 @@
     <ClInclude Include="ItemManager.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="MiniMap.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSettings.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="SaveLoad.h">
       <Filter>Multipurpose</Filter>
     </ClInclude>
     <ClInclude Include="Engine\imgui\imconfig.h">
@@ -420,9 +399,6 @@
     </ClInclude>
     <ClInclude Include="StateManager.h">
       <Filter>Character\State</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>Multipurpose\UI</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Multipurpose\UI</Filter>

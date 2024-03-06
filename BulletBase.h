@@ -26,11 +26,11 @@ private:
 protected:
     BulletParameter parameter_; // パラメータ
     XMFLOAT3 move_;             // 移動の速度と方向
-    SphereCollider* collision_; // パラメータ
+    SphereCollider* pCollision_; // パラメータ
 
 public:
     BulletBase(GameObject* parent, BulletType bulletType, std::string name)
-        :GameObject(parent, name), bulletType_(bulletType), move_(0,0,0), parameter_{ 0, 0, 0, 0, 0, false }, collision_(nullptr)
+        :GameObject(parent, name), bulletType_(bulletType), move_(0,0,0), parameter_{ 0, 0, 0, 0, 0, false }, pCollision_(nullptr)
     {
     };
     virtual ~BulletBase() = default;

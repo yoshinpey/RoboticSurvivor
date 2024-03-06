@@ -21,15 +21,17 @@ Enemy_Ground::~Enemy_Ground()
 void Enemy_Ground::Initialize()
 {
     // モデルデータのロード
-    hModel_ = Model::Load("Character/Enemy_02.fbx");
+    hModel_ = Model::Load("Character/Enemy_Ground.fbx");
     assert(hModel_ >= 0);
 
     //アニメーション
     //Model::SetAnimFrame(hModel_, 0, 120, 0.75);
-
+     
     // 当たり判定付与
     pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
     AddCollider(pCollision_);
+
+    transform_.rotate_.y = 180;
 }
 
 void Enemy_Ground::Update()
@@ -62,7 +64,7 @@ void Enemy_Ground::Update()
     else
     {
         // 視界内にいないときつぶす
-        transform_.scale_.y = 0.5f;
+        //transform_.scale_.y = 0.5f;
 
     }
 }
@@ -81,7 +83,7 @@ float Enemy_Ground::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
 
 void Enemy_Ground::ApproachPlayer(const XMFLOAT3& directionToPlayer)
 {
-
+    // 移動ベクターをエネミーのポジションに加算する
     XMFLOAT3 moveVector = { directionToPlayer.x * status_.walkSpeed_, 0, directionToPlayer.z * status_.walkSpeed_ };
     transform_.position_ = CalculateFloat3Add(transform_.position_, moveVector);
 }
@@ -89,7 +91,7 @@ void Enemy_Ground::ApproachPlayer(const XMFLOAT3& directionToPlayer)
 void Enemy_Ground::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
 {
     // プレイヤーへの逆ベクトル(向かせたい方向)
-    XMVECTOR playerBackward = XMVector3Normalize(XMVectorSet(-directionToPlayer.x, 0, -directionToPlayer.z, 0));
+    XMVECTOR playerBackward = XMVector3Normalize(XMVectorSet(directionToPlayer.x, 0, directionToPlayer.z, 0));
 
     // エネミーが向いている方向
     float rotY = XMConvertToRadians(transform_.rotate_.y);
@@ -116,13 +118,11 @@ void Enemy_Ground::Release()
 
 void Enemy_Ground::OnCollision(GameObject* pTarget)
 {
-    /*
     // 銃弾に当たったとき
-    if (pTarget->GetObjectName() == "Bullet")
+    if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        //KillMe();
+        KillMe();
     }
-    */
 }
 
 void Enemy_Ground::Attack()

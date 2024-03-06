@@ -1,7 +1,7 @@
 #include "Enemy_Fly.h"
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
-    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), pCollision_(nullptr)
+    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -21,27 +21,19 @@ Enemy_Fly::~Enemy_Fly()
 void Enemy_Fly::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Character/Enemy.fbx");
+    hModel_ = Model::Load("Character/Enemy_Fly.fbx");
     assert(hModel_ >= 0);
 
-    //アニメーション
-    Model::SetAnimFrame(hModel_, 0, 100, 0.75);
-
     // 当たり判定付与
-    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
-    //pCollision_->SetObjectName
-    AddCollider(pCollision_);
+    SphereCollider* pCollision = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
+    AddCollider(pCollision);
 
-    //// 当たり判定付与
-    //pHeadCollision_ = new SphereCollider(XMFLOAT3(0.0f, 3.0f, 0.0f), 5.0f);
-    //AddHeadCollider(pHeadCollision_);
+    transform_.rotate_.y = 180;
 
 }
 
 void Enemy_Fly::Update()
 {
-    // コリジョンの大きさをモデルに合わせる
-    // pCollision_->SetRadius(transform_.scale_.x);
 }
 
 void Enemy_Fly::Draw()
@@ -56,23 +48,12 @@ void Enemy_Fly::Release()
 
 void Enemy_Fly::OnCollision(GameObject* pTarget)
 {
-
     // 銃弾に当たったとき
-    if (pTarget->GetObjectName() == "Bullet")
+    if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        transform_.scale_.y = 0.2f;
-        //KillMe();
+        KillMe();
     }
 }
-
-//void Enemy_Fly::HeadOnCollision(GameObject* pTarget)
-//{
-//    // 銃弾に当たったとき
-//    if (pTarget->GetObjectName() == "Bullet")
-//    {
-//        KillMe();
-//    }
-//}
 
 void Enemy_Fly::Attack()
 {

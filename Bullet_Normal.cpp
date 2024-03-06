@@ -3,6 +3,11 @@
 
 #include "Bullet_Normal.h"
 
+namespace
+{
+    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };        // 当たり判定の位置
+    std::string modelName = "Entity/Bullet.fbx";            // モデル名
+}
 
 //コンストラクタ
 Bullet_Normal::Bullet_Normal(GameObject* parent)
@@ -25,12 +30,12 @@ Bullet_Normal::~Bullet_Normal()
 void Bullet_Normal::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Entity/Bullet.fbx");
+    hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
     //当たり判定
-    collision_ = new SphereCollider(XMFLOAT3(0, 0, 0), parameter_.collisionScale_);
-    AddCollider(collision_);
+    pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
+    AddCollider(pCollision_);
 }
 
 //更新
@@ -61,9 +66,7 @@ void Bullet_Normal::OnCollision(GameObject* pTarget)
     // 名前にエネミーが含まれるオブジェクトに衝突したとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        pTarget->KillMe();
-
-        // 貫通しない場合は自身も消す
-        if (parameter_.isPenetration_ == 0) KillMe();
+        // 貫通しない場合は自身を消す
+        if (!parameter_.isPenetration_) KillMe();
     }
 }
