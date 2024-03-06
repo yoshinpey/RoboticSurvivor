@@ -14,9 +14,10 @@
 #include "SkyBox.h"
 
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr)
+	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr), pSceneManager_(nullptr)
 {
 	pEnemyManager_ = new EnemyManager(this);
+	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
 }
 
 PlayScene::~PlayScene()
@@ -35,12 +36,11 @@ void PlayScene::Initialize()
 	Instantiate<SkyBox>(this);			//プレイヤー登場
 
 	////初回の敵を出現させるテスト
-	//pEnemyManager_->SpawnEnemy(XMFLOAT3(10, 0, 10), EnemyType::EXPLOSION);
-	//for (int i=1; i<=20; i+=5)
-	//{
-	//	pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 1, 10), EnemyType::FLY);
-	//}
-	pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 1, 5), EnemyType::GROUND);
+	for (int i=1; i<=20; i+=5)
+	{
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(0, 0, 15), EnemyType::FLY);
+	}
+	
 
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
@@ -49,7 +49,7 @@ void PlayScene::Initialize()
 
 	//タイマー設定
 	Timer* t = (Timer*)FindObject("Timer");
-	t->SetLimit(30);
+	t->SetLimit(5);
 	t->Start();
 }
 
@@ -125,11 +125,13 @@ void PlayScene::Update()
 			pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 30), EnemyType::GROUND);
 		}
 	}
+
+	// 時間切れ
 	if (time == 0)
 	{
 		pEnemyManager_->RemoveAllEnemies();
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+		
+		pSceneManager_->ChangeScene(SCENE_ID_OVER);
 	}
 
 
@@ -146,8 +148,7 @@ void PlayScene::Update()
 	//敵がすべて消えたらゲームクリア
 	if (FindObject("Enemy_Fly") == nullptr&& FindObject("Enemy_Ground") == nullptr && FindObject("Enemy_Explosion") == nullptr)
 	{
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_CLEAR);
+		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
 	}
 	////////////////////////
 }

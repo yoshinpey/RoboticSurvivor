@@ -7,7 +7,8 @@ class EnemyManager;
 //Playシーンを管理するクラス
 class PlayScene : public GameObject
 {
-	EnemyManager* pEnemyManager_; // エネミーマネージャー
+	EnemyManager* pEnemyManager_;
+	SceneManager* pSceneManager_;
 	Player* pPlayer_;
 public:
 	//コンストラクタ
