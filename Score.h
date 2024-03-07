@@ -7,8 +7,6 @@ class Score : public GameObject
 {
     Text* pText;    //テキスト
     int score_;     //スコア
-    float drawX_;    //描画位置(左右)
-    float drawY_;    //描画高さ
 
 public:
     Score(GameObject* parent);      //コンストラクタ
@@ -19,6 +17,8 @@ public:
     void Release() override;        //開放
 
     // スコアを加算する
-    void ScoreAdd(int score);            // スコアを加算する
-    int GetScore();                // スコアを取得する
+    void ScoreAdd(int score) { score_ += score; };
+
+    // スコアを取得する
+    int GetScore() { return score_; }
 };

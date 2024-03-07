@@ -6,11 +6,12 @@
 class Aim;
 class StateManager;
 class Text;
+class Gauge;
 
 class Player : public PlayerBase
 {
 private:
-    float nowHp_;               // HP 
+    float currentHp_;           // 現在のHP 
 
     XMFLOAT3 velocity_;         // 移動加速
     XMFLOAT3 movement_;         // 移動量
@@ -27,8 +28,9 @@ private:
 
     // インスタンス
     StateManager* pStateManager_;       // 状態を切り替える用
-    Text* pText_;                        // テキスト表示用
+    Text* pText_;                       // テキスト表示用
     Aim* pAim_;                         // エイム呼び出し用
+    Gauge* pGauge_;                     // hpゲージ
 
     PlayerParameter parameter_;     // パラメータ
     PlayerStatus status_;           // ステータス
@@ -55,6 +57,10 @@ public:
 
     // 重力を適用する
     void ApplyGravity();
+
+    void IncreaseHp(float amount);
+
+    void DecreaseHp(float amount);
 
     //bool RayCastStage(XMFLOAT3 position);
 

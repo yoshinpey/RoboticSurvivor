@@ -11,8 +11,8 @@
 
 //コンストラクタ
 Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
-    pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr),
-    gravity_(-1), jumping_(false), nowHp_(0), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
+    pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr),pGauge_(nullptr),
+    gravity_(-1), jumping_(false), currentHp_(0), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
     movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f)
 {
     // パラメータをセット
@@ -22,7 +22,7 @@ Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
 
     // ステータスをセット
     status_.maxHp_              = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
-    nowHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
+    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
     
     // ステートマネージャー
     pStateManager_ = new StateManager(this);
@@ -41,11 +41,12 @@ Player::~Player()
 //初期化
 void Player::Initialize()
 {
+    // テキスト初期化
     pText_->Initialize();
-
     //視点クラス読み込み
-    InstantiateFront<Aim>(this);
-    pAim_ = (Aim*)FindObject("Aim");
+    pAim_ = InstantiateFront<Aim>(this);
+    //HPゲージ
+    pGauge_ = Instantiate<Gauge>(this);			
 
     //ステージオブジェクトを探す
     //Ground* pGround = (Ground*)FindObject("Ground");
@@ -96,25 +97,18 @@ void Player::PlayerHitPoint()
 {
     //////////////////UIマネージャー経由に変更予定。
     //HPゲージ呼び出し
-    Gauge* pGauge = (Gauge*)FindObject("Gauge");
-    pGauge->SetHp(status_.maxHp_, nowHp_);
+    pGauge_->SetHp(status_.maxHp_, currentHp_);
+    
+    static float hp = 5.0f;
 
     //デバッグ用
     if (Input::IsKeyDown(DIK_M))
     {
-        nowHp_ += 20.0f;
-        if (nowHp_ > status_.maxHp_)
-        {
-            nowHp_ = status_.maxHp_;
-        }
+        IncreaseHp(hp);
     }
     if (Input::IsKeyDown(DIK_N))
     {
-        nowHp_ -= 20.0f;
-        if (nowHp_ < 0.0f)
-        {
-            nowHp_ = 0.0f;
-        }
+        DecreaseHp(hp);
     }
 }
 
@@ -243,6 +237,24 @@ void Player::ApplyGravity()
         transform_.position_.y = 0;
         jumping_ = false;
         velocity_.y = 0;
+    }
+}
+
+// HPを増やす
+void Player::IncreaseHp(float amount)
+{
+    currentHp_ += amount;
+    if (currentHp_ > status_.maxHp_) {
+        currentHp_ = status_.maxHp_;
+    }
+}
+
+// HPを減らす
+void Player::DecreaseHp(float amount)
+{
+    currentHp_ -= amount;
+    if (currentHp_ < 0) {
+        currentHp_ = 0;
     }
 }
 

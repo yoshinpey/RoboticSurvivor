@@ -4,7 +4,7 @@
 namespace
 {
     XMINT2 position = { 10,20 };
-    int pictureOffset = 100;
+    int offsetX = 100;
     float defaultScale = 1.0f;
     int movingFlame = 10;
     float changeRate = 0.2f;
@@ -52,7 +52,7 @@ void Timer::Draw()
         pNum_->SetScale(defaultScale);
 
     // •b”
-    pNum_->Draw(position.x + pictureOffset, position.y, frame_ / FPS);
+    pNum_->Draw(position.x + offsetX, position.y, frame_ / FPS);
 }
 
 //ŠJ•ú

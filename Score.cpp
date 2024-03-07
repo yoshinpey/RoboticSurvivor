@@ -1,10 +1,14 @@
 #include "Score.h"
 
-//コンストラクタ
-Score::Score(GameObject* parent)
-    :GameObject(parent, "Score"), pText(nullptr), 
-    drawX_(50), drawY_(700)
+namespace
 {
+    XMINT2 position = { 50,700 };
+}
+
+//コンストラクタ
+Score::Score(GameObject* parent) : GameObject(parent, "Score"), pText(nullptr), score_(0)
+{
+    pText = new Text;
 }
 
 //デストラクタ
@@ -15,7 +19,6 @@ Score::~Score()
 //初期化
 void Score::Initialize()
 {
-    pText = new Text;
     pText->Initialize();
 }
 
@@ -27,24 +30,11 @@ void Score::Update()
 //描画
 void Score::Draw()
 {
-    pText->Draw((int)drawX_, (int)drawY_, score_);
+    pText->Draw(position.x, position.y, score_);
 }
 
 //開放
 void Score::Release()
 {
-    delete pText;
-    pText = nullptr;
-}
-
-//スコアを加算する
-void Score::ScoreAdd(int score)
-{
-    score_ += score;
-}
-
-//スコアを取得する
-int Score::GetScore()
-{
-    return score_;
+    SAFE_DELETE(pText)
 }

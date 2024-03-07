@@ -9,7 +9,6 @@
 #include "PlayScene.h"
 #include "Ground.h"
 #include "Timer.h"
-#include "Gauge.h"
 #include "Score.h"
 #include "SkyBox.h"
 
@@ -59,7 +58,6 @@ void PlayScene::Initialize()
 
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
-	Instantiate<Gauge>(this);			//HPゲージ	
 	Instantiate<Score>(this);			//スコア表示
 
 	//タイマー設定

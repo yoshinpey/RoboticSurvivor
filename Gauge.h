@@ -5,7 +5,7 @@
 class Gauge : public GameObject
 {
     int hpPict_[2];    //画像番号
-    int maxHp_, nowHp_;
+    float maxHp_, nowHp_;
 
 public:
     Gauge(GameObject* parent);      //コンストラクタ
@@ -16,7 +16,7 @@ public:
     void Release() override;        //開放
 
     //HPセッター
-    void SetHp(int maxHp, int nowHp)
+    void SetHp(float maxHp, float nowHp)
     {
         maxHp_ = maxHp;
         nowHp_ = nowHp;
