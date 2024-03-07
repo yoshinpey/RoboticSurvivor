@@ -1,14 +1,20 @@
 #include "Timer.h"
-#include "Engine/Input.h"
+#include "Engine/Text.h"
 
-//フレームレート
-static const int FPS = 60;
+namespace
+{
+    XMINT2 position = { 10,20 };
+    int pictureOffset = 100;
+    float defaultScale = 1.0f;
+    int movingFlame = 10;
+    float changeRate = 0.2f;
+}
 
 //コンストラクタ
 Timer::Timer(GameObject* parent)
-    :GameObject(parent, "Timer"), pNum(nullptr),
-    Frame(0), Active(false), drawX(10), drawY(20)
+    :GameObject(parent, "Timer"), pNum_(nullptr), frame_(0), active_(false)
 {
+    pNum_ = new Text;
 }
 
 //デストラクタ
@@ -19,70 +25,38 @@ Timer::~Timer()
 //初期化
 void Timer::Initialize()
 {
-    pNum = new Text;
-    pNum->Initialize();
+    pNum_->Initialize();
 }
 
 //更新
 void Timer::Update()
 {
-    //起動状態
-    if (Active) 
-    {
-        //カウントダウン
-        if (Frame > 0) 
-        {
-            Frame--;
-        }
-    }
+    // 起動状態か判定
+    if (!active_) return;
+    // フレーム更新
+    if (frame_ > 0) --frame_;
 }
 
 //描画
 void Timer::Draw()
 {
-    
-    pNum->SetScale(1.0f);                                   //テキストのサイズ
-    pNum->Draw((int)drawX, (int)drawY, "Time:");                      //描画内容
+    // テキストのサイズ
+    pNum_->SetScale(defaultScale);
+    pNum_->Draw(position.x, position.y, "Timer:");
 
-    if (Frame % FPS < 10)                                   //数字の躍動感
-        pNum->SetScale((Frame % FPS) * 0.2f + 1.0f);        //規定フレーム以下時に適応
-    else
-        pNum->SetScale(1.0f);
+    // 数字の躍動感を出す。
+    // フレームを割った余りが10以下だったら
+    if ((int)frame_ % FPS < movingFlame)
+        pNum_->SetScale(((int)frame_ % FPS) * changeRate + defaultScale);
+    else 
+        pNum_->SetScale(defaultScale);
 
-    int sec_ = Frame / FPS;                                  //秒数
-    pNum->Draw((int)drawX + 100, (int)drawY, sec_);
+    // 秒数
+    pNum_->Draw(position.x + pictureOffset, position.y, frame_ / FPS);
 }
 
 //開放
 void Timer::Release()
 {
-}
-
-int Timer::GetFlame()
-{
-    return Frame;
-}
-
-//タイマー設定
-void Timer::SetLimit(float seconds)
-{
-    Frame = (int)(seconds * FPS);
-}
-
-//タイマー開始
-void Timer::Start()
-{
-    Active = true;
-}
-
-//タイマー終了
-void Timer::Stop()
-{
-    Active = false;
-}
-
-//タイマー処理終了
-bool Timer::IsFinished()
-{
-    return (Frame == 0);
+    pNum_->Release();
 }

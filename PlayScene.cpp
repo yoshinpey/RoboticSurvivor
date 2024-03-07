@@ -72,8 +72,8 @@ void PlayScene::Update()
 {
 	////////////////////////デバック用
 	// タイム制ウェーブスポーンのテスト用
-	Timer* t = (Timer*)FindObject("Timer");
-	int time = t->GetFlame();
+	Timer* pTimer = static_cast<Timer*>(FindObject("Timer"));
+	int time = pTimer->GetFrame();
 	// プレイヤーの位置を使って相対座標で出現させる用の変数
 	XMFLOAT3 plaPos = pPlayer_->GetPosition();
 
