@@ -21,7 +21,7 @@ private:
         float speed_;           // スピード
         float killTimer_;       // 消失時間
         float collisionScale_;  // 当たり判定のサイズ
-        bool isPenetration_;    // 貫通   あり:1 なし:0
+        int isPenetration_;    // 貫通   あり:1 なし:0
     };
 protected:
     BulletParameter parameter_; // パラメータ

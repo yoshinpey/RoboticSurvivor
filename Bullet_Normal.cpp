@@ -2,6 +2,9 @@
 #include "Engine/Model.h"
 
 #include "Bullet_Normal.h"
+#include "json.hpp"
+#include <fstream>
+#include <iostream>
 
 namespace
 {
@@ -13,12 +16,24 @@ namespace
 Bullet_Normal::Bullet_Normal(GameObject* parent)
     :BulletBase(parent, BulletType::NORMAL, "Bullet_Normal"), hModel_(-1)
 {
-    parameter_.damage_          = GetPrivateProfileFloat("Bullet_Normal", "damage", 0, "Settings/WeaponSettings.ini");
-    parameter_.shotCoolTime_    = GetPrivateProfileFloat("Bullet_Normal", "shotCoolTime", 0, "Settings/WeaponSettings.ini");
-    parameter_.speed_           = GetPrivateProfileFloat("Bullet_Normal", "speed", 0, "Settings/WeaponSettings.ini");
-    parameter_.killTimer_       = GetPrivateProfileFloat("Bullet_Normal", "killTimer", 0, "Settings/WeaponSettings.ini");
-    parameter_.collisionScale_  = GetPrivateProfileFloat("Bullet_Normal", "collisionScale", 0, "Settings/WeaponSettings.ini");
-    parameter_.isPenetration_   = GetPrivateProfileInt("Bullet_Normal", "isPenetration", 0, "Settings/WeaponSettings.ini");
+    // JSONファイルを開く
+    std::ifstream ifs("Settings/JsonWeaponSettings.json");
+
+    // JSONデータをパース
+    nlohmann::json j;
+    ifs >> j;
+
+    // Bullet_Normalセクションを取得
+    auto& bullet_normal = j["Bullet_Explosion"];
+
+    // パラメータを取得
+    parameter_.damage_ = bullet_normal["damage"];
+    parameter_.shotCoolTime_ = bullet_normal["shotCoolTime"];
+    parameter_.speed_ = bullet_normal["speed"];
+    parameter_.killTimer_ = bullet_normal["killTimer"];
+    parameter_.collisionScale_ = bullet_normal["collisionScale"];
+    parameter_.isPenetration_ = bullet_normal["isPenetration"];
+    file.close();
 }
 
 //デストラクタ
