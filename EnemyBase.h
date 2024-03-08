@@ -47,7 +47,7 @@ public:
         status_ = { 0,0,0 };
         algorithm_ = { 0,0,0,0 };    
         // プレイヤーオブジェクト取得
-        pPlayer_ = static_cast<Player*>(FindObject("Player"));
+        if(pPlayer_) pPlayer_ = static_cast<Player*>(FindObject("Player"));
     }
 
     virtual ~EnemyBase() = default;
