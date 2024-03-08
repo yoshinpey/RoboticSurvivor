@@ -180,12 +180,12 @@
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="jsonReader.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayScene.cpp" />
-    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="StateManager.cpp" />
@@ -204,6 +204,7 @@
     <ClInclude Include="Engine\VFX.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="jsonReader.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
@@ -249,12 +250,9 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="OverScene.h" />
-    <ClInclude Include="picojson.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="pugiconfig.hpp" />
-    <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="PlayScene.h" />

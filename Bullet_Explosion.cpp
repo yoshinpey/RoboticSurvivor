@@ -80,6 +80,6 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
     {
 
         // ŠÑ’Ê‚µ‚È‚¢ê‡‚Í©g‚ğÁ‚·
-        if (!parameter_.isPenetration_) KillMe();
+        if (parameter_.isPenetration_ == 0) KillMe();
     }
 }

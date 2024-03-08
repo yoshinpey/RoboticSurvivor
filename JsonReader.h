@@ -1,38 +1,23 @@
-#include "picojson.h"
-#include <fstream>
-#include <iostream>
+#include <string>
+#include "json.hpp"
 
-
-template<typename T>
-bool LoadDataFromJson(const std::string& filename, const std::string& key, T& data) 
+namespace JsonReader
 {
-    std::ifstream ifs(filename);
-    if (!ifs.is_open()) 
-    {
-        std::cerr << "JSONファイルを開けませんでした。" << std::endl;
-        return false;
-    }
+	// ファイル名
+	std::string fileName_;
 
-    picojson::value json_value;
-    ifs >> json_value;
+	// JSONデータ
+	nlohmann::json data_;
 
-    std::string err = picojson::get_last_error();
-    if (!err.empty()) 
-    {
-        std::cerr << "JSONパースエラー: " << err << std::endl;
-        return false;
-    }
+	// JSONファイルの読み込み
+	void Load(const std::string& filename);
 
-    const picojson::value& value = json_value.get(key);
-    if (value.is<T>()) 
-    {
-        data = value.get<T>();
-        return true;
-    }
+	// JSONファイルへの書き込み
+	void Save(const std::string& filename);
 
-    else 
-    {
-        std::cerr << "指定されたキーに対するデータが見つかりませんでした。" << std::endl;
-        return false;
-    }
-}
+	// JSONデータの取得
+	const nlohmann::json& GetData() { return data_; };
+
+	// JSONデータの変更
+	void SetData(const nlohmann::json& data) { data_ = data; };
+};

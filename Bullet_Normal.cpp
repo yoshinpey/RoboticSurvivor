@@ -4,7 +4,7 @@
 #include "Bullet_Normal.h"
 #include "json.hpp"
 #include <fstream>
-#include <iostream>
+//#include "jsonReader.h"
 
 namespace
 {
@@ -24,7 +24,7 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
     ifs >> j;
 
     // Bullet_Normalセクションを取得
-    auto& bullet_normal = j["Bullet_Explosion"];
+    auto& bullet_normal = j["Bullet_Normal"];
 
     // パラメータを取得
     parameter_.damage_ = bullet_normal["damage"];
@@ -34,6 +34,9 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
     parameter_.collisionScale_ = bullet_normal["collisionScale"];
     parameter_.isPenetration_ = bullet_normal["isPenetration"];
     ifs.close();
+
+    //std:: string name;
+    //JsonReader::Load(name);
 }
 
 //デストラクタ
@@ -82,6 +85,6 @@ void Bullet_Normal::OnCollision(GameObject* pTarget)
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
         // 貫通しない場合は自身を消す
-        if (!parameter_.isPenetration_) KillMe();
+        if (parameter_.isPenetration_ == 0) KillMe();
     }
 }
