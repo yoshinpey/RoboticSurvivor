@@ -203,6 +203,7 @@
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\VFX.h" />
     <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
