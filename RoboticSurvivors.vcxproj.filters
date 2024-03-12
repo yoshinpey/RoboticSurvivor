@@ -68,6 +68,9 @@
     <Filter Include="Multipurpose\Manager">
       <UniqueIdentifier>{7db5fd46-de21-46f9-8afb-266d2183aa91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{7e297494-ceef-4673-8060-3493b2905f00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -175,12 +178,6 @@
     <ClCompile Include="ItemManager.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Multipurpose</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\imgui\imgui.cpp">
       <Filter>01Engine\imgui</Filter>
     </ClCompile>
@@ -226,7 +223,6 @@
     <ClCompile Include="Enemy_Explosion.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Bullet_Explosion.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
@@ -250,6 +246,15 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="jsonReader.cpp">
+      <Filter>Json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,12 +366,6 @@
     <ClInclude Include="ItemManager.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Multipurpose</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\imgui\imconfig.h">
       <Filter>01Engine\imgui</Filter>
     </ClInclude>
@@ -415,9 +414,6 @@
     <ClInclude Include="Enemy_Explosion.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="pugiconfig.hpp" />
-    <ClInclude Include="pugixml.hpp" />
-    <ClInclude Include="picojson.h" />
     <ClInclude Include="PlayerBase.h">
       <Filter>Character\Player</Filter>
     </ClInclude>
@@ -450,6 +446,18 @@
     </ClInclude>
     <ClInclude Include="ButtonFactory.h">
       <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="jsonReader.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

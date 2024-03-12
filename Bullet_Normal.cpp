@@ -2,9 +2,7 @@
 #include "Engine/Model.h"
 
 #include "Bullet_Normal.h"
-#include "json.hpp"
-#include <fstream>
-//#include "jsonReader.h"
+#include "JsonReader.h"
 
 namespace
 {
@@ -16,15 +14,9 @@ namespace
 Bullet_Normal::Bullet_Normal(GameObject* parent)
     :BulletBase(parent, BulletType::NORMAL, "Bullet_Normal"), hModel_(-1)
 {
-    // JSONファイルを開く
-    std::ifstream ifs("Settings/JsonWeaponSettings.json");
-
-    // JSONデータをパース
-    nlohmann::json j;
-    ifs >> j;
-
-    // Bullet_Normalセクションを取得
-    auto& bullet_normal = j["Bullet_Normal"];
+    // JSONファイル読み込み
+    JsonReader::Load("Settings/JsonWeaponSettings.json");
+    auto& bullet_normal = JsonReader::GetSection("Bullet_Normal");
 
     // パラメータを取得
     parameter_.damage_ = bullet_normal["damage"];
@@ -33,10 +25,6 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
     parameter_.killTimer_ = bullet_normal["killTimer"];
     parameter_.collisionScale_ = bullet_normal["collisionScale"];
     parameter_.isPenetration_ = bullet_normal["isPenetration"];
-    ifs.close();
-
-    //std:: string name;
-    //JsonReader::Load(name);
 }
 
 //デストラクタ

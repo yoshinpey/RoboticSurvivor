@@ -1,29 +1,37 @@
 #include "jsonReader.h"
 
+#include <string>
 #include <fstream>
 
 namespace JsonReader
 {
+    // JSONデータ
+    nlohmann::json data_;
+
     // JSONファイルの読み込み
-    void Load(const std::string& filename)
+    void Load(const std::string& fileName)
     {
-        fileName_ = filename + ".json";
-        std::ifstream ifs(fileName_);
 
-        if (!ifs.is_open()) assert(data_ >= 0);
+        std::ifstream ifs(fileName);
+        if (!ifs.is_open())
+        {
+            assert(false);
+            return;
+        }
 
-        ifs >> data_;
+        nlohmann::json j;
+        ifs >> j;
+        if (j.empty())
+        {
+            assert(false);
+            return;
+        }
+
+        data_ = j;
     }
 
-    // JSONファイルへの書き込み
-    void Save(const std::string& filename)
+    const nlohmann::json& GetSection(const std::string& key)
     {
-        fileName_ = filename + ".json";
-        std::ofstream ofs(fileName_);
-
-        if (!ofs.is_open()) assert(data_ >= 0);
-
-        ofs << data_;
+        return data_[key];
     }
-
 }
