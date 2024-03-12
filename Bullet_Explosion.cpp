@@ -2,6 +2,7 @@
 #include "Engine/Model.h"
 
 #include "Bullet_Explosion.h"
+#include "JsonReader.h"
 
 namespace
 {
@@ -12,12 +13,17 @@ namespace
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
     :BulletBase(parent, BulletType::NORMAL, "Bullet_Explosion"), hModel_(-1)
 {
-    parameter_.damage_          = GetPrivateProfileFloat("Bullet_Explosion", "damage", 0, "Settings/WeaponSettings.ini");
-    parameter_.shotCoolTime_    = GetPrivateProfileFloat("Bullet_Explosion", "shotCoolTime", 0, "Settings/WeaponSettings.ini");
-    parameter_.speed_           = GetPrivateProfileFloat("Bullet_Explosion", "speed", 0, "Settings/WeaponSettings.ini");
-    parameter_.killTimer_       = GetPrivateProfileFloat("Bullet_Explosion", "killTimer", 0, "Settings/WeaponSettings.ini");
-    parameter_.collisionScale_  = GetPrivateProfileFloat("Bullet_Explosion", "collisionScale", 0, "Settings/WeaponSettings.ini");
-    parameter_.isPenetration_   = GetPrivateProfileInt("Bullet_Explosion", "isPenetration", 0, "Settings/WeaponSettings.ini");
+    // JSONファイル読み込み
+    JsonReader::Load("Settings/JsonWeaponSettings.json");
+    auto& bullet_explosion = JsonReader::GetSection("Bullet_Explosion");
+
+    // パラメータを取得
+    parameter_.damage_ = bullet_explosion["damage"];
+    parameter_.shotCoolTime_ = bullet_explosion["shotCoolTime"];
+    parameter_.speed_ = bullet_explosion["speed"];
+    parameter_.killTimer_ = bullet_explosion["killTimer"];
+    parameter_.collisionScale_ = bullet_explosion["collisionScale"];
+    parameter_.isPenetration_ = bullet_explosion["isPenetration"];
 }
 
 //デストラクタ
