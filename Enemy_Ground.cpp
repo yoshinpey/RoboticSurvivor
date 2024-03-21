@@ -1,7 +1,8 @@
 #include "Enemy_Ground.h"
+#include "Player.h"
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr), lastAngle_(0)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr), lastAngle_(0), pPlayer_(nullptr)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -32,6 +33,9 @@ void Enemy_Ground::Initialize()
     AddCollider(pCollision_);
 
     transform_.rotate_.y = 180;
+
+    // プレイヤーオブジェクト取得
+    pPlayer_ = static_cast<Player*>(FindObject("Player"));
 }
 
 void Enemy_Ground::Update()
@@ -129,3 +133,14 @@ void Enemy_Ground::Attack()
 {
 }
 
+// プレイヤーとの距離を算出する
+float Enemy_Ground::CheckPlayerDistance()
+{
+    return CalculateDistance(this->GetPosition(), pPlayer_->GetPosition());
+}
+
+// プレイヤーへの方向を算出する
+XMFLOAT3 Enemy_Ground::CheckPlayerDirection()
+{
+    return CalculateDirection(this->GetPosition(), pPlayer_->GetPosition());
+}
