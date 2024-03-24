@@ -55,8 +55,8 @@ int Audio::Load(std::string fileName, bool isLoop, int svNum)
 	//チャンク構造体
 	struct Chunk
 	{
-		char	id[5]; 		// ID
-		unsigned int	size;	// サイズ
+		char	id[5] = ""; 		// ID
+		unsigned int	size = 0;	// サイズ
 	};
 
 	//ファイルを開く
@@ -65,14 +65,14 @@ int Audio::Load(std::string fileName, bool isLoop, int svNum)
 
 	DWORD dwBytes = 0;
 
-	Chunk riffChunk;
+	Chunk riffChunk = {0};
 	ReadFile(hFile, &riffChunk.id, 4, &dwBytes, NULL);
 	ReadFile(hFile, &riffChunk.size, 4, &dwBytes, NULL);
 
-	char wave[4];
+	char wave[4] = "";
 	ReadFile(hFile, &wave, 4, &dwBytes, NULL);
 
-	Chunk formatChunk{};
+	Chunk formatChunk{0};
 	while (formatChunk.id[0] != 'f') {
 		ReadFile(hFile, &formatChunk.id, 4, &dwBytes, NULL);
 	}
@@ -144,7 +144,7 @@ int Audio::Load(std::string fileName, bool isLoop, int svNum)
 	ad.svNum = svNum;
 	audioDatas.push_back(ad);
 
-	SAFE_DELETE_ARRAY(pBuffer);
+	//SAFE_DELETE_ARRAY(pBuffer);
 
 	return (int)audioDatas.size() - 1;
 }

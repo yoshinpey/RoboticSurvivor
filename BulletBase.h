@@ -21,7 +21,7 @@ private:
         float speed_;           // スピード
         float killTimer_;       // 消失時間
         float collisionScale_;  // 当たり判定のサイズ
-        int isPenetration_;    // 貫通   あり:1 なし:0
+        int isPenetration_;     // 貫通   あり:1 なし:0
     };
 protected:
     BulletParameter parameter_; // パラメータ
@@ -39,7 +39,7 @@ public:
     BulletType GetBulletType() const { return bulletType_; }
 
     // 銃弾のパラメータを取得
-    BulletParameter GetBulletParameter_() const { return parameter_; }
+    BulletParameter GetBulletParameter() const { return parameter_; }
 
     // 銃弾の移動を設定
     void SetMove(const XMFLOAT3& move) { move_ = move; }

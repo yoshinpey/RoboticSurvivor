@@ -4,17 +4,18 @@
 //銃を管理するクラス
 class Gun : public GameObject
 {
-    int hModel_;    //モデル番号
-    float bulletSpeed_;
-    float AttackCool_;
-    float Cool_;
+    int hModel_;                    // モデル番号
+    int shotCoolTime_;              // 一時的にクールタイムを保管しておく変数
+    int normalShotCool_;            // 
+    int explosionShotCool_;         // 
+
 public:
-    Gun(GameObject* parent);        //コンストラクタ
-    ~Gun();                         //デストラクタ
-    void Initialize() override;     //初期化
-    void Update() override;         //更新
-    void Draw() override;           //描画
-    void Release() override;        //開放
+    Gun(GameObject* parent);
+    ~Gun();
+    void Initialize() override;
+    void Update() override;
+    void Draw() override;
+    void Release() override;
 
     // 銃弾の速度と射出方向を計算する
     XMFLOAT3 CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletSpeed);
@@ -22,4 +23,5 @@ public:
     // 銃弾を生成する
     template<class T>
     void ShootBullet();
+
 };

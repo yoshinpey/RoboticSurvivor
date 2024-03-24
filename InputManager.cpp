@@ -22,7 +22,7 @@ namespace InputManager
 	constexpr int  WEAPON_ACTION_KEY = MOUSE_RIGHT;       // •ŠíƒAƒNƒVƒ‡ƒ“
 }
 
-bool InputManager::IsShoot() { return Input::IsMouseButtonDown(SHOOT_KEY); }
+bool InputManager::IsShoot() { return Input::IsMouseButton(SHOOT_KEY); }
 bool InputManager::IsWeaponAction() { return Input::IsMouseButtonUp(WEAPON_ACTION_KEY); }
 
 bool InputManager::IsMoveForward() { return Input::IsKey(MOVE_FORWARD_KEY); }
