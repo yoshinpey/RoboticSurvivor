@@ -60,4 +60,10 @@ public:
         EnemyType excludeType = EnemyType::MAX,
         const std::vector<EnemyType>& excludeList = {}
      );
+
+    // エネミーの総数を取得する
+    int GetEnemyCount() { return static_cast<int>(enemies.size()); }
+
+    // 指定したenemyTypeに一致するエネミーの総数を取得する
+    int GetEnemyCount(EnemyType enemyType);
 };

@@ -138,3 +138,16 @@ void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosit
         SpawnEnemy(spawnPosition, spawnEnemyType);
     }
 }
+
+int EnemyManager::GetEnemyCount(EnemyType enemyType)
+{
+    int count = 0;
+    for (auto enemy : enemies)
+    {
+        if (enemy->GetEnemyType() == enemyType)
+        {
+            count++;
+        }
+    }
+    return count;
+}

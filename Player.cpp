@@ -30,6 +30,9 @@ Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
     //テキスト
     pText_ = new Text;
 
+    // 当たり判定付与
+    SphereCollider* pCollision = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
+    AddCollider(pCollision);
 }
 
 //デストラクタ
@@ -78,12 +81,12 @@ void Player::Update()
 void Player::Draw()
 {
     //デバック用
-    pText_->Draw(1150, 100, "X:");
-    pText_->Draw(1200, 100, (int)transform_.position_.x);
-    pText_->Draw(1150, 250, "Y:");
-    pText_->Draw(1200, 250, (int)transform_.position_.y);
-    pText_->Draw(1150, 400, "Z:");
-    pText_->Draw(1200, 400, (int)transform_.position_.z);
+    //pText_->Draw(1150, 100, "X:");
+    //pText_->Draw(1200, 100, (int)transform_.position_.x);
+    //pText_->Draw(1150, 250, "Y:");
+    //pText_->Draw(1200, 250, (int)transform_.position_.y);
+    //pText_->Draw(1150, 400, "Z:");
+    //pText_->Draw(1200, 400, (int)transform_.position_.z);
 }
 
 //開放
