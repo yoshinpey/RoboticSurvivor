@@ -2,12 +2,15 @@
 #include "Engine/Model.h"
 #include "EnemyBase.h"
 
+class Player;
+
 // 地上敵を管理するクラス
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // モデル番号
     SphereCollider* pCollision_;        // コリジョン
     float lastAngle_;
+    Player* pPlayer_;
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
     ~Enemy_Ground() override;           // デストラクタ
@@ -15,6 +18,12 @@ public:
     void Update() override;             // 更新
     void Draw() override;               // 描画
     void Release() override;            // 開放
+
+    // プレイヤーとの距離を算出する
+    float CheckPlayerDistance();
+
+    // プレイヤーへの方向を算出する
+    XMFLOAT3 CheckPlayerDirection();
 
     // 内積計算
     float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
