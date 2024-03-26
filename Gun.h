@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Engine/GameObject.h"
 
@@ -8,6 +9,7 @@ class Gun : public GameObject
     int shotCoolTime_;              // 一時的にクールタイムを保管しておく変数
     int normalShotCool_;            // 
     int explosionShotCool_;         // 
+    int hSound_;
 
 public:
     Gun(GameObject* parent);

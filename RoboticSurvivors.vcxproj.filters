@@ -256,6 +256,9 @@
     <ClCompile Include="jsonReader.cpp">
       <Filter>Json</Filter>
     </ClCompile>
+    <ClCompile Include="TitleTextObject.cpp">
+      <Filter>03Scene\01Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -458,6 +461,9 @@
     </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleTextObject.h">
+      <Filter>03Scene\01Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+
 #pragma once
 #include <vector>
 #include <random>
@@ -8,7 +9,6 @@ class EnemyManager
 private:
     std::vector<EnemyBase*> enemies;  // エネミーのリスト
     GameObject* pParent_;
-    EnemyBase* pNewEnemy_;
 
     // 乱数生成器の初期化
     std::mt19937 InitializeRandomGenerator();
@@ -42,7 +42,7 @@ public:
     (
         XMFLOAT3 minPosition = { 0,0,0 },
         XMFLOAT3 maxPosition = { 0,0,0 },
-        int spawnCount = 1, 
+        int spawnCount = 1,
         EnemyType enemyType = EnemyType::MAX
     );
 
@@ -59,7 +59,7 @@ public:
         int spawnCount = 1,
         EnemyType excludeType = EnemyType::MAX,
         const std::vector<EnemyType>& excludeList = {}
-     );
+    );
 
     // エネミーの総数を取得する
     int GetEnemyCount() { return static_cast<int>(enemies.size()); }

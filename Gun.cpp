@@ -1,3 +1,4 @@
+
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 
@@ -9,12 +10,12 @@
 
 namespace
 {
-    XMFLOAT3 handOffset = {0.6f, -1.25f, 1.50f };       // 移動量
+    XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };       // 移動量
     std::string modelName = "Entity/Rifle.fbx";         // モデル
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), normalShotCool_(0), explosionShotCool_(0)
+    :GameObject(parent, "Gun"), hModel_(-1), normalShotCool_(0), explosionShotCool_(0), hSound_(-1)
 {
 }
 
@@ -30,6 +31,8 @@ void Gun::Initialize()
 
     //プレイヤーの手の位置まで調整
     transform_.position_ = handOffset;
+    hSound_ = Audio::Load("Sounds/Shot.wav", false, 1);
+    assert(hSound_ >= 0);
 }
 
 void Gun::Update()
@@ -43,8 +46,13 @@ void Gun::Update()
     // 通常射撃
     if (InputManager::IsShoot() && normalShotCool_ <= 0)
     {
+        Audio::Play(hSound_);
         ShootBullet<Bullet_Normal>();
         normalShotCool_ = shotCoolTime_;
+    }
+    else
+    {
+        Audio::Stop(hSound_);
     }
 
     // 特殊射撃

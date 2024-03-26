@@ -1,3 +1,4 @@
+
 #include "EnemyManager.h"
 
 #include "Enemy_Ground.h"
@@ -5,7 +6,7 @@
 #include "Enemy_Explosion.h"
 
 
-EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent), pNewEnemy_(nullptr)
+EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
 {
 }
 
@@ -17,26 +18,26 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 {
+    EnemyBase* pNewEnemy = nullptr;
     switch (enemyType)
     {
     case EnemyType::FLY:
-        pNewEnemy_ = InstantiateFront<Enemy_Fly>(pParent_);
-        pNewEnemy_->SetPosition(spawnPosition);
+        pNewEnemy = InstantiateFront<Enemy_Fly>(pParent_);
         break;
 
     case EnemyType::GROUND:
-        pNewEnemy_ = InstantiateFront<Enemy_Ground>(pParent_);
-        pNewEnemy_->SetPosition(spawnPosition);
+        pNewEnemy = InstantiateFront<Enemy_Ground>(pParent_);
         break;
 
     case EnemyType::EXPLOSION:
-        pNewEnemy_ = InstantiateFront<Enemy_Explosion>(pParent_);
-        pNewEnemy_->SetPosition(spawnPosition);
+        pNewEnemy = InstantiateFront<Enemy_Explosion>(pParent_);
         break;
+
     case EnemyType::MAX:
         return;
     }
-    enemies.push_back(pNewEnemy_);
+    pNewEnemy->SetPosition(spawnPosition);
+    enemies.push_back(pNewEnemy);
 }
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)
@@ -64,7 +65,7 @@ void EnemyManager::RemoveAllEnemies()
         enemy->KillMe();
     }
     // エネミーリストをクリアする
-    enemies.clear(); 
+    enemies.clear();
 }
 
 std::mt19937 EnemyManager::InitializeRandomGenerator()
@@ -114,7 +115,7 @@ void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, i
     // 乱数生成器
     std::mt19937 mt = InitializeRandomGenerator();
 
-    for (int i = 0; i < spawnCount; ++i) 
+    for (int i = 0; i < spawnCount; ++i)
     {
         // 位置を決定
         XMFLOAT3 spawnPosition = GenerateRandomPosition(mt, minPosition, maxPosition);
@@ -122,13 +123,13 @@ void EnemyManager::SpawnMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, i
     }
 }
 
-void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount, 
+void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosition, int spawnCount,
     EnemyType excludeType, const std::vector<EnemyType>& excludeList)
 {
     // 乱数生成器
     std::mt19937 mt = InitializeRandomGenerator();
 
-    for (int i = 0; i < spawnCount; ++i) 
+    for (int i = 0; i < spawnCount; ++i)
     {
         // ランダムな敵の種類を選択
         EnemyType spawnEnemyType = GenerateRandomEnemyType(mt, excludeType);

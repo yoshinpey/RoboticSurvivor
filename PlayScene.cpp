@@ -1,16 +1,16 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
-#include "Engine/Model.h"
 
+#include "PlayScene.h"
 #include "GameManager.h"
 #include "EnemyManager.h"
 #include "Player.h"
-#include "PlayScene.h"
 #include "Ground.h"
 #include "Timer.h"
 #include "Score.h"
 #include "SkyBox.h"
+#include "Engine/Model.h"
 
 namespace
 {
