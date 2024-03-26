@@ -1,8 +1,10 @@
 #include "Engine/SphereCollider.h"
+#include "Engine/Audio.h"
 #include "Engine/Model.h"
 
 #include "Bullet_Explosion.h"
 #include "JsonReader.h"
+
 
 namespace
 {
@@ -11,7 +13,7 @@ namespace
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
-    :BulletBase(parent, BulletType::NORMAL, "Bullet_Explosion"), hModel_(-1)
+    :BulletBase(parent, BulletType::NORMAL, "Bullet_Explosion"), hModel_(-1), hSound_(-1)
 {
     // JSONファイル読み込み
     JsonReader::Load("Settings/JsonWeaponSettings.json");
@@ -35,16 +37,18 @@ Bullet_Explosion::~Bullet_Explosion()
 void Bullet_Explosion::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Entity/Bullet.fbx");
+    hModel_ = Model::Load("Entity/Missile.fbx");
     assert(hModel_ >= 0);
 
     //当たり判定
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
     AddCollider(pCollision_);
 
-    //transform_.scale_.x = 5.0f;
-    //transform_.scale_.y = 5.0f;
-    //transform_.scale_.z = 5.0f;
+    transform_.scale_ = { 0.2f, 0.2f, 0.2f };
+    transform_.rotate_.y = 180.0f;
+
+    //hSound_ = Audio::Load("Sounds/Explosion.wav", false, 1);
+    //assert(hSound_ >= 0);
 }
 
 //更新
@@ -52,10 +56,16 @@ void Bullet_Explosion::Update()
 {
     //弾を飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
-
+   
+    static bool isFirst = true;
     // 爆発する
     if (parameter_.killTimer_ <= 30)
-    {
+    { 
+        //if (isFirst)
+        //{
+        //    Audio::Play(hSound_);
+        //    isFirst = false;
+        //}
         transform_.scale_.x *= 1.1;
         transform_.scale_.y *= 1.1;
         transform_.scale_.z *= 1.1;
@@ -64,7 +74,11 @@ void Bullet_Explosion::Update()
 
     //弾を消す
     parameter_.killTimer_--;
-    if (parameter_.killTimer_ <= 0) { KillMe(); }
+    if (parameter_.killTimer_ <= 0) 
+    { 
+        isFirst = true;
+        KillMe(); 
+    }
 }
 
 //描画
