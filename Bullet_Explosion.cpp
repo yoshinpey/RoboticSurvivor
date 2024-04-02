@@ -9,6 +9,9 @@
 namespace
 {
     XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };      // 当たり判定の位置
+    XMFLOAT3 modelOffset = { 0.0f, 0.0f, 0.0f };      // モデルの位置
+    XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };      // モデルのサイズ
+    XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
 }
 
 //コンストラクタ
@@ -44,8 +47,8 @@ void Bullet_Explosion::Initialize()
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
     AddCollider(pCollision_);
 
-    transform_.scale_ = { 0.2f, 0.2f, 0.2f };
-    transform_.rotate_.y = 180.0f;
+    transform_.scale_ = modelScale;
+    transform_.rotate_.y = modelRotate.y;
 
     //hSound_ = Audio::Load("Sounds/Explosion.wav", false, 1);
     //assert(hSound_ >= 0);
