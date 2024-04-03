@@ -12,6 +12,7 @@ namespace
 {
     XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };       // 移動量
     std::string modelName = "Entity/Rifle.fbx";         // モデル
+    std::string soundName = "Sounds/Shot.wav";         // モデル
 }
 
 Gun::Gun(GameObject* parent)
@@ -25,14 +26,15 @@ Gun::~Gun()
 
 void Gun::Initialize()
 {
-    //モデルデータのロード
+    // データのロード
     hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
+    hSound_ = Audio::Load(soundName, false, 1);
+    assert(hSound_ >= 0);
+
     //プレイヤーの手の位置まで調整
     transform_.position_ = handOffset;
-    hSound_ = Audio::Load("Sounds/Shot.wav", false, 1);
-    assert(hSound_ >= 0);
 }
 
 void Gun::Update()
