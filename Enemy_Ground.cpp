@@ -58,8 +58,8 @@ void Enemy_Ground::Update()
         {
             ApproachPlayer(directionToPlayer);
             // デバッグ用、プレイヤーまでの距離を表示
-            OutputDebugString(std::to_string(CheckPlayerDistance()).c_str());
-            OutputDebugString("\n");
+            //OutputDebugString(std::to_string(CheckPlayerDistance()).c_str());
+            //OutputDebugString("\n");
         }
 
         // プレイヤーの方向を向くように視界を回転

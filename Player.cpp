@@ -27,9 +27,6 @@ Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
     // ステートマネージャー
     pStateManager_ = new StateManager(this);
 
-    //テキスト
-    pText_ = new Text;
-
     // 当たり判定付与
     SphereCollider* pCollision = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
     AddCollider(pCollision);
@@ -44,10 +41,8 @@ Player::~Player()
 //初期化
 void Player::Initialize()
 {
-    // テキスト初期化
-    pText_->Initialize();
     //視点クラス読み込み
-    pAim_ = InstantiateFront<Aim>(this);
+    pAim_ = Instantiate<Aim>(this);
     //HPゲージ
     pGauge_ = Instantiate<Gauge>(this);			
 
@@ -185,8 +180,8 @@ void Player::Jump()
     velocity_.z = parameter_.jumpVelocity_ * moveDirection.z;
 
     //デバック用
-    OutputDebugStringA(std::to_string(parameter_.jumpVelocity_).c_str());
-    OutputDebugString("\n");
+    //OutputDebugStringA(std::to_string(parameter_.jumpVelocity_).c_str());
+    //OutputDebugString("\n");
 
     // ジャンプできなくする
     jumping_ = true;
@@ -235,7 +230,7 @@ void Player::ApplyGravity()
     transform_.position_.y += velocity_.y;
 
     // 地面に到達したらジャンプ可能な状態に戻す
-    if (transform_.position_.y <= 0)
+    if (transform_.position_.y < 0)
     {
         transform_.position_.y = 0;
         jumping_ = false;

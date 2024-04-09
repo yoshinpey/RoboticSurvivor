@@ -30,7 +30,7 @@ void Score::Update()
 //•`‰æ
 void Score::Draw()
 {
-    pText->Draw(position.x, position.y, score_);
+    //pText->Draw(position.x, position.y, score_);
 }
 
 //ŠJ•ú

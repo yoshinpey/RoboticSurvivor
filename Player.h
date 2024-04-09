@@ -64,5 +64,5 @@ public:
     //bool RayCastStage(XMFLOAT3 position);
 
     // ’n–Ê‚É‚Â‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ð”»’è‚·‚é
-    bool OnGround() const { return transform_.position_.y <= 0; }
+    bool Jumping() const { return transform_.position_.y >= 0; }
 };

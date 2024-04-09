@@ -11,8 +11,9 @@
 namespace
 {
     XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };       // 移動量
-    std::string modelName = "Entity/Rifle.fbx";         // モデル
-    std::string soundName = "Sounds/Shot.wav";         // モデル
+    XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
+    std::string modelName = "Entity/Rifle.fbx";         // モデル名
+    std::string soundName = "Sounds/Shot.wav";          // サウンド名
 }
 
 Gun::Gun(GameObject* parent)
@@ -35,6 +36,7 @@ void Gun::Initialize()
 
     //プレイヤーの手の位置まで調整
     transform_.position_ = handOffset;
+    transform_.scale_ = modelScale;
 }
 
 void Gun::Update()
@@ -67,8 +69,14 @@ void Gun::Update()
 
 void Gun::Draw()
 {
+    // 銃は常に手前に表示したいので深度を無視する
+    Direct3D::SetDepthBafferWriteEnable(false);
+
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
+
+    // 深度設定を戻す
+    Direct3D::SetDepthBafferWriteEnable(true);
 }
 
 void Gun::Release()
