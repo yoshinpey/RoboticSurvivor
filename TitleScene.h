@@ -1,10 +1,13 @@
+
 #pragma once
 #include "Engine/GameObject.h"
 
 //Titleシーンを管理するクラス
 class TitleScene : public GameObject
 {
-	int hPict_;    //画像番号
+	int hPict_[2];    //画像番号
+	Transform textTrans_;
+	bool transFlag;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

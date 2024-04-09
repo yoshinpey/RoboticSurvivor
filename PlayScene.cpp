@@ -1,16 +1,16 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
-#include "Engine/Model.h"
 
+#include "PlayScene.h"
 #include "GameManager.h"
 #include "EnemyManager.h"
 #include "Player.h"
-#include "PlayScene.h"
 #include "Ground.h"
 #include "Timer.h"
 #include "Score.h"
 #include "SkyBox.h"
+#include "Engine/Model.h"
 
 namespace
 {
@@ -74,6 +74,7 @@ void PlayScene::Update()
 	int time = pTimer->GetFrame();
 	// プレイヤーの位置を使って相対座標で出現させる用の変数
 	XMFLOAT3 plaPos = pPlayer_->GetPosition();
+	//XMFLOAT3 plaDir = pPlayer_->CalculateMoveInput();
 
 	if (time % waveTimer == 0)
 	{
@@ -140,13 +141,13 @@ void PlayScene::Update()
 
 
 	//////スコアテスト用
-	Score* s = (Score*)FindObject("Score");
-	static float score = 0;	
-	static int num = 0;
-	num++;
-	score = (num % 60) * 0.1f;
+	//Score* s = (Score*)FindObject("Score");
+	//static float score = 0;	
+	//static int num = 0;
+	//num++;
+	//score = (num % 60) * 0.1f;
 
-	s->ScoreAdd((int)score);
+	//s->ScoreAdd((int)score);
 	////////////////////////
 }
 

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "InputManager.h"
 #include "PlayerBase.h"
 

@@ -7,6 +7,7 @@ class BulletBase;
 class Bullet_Explosion : public BulletBase
 {
     int hModel_; 
+    int hSound_;
 public:
     Bullet_Explosion(GameObject* parent);
     ~Bullet_Explosion();
