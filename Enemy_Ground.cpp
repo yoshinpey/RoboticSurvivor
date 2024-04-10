@@ -1,8 +1,15 @@
 #include "Enemy_Ground.h"
 #include "Player.h"
+#include "Engine/SphereCollider.h"
+
+namespace
+{
+    XMFLOAT3 collisionPosition = { 0.0f, 1.0f, 0.0f };      // 当たり判定の位置
+    float collisionScale = 1.5f;                            // 当たり判定の大きさ
+}
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), pCollision_(nullptr), lastAngle_(0), pPlayer_(nullptr)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), lastAngle_(0), pPlayer_(nullptr)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -22,15 +29,15 @@ Enemy_Ground::~Enemy_Ground()
 void Enemy_Ground::Initialize()
 {
     // モデルデータのロード
-    hModel_ = Model::Load("Character/Enemy_Ground.fbx");
+    hModel_ = Model::Load("Enemy/Enemy_Ground.fbx");
     assert(hModel_ >= 0);
 
     //アニメーション
     //Model::SetAnimFrame(hModel_, 0, 120, 0.75);
      
     // 当たり判定付与
-    pCollision_ = new SphereCollider(XMFLOAT3(0.0f, 1.0f, 0.0f), 1.5f);
-    AddCollider(pCollision_);
+    SphereCollider* pCollision = new SphereCollider(collisionPosition, collisionScale);
+    AddCollider(pCollision);
 
     transform_.rotate_.y = 180;
 
@@ -50,16 +57,10 @@ void Enemy_Ground::Update()
     // プレイヤーが視界内にいる場合
     if (dotProduct >= fovAngle)
     {
-        // 視界内にいることを示すためにスケールを変更
-        transform_.scale_.y = 1.0f;
-
         // 許可された距離までプレイヤーに接近
-        if (algorithm_.approachDistance_ <= CheckPlayerDistance())
+        if (algorithm_.attackDistance_ <= CheckPlayerDistance())
         {
             ApproachPlayer(directionToPlayer);
-            // デバッグ用、プレイヤーまでの距離を表示
-            //OutputDebugString(std::to_string(CheckPlayerDistance()).c_str());
-            //OutputDebugString("\n");
         }
 
         // プレイヤーの方向を向くように視界を回転
@@ -71,6 +72,35 @@ void Enemy_Ground::Update()
         //transform_.scale_.y = 0.5f;
 
     }
+}
+
+void Enemy_Ground::Draw()
+{
+    Model::SetTransform(hModel_, transform_);
+    Model::Draw(hModel_);
+}
+
+void Enemy_Ground::Release()
+{
+}
+
+void Enemy_Ground::OnCollision(GameObject* pTarget)
+{
+    // 銃弾に当たったとき
+    if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
+    {
+        KillMe();
+    }
+}
+
+void Enemy_Ground::Attack()
+{
+}
+
+// プレイヤーへの方向を算出する
+XMFLOAT3 Enemy_Ground::CheckPlayerDirection()
+{
+    return CalculateDirection(this->GetPosition(), pPlayer_->GetPosition());
 }
 
 float Enemy_Ground::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
@@ -108,39 +138,4 @@ void Enemy_Ground::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     // 角度を計算して回転
     float angle = atan2(XMVectorGetY(cross), dot);
     transform_.rotate_.y += XMConvertToDegrees(angle) * 0.03f;
-}
-
-void Enemy_Ground::Draw()
-{
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
-}
-
-void Enemy_Ground::Release()
-{
-}
-
-void Enemy_Ground::OnCollision(GameObject* pTarget)
-{
-    // 銃弾に当たったとき
-    if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
-    {
-        KillMe();
-    }
-}
-
-void Enemy_Ground::Attack()
-{
-}
-
-// プレイヤーとの距離を算出する
-float Enemy_Ground::CheckPlayerDistance()
-{
-    return CalculateDistance(this->GetPosition(), pPlayer_->GetPosition());
-}
-
-// プレイヤーへの方向を算出する
-XMFLOAT3 Enemy_Ground::CheckPlayerDirection()
-{
-    return CalculateDirection(this->GetPosition(), pPlayer_->GetPosition());
 }

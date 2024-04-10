@@ -8,9 +8,9 @@ class Player;
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    SphereCollider* pCollision_;        // コリジョン
-    float lastAngle_;
     Player* pPlayer_;
+    float lastAngle_;
+
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
     ~Enemy_Ground() override;           // デストラクタ
@@ -19,25 +19,24 @@ public:
     void Draw() override;               // 描画
     void Release() override;            // 開放
 
-    // プレイヤーとの距離を算出する
-    float CheckPlayerDistance();
-
-    // プレイヤーへの方向を算出する
-    XMFLOAT3 CheckPlayerDirection();
-
-    // 内積計算
-    float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
-
-    // 移動速度に応じた移動量でプレイヤーに接近する
-    void ApproachPlayer(const XMFLOAT3& directionToPlayer);
-
-    // 敵の体をプレイヤーの方向へ回転させる
-    void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
-
     // 何かに当たった
     void OnCollision(GameObject* pTarget);
 
     // 攻撃
     void Attack() override;
 
+    // プレイヤーとの距離を算出する
+    //float CheckPlayerDistance() override;
+
+    // プレイヤーへの方向を算出する
+    XMFLOAT3 CheckPlayerDirection() override;
+
+    // 内積計算(視野角計算)
+    float CalculateDotProduct(const XMFLOAT3& directionToPlayer) override;
+
+    // 移動速度に応じた移動量でプレイヤーに接近する
+    void ApproachPlayer(const XMFLOAT3& directionToPlayer) override;
+
+    // 敵の体をプレイヤーの方向へ回転させる
+    void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer) override;
 };

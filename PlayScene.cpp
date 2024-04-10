@@ -14,11 +14,14 @@
 
 namespace
 {
-	// modelLoad
+	// LoadModels
 	std::vector<std::string> modelName =
 	{
 		"DebugCollision / sphereCollider.fbx",
-		"Entity/Bullet.fbx"
+		"Entity/Bullet.fbx",
+		"Enemy/Enemy_Ground.fbx",
+		"Enemy/Enemy_Fly.fbx",
+		"Enemy/Enemy_Explosion.fbx"
 	};
 	////////////WaveTest
 	XMFLOAT3 spawnPosition; // スポーンする位置

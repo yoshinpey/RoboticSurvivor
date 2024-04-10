@@ -2,11 +2,13 @@
 #include "Engine/Model.h"
 #include "EnemyBase.h"
 
+class Player;
+
 //浮遊敵を管理するクラス
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    //SphereCollider* pHeadCollision_;        // コリジョン
+    Player* pPlayer_;
 
 public:
     Enemy_Fly(GameObject* parent);      // コンストラクタ
@@ -17,11 +19,23 @@ public:
     void Release() override;            // 開放
 
     // 何かに当たった
-    void OnCollision(GameObject* pTarget) override;
+    void OnCollision(GameObject* pTarget);
 
-    //void HeadOnCollision(GameObject* pTarget) override;
-
+    // 攻撃
     void Attack() override;
 
-   
+    // プレイヤーとの距離を算出する
+    //float CheckPlayerDistance() override;
+
+    // プレイヤーへの方向を算出する
+    XMFLOAT3 CheckPlayerDirection() override;
+
+    // 内積計算
+    float CalculateDotProduct(const XMFLOAT3& directionToPlayer) override;
+
+    // 移動速度に応じた移動量でプレイヤーに接近する
+    void ApproachPlayer(const XMFLOAT3& directionToPlayer) override;
+
+    // 敵の体をプレイヤーの方向へ回転させる
+    void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer) override;
 };
