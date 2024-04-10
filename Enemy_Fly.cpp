@@ -1,5 +1,4 @@
 #include "Enemy_Fly.h"
-#include "Player.h"
 #include "Engine/SphereCollider.h"
 
 namespace
@@ -37,9 +36,6 @@ void Enemy_Fly::Initialize()
     AddCollider(pCollision);
 
     transform_.rotate_.y = 180;
-
-    // プレイヤーオブジェクト取得
-    pPlayer_ = static_cast<Player*>(FindObject("Player"));
 }
 
 void Enemy_Fly::Update()
@@ -93,48 +89,5 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
 
 void Enemy_Fly::Attack()
 {
-}
-
-// プレイヤーへの方向を算出する
-XMFLOAT3 Enemy_Fly::CheckPlayerDirection()
-{
-    return CalculateDirection(this->GetPosition(), pPlayer_->GetPosition());
-}
-
-float Enemy_Fly::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
-{
-    // エネミーが向いている方向
-    float rotY = XMConvertToRadians(transform_.rotate_.y);
-    XMVECTOR enemyForward = XMVectorSet(sinf(rotY), 0, cosf(rotY), 0);
-
-    // プレイヤーへの方向ベクトルとの内積を計算して視界角度を取得
-    float dotProduct;
-    XMStoreFloat(&dotProduct, XMVector3Dot(enemyForward, XMLoadFloat3(&directionToPlayer)));
-    return acosf(dotProduct);
-}
-
-void Enemy_Fly::ApproachPlayer(const XMFLOAT3& directionToPlayer)
-{
-    // 移動ベクターをエネミーのポジションに加算する
-    XMFLOAT3 moveVector = { directionToPlayer.x * status_.walkSpeed_, 0, directionToPlayer.z * status_.walkSpeed_ };
-    transform_.position_ = CalculateFloat3Add(transform_.position_, moveVector);
-}
-
-void Enemy_Fly::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
-{
-    // プレイヤーへの逆ベクトル(向かせたい方向)
-    XMVECTOR playerBackward = XMVector3Normalize(XMVectorSet(directionToPlayer.x, 0, directionToPlayer.z, 0));
-
-    // エネミーが向いている方向
-    float rotY = XMConvertToRadians(transform_.rotate_.y);
-    XMVECTOR enemyForward = XMVector3Normalize(XMVectorSet(sinf(rotY), 0, cosf(rotY), 0));
-
-    // 内積と外積を計算
-    float dot = XMVectorGetX(XMVector3Dot(enemyForward, playerBackward));
-    XMVECTOR cross = XMVector3Cross(enemyForward, playerBackward);
-
-    // 角度を計算して回転
-    float angle = atan2(XMVectorGetY(cross), dot);
-    transform_.rotate_.y += XMConvertToDegrees(angle) * 0.03f;
 }
 

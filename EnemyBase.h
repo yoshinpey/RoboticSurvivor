@@ -1,6 +1,5 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include "Player.h"
 
 // エネミーの名前とIDを管理するenum
 enum class EnemyType
@@ -41,13 +40,7 @@ protected:
 
 
 public:
-    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-        : GameObject(parent, name), enemyType_(enemyType)
-    {
-        status_ = { 0,0,0 };
-        algorithm_ = { 0,0,0,0 };    
-
-    }
+    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
 
     virtual ~EnemyBase() = default;
 
@@ -58,21 +51,18 @@ public:
     virtual void Attack() = 0;
 
     // プレイヤーとの距離を算出する
-    float CheckPlayerDistance() {
-        Player* pPlayer_ = static_cast<Player*>(FindObject("Player"));
-        return CalculateDistance(this->GetPosition(), pPlayer_->GetPosition());
-
-    }
+    float CheckPlayerDistance();
 
     // プレイヤーへの方向を算出する
-    virtual XMFLOAT3 CheckPlayerDirection() = 0;
+    XMFLOAT3 CheckPlayerDirection();
 
     // 内積計算(視野角計算)
-    virtual float CalculateDotProduct(const XMFLOAT3& directionToPlayer) = 0;
+    float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
 
     // 移動速度に応じた移動量でプレイヤーに接近する
-    virtual void ApproachPlayer(const XMFLOAT3& directionToPlayer) = 0;
+    void ApproachPlayer(const XMFLOAT3& directionToPlayer);
 
     // 敵の体をプレイヤーの方向へ回転させる
-    virtual void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer) = 0;
+    void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
+
 };

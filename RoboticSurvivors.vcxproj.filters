@@ -259,6 +259,9 @@
     <ClCompile Include="TitleTextObject.cpp">
       <Filter>03Scene\01Title</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
