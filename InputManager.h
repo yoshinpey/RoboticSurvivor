@@ -1,8 +1,6 @@
 #pragma once
 #include "Engine/Input.h"
 
-struct ButtonConfig;
-
 // “ü—Íó‹µ‚ğŠÇ—‚·‚é
 namespace InputManager
 {

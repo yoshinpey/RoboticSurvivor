@@ -62,12 +62,6 @@ void Enemy_Explosion::Update()
         // ƒvƒŒƒCƒ„[‚Ì•ûŒü‚ğŒü‚­‚æ‚¤‚É‹ŠE‚ğ‰ñ“]
         RotateTowardsPlayer(directionToPlayer);
     }
-    else
-    {
-        // ‹ŠE“à‚É‚¢‚È‚¢‚Æ‚«‚Â‚Ô‚·
-        //transform_.scale_.y = 0.5f;
-
-    }
 }
 
 void Enemy_Explosion::Draw()
