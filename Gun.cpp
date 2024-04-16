@@ -31,7 +31,7 @@ void Gun::Initialize()
     hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
-    hSound_ = Audio::Load(soundName, false, 1);
+    hSound_ = Audio::Load(soundName, false, 3);
     assert(hSound_ >= 0);
 
     //プレイヤーの手の位置まで調整
@@ -50,7 +50,7 @@ void Gun::Update()
     // 通常射撃
     if (InputManager::IsShoot() && normalShotCool_ <= 0)
     {
-        Audio::Play(hSound_);
+        Audio::Play(hSound_,0.2);
         ShootBullet<Bullet_Normal>();
         normalShotCool_ = shotCoolTime_;
     }

@@ -214,9 +214,6 @@
     <ClCompile Include="Gauge.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.h">
-      <Filter>Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
@@ -467,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="TitleTextObject.h">
       <Filter>03Scene\01Title</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

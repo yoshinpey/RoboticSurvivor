@@ -15,7 +15,7 @@ class EnemyBase : public GameObject
 {
 private:
     EnemyType enemyType_;  // エネミーの種類
-    
+
     // 各ステータス
     struct EnemyStatus
     {
