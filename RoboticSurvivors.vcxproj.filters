@@ -253,9 +253,6 @@
     <ClCompile Include="jsonReader.cpp">
       <Filter>Json</Filter>
     </ClCompile>
-    <ClCompile Include="TitleTextObject.cpp">
-      <Filter>03Scene\01Title</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
@@ -461,9 +458,6 @@
     </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>Json</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleTextObject.h">
-      <Filter>03Scene\01Title</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>Character\Enemy</Filter>

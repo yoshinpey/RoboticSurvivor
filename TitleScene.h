@@ -5,6 +5,7 @@
 //Titleシーンを管理するクラス
 class TitleScene : public GameObject
 {
+	// テキスト画像の内容
 	enum 
 	{
 		TITLE = 0,

@@ -56,8 +56,8 @@ void TitleScene::Initialize()
 //更新
 void TitleScene::Update()
 {
-	// デバック用
-	if (Input::IsKey(DIK_SPACE))
+	// キー入力があったらゲームを開始する
+	if (Input::GetKeyCode() != 0)
 	{
 		SceneManager* pSceneManager = static_cast<SceneManager*>(FindObject("SceneManager"));
 		pSceneManager->ChangeScene(SCENE_ID_PLAY);

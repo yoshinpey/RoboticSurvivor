@@ -1,6 +1,11 @@
 #include "EnemyBase.h"
 #include "Player.h"
 
+namespace
+{
+    float rotateSpeed = 0.03f;
+}
+
 // コンストラクタの実装
 EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
     : GameObject(parent, name), enemyType_(enemyType)
@@ -28,7 +33,7 @@ float EnemyBase::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
 {
     // エネミーが向いている方向
     float rotY = XMConvertToRadians(transform_.rotate_.y);
-    XMVECTOR enemyForward = XMVectorSet(sinf(rotY), 0, cosf(rotY), 0);
+    XMVECTOR enemyForward = XMVector3Normalize(XMVectorSet(sinf(rotY), 0, cosf(rotY), 0));
 
     // プレイヤーへの方向ベクトルとの内積を計算して視界角度を取得
     float dotProduct;
@@ -59,6 +64,6 @@ void EnemyBase::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     XMVECTOR cross = XMVector3Cross(enemyForward, playerBackward);
 
     // 角度を計算して回転
-    float angle = atan2(XMVectorGetY(cross), dot);
-    transform_.rotate_.y += XMConvertToDegrees(angle) * 0.03f;
+    float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
+    transform_.rotate_.y += XMConvertToDegrees(angle) * rotateSpeed;
 }
