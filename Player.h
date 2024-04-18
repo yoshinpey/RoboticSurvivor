@@ -57,8 +57,10 @@ public:
     // d—Í‚ğ“K—p‚·‚é
     void ApplyGravity();
 
+    // HP‚ğ‘‚â‚·
     void IncreaseHp(float amount);
 
+    // HP‚ğŒ¸‚ç‚·
     void DecreaseHp(float amount);
 
     //bool RayCastStage(XMFLOAT3 position);

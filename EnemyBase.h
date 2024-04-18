@@ -64,4 +64,10 @@ public:
 
     // “G‚Ì‘Ì‚ğƒvƒŒƒCƒ„[‚Ì•ûŒü‚Ö‰ñ“]‚³‚¹‚é
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
+
+    // HP‚ğ‘‚â‚·
+    void IncreaseHp(float amount);
+
+    // HP‚ğŒ¸‚ç‚·
+    void DecreaseHp(float amount);
 };

@@ -67,3 +67,11 @@ void EnemyBase::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
     transform_.rotate_.y += XMConvertToDegrees(angle) * rotateSpeed;
 }
+
+void EnemyBase::IncreaseHp(float amount)
+{
+}
+
+void EnemyBase::DecreaseHp(float amount)
+{
+}
