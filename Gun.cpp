@@ -50,7 +50,7 @@ void Gun::Update()
     // ’ÊíËŒ‚
     if (InputManager::IsShoot() && normalShotCool_ <= 0)
     {
-        Audio::Play(hSound_,0.2);
+        Audio::Play(hSound_,0.1f);
         ShootBullet<Bullet_Normal>();
         normalShotCool_ = shotCoolTime_;
     }
@@ -107,6 +107,7 @@ void Gun::ShootBullet()
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
     XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
+    moveDirection_ = move;
 
     pNewBullet->SetPosition(GunTop);
     pNewBullet->SetMove(move);

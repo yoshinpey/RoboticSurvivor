@@ -10,6 +10,7 @@ class Gun : public GameObject
     int normalShotCool_;            // 
     int explosionShotCool_;         // 
     int hSound_;
+    XMFLOAT3 moveDirection_;
 
 public:
     Gun(GameObject* parent);
@@ -26,4 +27,5 @@ public:
     template<class T>
     void ShootBullet();
 
+    XMFLOAT3 GetMoveDirection() { return moveDirection_; }
 };

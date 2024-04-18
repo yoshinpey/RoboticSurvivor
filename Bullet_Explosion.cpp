@@ -4,6 +4,7 @@
 
 #include "Bullet_Explosion.h"
 #include "JsonReader.h"
+#include "Gun.h"
 
 
 namespace
@@ -52,6 +53,7 @@ void Bullet_Explosion::Initialize()
 
     //hSound_ = Audio::Load("Sounds/Explosion.wav", false, 1);
     //assert(hSound_ >= 0);
+    pGun_ = static_cast<Gun*>(FindObject("Gun"));
 }
 
 //XV
@@ -59,7 +61,11 @@ void Bullet_Explosion::Update()
 {
     //’e‚ð”ò‚Î‚·
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
-   
+
+    // Œü‚«‚ð‡‚í‚¹‚é
+    XMFLOAT3 targetVector= pGun_->GetMoveDirection();
+    RotateToTarget(targetVector);
+
     static bool isFirst = true;
     // ”š”­‚·‚é
     if (parameter_.killTimer_ <= 30)
@@ -105,4 +111,23 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
         // ŠÑ’Ê‚µ‚È‚¢ê‡‚ÍŽ©g‚ðÁ‚·
         if (parameter_.isPenetration_ == 0) KillMe();
     }
+}
+
+// ’e‚ÌŒü‚«‚ð‘ÎÛ•ûŒü‚Ö‰ñ“]‚³‚¹‚é
+void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
+{
+    // Œü‚©‚¹‚½‚¢•ûŒü
+    XMVECTOR vTargetVector = -XMVector3Normalize(XMVectorSet(targetVector.x, 0, targetVector.z, 0));
+
+    // Œ»ÝŒü‚¢‚Ä‚¢‚é•ûŒü
+    float rotY = XMConvertToRadians(transform_.rotate_.y);
+    XMVECTOR rotForward = XMVector3Normalize(XMVectorSet(sinf(rotY), 0, cosf(rotY), 0));
+
+    // “àÏ‚ÆŠOÏ‚ðŒvŽZ
+    float dot = XMVectorGetX(XMVector3Dot(rotForward, vTargetVector));
+    XMVECTOR cross = XMVector3Cross(rotForward, vTargetVector);
+
+    // Šp“x‚ðŒvŽZ‚µ‚Ä‰ñ“]
+    float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
+    transform_.rotate_.y += XMConvertToDegrees(angle);
 }

@@ -2,12 +2,14 @@
 #include "BulletBase.h"
 
 class BulletBase;
+class Gun;
 
 // e’e‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Bullet_Explosion : public BulletBase
 {
     int hModel_; 
     int hSound_;
+    Gun* pGun_;
 public:
     Bullet_Explosion(GameObject* parent);
     ~Bullet_Explosion();
@@ -16,4 +18,5 @@ public:
     void Draw() override;
     void Release() override;
     void OnCollision(GameObject* pTarget)override;
+    void RotateToTarget(const XMFLOAT3& directionToPlayer);
 };
