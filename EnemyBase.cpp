@@ -8,24 +8,24 @@ namespace
 
 // コンストラクタの実装
 EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-    : GameObject(parent, name), enemyType_(enemyType)
+    : GameObject(parent, name), enemyType_(enemyType), currentHp_(0.0f)
 {
-    status_ = { 0,0,0 };
+    status_ = { 0,0,0,0 };
     algorithm_ = { 0,0,0,0 };
 }
 
 // プレイヤーとの距離を算出する
 float EnemyBase::CheckPlayerDistance()
 {
-    Player* pPlayer_ = static_cast<Player*>(FindObject("Player"));
-    return CalculateDistance(this->GetPosition(), pPlayer_->GetPosition());
+    Player* pPlayer = static_cast<Player*>(FindObject("Player"));
+    return CalculateDistance(this->GetPosition(), pPlayer->GetPosition());
 }
 
 // プレイヤーへの方向を算出する
 XMFLOAT3 EnemyBase::CheckPlayerDirection()
 {
-    Player* pPlayer_ = static_cast<Player*>(FindObject("Player"));
-    return CalculateDirection(this->GetPosition(), pPlayer_->GetPosition());
+    Player* pPlayer = static_cast<Player*>(FindObject("Player"));
+    return CalculateDirection(this->GetPosition(), pPlayer->GetPosition());
 }
 
 // 内積計算(視野角計算)
@@ -68,10 +68,20 @@ void EnemyBase::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     transform_.rotate_.y += XMConvertToDegrees(angle) * rotateSpeed;
 }
 
+// HPを増やす
 void EnemyBase::IncreaseHp(float amount)
 {
+    currentHp_ += amount;
+    if (currentHp_ > status_.maxHp_) {
+        currentHp_ = status_.maxHp_;
+    }
 }
 
+// HPを減らす
 void EnemyBase::DecreaseHp(float amount)
 {
+    currentHp_ -= amount;
+    if (currentHp_ < 0) {
+        currentHp_ = 0;
+    }
 }

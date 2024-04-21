@@ -1,5 +1,6 @@
 #include "Enemy_Explosion.h"
 #include "Engine/SphereCollider.h"
+#include "BulletBase.h"
 
 namespace
 {
@@ -14,6 +15,7 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
     status_.attackPower_                = GetPrivateProfileInt("Enemy_Explosion", "attackPower", 0, "Settings/EnemySettings.ini");
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Explosion", "attackCooldown", 0, "Settings/EnemySettings.ini");
+    status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Explosion", "maxHp", 0, "Settings/EnemySettings.ini");
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Explosion", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Explosion", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -38,11 +40,16 @@ void Enemy_Explosion::Initialize()
     SphereCollider* pCollision = new SphereCollider(collisionPosition, collisionScale);
     AddCollider(pCollision);
 
+    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
 }
 
 void Enemy_Explosion::Update()
 {
-
+    // HPがなければ死亡
+    if (currentHp_ <= 0)
+    {
+        KillMe();
+    }
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 
@@ -79,7 +86,11 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        KillMe();
+        // EnemyBaseにキャスト
+        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
+        // ダメージを与える
+        float damage = pBullet->GetBulletParameter().damage_;
+        DecreaseHp(damage);
     }
 }
 

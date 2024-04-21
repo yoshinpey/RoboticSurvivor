@@ -3,6 +3,7 @@
 
 #include "Bullet_Normal.h"
 #include "JsonReader.h"
+#include "EnemyBase.h"
 
 namespace
 {
@@ -15,7 +16,7 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
     :BulletBase(parent, BulletType::NORMAL, "Bullet_Normal"), hModel_(-1)
 {
     // JSONファイル読み込み
-    JsonReader::Load("Settings/JsonWeaponSettings.json");
+    JsonReader::Load("Settings/WeaponSettings.json");
     auto& bullet_normal = JsonReader::GetSection("Bullet_Normal");
 
     // パラメータを取得
@@ -72,7 +73,6 @@ void Bullet_Normal::OnCollision(GameObject* pTarget)
     // 名前にエネミーが含まれるオブジェクトに衝突したとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        //float damage = DealDamage(parameter_.damage_);
         // 貫通しない場合は自身を消す
         if (parameter_.isPenetration_ == 0) KillMe();
     }

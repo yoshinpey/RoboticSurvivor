@@ -14,7 +14,6 @@ enum class EnemyType
 class EnemyBase : public GameObject
 {
 private:
-    EnemyType enemyType_;  // エネミーの種類
 
     // 各ステータス
     struct EnemyStatus
@@ -22,6 +21,7 @@ private:
         float walkSpeed_;       // 移動速度
         int attackPower_;       // 攻撃力
         int attackCooldown_;    // 攻撃頻度
+        float maxHp_;           // 体力
     };
 
     // アルゴリズム
@@ -35,9 +35,10 @@ private:
 
 protected:
     // 構造体のインスタンス
-    EnemyStatus status_;
-    EnemyAlgorithm algorithm_;
-
+    EnemyStatus status_;            // ステータス
+    EnemyAlgorithm algorithm_;      // 行動
+    EnemyType enemyType_;           // エネミーの種類
+    float currentHp_;               // 現在のHP 
 
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
@@ -70,4 +71,7 @@ public:
 
     // HPを減らす
     void DecreaseHp(float amount);
+
+    // 死亡判定
+    bool IsDead() const { return currentHp_ <= 0; }
 };

@@ -20,7 +20,7 @@ Bullet_Explosion::Bullet_Explosion(GameObject* parent)
     :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1)
 {
     // JSONファイル読み込み
-    JsonReader::Load("Settings/JsonWeaponSettings.json");
+    JsonReader::Load("Settings/WeaponSettings.json");
     auto& bullet_explosion = JsonReader::GetSection("Bullet_Explosion");
 
     // パラメータを取得

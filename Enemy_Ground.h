@@ -10,6 +10,7 @@ class Enemy_Ground : public EnemyBase
     int hModel_;                        // モデル番号
     Player* pPlayer_;
     float lastAngle_;
+    float currentHp_;               // 現在のHP 
 
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ

@@ -9,6 +9,7 @@ class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                            // モデル番号
     Player* pPlayer_;
+    float currentHp_;               // 現在のHP 
 
 public:
     Enemy_Explosion(GameObject* parent);   // コンストラクタ
@@ -23,4 +24,7 @@ public:
 
     // 攻撃
     void Attack() override;
+
+
+
 };

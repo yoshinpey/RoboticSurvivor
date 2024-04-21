@@ -10,6 +10,7 @@ class Enemy_Fly : public EnemyBase
     int hModel_;                        // モデル番号
     Player* pPlayer_;
 
+
 public:
     Enemy_Fly(GameObject* parent);      // コンストラクタ
     ~Enemy_Fly();                       // デストラクタ

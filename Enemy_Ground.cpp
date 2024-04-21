@@ -1,5 +1,6 @@
 #include "Enemy_Ground.h"
 #include "Engine/SphereCollider.h"
+#include "BulletBase.h"
 
 namespace
 {
@@ -14,6 +15,8 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
     status_.attackPower_                = GetPrivateProfileInt("Enemy_Ground", "attackPower", 0, "Settings/EnemySettings.ini");
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Ground", "attackCooldown", 0, "Settings/EnemySettings.ini");
+    status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Ground", "maxHp", 0, "Settings/EnemySettings.ini");
+    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Ground", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Ground", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -43,6 +46,12 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
+    // HPがなければ死亡
+    if (currentHp_ <= 0)
+    { 
+        KillMe(); 
+    }
+
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 
@@ -79,7 +88,11 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        KillMe();
+        // EnemyBaseにキャスト
+        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
+        // ダメージを与える
+        float damage = pBullet->GetBulletParameter().damage_;
+        DecreaseHp(damage);
     }
 }
 

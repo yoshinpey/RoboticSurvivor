@@ -1,5 +1,6 @@
 #include "Enemy_Fly.h"
 #include "Engine/SphereCollider.h"
+#include "BulletBase.h"
 
 namespace
 {
@@ -14,6 +15,7 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
     status_.attackPower_                = GetPrivateProfileInt("Enemy_Fly", "attackPower", 0, "Settings/EnemySettings.ini");
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Fly", "attackCooldown", 0, "Settings/EnemySettings.ini");
+    status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Fly", "maxHp", 0, "Settings/EnemySettings.ini");
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Fly", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Fly", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -40,6 +42,11 @@ void Enemy_Fly::Initialize()
 
 void Enemy_Fly::Update()
 {
+    // HPがなければ死亡
+    if (currentHp_ <= 0)
+    {
+        KillMe();
+    }
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
@@ -77,11 +84,14 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        KillMe();
+        // EnemyBaseにキャスト
+        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
+        // ダメージを与える
+        float damage = pBullet->GetBulletParameter().damage_;
+        DecreaseHp(damage);
     }
 }
 
 void Enemy_Fly::Attack()
 {
 }
-
