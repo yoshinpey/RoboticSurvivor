@@ -100,7 +100,10 @@ XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletS
 template <class T>
 void Gun::ShootBullet()
 {
+    // これは高頻度で処理するので、わかりにくいけどFindではなく親をたどって生成（Aim->Player->PlayScene）
     BulletBase* pNewBullet = Instantiate<T>(GetParent()->GetParent()->GetParent());
+
+    // パラメータ設定
     float bulletSpeed = pNewBullet->GetBulletParameter().speed_;
     shotCoolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
 

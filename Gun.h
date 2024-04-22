@@ -7,10 +7,10 @@ class Gun : public GameObject
 {
     int hModel_;                    // モデル番号
     int shotCoolTime_;              // 一時的にクールタイムを保管しておく変数
-    int normalShotCool_;            // 
-    int explosionShotCool_;         // 
-    int hSound_;
-    XMFLOAT3 moveDirection_;
+    int normalShotCool_;            // 通常弾のクールタイム
+    int explosionShotCool_;         // 爆発弾のクールタイム
+    int hSound_;                    // サウンド
+    XMFLOAT3 moveDirection_;        
 
 public:
     Gun(GameObject* parent);
@@ -27,5 +27,5 @@ public:
     template<class T>
     void ShootBullet();
 
-    XMFLOAT3 GetMoveDirection() { return moveDirection_; }
+    XMFLOAT3 GetMoveDirection() const { return moveDirection_; }
 };

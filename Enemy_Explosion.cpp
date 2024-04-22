@@ -46,6 +46,7 @@ void Enemy_Explosion::Initialize()
 
 void Enemy_Explosion::Update()
 {
+    /////////////これマネージャー通さないといけない
     // HPがなければ死亡
     if (IsDead()) KillMe();
 
