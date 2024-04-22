@@ -67,21 +67,3 @@ void EnemyBase::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
     transform_.rotate_.y += XMConvertToDegrees(angle) * rotateSpeed;
 }
-
-// HP‚ð‘‚â‚·
-void EnemyBase::IncreaseHp(float amount)
-{
-    currentHp_ += amount;
-    if (currentHp_ > status_.maxHp_) {
-        currentHp_ = status_.maxHp_;
-    }
-}
-
-// HP‚ðŒ¸‚ç‚·
-void EnemyBase::DecreaseHp(float amount)
-{
-    currentHp_ -= amount;
-    if (currentHp_ < 0) {
-        currentHp_ = 0;
-    }
-}

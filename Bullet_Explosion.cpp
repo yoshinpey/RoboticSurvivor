@@ -102,17 +102,6 @@ void Bullet_Explosion::Release()
 {
 }
 
-void Bullet_Explosion::OnCollision(GameObject* pTarget)
-{
-    // 名前にエネミーが含まれるオブジェクトに衝突したとき
-    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
-    {
-
-        // 貫通しない場合は自身を消す
-        if (parameter_.isPenetration_ == 0) KillMe();
-    }
-}
-
 // 弾の向きを対象方向へ回転させる
 void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
 {

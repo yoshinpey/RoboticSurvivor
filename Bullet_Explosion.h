@@ -17,6 +17,5 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
-    void OnCollision(GameObject* pTarget)override;
     void RotateToTarget(const XMFLOAT3& directionToPlayer);
 };

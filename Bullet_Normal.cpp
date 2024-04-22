@@ -67,13 +67,3 @@ void Bullet_Normal::Draw()
 void Bullet_Normal::Release()
 {
 }
-
-void Bullet_Normal::OnCollision(GameObject* pTarget)
-{
-    // 名前にエネミーが含まれるオブジェクトに衝突したとき
-    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
-    {
-        // 貫通しない場合は自身を消す
-        if (parameter_.isPenetration_ == 0) KillMe();
-    }
-}

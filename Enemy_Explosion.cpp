@@ -89,11 +89,30 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
         // EnemyBaseにキャスト
         BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
         // ダメージを与える
-        float damage = pBullet->GetBulletParameter().damage_;
-        DecreaseHp(damage);
+        DecreaseHp(pBullet->GetBulletParameter().damage_);
+
+        // 貫通しない場合は弾丸を消す
+        if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
+        else;//////貫通する場合ヒットが初回か判定して一回だけダメージ与えるようにする
     }
 }
 
 void Enemy_Explosion::Attack()
 {
+}
+
+void Enemy_Explosion::IncreaseHp(float amount)
+{
+    currentHp_ += amount;
+    if (currentHp_ > status_.maxHp_) {
+        currentHp_ = status_.maxHp_;
+    }
+}
+
+void Enemy_Explosion::DecreaseHp(float amount)
+{
+    currentHp_ -= amount;
+    if (currentHp_ < 0) {
+        currentHp_ = 0;
+    }
 }

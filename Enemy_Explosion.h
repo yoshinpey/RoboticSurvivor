@@ -25,6 +25,16 @@ public:
     // UŒ‚
     void Attack() override;
 
+    // HP‚ğæ“¾
+    float GetCurrentHp() const override { return currentHp_; }
 
+    // HP‚ğ‘‚â‚·
+    void IncreaseHp(float amount) override;
+
+    // HP‚ğŒ¸‚ç‚·
+    void DecreaseHp(float amount) override;
+
+    // €–S”»’è
+    bool IsDead() const override { return currentHp_ <= 0; }
 
 };

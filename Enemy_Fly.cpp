@@ -38,6 +38,8 @@ void Enemy_Fly::Initialize()
     AddCollider(pCollision);
 
     transform_.rotate_.y = 180;
+
+    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
 }
 
 void Enemy_Fly::Update()
@@ -87,11 +89,30 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
         // EnemyBaseにキャスト
         BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
         // ダメージを与える
-        float damage = pBullet->GetBulletParameter().damage_;
-        DecreaseHp(damage);
+        DecreaseHp(pBullet->GetBulletParameter().damage_);
+
+        // 貫通しない場合は弾丸を消す
+        if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
+        else;//////貫通する場合ヒットが初回か判定して一回だけダメージ与えるようにする
     }
 }
 
 void Enemy_Fly::Attack()
 {
+}
+
+void Enemy_Fly::IncreaseHp(float amount)
+{
+    currentHp_ += amount;
+    if (currentHp_ > status_.maxHp_) {
+        currentHp_ = status_.maxHp_;
+    }
+}
+
+void Enemy_Fly::DecreaseHp(float amount)
+{
+    currentHp_ -= amount;
+    if (currentHp_ < 0) {
+        currentHp_ = 0;
+    }
 }

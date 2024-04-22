@@ -66,12 +66,15 @@ public:
     // “G‚Ì‘Ì‚ğƒvƒŒƒCƒ„[‚Ì•ûŒü‚Ö‰ñ“]‚³‚¹‚é
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
 
+    // HP‚ğæ“¾
+    virtual float GetCurrentHp() const = 0;
+
     // HP‚ğ‘‚â‚·
-    void IncreaseHp(float amount);
+    virtual void IncreaseHp(float amount) = 0;
 
     // HP‚ğŒ¸‚ç‚·
-    void DecreaseHp(float amount);
+    virtual void DecreaseHp(float amount) = 0;
 
     // €–S”»’è
-    bool IsDead() const { return currentHp_ <= 0; }
+    virtual bool IsDead() const = 0;
 };
