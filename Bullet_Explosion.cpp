@@ -9,9 +9,8 @@
 
 namespace
 {
-    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };      // 当たり判定の位置
-    XMFLOAT3 modelOffset = { 0.0f, 0.0f, 0.0f };      // モデルの位置
-    XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };      // モデルのサイズ
+    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };    // 当たり判定の位置
+    XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
 }
 

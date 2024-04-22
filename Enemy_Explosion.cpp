@@ -4,8 +4,8 @@
 
 namespace
 {
-    XMFLOAT3 collisionPosition = { 0.0f, 1.0f, 0.0f };      // 当たり判定の位置
-    float collisionScale = 2.0f;                            // 当たり判定の大きさ
+    XMFLOAT3 collisionOffset = { 0.0f, 1.0f, 0.0f };        // 当たり判定の位置
+    XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };          // モデルの回転
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
@@ -16,6 +16,7 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
     status_.attackPower_                = GetPrivateProfileInt("Enemy_Explosion", "attackPower", 0, "Settings/EnemySettings.ini");
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Explosion", "attackCooldown", 0, "Settings/EnemySettings.ini");
     status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Explosion", "maxHp", 0, "Settings/EnemySettings.ini");
+    status_.collisionScale_             = GetPrivateProfileFloat("Enemy_Explosion", "collisionScale", 0, "Settings/EnemySettings.ini");
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Explosion", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Explosion", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -37,7 +38,7 @@ void Enemy_Explosion::Initialize()
     Model::SetAnimFrame(hModel_, 0, 100, 0.75);
 
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionPosition, collisionScale);
+    SphereCollider* pCollision = new SphereCollider(collisionOffset, status_.collisionScale_);
     AddCollider(pCollision);
 
     currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
@@ -46,10 +47,8 @@ void Enemy_Explosion::Initialize()
 void Enemy_Explosion::Update()
 {
     // HPがなければ死亡
-    if (currentHp_ <= 0)
-    {
-        KillMe();
-    }
+    if (IsDead()) KillMe();
+
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 
@@ -93,7 +92,7 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
 
         // 貫通しない場合は弾丸を消す
         if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
-        else;//////貫通する場合ヒットが初回か判定して一回だけダメージ与えるようにする
+        else;//////貫通する場合、初回ヒットか判定して一回だけダメージ与えるようにする
     }
 }
 

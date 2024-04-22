@@ -22,6 +22,7 @@ private:
         int attackPower_;       // 攻撃力
         int attackCooldown_;    // 攻撃頻度
         float maxHp_;           // 体力
+        float collisionScale_;  // 当たり判定の大きさ
     };
 
     // アルゴリズム
@@ -39,6 +40,7 @@ protected:
     EnemyAlgorithm algorithm_;      // 行動
     EnemyType enemyType_;           // エネミーの種類
     float currentHp_;               // 現在のHP 
+    bool isFirstHit_;               // 初回ヒットで立てるフラグ
 
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
