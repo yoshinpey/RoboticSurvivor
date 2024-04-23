@@ -12,11 +12,16 @@ namespace
     XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };    // 当たり判定の位置
     XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
+    std::vector<std::string> fileName = 
+    {
+        "Entity/Missile.fbx",
+        "Sounds/Explode.wav"
+    };
 }
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
-    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr)
+    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr), IsBulletHit(false)
 {
     // JSONファイル読み込み
     JsonReader::Load("Settings/WeaponSettings.json");
@@ -40,18 +45,18 @@ Bullet_Explosion::~Bullet_Explosion()
 void Bullet_Explosion::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Entity/Missile.fbx");
+    hModel_ = Model::Load(fileName[0]);
     assert(hModel_ >= 0);
+    hSound_ = Audio::Load(fileName[1], false, 3);
+    assert(hSound_ >= 0);
+
+    transform_.scale_ = modelScale;
+    transform_.rotate_.y = modelRotate.y;
 
     //当たり判定
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
     AddCollider(pCollision_);
 
-    transform_.scale_ = modelScale;
-    transform_.rotate_.y = modelRotate.y;
-
-    //hSound_ = Audio::Load("Sounds/Explosion.wav", false, 1);
-    //assert(hSound_ >= 0);
     pGun_ = static_cast<Gun*>(FindObject("Gun"));
 }
 
@@ -69,11 +74,11 @@ void Bullet_Explosion::Update()
     // 爆発する
     if (parameter_.killTimer_ <= 30)
     { 
-        //if (isFirst)
-        //{
-        //    Audio::Play(hSound_);
-        //    isFirst = false;
-        //}
+        if (isFirst)
+        {
+            Audio::Play(hSound_, 0.2f);
+            isFirst = false;
+        }
         transform_.scale_.x *= 1.1f;
         transform_.scale_.y *= 1.1f;
         transform_.scale_.z *= 1.1f;

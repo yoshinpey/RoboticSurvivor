@@ -10,6 +10,8 @@ class Bullet_Explosion : public BulletBase
     int hModel_; 
     int hSound_;
     Gun* pGun_;
+    bool IsBulletHit;
+
 public:
     Bullet_Explosion(GameObject* parent);
     ~Bullet_Explosion();
