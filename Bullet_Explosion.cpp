@@ -74,9 +74,9 @@ void Bullet_Explosion::Update()
         //    Audio::Play(hSound_);
         //    isFirst = false;
         //}
-        transform_.scale_.x *= 1.1;
-        transform_.scale_.y *= 1.1;
-        transform_.scale_.z *= 1.1;
+        transform_.scale_.x *= 1.1f;
+        transform_.scale_.y *= 1.1f;
+        transform_.scale_.z *= 1.1f;
         pCollision_->SetRadius(transform_.scale_.x);
     }
 

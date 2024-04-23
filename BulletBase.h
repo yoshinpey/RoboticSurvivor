@@ -17,9 +17,9 @@ private:
     struct BulletParameter
     {
         float damage_;          // ダメージ
-        float shotCoolTime_;    // クールタイム
+        int shotCoolTime_;      // クールタイム
         float speed_;           // スピード
-        float killTimer_;       // 消失時間
+        int killTimer_;         // 消失時間
         float collisionScale_;  // 当たり判定のサイズ
         int isPenetration_;     // 貫通   あり:1 なし:0
     };
