@@ -21,7 +21,7 @@ namespace
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
-    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr), IsBulletHit(false)
+    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr), IsBulletHit(false), isFirstHit(true)
 {
     // JSONファイル読み込み
     JsonReader::Load("Settings/WeaponSettings.json");
@@ -70,14 +70,13 @@ void Bullet_Explosion::Update()
     XMFLOAT3 targetVector= pGun_->GetMoveDirection();
     RotateToTarget(targetVector);
 
-    static bool isFirst = true;
     // 爆発する
     if (parameter_.killTimer_ <= 30)
     { 
-        if (isFirst)
+        if (isFirstHit)
         {
             Audio::Play(hSound_, 0.2f);
-            isFirst = false;
+            isFirstHit = false;
         }
         transform_.scale_.x *= 1.1f;
         transform_.scale_.y *= 1.1f;
@@ -89,7 +88,7 @@ void Bullet_Explosion::Update()
     parameter_.killTimer_--;
     if (parameter_.killTimer_ <= 0) 
     { 
-        isFirst = true;
+        isFirstHit = true;
         KillMe(); 
     }
 }

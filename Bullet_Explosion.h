@@ -11,6 +11,7 @@ class Bullet_Explosion : public BulletBase
     int hSound_;
     Gun* pGun_;
     bool IsBulletHit;
+    bool isFirstHit;
 
 public:
     Bullet_Explosion(GameObject* parent);
