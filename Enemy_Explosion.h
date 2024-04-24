@@ -1,15 +1,17 @@
 #pragma once
 #include "Engine/Model.h"
 #include "EnemyBase.h"
+#include <unordered_map>
 
 class Player;
 
 // 地上敵を管理するクラス
 class Enemy_Explosion : public EnemyBase
 {
-    int hModel_;                            // モデル番号
-    Player* pPlayer_;
+    int hModel_;                    // モデル番号
     float currentHp_;               // 現在のHP 
+    bool isFirstHit_;               // 初回ヒットフラグ
+    XMFLOAT3 firstPosition_;
 
 public:
     Enemy_Explosion(GameObject* parent);   // コンストラクタ
