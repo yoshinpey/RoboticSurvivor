@@ -54,7 +54,7 @@ void PlayScene::Initialize()
 	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	
 	////初回の敵を出現させるテスト
-	for (int i=1; i<=3; i++)
+	for (int i=1; i<=1; i++)
 	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 3), EnemyType::EXPLOSION);
 	}

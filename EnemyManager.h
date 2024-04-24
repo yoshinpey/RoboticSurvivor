@@ -24,6 +24,12 @@ public:
     EnemyManager(GameObject* parent);
     ~EnemyManager();
 
+    // 更新
+    void Update();
+
+    // 生存していないエネミーを削除するメソッド
+    void RemoveDeadEnemies();
+
     // エネミーの生成を行う
     void SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType);
 
@@ -61,9 +67,6 @@ public:
         const std::vector<EnemyType>& excludeList = {}
     );
 
-    // エネミーの総数を取得する
-    int GetEnemyCount();
-
     // 指定したenemyTypeに一致するエネミーの総数を取得する
-    int GetEnemyCount(EnemyType enemyType);
+    int GetEnemyCount(EnemyType enemyType = EnemyType::MAX);
 };

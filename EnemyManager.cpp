@@ -16,6 +16,29 @@ EnemyManager::~EnemyManager()
     enemies.clear();
 }
 
+void EnemyManager::Update()
+{
+    // エネミーの状態をチェックし、削除する
+    RemoveDeadEnemies();
+}
+
+// 生存していないエネミーを削除するメソッド
+void EnemyManager::RemoveDeadEnemies()
+{
+    // リスト内のエネミーをループしてチェック
+    for (auto it = enemies.begin(); it != enemies.end(); ) {
+        if ((*it)->IsDead()) {
+            // エネミーが死亡している場合は削除
+            delete* it;
+            (*it)->KillMe();
+            it = enemies.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+}
+
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 {
     EnemyBase* pNewEnemy = nullptr;
@@ -140,14 +163,15 @@ void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosit
     }
 }
 
-// エネミーの総数を取得する
-int EnemyManager::GetEnemyCount()
-{
-    return static_cast<int>(enemies.size()); 
-}
-
 int EnemyManager::GetEnemyCount(EnemyType enemyType)
 {
+    // 引数指定がないとき
+    if (enemyType == EnemyType::MAX) 
+    {
+        return (int)enemies.size();
+    }
+
+    // 指定されたエネミーの個体数を返す
     int count = 0;
     for (auto enemy : enemies)
     {

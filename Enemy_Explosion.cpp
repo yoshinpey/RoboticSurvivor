@@ -16,7 +16,7 @@ namespace
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), isFirstHit_(true), firstPosition_{0,0,0}, currentHp_(0)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1)/*, isFirstHit_(true), firstPosition_{0,0,0}*/, currentHp_(0)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -59,7 +59,7 @@ void Enemy_Explosion::Update()
 {
     /////////////これ本来はマネージャー通さないといけない
     // HPがなければ死亡
-    if (IsDead()) KillMe();
+    //if (IsDead()) KillMe();
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
@@ -100,43 +100,22 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
         // EnemyBaseにキャスト
         BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
 
-        // 貫通しない場合はダメージを与えたら弾丸を消す
+        // すでにこの敵に対してヒット済みの場合は無視
+        if (hitEnemies.find(pTarget) != hitEnemies.end())return;
+
+        // ダメージを与える
+        DecreaseHp(pBullet->GetBulletParameter().damage_);
+
+        // ヒットを記録
+        hitEnemies.insert(pTarget);
+
+        // 貫通しない場合は弾丸を消す
         if (pBullet->GetBulletParameter().isPenetration_ == 0)
         {
-            DecreaseHp(pBullet->GetBulletParameter().damage_);
             pBullet->KillMe();
-        }
-        else
-        {
-            // 貫通するときの処理
-            // 初回ヒットの場合
-            if (isFirstHit_)
-            {
-                // ダメージを与える
-                DecreaseHp(pBullet->GetBulletParameter().damage_);
-
-                // 初回ヒットフラグをfalseにする
-                isFirstHit_ = false;
-
-                // 初回ヒット位置を記録
-                firstPosition_ = pTarget->GetPosition();
-            }
-            else
-            {
-                // 初回ヒット座標と現在地の差分比較を行う
-                XMFLOAT3 currentPosition = pTarget->GetPosition();
-                float distance = CalculateDistance(firstPosition_, currentPosition);
-
-                // 敵一体(当たり判定の直径)分貫通した場合、初回ヒットフラグを立て直す
-                if (distance >= status_.collisionScale_*2)
-                {
-                    isFirstHit_ = true;
-                }
-            }
         }
     }
 };
-
 
 void Enemy_Explosion::Attack()
 {
