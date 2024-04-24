@@ -36,6 +36,9 @@ public:
     // 指定したenemyTypeに一致するエネミーだけ全削除する
     void RemoveEnemy(EnemyType enemyType);
 
+    // 指定したenemyTypeに一致するエネミーだけ全削除する
+    void RemoveEnemyOne(EnemyType enemyType);
+
     // すべてのエネミーの削除を行う
     void RemoveAllEnemies();
 

@@ -1,6 +1,8 @@
 #include "Enemy_Explosion.h"
 #include "Engine/SphereCollider.h"
 #include "BulletBase.h"
+#include "EnemyManager.h"
+#include "PlayScene.h"
 
 namespace
 {
@@ -33,6 +35,9 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
 
 Enemy_Explosion::~Enemy_Explosion()
 {
+    PlayScene* scene = (PlayScene*)FindObject("PlayScene");
+    scene->GetEnemyManager()->RemoveEnemyOne(EnemyType::EXPLOSION);
+
 }
 
 void Enemy_Explosion::Initialize()
@@ -59,7 +64,7 @@ void Enemy_Explosion::Update()
 {
     /////////////これ本来はマネージャー通さないといけない
     // HPがなければ死亡
-    //if (IsDead()) KillMe();
+    if (IsDead()) KillMe();
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();

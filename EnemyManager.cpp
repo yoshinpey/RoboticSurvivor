@@ -19,7 +19,7 @@ EnemyManager::~EnemyManager()
 void EnemyManager::Update()
 {
     // エネミーの状態をチェックし、削除する
-    RemoveDeadEnemies();
+    //RemoveDeadEnemies();
 }
 
 // 生存していないエネミーを削除するメソッド
@@ -72,6 +72,23 @@ void EnemyManager::RemoveEnemy(EnemyType enemyType)
         {
             (*it)->KillMe();        // エネミーオブジェクトを削除する
             it = enemies.erase(it); // エネミーをリストから削除
+        }
+        else
+        {
+            ++it; // 次の要素に進む
+        }
+    }
+}
+
+void EnemyManager::RemoveEnemyOne(EnemyType enemyType)
+{
+    // 指定したenemyTypeに一致するエネミーだけ全削除する
+    for (auto it = enemies.begin(); it != enemies.end(); )
+    {
+        if ((*it)->GetEnemyType() == enemyType)
+        {
+            it = enemies.erase(it); // エネミーをリストから削除
+            return;
         }
         else
         {
