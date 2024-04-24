@@ -11,7 +11,7 @@ class Enemy_Explosion : public EnemyBase
     int hModel_;                    // モデル番号
     float currentHp_;               // 現在のHP 
     bool isFirstHit_;               // 初回ヒットフラグ
-    XMFLOAT3 firstPosition_;
+    XMFLOAT3 firstPosition_;        // 銃弾ヒット位置保存用
 
 public:
     Enemy_Explosion(GameObject* parent);   // コンストラクタ

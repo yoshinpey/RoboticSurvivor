@@ -62,7 +62,7 @@ public:
     );
 
     // エネミーの総数を取得する
-    int GetEnemyCount() { return static_cast<int>(enemies.size()); }
+    int GetEnemyCount();
 
     // 指定したenemyTypeに一致するエネミーの総数を取得する
     int GetEnemyCount(EnemyType enemyType);

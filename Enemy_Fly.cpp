@@ -9,7 +9,7 @@ namespace
 }
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
-    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), pPlayer_(nullptr)
+    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), isFirstHit_(true), firstPosition_{ 0,0,0 }
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -86,12 +86,41 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     {
         // EnemyBaseにキャスト
         BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
-        // ダメージを与える
-        DecreaseHp(pBullet->GetBulletParameter().damage_);
 
-        // 貫通しない場合は弾丸を消す
-        if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
-        else;//////貫通する場合、初回ヒットか判定して一回だけダメージ与えるようにする
+        // 貫通しない場合はダメージを与えたら弾丸を消す
+        if (pBullet->GetBulletParameter().isPenetration_ == 0)
+        {
+            DecreaseHp(pBullet->GetBulletParameter().damage_);
+            pBullet->KillMe();
+        }
+        else
+        {
+            // 貫通するときの処理
+            // 初回ヒットの場合
+            if (isFirstHit_)
+            {
+                // ダメージを与える
+                DecreaseHp(pBullet->GetBulletParameter().damage_);
+
+                // 初回ヒットフラグをfalseにする
+                isFirstHit_ = false;
+
+                // 初回ヒット位置を記録
+                firstPosition_ = pTarget->GetPosition();
+            }
+            else
+            {
+                // 初回ヒット座標と現在地の差分比較を行う
+                XMFLOAT3 currentPosition = pTarget->GetPosition();
+                float distance = CalculateDistance(firstPosition_, currentPosition);
+
+                // 敵一体(当たり判定の直径)分貫通した場合、初回ヒットフラグを立て直す
+                if (distance >= status_.collisionScale_ * 2)
+                {
+                    isFirstHit_ = true;
+                }
+            }
+        }
     }
 }
 

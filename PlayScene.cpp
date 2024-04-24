@@ -54,11 +54,10 @@ void PlayScene::Initialize()
 	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	
 	////初回の敵を出現させるテスト
-	for (int i=1; i<=3; i+=5)
+	for (int i=1; i<=3; i++)
 	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 3), EnemyType::EXPLOSION);
 	}
-
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
 	Instantiate<Score>(this);			//スコア表示
@@ -71,6 +70,17 @@ void PlayScene::Initialize()
 
 void PlayScene::Update()
 {
+	static float count[4] = {0,0,0,0};
+	count[0] = pEnemyManager_->GetEnemyCount(EnemyType::GROUND);
+	count[1] = pEnemyManager_->GetEnemyCount(EnemyType::EXPLOSION);
+	count[2] = pEnemyManager_->GetEnemyCount(EnemyType::FLY); 
+	count[3] = pEnemyManager_->GetEnemyCount(); 
+	std::string output = 
+		"Ground		: " + std::to_string(count[0]) + "\n"
+		"Explosion	: " + std::to_string(count[1]) + "\n"
+		"Fly			: " + std::to_string(count[2]) + "\n"
+		"All			: " + std::to_string(count[3]) + "\n";
+	OutputDebugStringA(output.c_str());
 	//////////////////////////デバック用
 	//// タイム制ウェーブスポーンのテスト用
 	//Timer* pTimer = static_cast<Timer*>(FindObject("Timer"));

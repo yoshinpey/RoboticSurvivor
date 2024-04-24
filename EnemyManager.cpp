@@ -140,6 +140,12 @@ void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosit
     }
 }
 
+// エネミーの総数を取得する
+int EnemyManager::GetEnemyCount()
+{
+    return static_cast<int>(enemies.size()); 
+}
+
 int EnemyManager::GetEnemyCount(EnemyType enemyType)
 {
     int count = 0;
