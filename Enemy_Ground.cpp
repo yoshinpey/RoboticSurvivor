@@ -1,6 +1,8 @@
 #include "Enemy_Ground.h"
 #include "Engine/SphereCollider.h"
 #include "BulletBase.h"
+#include "EnemyManager.h"
+#include "PlayScene.h"
 
 namespace
 {
@@ -26,6 +28,9 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
 
 Enemy_Ground::~Enemy_Ground()
 {
+    // エネミーのマネージャーリストから死んだエネミーを削除する
+    PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
+    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(EnemyType::GROUND);
 }
 
 void Enemy_Ground::Initialize()

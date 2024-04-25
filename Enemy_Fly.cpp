@@ -1,6 +1,8 @@
 #include "Enemy_Fly.h"
 #include "Engine/SphereCollider.h"
 #include "BulletBase.h"
+#include "EnemyManager.h"
+#include "PlayScene.h"
 
 namespace
 {
@@ -26,6 +28,9 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
 
 Enemy_Fly::~Enemy_Fly()
 {
+    // エネミーのマネージャーリストから死んだエネミーを削除する
+    PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
+    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(EnemyType::FLY);
 }
 
 void Enemy_Fly::Initialize()
