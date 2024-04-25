@@ -17,6 +17,7 @@ namespace
         "Entity/Missile.fbx",
         "Sounds/Explode.wav"
     };
+    const float gravity = -0.001f;
 }
 
 //コンストラクタ
@@ -63,6 +64,9 @@ void Bullet_Explosion::Initialize()
 //更新
 void Bullet_Explosion::Update()
 {
+    // 重力を適用した移動
+    move_.y += gravity;
+
     //弾を飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
