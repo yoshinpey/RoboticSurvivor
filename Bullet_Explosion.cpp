@@ -17,7 +17,9 @@ namespace
         "Entity/Missile.fbx",
         "Sounds/Explode.wav"
     };
-    const float gravity = -0.001f;
+    //////////////////////////////
+    const float velocity = 0.5f; // 上向き最大速度
+    const float delta = 0.01f; // 
 }
 
 //コンストラクタ
@@ -53,6 +55,9 @@ void Bullet_Explosion::Initialize()
 
     transform_.scale_ = modelScale;
     transform_.rotate_.y = modelRotate.y;
+    ////////////////////////
+    // 初期速度を設定（上向き最大速度から開始）
+    move_.y = velocity;
 
     //当たり判定
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
@@ -64,8 +69,9 @@ void Bullet_Explosion::Initialize()
 //更新
 void Bullet_Explosion::Update()
 {
-    // 重力を適用した移動
-    move_.y += gravity;
+    ///////////////////////
+    // 上向き最大速度から徐々に下向きの力へ変化
+    if (move_.y > -0.1)move_.y -= delta;
 
     //弾を飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
