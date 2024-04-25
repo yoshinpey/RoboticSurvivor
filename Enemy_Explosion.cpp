@@ -18,7 +18,7 @@ namespace
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1)/*, isFirstHit_(true), firstPosition_{0,0,0}*/, currentHp_(0)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1),  currentHp_(0)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -35,8 +35,9 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
 
 Enemy_Explosion::~Enemy_Explosion()
 {
-    PlayScene* scene = (PlayScene*)FindObject("PlayScene");
-    scene->GetEnemyManager()->RemoveEnemyOne(EnemyType::EXPLOSION);
+    // エネミーのマネージャーリストから死んだエネミーを削除する
+    PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
+    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(EnemyType::EXPLOSION);
 
 }
 
@@ -62,7 +63,6 @@ void Enemy_Explosion::Initialize()
 
 void Enemy_Explosion::Update()
 {
-    /////////////これ本来はマネージャー通さないといけない
     // HPがなければ死亡
     if (IsDead()) KillMe();
 
@@ -102,11 +102,11 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        // EnemyBaseにキャスト
-        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
-
         // すでにこの敵に対してヒット済みの場合は無視
         if (hitEnemies.find(pTarget) != hitEnemies.end())return;
+
+        // EnemyBaseにキャスト
+        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
 
         // ダメージを与える
         DecreaseHp(pBullet->GetBulletParameter().damage_);
@@ -115,10 +115,7 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
         hitEnemies.insert(pTarget);
 
         // 貫通しない場合は弾丸を消す
-        if (pBullet->GetBulletParameter().isPenetration_ == 0)
-        {
-            pBullet->KillMe();
-        }
+        if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
     }
 };
 

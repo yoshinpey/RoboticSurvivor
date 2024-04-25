@@ -10,8 +10,6 @@ class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // モデル番号
     float currentHp_;               // 現在のHP 
-    //bool isFirstHit_;               // 初回ヒットフラグ
-    //XMFLOAT3 firstPosition_;        // 銃弾ヒット位置保存用
 
     // ヒットした敵のデータを入れておく
     std::unordered_set<GameObject*> hitEnemies;

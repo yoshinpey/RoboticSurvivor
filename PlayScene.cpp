@@ -24,10 +24,8 @@ namespace
 		"Enemy/Enemy_Explosion.fbx"
 	};
 	////////////WaveTest
-	XMFLOAT3 spawnPosition; // スポーンする位置
-
-	// 出現の区切り時間
-	int waveTimer = 300;
+	XMFLOAT3 spawnPosition;		// スポーンする位置
+	int waveTimer = 300;		// 出現の区切り時間
 }
 
 PlayScene::PlayScene(GameObject * parent)
@@ -53,10 +51,10 @@ void PlayScene::Initialize()
 	Instantiate<SkyBox>(this);			// 空登場
 	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	
-	////初回の敵を出現させるテスト
-	for (int i=1; i<=1; i++)
+	///////////////////初回の敵を出現させるテスト
+	for (int i = 0; i < 15; i+=5)
 	{
-		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 3), EnemyType::EXPLOSION);
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 5), EnemyType::EXPLOSION);
 	}
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場

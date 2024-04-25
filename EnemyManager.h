@@ -27,17 +27,14 @@ public:
     // 更新
     void Update();
 
-    // 生存していないエネミーを削除するメソッド
-    void RemoveDeadEnemies();
-
     // エネミーの生成を行う
     void SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType);
 
     // 指定したenemyTypeに一致するエネミーだけ全削除する
     void RemoveEnemy(EnemyType enemyType);
 
-    // 指定したenemyTypeに一致するエネミーだけ全削除する
-    void RemoveEnemyOne(EnemyType enemyType);
+    // 生存していないエネミーをリストから削除する
+    void RemoveDeadEnemies(EnemyType enemyType);
 
     // すべてのエネミーの削除を行う
     void RemoveAllEnemies();
