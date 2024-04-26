@@ -8,7 +8,6 @@ class Player;
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // ƒ‚ƒfƒ‹”Ô†
-    float currentHp_;               // Œ»İ‚ÌHP 
     bool isFirstHit_;               // ‰‰ñƒqƒbƒgƒtƒ‰ƒO
     XMFLOAT3 firstPosition_;        // e’eƒqƒbƒgˆÊ’u•Û‘¶—p
 
@@ -26,15 +25,4 @@ public:
     // UŒ‚
     void Attack() override;
 
-    // HP‚ğæ“¾
-    float GetCurrentHp() const override { return currentHp_; }
-
-    // HP‚ğ‘‚â‚·
-    void IncreaseHp(float amount) override;
-
-    // HP‚ğŒ¸‚ç‚·
-    void DecreaseHp(float amount) override;
-
-    // €–S”»’è
-    bool IsDead() const override { return currentHp_ <= 0; }
 };

@@ -9,7 +9,6 @@ class Player;
 class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // ƒ‚ƒfƒ‹”Ô†
-    float currentHp_;               // Œ»İ‚ÌHP 
 
     // ƒqƒbƒg‚µ‚½“G‚Ìƒf[ƒ^‚ğ“ü‚ê‚Ä‚¨‚­
     std::unordered_set<GameObject*> hitEnemies;
@@ -27,17 +26,5 @@ public:
 
     // UŒ‚
     void Attack() override;
-
-    // HP‚ğæ“¾
-    float GetCurrentHp() const override { return currentHp_; }
-
-    // HP‚ğ‘‚â‚·
-    void IncreaseHp(float amount) override;
-
-    // HP‚ğŒ¸‚ç‚·
-    void DecreaseHp(float amount) override;
-
-    // €–S”»’è
-    bool IsDead() const override { return currentHp_ <= 0; }
 
 };

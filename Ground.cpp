@@ -1,4 +1,5 @@
 #include "Engine/Model.h"
+#include "Engine/BoxCollider.h"
 
 #include "Ground.h"
 
@@ -24,6 +25,10 @@ void Ground::Initialize()
     //モデルデータのロード
     hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
+
+    // コライダー付与
+    BoxCollider* pBoxCollider = new BoxCollider(XMFLOAT3{0,0,0}, XMFLOAT3 {80.0f, 0.2f, 80.0f});
+    AddCollider(pBoxCollider);
 }
 
 //更新

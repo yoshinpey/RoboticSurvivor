@@ -18,13 +18,15 @@ namespace
         "Sounds/Explode.wav"
     };
     //////////////////////////////
-    const float velocity = 0.5f; // 上向き最大速度
-    const float delta = 0.01f; // 
+    const float initialVelocity = 0.0f;     // 初速度
+    const float gravity = -0.003f;          // 重力
+    const float accelerationLimit = -0.2f;
 }
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
-    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr), IsBulletHit(false), isFirstHit(true)
+    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr), 
+    isFirstHit_(true), gravity_(gravity), verticalSpeed_(initialVelocity)
 {
     // JSONファイル読み込み
     JsonReader::Load("Settings/WeaponSettings.json");
@@ -55,9 +57,6 @@ void Bullet_Explosion::Initialize()
 
     transform_.scale_ = modelScale;
     transform_.rotate_.y = modelRotate.y;
-    ////////////////////////
-    // 初期速度を設定（上向き最大速度から開始）
-    move_.y = velocity;
 
     //当たり判定
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
@@ -70,10 +69,14 @@ void Bullet_Explosion::Initialize()
 void Bullet_Explosion::Update()
 {
     ///////////////////////
-    // 上向き最大速度から徐々に下向きの力へ変化
-    if (move_.y > -0.1)move_.y -= delta;
+    
+    // 加速度制限
+    if(verticalSpeed_ >= accelerationLimit) verticalSpeed_ += gravity_;
 
-    //弾を飛ばす
+    // 放物線運動させる
+    transform_.position_.y += verticalSpeed_;
+
+    // 銃クラスであらかじめ計算していた方向へ飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
     // 向きを合わせる
@@ -83,10 +86,11 @@ void Bullet_Explosion::Update()
     // 爆発する
     if (parameter_.killTimer_ <= 30)
     { 
-        if (isFirstHit)
+        // 初回被弾時の処理
+        if (isFirstHit_)
         {
             Audio::Play(hSound_, 0.2f);
-            isFirstHit = false;
+            isFirstHit_ = false;
         }
         transform_.scale_.x *= 1.1f;
         transform_.scale_.y *= 1.1f;
@@ -98,7 +102,7 @@ void Bullet_Explosion::Update()
     parameter_.killTimer_--;
     if (parameter_.killTimer_ <= 0) 
     { 
-        isFirstHit = true;
+        isFirstHit_ = true;
         KillMe(); 
     }
 }
@@ -133,3 +137,14 @@ void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
     float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
     transform_.rotate_.y += XMConvertToDegrees(angle);
 }
+
+
+void Bullet_Explosion::OnCollision(GameObject* pTarget)
+{
+    // 地面関連の物体に当たったとき
+    if (pTarget->GetObjectName().find("Ground") != std::string::npos)
+    {
+        parameter_.killTimer_ = 30;
+        KillMe();
+    }
+};

@@ -19,6 +19,8 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Fly", "attackCooldown", 0, "Settings/EnemySettings.ini");
     status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Fly", "maxHp", 0, "Settings/EnemySettings.ini");
     status_.collisionScale_             = GetPrivateProfileFloat("Enemy_Fly", "collisionScale", 0, "Settings/EnemySettings.ini");
+    // 現在のHPを最大値で初期化
+    currentHp_ = status_.maxHp_;
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Fly", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Fly", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -30,7 +32,7 @@ Enemy_Fly::~Enemy_Fly()
 {
     // エネミーのマネージャーリストから死んだエネミーを削除する
     PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
-    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(EnemyType::FLY);
+    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(this);
 }
 
 void Enemy_Fly::Initialize()
@@ -45,7 +47,6 @@ void Enemy_Fly::Initialize()
 
     transform_.rotate_.y = modelRotate.y;
 
-    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
 }
 
 void Enemy_Fly::Update()
@@ -131,20 +132,4 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
 
 void Enemy_Fly::Attack()
 {
-}
-
-void Enemy_Fly::IncreaseHp(float amount)
-{
-    currentHp_ += amount;
-    if (currentHp_ > status_.maxHp_) {
-        currentHp_ = status_.maxHp_;
-    }
-}
-
-void Enemy_Fly::DecreaseHp(float amount)
-{
-    currentHp_ -= amount;
-    if (currentHp_ < 0) {
-        currentHp_ = 0;
-    }
 }

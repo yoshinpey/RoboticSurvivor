@@ -19,6 +19,8 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Ground", "attackCooldown", 0, "Settings/EnemySettings.ini");
     status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Ground", "maxHp", 0, "Settings/EnemySettings.ini");
     status_.collisionScale_             = GetPrivateProfileFloat("Enemy_Ground", "collisionScale", 0, "Settings/EnemySettings.ini");
+    // 現在のHPを最大値で初期化
+    currentHp_ = status_.maxHp_;
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Ground", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Ground", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -30,7 +32,7 @@ Enemy_Ground::~Enemy_Ground()
 {
     // エネミーのマネージャーリストから死んだエネミーを削除する
     PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
-    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(EnemyType::GROUND);
+    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(this);
 }
 
 void Enemy_Ground::Initialize()
@@ -48,7 +50,6 @@ void Enemy_Ground::Initialize()
 
     transform_.rotate_.y = modelRotate.y;
 
-    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
 }
 
 void Enemy_Ground::Update()
@@ -134,20 +135,4 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
 
 void Enemy_Ground::Attack()
 {
-}
-
-void Enemy_Ground::IncreaseHp(float amount)
-{
-    currentHp_ += amount;
-    if (currentHp_ > status_.maxHp_) {
-        currentHp_ = status_.maxHp_;
-    }
-}
-
-void Enemy_Ground::DecreaseHp(float amount)
-{
-    currentHp_ -= amount;
-    if (currentHp_ < 0) {
-        currentHp_ = 0;
-    }
 }

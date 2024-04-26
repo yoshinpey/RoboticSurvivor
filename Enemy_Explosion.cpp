@@ -18,7 +18,7 @@ namespace
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1),  currentHp_(0)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
     status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -26,6 +26,8 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
     status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Explosion", "attackCooldown", 0, "Settings/EnemySettings.ini");
     status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Explosion", "maxHp", 0, "Settings/EnemySettings.ini");
     status_.collisionScale_             = GetPrivateProfileFloat("Enemy_Explosion", "collisionScale", 0, "Settings/EnemySettings.ini");
+    // 現在のHPを最大値で初期化
+    currentHp_ = status_.maxHp_;
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Explosion", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Explosion", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -37,8 +39,7 @@ Enemy_Explosion::~Enemy_Explosion()
 {
     // エネミーのマネージャーリストから死んだエネミーを削除する
     PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
-    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(EnemyType::EXPLOSION);
-
+    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(this);
 }
 
 void Enemy_Explosion::Initialize()
@@ -57,14 +58,13 @@ void Enemy_Explosion::Initialize()
     // モデルの回転
     transform_.rotate_.y = modelRotate.y;
 
-    // 現在のHPを最大値で初期化
-    currentHp_ = status_.maxHp_;    
+
 }
 
 void Enemy_Explosion::Update()
 {
     // HPがなければ死亡
-    if (IsDead()) KillMe();
+    if (currentHp_ <= 0.0f) KillMe();
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
@@ -103,7 +103,7 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
         // すでにこの敵に対してヒット済みの場合は無視
-        if (hitEnemies.find(pTarget) != hitEnemies.end())return;
+        if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
 
         // EnemyBaseにキャスト
         BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
@@ -121,20 +121,4 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
 
 void Enemy_Explosion::Attack()
 {
-}
-
-void Enemy_Explosion::IncreaseHp(float amount)
-{
-    currentHp_ += amount;
-    if (currentHp_ > status_.maxHp_) {
-        currentHp_ = status_.maxHp_;
-    }
-}
-
-void Enemy_Explosion::DecreaseHp(float amount)
-{
-    currentHp_ -= amount;
-    if (currentHp_ < 0) {
-        currentHp_ = 0;
-    }
 }

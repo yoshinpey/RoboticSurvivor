@@ -16,7 +16,7 @@
   {
     "damage": 75,
     "shotCoolTime": 120,
-    "speed": 0.2,
+    "speed": 0.4,
     "killTimer": 120,
     "collisionScale": 0.3,
     "isPenetration": 1

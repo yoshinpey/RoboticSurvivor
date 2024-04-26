@@ -10,8 +10,11 @@ class Bullet_Explosion : public BulletBase
     int hModel_; 
     int hSound_;
     Gun* pGun_;
-    bool IsBulletHit;
-    bool isFirstHit;
+
+    bool isFirstHit_;    // 初めて当たった時
+
+    float gravity_;         // 銃弾にかける重力
+    float verticalSpeed_;   // スピード
 
 public:
     Bullet_Explosion(GameObject* parent);
@@ -21,4 +24,6 @@ public:
     void Draw() override;
     void Release() override;
     void RotateToTarget(const XMFLOAT3& directionToPlayer);
+
+    void OnCollision(GameObject* pTarget);
 };

@@ -34,7 +34,7 @@ public:
     void RemoveEnemy(EnemyType enemyType);
 
     // 生存していないエネミーをリストから削除する
-    void RemoveDeadEnemies(EnemyType enemyType);
+    void RemoveDeadEnemies(EnemyBase* enemy);
 
     // すべてのエネミーの削除を行う
     void RemoveAllEnemies();

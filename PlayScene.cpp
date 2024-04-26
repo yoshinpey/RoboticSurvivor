@@ -56,10 +56,14 @@ void PlayScene::Initialize()
 	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 5), EnemyType::EXPLOSION);
 	}
-	//for (int i = 0; i < 15; i += 5)
-	//{
-	//	pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 20), EnemyType::GROUND);
-	//}
+	for (int i = 0; i < 15; i += 5)
+	{
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 5, 20), EnemyType::GROUND);
+	}
+	for (int i = 0; i < 15; i += 5)
+	{
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 10, 20), EnemyType::FLY);
+	}
 	//※UI系統は前面になるように描画
 	Instantiate<Timer>(this);			//タイマー登場
 	Instantiate<Score>(this);			//スコア表示
@@ -72,6 +76,7 @@ void PlayScene::Initialize()
 
 void PlayScene::Update()
 {
+	////////////////////////敵の個体数デバッグログ
 	static float count[4] = {0,0,0,0};
 	count[0] = pEnemyManager_->GetEnemyCount(EnemyType::GROUND);
 	count[1] = pEnemyManager_->GetEnemyCount(EnemyType::EXPLOSION);
@@ -82,7 +87,9 @@ void PlayScene::Update()
 		"Explosion	: " + std::to_string(count[1]) + "\n"
 		"Fly			: " + std::to_string(count[2]) + "\n"
 		"All			: " + std::to_string(count[3]) + "\n";
-	OutputDebugStringA(output.c_str());
+	if(Input::IsKeyDown(DIK_TAB))
+		OutputDebugStringA(output.c_str());
+
 	//////////////////////////デバック用
 	//// タイム制ウェーブスポーンのテスト用
 	//Timer* pTimer = static_cast<Timer*>(FindObject("Timer"));
@@ -129,7 +136,7 @@ void PlayScene::Update()
 	//}
 
 	//敵がすべて消えたらゲームクリア
-	if (FindObject("Enemy_Fly") == nullptr && FindObject("Enemy_Ground") == nullptr && FindObject("Enemy_Explosion") == nullptr)
+	if (pEnemyManager_->GetEnemyCount() == 0)
 	{
 		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
 	}
@@ -137,7 +144,6 @@ void PlayScene::Update()
 	if (time == 0)
 	{
 		pEnemyManager_->RemoveAllEnemies();
-
 		pSceneManager_->ChangeScene(SCENE_ID_OVER);
 	}
 	//////////////////////////////////////

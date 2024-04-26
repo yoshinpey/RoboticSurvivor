@@ -57,12 +57,12 @@ void EnemyManager::RemoveEnemy(EnemyType enemyType)
     }
 }
 
-void EnemyManager::RemoveDeadEnemies(EnemyType enemyType)
+void EnemyManager::RemoveDeadEnemies(EnemyBase* enemy)
 {
     // 死亡したエネミーをマネージャー内のリストから削除する
     for (auto it = enemies.begin(); it != enemies.end(); )
     {
-        if ((*it)->GetEnemyType() == enemyType)
+        if ((*it) == enemy)
         {
             it = enemies.erase(it); // エネミーをリストから削除
             return;

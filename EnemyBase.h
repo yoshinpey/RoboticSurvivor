@@ -69,14 +69,28 @@ public:
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
 
     // HP‚ðŽæ“¾
-    virtual float GetCurrentHp() const = 0;
+    float GetCurrentHp() const { return currentHp_; }
 
     // HP‚ð‘‚â‚·
-    virtual void IncreaseHp(float amount) = 0;
+    void IncreaseHp(float amount) {
+        currentHp_ += amount;
+        if (currentHp_ > status_.maxHp_) {
+            currentHp_ = status_.maxHp_;
+        }
+    }
 
     // HP‚ðŒ¸‚ç‚·
-    virtual void DecreaseHp(float amount) = 0;
+    void DecreaseHp(float amount) {
+        currentHp_ -= amount;
+        if (currentHp_ < 0) {
+            currentHp_ = 0;
+        }
+    }
 
     // Ž€–S”»’è
-    virtual bool IsDead() const = 0;
+    bool IsDead() { 
+        bool b = (currentHp_ <= 0.0f); 
+        return b;
+    }
+
 };
