@@ -1,19 +1,15 @@
 ﻿#include "AudioManager.h"
+#include "Engine/Global.h"
 #include "Engine/Audio.h"
-#include <cassert>
 #include <vector>
-
-#include <fstream>
-#include <string>
-#include <sstream>
 
 namespace AudioManager
 {
-    // サウンドハンドル
+    // サウンドを保管するハンドル
     std::vector<int> hSound_;
 
     // 音量(0.0f ～1.0f)
-    float volue_ = 0.2f;  
+    float gameVolume_;
 
     // オーディオのデータ
     struct AudioData
@@ -47,22 +43,18 @@ void AudioManager::Initialize()
     }
 }
 
-void AudioManager::InitVolue()
+void AudioManager::InitVolume()
 {
-    // ファイル読み込み
-    std::ifstream ifs("Settings/AudioVolume.txt");
-    std::string data;
-    ifs >> data;
+    // 設定ファイルから音量を取得
+    gameVolume_ = GetPrivateProfileFloat("Audio", "GameVolume", 0, "setup.ini");
 
-    // stringからintへ変換し、そのあと値をセット
-    std::istringstream iss = std::istringstream(data);
-    iss >> volue_;
-    volue_ /= 100.0f;
+    // ボリュームを0.0f ～ 1.0fの範囲にする
+    gameVolume_ /= 100.0f;
 }
 
 void AudioManager::Play(AUDIO_ID id, float volume)
 {
-    Audio::Play(hSound_[id], volue_ * volume);
+    Audio::Play(hSound_[id], gameVolume_ * volume);
 }
 
 void AudioManager::Release()

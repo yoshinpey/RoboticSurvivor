@@ -12,8 +12,8 @@ namespace AudioManager
 	// 初期化
 	void Initialize();
 
-	// 外部ファイルから読み込む設定音量
-	void InitVolue();
+	// 外部ファイルから設定音量を読み込む
+	void InitVolume();
 
 	// 音の再生
 	void Play(AUDIO_ID id, float volume = 1.0f);
