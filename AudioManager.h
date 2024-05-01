@@ -1,48 +1,24 @@
 #pragma once
 
-enum TITLE_AUDIO
+namespace AudioManager 
 {
-	AUDIO_ENTERCURSOR = 0,
-	AUDIO_POINTCURSOR,
-	AUDIO_ENTERSTAGE,
-};
-
-enum PLAY_AUDIO
-{
-	AUDIO_ROBOT_HIT,
-	AUDIO_MISSILE_EXPLODE,
-	AUDIO_MISSILE_SHOT,
-	AUDIO_UFO_CHARGING,
-	AUDIO_UFO_ATTACK,
-	AUDIO_BEAM_SHOT,
-
-	AUDIO_RUNNING,
-	AUDIO_REFLECTION,
-	AUDIO_JUNPING_START,
-	AUDIO_JUNPING_END,
-};
-
-namespace AudioManager
-{
-	enum INIT_TYPE
+	// 音源のID
+	enum AUDIO_ID
 	{
 		TITLE = 0,
-		PLAY,
-		PLAYMENUE,
-		RESULT,
-		MAX,
-
+		MAX
 	};
 
-	extern float gameVolue_;
+	// 初期化
+	void Initialize();
 
-	void Initialize(INIT_TYPE i);
+	// 外部ファイルから読み込む設定音量
 	void InitVolue();
+
+	// 音の再生
+	void Play(AUDIO_ID id, float volume = 1.0f);
+
+	// 解放
 	void Release();
 
-	void PlaySoundMa(TITLE_AUDIO i, float volume = 1.0f);
-	void PlaySoundMa(PLAY_AUDIO i, float volume = 1.0f);
-
-	void StopSoundMa(TITLE_AUDIO i);
-	void StopSoundMa(PLAY_AUDIO i);
-}
+};
