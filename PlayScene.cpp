@@ -11,6 +11,7 @@
 #include "Score.h"
 #include "SkyBox.h"
 #include "Engine/Model.h"
+#include "AudioManager.h"
 
 namespace
 {
@@ -72,6 +73,10 @@ void PlayScene::Initialize()
 	Timer* t = (Timer*)FindObject("Timer");
 	t->SetLimit(30);
 	t->Start();
+	/////////////////////////////////////////
+	AudioManager::Initialize();
+	AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
+	/////////////////////////////////////////
 }
 
 void PlayScene::Update()

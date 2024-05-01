@@ -256,6 +256,9 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="ModelManager.cpp">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -461,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelManager.h">
+      <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
