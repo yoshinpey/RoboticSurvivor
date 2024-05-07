@@ -44,13 +44,13 @@ void AudioManager::Initialize()
     }
 
     // 初期音量設定
-    // InitVolume();
+    InitVolume();
 }
 
 void AudioManager::InitVolume()
 {
     // 設定ファイルから音量を取得
-    gameVolume_ = GetPrivateProfileFloat("Audio", "GameVolume", 0, "setup.ini");
+    gameVolume_ = GetPrivateProfileFloat("Audio", "GameVolume", 0, "./setup.ini");
 
     // ボリュームを0～100の範囲から、0.0f ～ 1.0fの範囲に変換する
     gameVolume_ /= 100.0f;
