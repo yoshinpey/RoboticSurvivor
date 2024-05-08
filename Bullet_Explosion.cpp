@@ -12,10 +12,8 @@ namespace
     XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };    // 当たり判定の位置
     XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
-    std::vector<std::string> fileName = 
-    {
-        "Entity/Missile.fbx"
-    };
+    std::string modelName = "Entity/Missile.fbx";       // モデル名
+
     //////////////////////////////
     const float initialVelocity = 0.0f;     // 初速度
     const float gravity = -0.003f;          // 重力
@@ -49,7 +47,7 @@ Bullet_Explosion::~Bullet_Explosion()
 void Bullet_Explosion::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load(fileName[0]);
+    hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
     transform_.scale_ = modelScale;
