@@ -15,11 +15,12 @@
 
 namespace
 {
-	// LoadModels
+	// このシーンで使用するモデル群
 	std::vector<std::string> modelName =
 	{
-		"DebugCollision / sphereCollider.fbx",
+		"DebugCollision/sphereCollider.fbx",
 		"Entity/Bullet.fbx",
+		"Entity/Missile.fbx",
 		"Enemy/Enemy_Ground.fbx",
 		"Enemy/Enemy_Fly.fbx",
 		"Enemy/Enemy_Explosion.fbx"
@@ -42,7 +43,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize()
 {
-	// シーンの途中で登場するモデルは先に読んでおく
+	// シーンの途中で登場するモデルは先にロードだけしておく(ラグ対策)
 	for (int i = 0; i < modelName.size(); ++i)
 	{
 		Model::Load(modelName[i]);
@@ -75,7 +76,6 @@ void PlayScene::Initialize()
 	t->Start();
 	/////////////////////////////////////////
 	AudioManager::Initialize();
-	AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
 	/////////////////////////////////////////
 }
 
@@ -184,4 +184,5 @@ void PlayScene::Draw()
 void PlayScene::Release()
 {
 	SAFE_DELETE(pEnemyManager_);
+	AudioManager::Release();
 }

@@ -6,18 +6,17 @@
 #include "Gun.h"
 #include "Bullet_Normal.h"
 #include "Bullet_Explosion.h"
-#include "Engine/Audio.h"
+#include "AudioManager.h"
 
 namespace
 {
     XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };       // 移動量
     XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
     std::string modelName = "Entity/Rifle.fbx";         // モデル名
-    std::string soundName = "Sounds/Shot.wav";          // サウンド名
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), normalShotCool_(0), explosionShotCool_(0), hSound_(-1)
+    :GameObject(parent, "Gun"), hModel_(-1), normalShotCool_(0), explosionShotCool_(0)
 {
 }
 
@@ -30,9 +29,6 @@ void Gun::Initialize()
     // データのロード
     hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
-
-    hSound_ = Audio::Load(soundName, false, 3);
-    assert(hSound_ >= 0);
 
     //プレイヤーの手の位置まで調整
     transform_.position_ = handOffset;
@@ -50,13 +46,13 @@ void Gun::Update()
     // 通常射撃
     if (InputManager::IsShoot() && normalShotCool_ <= 0)
     {
-        Audio::Play(hSound_,0.1f);
+        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
         ShootBullet<Bullet_Normal>();
         normalShotCool_ = shotCoolTime_;
     }
     else
     {
-        Audio::Stop(hSound_);
+        AudioManager::Stop(AudioManager::AUDIO_ID::SHOT);
     }
 
     // 特殊射撃

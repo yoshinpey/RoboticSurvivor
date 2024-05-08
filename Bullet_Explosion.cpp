@@ -1,10 +1,10 @@
 #include "Engine/SphereCollider.h"
-#include "Engine/Audio.h"
 #include "Engine/Model.h"
 
 #include "Bullet_Explosion.h"
 #include "JsonReader.h"
 #include "Gun.h"
+#include "AudioManager.h"
 
 
 namespace
@@ -14,8 +14,7 @@ namespace
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
     std::vector<std::string> fileName = 
     {
-        "Entity/Missile.fbx",
-        "Sounds/Explode.wav"
+        "Entity/Missile.fbx"
     };
     //////////////////////////////
     const float initialVelocity = 0.0f;     // 初速度
@@ -25,7 +24,7 @@ namespace
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
-    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), hSound_(-1), pGun_(nullptr), 
+    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), pGun_(nullptr), 
     isFirstHit_(true), gravity_(gravity), verticalSpeed_(initialVelocity)
 {
     // JSONファイル読み込み
@@ -52,8 +51,6 @@ void Bullet_Explosion::Initialize()
     //モデルデータのロード
     hModel_ = Model::Load(fileName[0]);
     assert(hModel_ >= 0);
-    hSound_ = Audio::Load(fileName[1], false, 3);
-    assert(hSound_ >= 0);
 
     transform_.scale_ = modelScale;
     transform_.rotate_.y = modelRotate.y;
@@ -89,7 +86,7 @@ void Bullet_Explosion::Update()
         // 初回被弾時の処理
         if (isFirstHit_)
         {
-            Audio::Play(hSound_, 0.2f);
+            AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
             isFirstHit_ = false;
         }
         transform_.scale_.x *= 1.1f;

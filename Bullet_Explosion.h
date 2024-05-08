@@ -8,7 +8,6 @@ class Gun;
 class Bullet_Explosion : public BulletBase
 {
     int hModel_; 
-    int hSound_;
     Gun* pGun_;
 
     bool isFirstHit_;    // ‰‚ß‚Ä“–‚½‚Á‚½
