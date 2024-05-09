@@ -36,5 +36,6 @@ void Score::Draw()
 //ŠJ•ú
 void Score::Release()
 {
+    pText->Release();
     SAFE_DELETE(pText)
 }

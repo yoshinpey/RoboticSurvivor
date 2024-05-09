@@ -59,4 +59,5 @@ void Timer::Draw()
 void Timer::Release()
 {
     pNum_->Release();
+    SAFE_DELETE(pNum_)
 }

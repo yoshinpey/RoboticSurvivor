@@ -63,8 +63,6 @@ void Bullet_Explosion::Initialize()
 //XV
 void Bullet_Explosion::Update()
 {
-    ///////////////////////
-    
     // ‰Á‘¬“x§ŒÀ
     if(verticalSpeed_ >= accelerationLimit) verticalSpeed_ += gravity_;
 
