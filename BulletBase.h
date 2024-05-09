@@ -5,7 +5,8 @@
 enum class BulletType
 {
     NORMAL,
-    EXPLOSION
+    EXPLOSION,
+    MAX
 };
 
 // e’e‚ÌŠî’êƒNƒ‰ƒX

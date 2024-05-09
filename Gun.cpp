@@ -1,4 +1,3 @@
-
 #include "Engine/Model.h"
 
 #include "InputManager.h"
@@ -9,7 +8,7 @@
 
 namespace
 {
-    XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };       // 移動量
+    XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };      // 移動量
     XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
     std::string modelName = "Entity/Rifle.fbx";         // モデル名
 }
@@ -33,21 +32,17 @@ void Gun::Initialize()
     transform_.position_ = handOffset;
     transform_.scale_ = modelScale;
 
-    /////////enumサイズになるまでプッシュする
-    BulletInfo a = BulletInfo();
-    bulletInfoList_.push_back(a);
-    bulletInfoList_.push_back(a);
-
+    // バレットタイプのenumサイズで初期化
+    bulletInfoList_.resize(static_cast<int>(BulletType::MAX));
 }
 
 void Gun::Update()
 {
-    for (auto& e : bulletInfoList_) {
-        e.ct--;
-    }
+    // クールタイムを減らす
+    for (auto& bullet : bulletInfoList_) { bullet.coolTime_--; }
 
     // 通常射撃
-    if (InputManager::IsShoot() && bulletInfoList_[0].ct <= 0)
+    if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
     {
         AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
         ShootBullet<Bullet_Normal>(BulletType::NORMAL);
@@ -58,7 +53,7 @@ void Gun::Update()
     }
 
     // 特殊射撃
-    if (InputManager::IsWeaponAction() && bulletInfoList_[1].ct <= 0)
+    if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
     {
         ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
     }
@@ -102,7 +97,7 @@ void Gun::ShootBullet(BulletType type)
 
     // パラメータ設定
     float bulletSpeed = pNewBullet->GetBulletParameter().speed_;
-    bulletInfoList_[(int)type].ct = pNewBullet->GetBulletParameter().shotCoolTime_;
+    bulletInfoList_[(int)type].coolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
 
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");

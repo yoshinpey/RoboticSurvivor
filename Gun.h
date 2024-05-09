@@ -3,20 +3,23 @@
 #include "Engine/GameObject.h"
 #include <vector>
 
+enum class BulletType;
+
+// バレットの情報を保管する構造体
 struct BulletInfo
 {
-    int ct;
+    int coolTime_;
 };
 
-enum class BulletType;
 
 //銃を管理するクラス
 class Gun : public GameObject
 {
     int hModel_;                    // モデル番号
     int hSound_;                    // サウンド
-    XMFLOAT3 moveDirection_;        
+    XMFLOAT3 moveDirection_;        // 動く方向
 
+    // バレットのリスト
     std::vector<BulletInfo> bulletInfoList_;
 
 public:
@@ -34,5 +37,6 @@ public:
     template<class T>
     void ShootBullet(BulletType type);
 
+    // 移動方向取得
     XMFLOAT3 GetMoveDirection() const { return moveDirection_; }
 };
