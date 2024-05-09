@@ -1,16 +1,23 @@
 
 #pragma once
 #include "Engine/GameObject.h"
+#include <vector>
+
+struct BulletInfo
+{
+    int ct;
+};
+
+enum class BulletType;
 
 //銃を管理するクラス
 class Gun : public GameObject
 {
     int hModel_;                    // モデル番号
-    int shotCoolTime_;              // 一時的にクールタイムを保管しておく変数
-    int normalShotCool_;            // 通常弾のクールタイム
-    int explosionShotCool_;         // 爆発弾のクールタイム
     int hSound_;                    // サウンド
     XMFLOAT3 moveDirection_;        
+
+    std::vector<BulletInfo> bulletInfoList_;
 
 public:
     Gun(GameObject* parent);
@@ -25,7 +32,7 @@ public:
 
     // 銃弾を生成する
     template<class T>
-    void ShootBullet();
+    void ShootBullet(BulletType type);
 
     XMFLOAT3 GetMoveDirection() const { return moveDirection_; }
 };

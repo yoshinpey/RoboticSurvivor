@@ -15,7 +15,7 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), normalShotCool_(0), explosionShotCool_(0)
+    :GameObject(parent, "Gun"), hModel_(-1)
 {
 }
 
@@ -32,22 +32,25 @@ void Gun::Initialize()
     //プレイヤーの手の位置まで調整
     transform_.position_ = handOffset;
     transform_.scale_ = modelScale;
+
+    /////////enumサイズになるまでプッシュする
+    BulletInfo a = BulletInfo();
+    bulletInfoList_.push_back(a);
+    bulletInfoList_.push_back(a);
+
 }
 
 void Gun::Update()
 {
-    // 通常射撃のクールダウン減少
-    if (normalShotCool_ > 0) normalShotCool_--;
-
-    // 特殊射撃のクールダウン減少
-    if (explosionShotCool_ > 0) explosionShotCool_--;
+    for (auto& e : bulletInfoList_) {
+        e.ct--;
+    }
 
     // 通常射撃
-    if (InputManager::IsShoot() && normalShotCool_ <= 0)
+    if (InputManager::IsShoot() && bulletInfoList_[0].ct <= 0)
     {
         AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
-        ShootBullet<Bullet_Normal>();
-        normalShotCool_ = shotCoolTime_;
+        ShootBullet<Bullet_Normal>(BulletType::NORMAL);
     }
     else
     {
@@ -55,10 +58,9 @@ void Gun::Update()
     }
 
     // 特殊射撃
-    if (InputManager::IsWeaponAction() && explosionShotCool_ <= 0)
+    if (InputManager::IsWeaponAction() && bulletInfoList_[1].ct <= 0)
     {
-        ShootBullet<Bullet_Explosion>();
-        explosionShotCool_ = shotCoolTime_;
+        ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
     }
 }
 
@@ -93,14 +95,14 @@ XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletS
 }
 
 template <class T>
-void Gun::ShootBullet()
+void Gun::ShootBullet(BulletType type)
 {
     // これは高頻度で処理するので、わかりにくいけどFindではなく親をたどって生成（Aim->Player->PlayScene）
     BulletBase* pNewBullet = Instantiate<T>(GetParent()->GetParent()->GetParent());
 
     // パラメータ設定
     float bulletSpeed = pNewBullet->GetBulletParameter().speed_;
-    shotCoolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
+    bulletInfoList_[(int)type].ct = pNewBullet->GetBulletParameter().shotCoolTime_;
 
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
