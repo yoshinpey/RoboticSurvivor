@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Model.h"
 #include "EnemyBase.h"
+#include <unordered_set>
 
 class Player;
 
@@ -8,8 +9,9 @@ class Player;
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    bool isFirstHit_;               // 初回ヒットフラグ
-    XMFLOAT3 firstPosition_;        // 銃弾ヒット位置保存用
+
+    // ヒットした敵のデータを入れておく
+    std::unordered_set<GameObject*> hitEnemies;
 
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
