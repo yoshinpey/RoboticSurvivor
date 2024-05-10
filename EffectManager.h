@@ -4,8 +4,7 @@ using namespace DirectX;
 
 enum VFX_TYPE 
 {
-	SPARK = 0,
-	EXPLODE,
+	EXPLODE = 0,
 };
 
 namespace EffectManager
