@@ -53,7 +53,10 @@ void Enemy_Ground::Initialize()
 }
 
 void Enemy_Ground::Update()
-{
+{    
+    // Œ»Ý’n‚ð•Û‘¶‚·‚é
+    currentPosition_ = transform_.position_;
+
     // HP‚ª‚È‚¯‚ê‚ÎŽ€–S
     if (IsDead()) KillMe();
 
@@ -107,6 +110,12 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
 
         // ŠÑ’Ê‚µ‚È‚¢ê‡‚Í’eŠÛ‚ðÁ‚·
         if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
+    }
+
+    // “G‚É“–‚½‚Á‚½‚Æ‚«
+    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
+    {
+        transform_.position_ = currentPosition_;
     }
 }
 

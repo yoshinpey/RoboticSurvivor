@@ -9,13 +9,14 @@ class Player;
 class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // モデル番号
+    XMFLOAT3 currentPosition_;      // 現在地
 
     // ヒットした敵のデータを入れておく
     std::unordered_set<GameObject*> hitEnemies;
 
 public:
-    Enemy_Explosion(GameObject* parent);   // コンストラクタ
-    ~Enemy_Explosion() override;           // デストラクタ
+    Enemy_Explosion(GameObject* parent);    // コンストラクタ
+    ~Enemy_Explosion() override;            // デストラクタ
     void Initialize() override;             // 初期化
     void Update() override;                 // 更新
     void Draw() override;                   // 描画

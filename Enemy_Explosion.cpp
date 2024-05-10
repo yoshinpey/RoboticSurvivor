@@ -63,8 +63,11 @@ void Enemy_Explosion::Initialize()
 
 void Enemy_Explosion::Update()
 {
+    // 現在地を保存する
+    currentPosition_ = transform_.position_;
+
     // HPがなければ死亡
-    if (currentHp_ <= 0.0f) KillMe();
+    if (IsDead()) KillMe();
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
@@ -116,6 +119,12 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
 
         // 貫通しない場合は弾丸を消す
         if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
+    }
+
+    // 敵に当たったとき
+    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
+    {
+        transform_.position_ = currentPosition_;
     }
 };
 
