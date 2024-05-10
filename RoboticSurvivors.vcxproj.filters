@@ -148,7 +148,7 @@
     <ClCompile Include="Crystal.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="Ground.cpp">
+    <ClCompile Include="Stage.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -336,7 +336,7 @@
     <ClInclude Include="Crystal.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="Ground.h">
+    <ClInclude Include="Stage.h">
       <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Global.h">

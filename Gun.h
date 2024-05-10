@@ -16,7 +16,6 @@ struct BulletInfo
 class Gun : public GameObject
 {
     int hModel_;                    // モデル番号
-    int hSound_;                    // サウンド
     XMFLOAT3 moveDirection_;        // 動く方向
 
     // バレットのリスト

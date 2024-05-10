@@ -14,7 +14,7 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1)
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }
 {
 }
 

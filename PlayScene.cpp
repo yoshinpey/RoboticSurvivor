@@ -6,7 +6,7 @@
 #include "GameManager.h"
 #include "EnemyManager.h"
 #include "Player.h"
-#include "Ground.h"
+#include "Stage.h"
 #include "Timer.h"
 #include "Score.h"
 #include "SkyBox.h"
@@ -49,7 +49,7 @@ void PlayScene::Initialize()
 		Model::Load(modelName[i]);
 	}
 
-	Instantiate<Ground>(this);			// ’n–Ê“oê
+	Instantiate<Stage>(this);			// ’n–Ê“oê
 	Instantiate<SkyBox>(this);			// ‹ó“oê
 	pPlayer_=Instantiate<Player>(this);			//ƒvƒŒƒCƒ„[“oê
 	

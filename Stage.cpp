@@ -1,7 +1,7 @@
 #include "Engine/Model.h"
 #include "Engine/BoxCollider.h"
 
-#include "Ground.h"
+#include "Stage.h"
 
 namespace
 {
@@ -9,18 +9,18 @@ namespace
 }
 
 //コンストラクタ
-Ground::Ground(GameObject* parent)
-    :GameObject(parent, "Ground"), hModel_(-1)
+Stage::Stage(GameObject* parent)
+    :GameObject(parent, "Stage"), hModel_(-1)
 {
 }
 
 //デストラクタ
-Ground::~Ground()
+Stage::~Stage()
 {
 }
 
 //初期化
-void Ground::Initialize()
+void Stage::Initialize()
 {
     //モデルデータのロード
     hModel_ = Model::Load(modelName);
@@ -32,18 +32,18 @@ void Ground::Initialize()
 }
 
 //更新
-void Ground::Update()
+void Stage::Update()
 {
 }
 
 //描画
-void Ground::Draw()
+void Stage::Draw()
 {
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 }
 
 //開放
-void Ground::Release()
+void Stage::Release()
 {
 }

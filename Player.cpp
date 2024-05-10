@@ -6,7 +6,7 @@
 #include "Aim.h"
 #include "Player.h"
 #include "Gauge.h"
-#include "Ground.h"
+#include "Stage.h"
 #include "PlayerState.h"
 
 //コンストラクタ

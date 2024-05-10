@@ -135,7 +135,7 @@ void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
 void Bullet_Explosion::OnCollision(GameObject* pTarget)
 {
     // ’n–ÊŠÖ˜A‚Ì•¨‘Ì‚É“–‚½‚Á‚½‚Æ‚«
-    if (pTarget->GetObjectName().find("Ground") != std::string::npos)
+    if (pTarget->GetObjectName().find("Stage") != std::string::npos)
     {
         parameter_.killTimer_ = 30;
         KillMe();

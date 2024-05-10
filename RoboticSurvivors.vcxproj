@@ -176,7 +176,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gauge.cpp" />
-    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
@@ -248,7 +248,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Gauge.h" />
-    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
