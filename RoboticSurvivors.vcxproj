@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,7 +138,7 @@
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="EffectManager.cpp" />
-    <ClCompile Include="EnemyBase.h" />
+    <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="Enemy_Explosion.cpp" />
@@ -176,11 +176,12 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gauge.cpp" />
-    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="jsonReader.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
@@ -191,7 +192,6 @@
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="TitleTextObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -200,12 +200,14 @@
     <ClInclude Include="BulletBase.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonFactory.h" />
+    <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\VFX.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="jsonReader.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
@@ -246,7 +248,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Gauge.h" />
-    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
@@ -261,7 +263,6 @@
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="TitleTextObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

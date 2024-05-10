@@ -42,13 +42,30 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)
 {
-    // 指定したenemyTypeに一致するエネミーだけ全削除する
+    // 指定したenemyTypeに一致するエネミーを全削除する
     for (auto it = enemies.begin(); it != enemies.end(); )
     {
         if ((*it)->GetEnemyType() == enemyType)
         {
-            (*it)->KillMe();        // エネミーオブジェクトを削除する
+            (*it)->KillMe();        // エネミー本体を削除
             it = enemies.erase(it); // エネミーをリストから削除
+        }
+        else
+        {
+            ++it; // 次の要素に進む
+        }
+    }
+}
+
+void EnemyManager::RemoveDeadEnemies(EnemyBase* enemy)
+{
+    // 死亡したエネミーをマネージャー内のリストから削除する
+    for (auto it = enemies.begin(); it != enemies.end(); )
+    {
+        if ((*it) == enemy)
+        {
+            it = enemies.erase(it); // エネミーをリストから削除
+            return;
         }
         else
         {
@@ -142,13 +159,18 @@ void EnemyManager::SpawnRandomMultiEnemy(XMFLOAT3 minPosition, XMFLOAT3 maxPosit
 
 int EnemyManager::GetEnemyCount(EnemyType enemyType)
 {
+    // 引数指定がないとき
+    if (enemyType == EnemyType::MAX) 
+    {
+        // エネミーの総数を返す
+        return (int)enemies.size();
+    }
+
+    // 指定されたエネミーの個体数を返す
     int count = 0;
     for (auto enemy : enemies)
     {
-        if (enemy->GetEnemyType() == enemyType)
-        {
-            count++;
-        }
+        if (enemy->GetEnemyType() == enemyType) ++count;
     }
     return count;
 }

@@ -148,7 +148,7 @@
     <ClCompile Include="Crystal.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="Ground.cpp">
+    <ClCompile Include="Stage.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -214,9 +214,6 @@
     <ClCompile Include="Gauge.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.h">
-      <Filter>Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
@@ -256,8 +253,11 @@
     <ClCompile Include="jsonReader.cpp">
       <Filter>Json</Filter>
     </ClCompile>
-    <ClCompile Include="TitleTextObject.cpp">
-      <Filter>03Scene\01Title</Filter>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelManager.cpp">
+      <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,7 +336,7 @@
     <ClInclude Include="Crystal.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="Ground.h">
+    <ClInclude Include="Stage.h">
       <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Global.h">
@@ -462,8 +462,11 @@
     <ClInclude Include="json.hpp">
       <Filter>Json</Filter>
     </ClInclude>
-    <ClInclude Include="TitleTextObject.h">
-      <Filter>03Scene\01Title</Filter>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelManager.h">
+      <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

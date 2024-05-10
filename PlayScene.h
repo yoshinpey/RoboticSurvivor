@@ -3,6 +3,7 @@
 
 class Player;
 class EnemyManager;
+class SceneManager;
 
 //Playシーンを管理するクラス
 class PlayScene : public GameObject
@@ -20,4 +21,6 @@ public:
 	void Update() override;         //更新
 	void Draw() override;           //描画
 	void Release() override;        //開放
+
+	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 };

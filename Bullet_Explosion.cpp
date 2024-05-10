@@ -1,25 +1,32 @@
 #include "Engine/SphereCollider.h"
-#include "Engine/Audio.h"
 #include "Engine/Model.h"
 
 #include "Bullet_Explosion.h"
 #include "JsonReader.h"
+#include "Gun.h"
+#include "AudioManager.h"
 
 
 namespace
 {
-    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };      // 当たり判定の位置
-    XMFLOAT3 modelOffset = { 0.0f, 0.0f, 0.0f };      // モデルの位置
-    XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };      // モデルのサイズ
+    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };    // 当たり判定の位置
+    XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
+    std::string modelName = "Entity/Missile.fbx";       // モデル名
+
+    //////////////////////////////
+    const float initialVelocity = 0.0f;     // 初速度
+    const float gravity = -0.003f;          // 重力
+    const float accelerationLimit = -0.2f;
 }
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
-    :BulletBase(parent, BulletType::NORMAL, "Bullet_Explosion"), hModel_(-1), hSound_(-1)
+    :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), pGun_(nullptr), 
+    isFirstHit_(true), gravity_(gravity), verticalSpeed_(initialVelocity)
 {
     // JSONファイル読み込み
-    JsonReader::Load("Settings/JsonWeaponSettings.json");
+    JsonReader::Load("Settings/WeaponSettings.json");
     auto& bullet_explosion = JsonReader::GetSection("Bullet_Explosion");
 
     // パラメータを取得
@@ -40,38 +47,47 @@ Bullet_Explosion::~Bullet_Explosion()
 void Bullet_Explosion::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Entity/Missile.fbx");
+    hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
+
+    transform_.scale_ = modelScale;
+    transform_.rotate_.y = modelRotate.y;
 
     //当たり判定
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
     AddCollider(pCollision_);
 
-    transform_.scale_ = modelScale;
-    transform_.rotate_.y = modelRotate.y;
-
-    //hSound_ = Audio::Load("Sounds/Explosion.wav", false, 1);
-    //assert(hSound_ >= 0);
+    pGun_ = static_cast<Gun*>(FindObject("Gun"));
 }
 
 //更新
 void Bullet_Explosion::Update()
 {
-    //弾を飛ばす
+    // 加速度制限
+    if(verticalSpeed_ >= accelerationLimit) verticalSpeed_ += gravity_;
+
+    // 放物線運動させる
+    transform_.position_.y += verticalSpeed_;
+
+    // 銃クラスであらかじめ計算していた方向へ飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
-   
-    static bool isFirst = true;
+
+    // 向きを合わせる
+    XMFLOAT3 targetVector= pGun_->GetMoveDirection();
+    RotateToTarget(targetVector);
+
     // 爆発する
     if (parameter_.killTimer_ <= 30)
     { 
-        //if (isFirst)
-        //{
-        //    Audio::Play(hSound_);
-        //    isFirst = false;
-        //}
-        transform_.scale_.x *= 1.1;
-        transform_.scale_.y *= 1.1;
-        transform_.scale_.z *= 1.1;
+        // 初回被弾時の処理
+        if (isFirstHit_)
+        {
+            AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
+            isFirstHit_ = false;
+        }
+        transform_.scale_.x *= 1.1f;
+        transform_.scale_.y *= 1.1f;
+        transform_.scale_.z *= 1.1f;
         pCollision_->SetRadius(transform_.scale_.x);
     }
 
@@ -79,7 +95,7 @@ void Bullet_Explosion::Update()
     parameter_.killTimer_--;
     if (parameter_.killTimer_ <= 0) 
     { 
-        isFirst = true;
+        isFirstHit_ = true;
         KillMe(); 
     }
 }
@@ -96,13 +112,32 @@ void Bullet_Explosion::Release()
 {
 }
 
+// 弾の向きを対象方向へ回転させる
+void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
+{
+    // 向かせたい方向
+    XMVECTOR vTargetVector = -XMVector3Normalize(XMVectorSet(targetVector.x, 0, targetVector.z, 0));
+
+    // 現在向いている方向
+    float rotY = XMConvertToRadians(transform_.rotate_.y);
+    XMVECTOR rotForward = XMVector3Normalize(XMVectorSet(sinf(rotY), 0, cosf(rotY), 0));
+
+    // 内積と外積を計算
+    float dot = XMVectorGetX(XMVector3Dot(rotForward, vTargetVector));
+    XMVECTOR cross = XMVector3Cross(rotForward, vTargetVector);
+
+    // 角度を計算して回転
+    float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
+    transform_.rotate_.y += XMConvertToDegrees(angle);
+}
+
+
 void Bullet_Explosion::OnCollision(GameObject* pTarget)
 {
-    // 名前にエネミーが含まれるオブジェクトに衝突したとき
-    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
+    // 地面関連の物体に当たったとき
+    if (pTarget->GetObjectName().find("Stage") != std::string::npos)
     {
-
-        // 貫通しない場合は自身を消す
-        if (parameter_.isPenetration_ == 0) KillMe();
+        parameter_.killTimer_ = 30;
+        KillMe();
     }
-}
+};

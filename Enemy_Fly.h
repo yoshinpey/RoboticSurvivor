@@ -1,12 +1,18 @@
 #pragma once
 #include "Engine/Model.h"
 #include "EnemyBase.h"
+#include <unordered_set>
+
+class Player;
 
 //浮遊敵を管理するクラス
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    //SphereCollider* pHeadCollision_;        // コリジョン
+    XMFLOAT3 currentPosition_;          // 現在地
+
+    // ヒットした敵のデータを入れておく
+    std::unordered_set<GameObject*> hitEnemies;
 
 public:
     Enemy_Fly(GameObject* parent);      // コンストラクタ
@@ -17,11 +23,9 @@ public:
     void Release() override;            // 開放
 
     // 何かに当たった
-    void OnCollision(GameObject* pTarget) override;
+    void OnCollision(GameObject* pTarget);
 
-    //void HeadOnCollision(GameObject* pTarget) override;
-
+    // 攻撃
     void Attack() override;
 
-   
 };

@@ -2,13 +2,13 @@
 #include "Engine/GameObject.h"
 
 //地面モデルを管理するクラス
-class Ground : public GameObject
+class Stage : public GameObject
 {
     int hModel_;    //モデル番号
 
 public:
-    Ground(GameObject* parent);     //コンストラクタ
-    ~Ground();                      //デストラクタ
+    Stage(GameObject* parent);     //コンストラクタ
+    ~Stage();                      //デストラクタ
     void Initialize() override;     //初期化
     void Update() override;         //更新
     void Draw() override;           //描画

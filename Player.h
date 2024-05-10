@@ -57,12 +57,14 @@ public:
     // 重力を適用する
     void ApplyGravity();
 
+    // HPを増やす
     void IncreaseHp(float amount);
 
+    // HPを減らす
     void DecreaseHp(float amount);
 
     //bool RayCastStage(XMFLOAT3 position);
 
     // 地面についているかどうかを判定する
-    bool OnGround() const { return transform_.position_.y <= 0; }
+    bool Jumping() const { return transform_.position_.y >= 0; }
 };

@@ -14,39 +14,36 @@ enum class EnemyType
 class EnemyBase : public GameObject
 {
 private:
-    EnemyType enemyType_;  // エネミーの種類
-    
+
     // 各ステータス
     struct EnemyStatus
     {
-        float walkSpeed_;
-        int attackPower_;
-        int attackCooldown_;
+        float walkSpeed_;       // 移動速度
+        int attackPower_;       // 攻撃力
+        int attackCooldown_;    // 攻撃頻度
+        float maxHp_;           // 体力
+        float collisionScale_;  // 当たり判定の大きさ
     };
 
     // アルゴリズム
     struct EnemyAlgorithm
     {
-        int detectPlayerDistance_;
-        int patrolRadius_;
-        int approachDistance_;
-        int attackDistance_;
+        int detectPlayerDistance_;  // プレイヤーまでの距離
+        int patrolRadius_;          // プレイヤーを検知する距離
+        int approachDistance_;      // プレイヤーへ接近する距離
+        int attackDistance_;        // プレイヤーへ攻撃を加える距離
     };
 
 protected:
     // 構造体のインスタンス
-    EnemyStatus status_;
-    EnemyAlgorithm algorithm_;
-
+    EnemyStatus status_;            // ステータス
+    EnemyAlgorithm algorithm_;      // 行動
+    EnemyType enemyType_;           // エネミーの種類
+    float currentHp_;               // 現在のHP 
+    bool isFirstHit_;               // 初回ヒットで立てるフラグ
 
 public:
-    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-        : GameObject(parent, name), enemyType_(enemyType)
-    {
-        status_ = { 0,0,0 };
-        algorithm_ = { 0,0,0,0 };    
-
-    }
+    EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
 
     virtual ~EnemyBase() = default;
 
@@ -56,20 +53,44 @@ public:
     // 攻撃
     virtual void Attack() = 0;
 
+    // プレイヤーとの距離を算出する
+    float CheckPlayerDistance();
 
-    void detectPlayer() {
-        // 視界内のプレイヤーを検出する処理
+    // プレイヤーへの方向を算出する
+    XMFLOAT3 CheckPlayerDirection();
+
+    // 内積計算(視野角計算)
+    float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
+
+    // 移動速度に応じた移動量でプレイヤーに接近する
+    void ApproachPlayer(const XMFLOAT3& directionToPlayer);
+
+    // 敵の体をプレイヤーの方向へ回転させる
+    void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
+
+    // HPを取得
+    float GetCurrentHp() const { return currentHp_; }
+
+    // HPを増やす
+    void IncreaseHp(float amount) {
+        currentHp_ += amount;
+        if (currentHp_ > status_.maxHp_) {
+            currentHp_ = status_.maxHp_;
+        }
     }
 
-    void pathfindToPlayer() {
-        // プレイヤーに近づくための経路探索
+    // HPを減らす
+    void DecreaseHp(float amount) {
+        currentHp_ -= amount;
+        if (currentHp_ < 0) {
+            currentHp_ = 0;
+        }
     }
 
-    void patrolInSightRange() {
-        // 視界内での徘徊
+    // 死亡判定
+    bool IsDead() { 
+        bool b = (currentHp_ <= 0.0f); 
+        return b;
     }
 
-    void approachPlayer() {
-        // プレイヤーに近づく
-    }
 };

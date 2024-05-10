@@ -1,22 +1,20 @@
-
 #include "Engine/Model.h"
-#include "Engine/Input.h"
 
 #include "InputManager.h"
 #include "Gun.h"
 #include "Bullet_Normal.h"
 #include "Bullet_Explosion.h"
-#include "Engine/Audio.h"
+#include "AudioManager.h"
 
 namespace
 {
-    XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };       // 移動量
-    std::string modelName = "Entity/Rifle.fbx";         // モデル
-    std::string soundName = "Sounds/Shot.wav";         // モデル
+    XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };      // 移動量
+    XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
+    std::string modelName = "Entity/Rifle.fbx";         // モデル名
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), normalShotCool_(0), explosionShotCool_(0), hSound_(-1)
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }
 {
 }
 
@@ -30,45 +28,47 @@ void Gun::Initialize()
     hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
-    hSound_ = Audio::Load(soundName, false, 1);
-    assert(hSound_ >= 0);
-
     //プレイヤーの手の位置まで調整
     transform_.position_ = handOffset;
+    transform_.scale_ = modelScale;
+
+    // バレットタイプのenumサイズで初期化
+    bulletInfoList_.resize(static_cast<int>(BulletType::MAX));
 }
 
 void Gun::Update()
 {
-    // 通常射撃のクールダウン減少
-    if (normalShotCool_ > 0) normalShotCool_--;
-
-    // 特殊射撃のクールダウン減少
-    if (explosionShotCool_ > 0) explosionShotCool_--;
+    // クールタイムを減らす
+    for (auto& bullet : bulletInfoList_) { bullet.coolTime_--; }
 
     // 通常射撃
-    if (InputManager::IsShoot() && normalShotCool_ <= 0)
+    if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
     {
-        Audio::Play(hSound_);
-        ShootBullet<Bullet_Normal>();
-        normalShotCool_ = shotCoolTime_;
+        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
+        ShootBullet<Bullet_Normal>(BulletType::NORMAL);
     }
     else
     {
-        Audio::Stop(hSound_);
+        AudioManager::Stop(AudioManager::AUDIO_ID::SHOT);
     }
 
     // 特殊射撃
-    if (InputManager::IsWeaponAction() && explosionShotCool_ <= 0)
+    if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
     {
-        ShootBullet<Bullet_Explosion>();
-        explosionShotCool_ = shotCoolTime_;
+        ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
     }
 }
 
 void Gun::Draw()
 {
+    // 銃は常に手前に表示したいので深度を無視する
+    Direct3D::SetDepthBafferWriteEnable(false);
+
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
+
+    // 深度設定を戻す
+    Direct3D::SetDepthBafferWriteEnable(true);
 }
 
 void Gun::Release()
@@ -90,15 +90,19 @@ XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletS
 }
 
 template <class T>
-void Gun::ShootBullet()
+void Gun::ShootBullet(BulletType type)
 {
+    // これは高頻度で処理するので、わかりにくいけどFindではなく親をたどって生成（Aim->Player->PlayScene）
     BulletBase* pNewBullet = Instantiate<T>(GetParent()->GetParent()->GetParent());
+
+    // パラメータ設定
     float bulletSpeed = pNewBullet->GetBulletParameter().speed_;
-    shotCoolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
+    bulletInfoList_[(int)type].coolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
 
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
     XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
+    moveDirection_ = move;
 
     pNewBullet->SetPosition(GunTop);
     pNewBullet->SetMove(move);

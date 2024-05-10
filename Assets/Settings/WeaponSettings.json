@@ -1,19 +1,22 @@
 {
-  "Gun": {
+  "Gun": 
+  {
     "AttackCool": 60
   },
-  "Bullet_Normal": {
-    "damage": 0,
+  "Bullet_Normal": 
+  {
+    "damage": 25,
     "shotCoolTime": 10,
     "speed": 1,
     "killTimer": 240,
     "collisionScale": 0.2,
     "isPenetration": 0
   },
-  "Bullet_Explosion": {
-    "damage": 5,
+  "Bullet_Explosion": 
+  {
+    "damage": 75,
     "shotCoolTime": 120,
-    "speed": 0.2,
+    "speed": 0.4,
     "killTimer": 120,
     "collisionScale": 0.3,
     "isPenetration": 1
