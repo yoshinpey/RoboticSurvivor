@@ -82,7 +82,7 @@ void Bullet_Explosion::Update()
         // ‰‰ñ”í’e‚Ìˆ—
         if (isFirstHit_)
         {
-            AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
+            AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE,0.1f);
             isFirstHit_ = false;
         }
         transform_.scale_.x *= 1.1f;

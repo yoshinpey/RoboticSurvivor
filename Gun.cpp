@@ -44,7 +44,7 @@ void Gun::Update()
     // ’ÊíËŒ‚
     if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
     {
-        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
+        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.05f);
         ShootBullet<Bullet_Normal>(BulletType::NORMAL);
     }
     else
