@@ -117,6 +117,13 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
     {
         transform_.position_ = currentPosition_;
     }
+
+    // 敵に当たったとき
+    if (pTarget->GetObjectName().find("Player") != std::string::npos)
+    {
+        // ノックバック処理
+        // HP減らす処理
+    }
 }
 
 void Enemy_Ground::Attack()

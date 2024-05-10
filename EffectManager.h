@@ -1,13 +1,18 @@
 #pragma once
-#include "Engine/GameObject.h"
+#include <DirectXMath.h>
+using namespace DirectX;
 
-class EffectManager : public GameObject
+enum VFX_TYPE 
 {
-public:
-    EffectManager(GameObject* parent);
+	SPARK = 0,
+	EXPLODE,
+};
 
-    void Initialize() override;
-    void Update() override;
-    void Draw() override;
-    void Release() override;
+namespace EffectManager
+{
+	// VFXデータの初期化
+	void Initialize();
+
+	// Typeで指定して生成
+	void CreateVfx(XMFLOAT3 pos, VFX_TYPE type, XMFLOAT3 other = XMFLOAT3());
 };
