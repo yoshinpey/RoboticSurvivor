@@ -77,28 +77,16 @@ void Bullet_Explosion::Update()
     RotateToTarget(targetVector);
 
     // ”š”­‚·‚é
-    if (parameter_.killTimer_ <= 30)
+    if (parameter_.killTimer_ <= 0)
     { 
-        // ‰‰ñ”í’e‚Ìˆ—
-        if (isFirstHit_)
-        {
-            AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
-            EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
-            isFirstHit_ = false;
-        }
-        transform_.scale_.x *= 1.1f;
-        transform_.scale_.y *= 1.1f;
-        transform_.scale_.z *= 1.1f;
-        pCollision_->SetRadius(transform_.scale_.x);
+        AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
+        EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
+        pCollision_->SetRadius(parameter_.collisionScale_*2.0);
+        KillMe(); 
     }
 
     //’e‚ğÁ‚·
     parameter_.killTimer_--;
-    if (parameter_.killTimer_ <= 0) 
-    { 
-        isFirstHit_ = true;
-        KillMe(); 
-    }
 }
 
 //•`‰æ
@@ -116,20 +104,11 @@ void Bullet_Explosion::Release()
 // ’e‚ÌŒü‚«‚ğ‘ÎÛ•ûŒü‚Ö‰ñ“]‚³‚¹‚é
 void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
 {
-    // Œü‚©‚¹‚½‚¢•ûŒü
-    XMVECTOR vTargetVector = -XMVector3Normalize(XMVectorSet(targetVector.x, 0, targetVector.z, 0));
+    XMFLOAT3 rot = XMFLOAT3();
+    rot.x = XMConvertToDegrees(-asinf(targetVector.y));
+    rot.y = -XMConvertToDegrees(atan2f(targetVector.x, targetVector.z));
 
-    // Œ»İŒü‚¢‚Ä‚¢‚é•ûŒü
-    float rotY = XMConvertToRadians(transform_.rotate_.y);
-    XMVECTOR rotForward = XMVector3Normalize(XMVectorSet(sinf(rotY), 0, cosf(rotY), 0));
-
-    // “àÏ‚ÆŠOÏ‚ğŒvZ
-    float dot = XMVectorGetX(XMVector3Dot(rotForward, vTargetVector));
-    XMVECTOR cross = XMVector3Cross(rotForward, vTargetVector);
-
-    // Šp“x‚ğŒvZ‚µ‚Ä‰ñ“]
-    float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
-    transform_.rotate_.y += XMConvertToDegrees(angle);
+    transform_.rotate_ = rot;
 }
 
 
@@ -138,7 +117,6 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
     // ’n–ÊŠÖ˜A‚Ì•¨‘Ì‚É“–‚½‚Á‚½‚Æ‚«
     if (pTarget->GetObjectName().find("Stage") != std::string::npos)
     {
-        parameter_.killTimer_ = 30;
-        KillMe();
+        parameter_.killTimer_ = 0;
     }
 };
