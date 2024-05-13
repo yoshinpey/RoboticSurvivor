@@ -3,20 +3,18 @@
 
 namespace EffectManager
 {
-	///////////////// ”š”­
-	EmitterData flame;		// ‰Š
-	EmitterData sparks;		// ‰Î‚Ì•²
-	EmitterData flash;		// ‘MŒõ
-	/////////////////
+	///////////////// ”š”­ ////////////////
+	EmitterData flame, sparks, flash;		// ‰Š // ‰Î‚Ì•² // ‘MŒõ
+	///////////////////////////////////////
 }
 
 void EffectManager::Initialize()
 {
 	//‰Š
-	flame.textureFileName = "cloudA.png";
+	flame.textureFileName = "Effects/cloudA.png";
 	flame.position = XMFLOAT3(0, 0.05, 0);
 	flame.delay = 0;
-	flame.number = 80;
+	flame.number = 50;
 	flame.lifeTime = 30;
 	flame.direction = XMFLOAT3(0, 1, 0);
 	flame.directionRnd = XMFLOAT3(90, 90, 90);
@@ -30,7 +28,7 @@ void EffectManager::Initialize()
 
 	//‰Î‚Ì•²
 	sparks.delay = 0;
-	sparks.number = 80;
+	sparks.number = 30;
 	sparks.lifeTime = 100;
 	sparks.positionRnd = XMFLOAT3(0.5, 0, 0.5);
 	sparks.direction = XMFLOAT3(0, 1, 0);
@@ -46,7 +44,7 @@ void EffectManager::Initialize()
 	sparks.gravity = 0.003f;
 
 	//’n–Ê
-	flash.textureFileName = "flashA_R.png";
+	flash.textureFileName = "Effects/flashA_R.png";
 	flash.positionRnd = XMFLOAT3(0, 0, 0);
 	flash.isBillBoard = false;
 	flash.rotate.x = 90;
@@ -65,11 +63,16 @@ void EffectManager::CreateVfx(XMFLOAT3 pos, VFX_TYPE type)
 {
 	switch (type)
 	{
-	case EXPLODE:
+	case VFX_TYPE::EXPLODE:
+		flame.position = pos;
 		VFX::Start(flame);
+		sparks.position = pos;
 		VFX::Start(sparks);
+		flash.position = pos;
 		VFX::Start(flash);
 		break;
-	default: break;
+
+	default: 
+		break;
 	}
 }

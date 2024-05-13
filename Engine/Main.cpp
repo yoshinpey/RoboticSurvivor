@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Audio.h"
+#include "VFX.h"
 
 //ImGui関連のデータ
 #include "ImGui/imgui.h"
@@ -165,8 +166,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//カメラを更新
 				Camera::Update();
 
-
-
+				//エフェクトの更新
+				VFX::Update();
 
 				//このフレームの描画開始
 				Direct3D::BeginDraw();
@@ -174,6 +175,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//全オブジェクトを描画
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
+
+				//エフェクトの描画
+				VFX::Draw();
 
 				//描画処理の前に記述
 				ImGui::Render();
@@ -195,6 +199,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 
 	//いろいろ解放
+	VFX::Release();
 	Audio::AllRelease();
 	Model::AllRelease();
 	Image::AllRelease();

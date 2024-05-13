@@ -12,6 +12,7 @@
 #include "SkyBox.h"
 #include "Engine/Model.h"
 #include "AudioManager.h"
+#include "EffectManager.h"
 
 namespace
 {
@@ -35,6 +36,10 @@ PlayScene::PlayScene(GameObject * parent)
 {
 	pEnemyManager_ = new EnemyManager(this);
 	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
+	/////////////////////////////////////////
+	AudioManager::Initialize();
+	EffectManager::Initialize();
+	/////////////////////////////////////////
 }
 
 PlayScene::~PlayScene()
@@ -74,13 +79,14 @@ void PlayScene::Initialize()
 	Timer* t = (Timer*)FindObject("Timer");
 	t->SetLimit(30);
 	t->Start();
-	/////////////////////////////////////////
-	AudioManager::Initialize();
-	/////////////////////////////////////////
+
 }
 
 void PlayScene::Update()
 {
+	//if (Input::IsKeyDown(DIK_E))
+		//EffectManager::CreateVfx(XMFLOAT3{ 0,3,10 }, VFX_TYPE::EXPLODE);
+
 	////////////////////////敵の個体数デバッグログ
 	static float count[4] = {0,0,0,0};
 	count[0] = pEnemyManager_->GetEnemyCount(EnemyType::GROUND);

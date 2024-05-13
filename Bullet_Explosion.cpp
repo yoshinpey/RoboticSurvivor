@@ -5,7 +5,7 @@
 #include "JsonReader.h"
 #include "Gun.h"
 #include "AudioManager.h"
-
+#include "EffectManager.h"
 
 namespace
 {
@@ -83,6 +83,7 @@ void Bullet_Explosion::Update()
         if (isFirstHit_)
         {
             AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
+            EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
             isFirstHit_ = false;
         }
         transform_.scale_.x *= 1.1f;
