@@ -18,14 +18,18 @@ EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
 float EnemyBase::CheckPlayerDistance()
 {
     Player* pPlayer = static_cast<Player*>(FindObject("Player"));
-    return CalculateDistance(this->GetPosition(), pPlayer->GetPosition());
+    XMFLOAT3 enePos = this->GetPosition();
+    XMFLOAT3 plaPos = pPlayer->GetPosition();
+    return CalculateDistance(enePos, plaPos);
 }
 
 // プレイヤーへの方向を算出する
 XMFLOAT3 EnemyBase::CheckPlayerDirection()
 {
     Player* pPlayer = static_cast<Player*>(FindObject("Player"));
-    return CalculateDirection(this->GetPosition(), pPlayer->GetPosition());
+    XMFLOAT3 enePos = this->GetPosition();
+    XMFLOAT3 plaPos = pPlayer->GetPosition();
+    return CalculateDirection(enePos, plaPos);
 }
 
 // 内積計算(視野角計算)

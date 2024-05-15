@@ -20,7 +20,7 @@ static constexpr XMFLOAT3 BACKWARD_VECTOR = { 0.0f, 0.0f, -1.0f };  //å„
 // XMFLOAT3Çê≥ãKâªÇ∑ÇÈä÷êî
 // à¯êî:ê≥ãKâªÇµÇΩÇ¢FLOAT3å^
 // ñﬂÇËílÅFê≥ãKâªÇµÇΩFLOAT3å^
-static XMFLOAT3 NormalizeFloat3(XMFLOAT3 vec)
+static XMFLOAT3 NormalizeFloat3(XMFLOAT3& vec)
 {
     XMVECTOR v = XMVector3Normalize(XMLoadFloat3(&vec));
     XMStoreFloat3(&vec, v);
@@ -29,7 +29,7 @@ static XMFLOAT3 NormalizeFloat3(XMFLOAT3 vec)
 
 // XMFLOAT3ÇÃâ¡éZ
 // ñﬂÇËíl = a + b
-static XMFLOAT3 CalculateFloat3Add(XMFLOAT3 a, XMFLOAT3 b)
+static XMFLOAT3 CalculateFloat3Add(XMFLOAT3& a, XMFLOAT3& b)
 {
     XMFLOAT3 result = {0,0,0};
     XMStoreFloat3(&result, XMVectorAdd(XMLoadFloat3(&a), XMLoadFloat3(&b)));
@@ -38,7 +38,7 @@ static XMFLOAT3 CalculateFloat3Add(XMFLOAT3 a, XMFLOAT3 b)
 
 // XMFLOAT3ÇÃå∏éZ
 // ñﬂÇËíl = a - b
-static XMFLOAT3 CalculateFloat3Sub(XMFLOAT3 a, XMFLOAT3 b)
+static XMFLOAT3 CalculateFloat3Sub(XMFLOAT3& a, XMFLOAT3& b)
 {
     XMFLOAT3 result = { 0,0,0 };
     XMStoreFloat3(&result, XMVectorSubtract(XMLoadFloat3(&a), XMLoadFloat3(&b)));
