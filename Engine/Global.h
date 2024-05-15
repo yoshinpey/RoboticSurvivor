@@ -17,16 +17,19 @@ static constexpr XMFLOAT3 BACKWARD_VECTOR = { 0.0f, 0.0f, -1.0f };  //後
 // 1度ベクトルに変換した方がSIMD演算(同時演算)を活用できるため効率的らしい
 // 以下、各種計算関数
 
-// 渡したXMFLOAT3をそのまま正規化する関数
-static void NormalizeFloat3(XMFLOAT3& vec)
+// XMFLOAT3を正規化する関数
+// 引数:正規化したいFLOAT3型
+// 戻り値：正規化したFLOAT3型
+static XMFLOAT3 NormalizeFloat3(XMFLOAT3 vec)
 {
     XMVECTOR v = XMVector3Normalize(XMLoadFloat3(&vec));
     XMStoreFloat3(&vec, v);
+    return vec;
 }
 
 // XMFLOAT3の加算
 // 戻り値 = a + b
-static XMFLOAT3 CalculateFloat3Add(const XMFLOAT3& a, const XMFLOAT3& b)
+static XMFLOAT3 CalculateFloat3Add(XMFLOAT3 a, XMFLOAT3 b)
 {
     XMFLOAT3 result = {0,0,0};
     XMStoreFloat3(&result, XMVectorAdd(XMLoadFloat3(&a), XMLoadFloat3(&b)));
@@ -35,7 +38,7 @@ static XMFLOAT3 CalculateFloat3Add(const XMFLOAT3& a, const XMFLOAT3& b)
 
 // XMFLOAT3の減算
 // 戻り値 = a - b
-static XMFLOAT3 CalculateFloat3Sub(const XMFLOAT3& a, const XMFLOAT3& b)
+static XMFLOAT3 CalculateFloat3Sub(XMFLOAT3 a, XMFLOAT3 b)
 {
     XMFLOAT3 result = { 0,0,0 };
     XMStoreFloat3(&result, XMVectorSubtract(XMLoadFloat3(&a), XMLoadFloat3(&b)));
@@ -44,7 +47,7 @@ static XMFLOAT3 CalculateFloat3Sub(const XMFLOAT3& a, const XMFLOAT3& b)
 
 // XMFLOAT3型の2点間距離を計算する関数 
 // 戻り値 = |point2 - point1|
-static float CalculateDistance(const XMFLOAT3& point1, const XMFLOAT3& point2)
+static float CalculateDistance(XMFLOAT3 point1, XMFLOAT3 point2)
 {
     // ベクトルの長さを計算して距離を取得
     return XMVectorGetX(XMVector3Length(XMVectorSubtract(XMLoadFloat3(&point2), XMLoadFloat3(&point1))));
@@ -52,7 +55,7 @@ static float CalculateDistance(const XMFLOAT3& point1, const XMFLOAT3& point2)
 
 // XMFLOAT3型の2点から向きベクトルを計算する関数
 // 戻り値 = ポイント1からポイント2へ向かう方向ベクトル
-static XMFLOAT3 CalculateDirection(const XMFLOAT3& point1, const XMFLOAT3& point2)
+static XMFLOAT3 CalculateDirection(XMFLOAT3 point1, XMFLOAT3 point2)
 {
     // XMVECTORをXMFLOAT3に変換して返す
     XMFLOAT3 direction;

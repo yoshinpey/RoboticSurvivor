@@ -46,8 +46,8 @@ void EffectManager::Initialize()
 	//’n–Ê
 	flash.textureFileName = "Effects/flashA_R.png";
 	flash.positionRnd = XMFLOAT3(0, 0, 0);
-	flash.isBillBoard = false;
-	flash.rotate.x = 90;
+	flash.isBillBoard = true;
+	flash.rotate.x = 0;
 	flash.delay = 0;
 	flash.number = 1;
 	flash.lifeTime = 7;

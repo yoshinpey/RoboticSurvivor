@@ -11,19 +11,17 @@ namespace
 {
     XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };    // 当たり判定の位置
     XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
-    XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };      // モデルの回転
     std::string modelName = "Entity/Missile.fbx";       // モデル名
 
     //////////////////////////////
-    const float initialVelocity = 0.0f;     // 初速度
-    const float gravity = -0.003f;          // 重力
-    const float accelerationLimit = -0.2f;
+    const float gravity = -0.0025f;          // 重力
+    const float accelerationLimit = -0.3f;  // 加速限界
 }
 
 //コンストラクタ
 Bullet_Explosion::Bullet_Explosion(GameObject* parent)
     :BulletBase(parent, BulletType::EXPLOSION, "Bullet_Explosion"), hModel_(-1), pGun_(nullptr), 
-    isFirstHit_(true), gravity_(gravity), verticalSpeed_(initialVelocity)
+    isFirstHit_(true), gravity_(gravity), verticalSpeed_(0.0f)
 {
     // JSONファイル読み込み
     JsonReader::Load("Settings/WeaponSettings.json");
@@ -51,7 +49,6 @@ void Bullet_Explosion::Initialize()
     assert(hModel_ >= 0);
 
     transform_.scale_ = modelScale;
-    transform_.rotate_.y = modelRotate.y;
 
     //当たり判定
     pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
@@ -65,15 +62,18 @@ void Bullet_Explosion::Update()
 {
     // 加速度制限
     if(verticalSpeed_ >= accelerationLimit) verticalSpeed_ += gravity_;
+    
+    // 位置を保存する
+    XMFLOAT3 prePos = transform_.position_;
 
-    // 放物線運動させる
+    // 重力を加算して放物線運動させる
     transform_.position_.y += verticalSpeed_;
 
-    // 銃クラスであらかじめ計算していた方向へ飛ばす
+    // 銃クラスであらかじめ計算していた方向(銃口の先)へ飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
-    // 向きを合わせる
-    XMFLOAT3 targetVector= pGun_->GetMoveDirection();
+    // モデルの向きを合わせる
+    XMFLOAT3 targetVector = CalculateFloat3Sub(transform_.position_, prePos);
     RotateToTarget(targetVector);
 
     // 爆発する
@@ -81,7 +81,7 @@ void Bullet_Explosion::Update()
     { 
         AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
-        pCollision_->SetRadius(parameter_.collisionScale_*2.0);
+        pCollision_->SetRadius(parameter_.collisionScale_*20.0f);
         KillMe(); 
     }
 
@@ -102,12 +102,13 @@ void Bullet_Explosion::Release()
 }
 
 // 弾の向きを対象方向へ回転させる
-void Bullet_Explosion::RotateToTarget(const XMFLOAT3& targetVector)
+void Bullet_Explosion::RotateToTarget(XMFLOAT3& targetVector)
 {
-    XMFLOAT3 rot = XMFLOAT3();
-    rot.x = XMConvertToDegrees(-asinf(targetVector.y));
-    rot.y = -XMConvertToDegrees(atan2f(targetVector.x, targetVector.z));
+    targetVector = NormalizeFloat3(targetVector);
 
+    XMFLOAT3 rot = XMFLOAT3();
+    rot.x = XMConvertToDegrees(asinf(targetVector.y));
+    rot.y = XMConvertToDegrees(atan2f(targetVector.x, targetVector.z)) + 180.0f;
     transform_.rotate_ = rot;
 }
 
@@ -116,6 +117,11 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
 {
     // 地面関連の物体に当たったとき
     if (pTarget->GetObjectName().find("Stage") != std::string::npos)
+    {
+        parameter_.killTimer_ = 0;
+    }
+    // 敵に当たったとき
+    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
         parameter_.killTimer_ = 0;
     }

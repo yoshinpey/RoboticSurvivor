@@ -15,9 +15,9 @@
   "Bullet_Explosion": 
   {
     "damage": 75,
-    "shotCoolTime": 120,
+    "shotCoolTime": 30,
     "speed": 0.4,
-    "killTimer": 120,
+    "killTimer": 300,
     "collisionScale": 0.3,
     "isPenetration": 1
   }

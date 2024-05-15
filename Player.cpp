@@ -219,7 +219,7 @@ XMFLOAT3 Player::CalculateMoveInput()
     }
 
     // ê≥ãKâª
-    NormalizeFloat3(moveDirection);
+    moveDirection = NormalizeFloat3(moveDirection);
 
     return moveDirection;
 }

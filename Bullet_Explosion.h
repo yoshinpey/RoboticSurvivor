@@ -22,7 +22,7 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
-    void RotateToTarget(const XMFLOAT3& directionToPlayer);
+    void RotateToTarget(XMFLOAT3& directionToPlayer);
 
     void OnCollision(GameObject* pTarget);
 };
