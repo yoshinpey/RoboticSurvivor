@@ -15,7 +15,7 @@ namespace
 
     //////////////////////////////
     const float gravity = -0.0025f;          // 重力
-    const float accelerationLimit = -0.3f;  // 加速限界
+    const float accelerationLimit = -0.4f;  // 加速限界
 }
 
 //コンストラクタ
@@ -73,7 +73,7 @@ void Bullet_Explosion::Update()
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
     // モデルの向きを合わせる
-    XMFLOAT3 targetVector = CalculateFloat3Sub(transform_.position_, prePos);
+    XMFLOAT3 targetVector = CalculateDirection(transform_.position_, prePos);
     RotateToTarget(targetVector);
 
     // 爆発する
@@ -104,8 +104,6 @@ void Bullet_Explosion::Release()
 // 弾の向きを対象方向へ回転させる
 void Bullet_Explosion::RotateToTarget(XMFLOAT3& targetVector)
 {
-    targetVector = NormalizeFloat3(targetVector);
-
     XMFLOAT3 rot = XMFLOAT3();
     rot.x = XMConvertToDegrees(asinf(targetVector.y));
     rot.y = XMConvertToDegrees(atan2f(targetVector.x, targetVector.z)) + 180.0f;

@@ -259,6 +259,9 @@
     <ClCompile Include="ModelManager.cpp">
       <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Global.cpp">
+      <Filter>01Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
