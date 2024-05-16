@@ -197,7 +197,7 @@ void Player::Jump()
 XMFLOAT3 Player::CalculateMoveInput()
 {
     // 計算結果入れる用
-    XMFLOAT3 moveDirection = XMFLOAT3(0.0f, 0.0f, 0.0f);
+    XMFLOAT3 moveDirection = { 0.0f, 0.0f, 0.0f };
 
     // エイム情報呼び出し
     XMFLOAT3 aimDirection = pAim_->GetAimDirection();
