@@ -9,6 +9,12 @@
 #include "Stage.h"
 #include "PlayerState.h"
 
+namespace
+{
+    XMFLOAT3 collisionOffset = { 0.0f, 1.6f, 0.0f };    // 当たり判定の位置
+    float collisionScale = 0.6f;                        // 当たり判定の大きさ
+}
+
 //コンストラクタ
 Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
     pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr),pGauge_(nullptr),
@@ -28,7 +34,7 @@ Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
     pStateManager_ = new StateManager(this);
 
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), 1.0f);
+    SphereCollider* pCollision = new SphereCollider(collisionOffset, collisionScale);
     AddCollider(pCollision);
 }
 
