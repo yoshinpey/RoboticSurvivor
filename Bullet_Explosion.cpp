@@ -15,7 +15,9 @@ namespace
 
     //////////////////////////////
     const float gravity = -0.0025f;          // d—Í
-    const float accelerationLimit = -0.4f;  // ‰Á‘¬ŒÀŠE
+    const float explodeScale = 20.0f;        // ”š”­‚Ì–c’£ƒTƒCƒY
+    const float accelerationLimit = -0.4f;   // ‰Á‘¬ŒÀŠE
+    const int modelRotate = 180;             // ƒ‚ƒfƒ‹‰ñ“]
 }
 
 //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
@@ -81,7 +83,7 @@ void Bullet_Explosion::Update()
     { 
         AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE);
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
-        pCollision_->SetRadius(parameter_.collisionScale_*20.0f);
+        pCollision_->SetRadius(parameter_.collisionScale_* explodeScale);
         KillMe(); 
     }
 
@@ -106,7 +108,7 @@ void Bullet_Explosion::RotateToTarget(XMFLOAT3& targetVector)
 {
     XMFLOAT3 rot = XMFLOAT3();
     rot.x = XMConvertToDegrees(asinf(targetVector.y));
-    rot.y = XMConvertToDegrees(atan2f(targetVector.x, targetVector.z)) + 180.0f;
+    rot.y = XMConvertToDegrees(atan2f(targetVector.x, targetVector.z)) + modelRotate;    // ƒ‚ƒfƒ‹‚ÌŒü‚«‹t‚¾‚Á‚½‚©‚ç”½“]
     transform_.rotate_ = rot;
 }
 
