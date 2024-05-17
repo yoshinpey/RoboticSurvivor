@@ -93,4 +93,9 @@ public:
         return b;
     }
 
+    // ƒvƒŒƒCƒ„[‚Ö‚Ì”»’è
+    bool IsHit() {
+        bool b = (currentHp_ <= 0.0f);
+        return b;
+    }
 };

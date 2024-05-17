@@ -3,6 +3,7 @@
 #include "BulletBase.h"
 #include "EnemyManager.h"
 #include "PlayScene.h"
+#include "Player.h"
 
 namespace
 {
@@ -122,7 +123,10 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
     if (pTarget->GetObjectName().find("Player") != std::string::npos)
     {
         // ノックバック処理
+        
         // HP減らす処理
+        Player* pPlayer = dynamic_cast<Player*>(pTarget);
+        pPlayer->DecreaseHp(ダメージ);
     }
 }
 
