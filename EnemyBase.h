@@ -50,6 +50,12 @@ public:
     // “G‚Ìí—Ş‚ğæ“¾
     EnemyType GetEnemyType() const { return enemyType_; }
 
+    // “G‚Ìƒpƒ‰ƒ[ƒ^‚ğæ“¾
+    EnemyStatus GetEnemyStatus() const { return status_; }
+
+    // “G‚Ìs“®‚ğæ“¾
+    EnemyAlgorithm EnemyAlgorithm() const { return algorithm_; }
+
     // UŒ‚
     virtual void Attack() = 0;
 
@@ -90,12 +96,6 @@ public:
     // €–S”»’è
     bool IsDead() { 
         bool b = (currentHp_ <= 0.0f); 
-        return b;
-    }
-
-    // ƒvƒŒƒCƒ„[‚Ö‚Ì”»’è
-    bool IsHit() {
-        bool b = (currentHp_ <= 0.0f);
         return b;
     }
 };

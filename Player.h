@@ -63,6 +63,9 @@ public:
     // HP‚ðŒ¸‚ç‚·
     void DecreaseHp(float amount);
 
+    // ‰½‚©‚É“–‚½‚Á‚½
+    void OnCollision(GameObject* pTarget);
+
     //bool RayCastStage(XMFLOAT3 position);
 
     // ’n–Ê‚É‚Â‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ð”»’è‚·‚é

@@ -8,6 +8,7 @@
 #include "Gauge.h"
 #include "Stage.h"
 #include "PlayerState.h"
+#include "EnemyBase.h"
 
 namespace
 {
@@ -280,3 +281,18 @@ void Player::DecreaseHp(float amount)
 //    }
 //    return false;
 //}
+
+    // 何かに当たった
+void Player::OnCollision(GameObject* pTarget)
+{
+    // 敵に当たったとき
+    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
+    {
+        // ノックバック処理
+        EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
+
+        // HP減らす処理
+        DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        
+    }
+}
