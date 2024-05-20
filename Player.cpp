@@ -1,12 +1,7 @@
-#include "Engine/Camera.h"
-#include "Engine/Model.h"
-#include "Engine/Text.h"
-
+#include "Player.h"
 #include "StateManager.h"
 #include "Aim.h"
-#include "Player.h"
 #include "Gauge.h"
-#include "Stage.h"
 #include "PlayerState.h"
 #include "EnemyBase.h"
 
@@ -16,46 +11,23 @@ namespace
     float collisionScale = 0.6f;                        // 当たり判定の大きさ
 }
 
-//コンストラクタ
+// コンストラクタ
 Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
-    pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr),pGauge_(nullptr),
-    gravity_(-1), jumping_(false), currentHp_(0), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-    movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f)
+pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr),
+gravity_(-1), jumping_(false), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
+movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f)
 {
     // パラメータをセット
-    parameter_.walkSpeed_       = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
-    parameter_.runSpeed_        = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
-    parameter_.jumpVelocity_    = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
+    parameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
+    parameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
+    parameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
 
     // ステータスをセット
-    status_.maxHp_              = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
-    currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
-    
+    status_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
+    status_.currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
+
     // ステートマネージャー
     pStateManager_ = new StateManager(this);
-
-    // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionOffset, collisionScale);
-    AddCollider(pCollision);
-}
-
-//デストラクタ
-Player::~Player()
-{
-    SAFE_DELETE(pStateManager_);
-}
-
-//初期化
-void Player::Initialize()
-{
-    //視点クラス読み込み
-    pAim_ = Instantiate<Aim>(this);
-    //HPゲージ
-    pGauge_ = Instantiate<Gauge>(this);			
-
-    //ステージオブジェクトを探す
-    //Ground* pGround = (Ground*)FindObject("Ground");
-    //hGroundModel_ = pGround->GetModelHandle();
 
     // あらかじめ状態インスタンスを生成して登録
     pStateManager_->AddState("IdleState", new PlayerIdleState(pStateManager_));
@@ -65,9 +37,28 @@ void Player::Initialize()
 
     // 初期状態
     pStateManager_->ChangeState("IdleState");
+
+    // 当たり判定付与
+    SphereCollider* pCollision = new SphereCollider(collisionOffset, collisionScale);
+    AddCollider(pCollision);
 }
 
-//更新
+// デストラクタ
+Player::~Player()
+{
+    SAFE_DELETE(pStateManager_);
+}
+
+// 初期化
+void Player::Initialize()
+{
+    // 視点クラス読み込み
+    pAim_ = Instantiate<Aim>(this);
+    // HPゲージ
+    pGauge_ = Instantiate<Gauge>(this);
+}
+
+// 更新
 void Player::Update()
 {
     // ステートマネージャーの更新
@@ -79,10 +70,10 @@ void Player::Update()
     }
 }
 
-//描画
+// 描画
 void Player::Draw()
 {
-    //デバック用
+    // デバック用
     //pText_->Draw(1150, 100, "X:");
     //pText_->Draw(1200, 100, (int)transform_.position_.x);
     //pText_->Draw(1150, 250, "Y:");
@@ -91,22 +82,21 @@ void Player::Draw()
     //pText_->Draw(1200, 400, (int)transform_.position_.z);
 }
 
-//開放
+// 開放
 void Player::Release()
 {
     SAFE_DELETE(pText_);
 }
 
-//プレイヤーのHP
+// プレイヤーのHP
 void Player::PlayerHitPoint()
 {
-    //////////////////UIマネージャー経由に変更予定。
-    //HPゲージ呼び出し
-    pGauge_->SetHp(status_.maxHp_, currentHp_);
-    
+    // HPゲージ呼び出し
+    pGauge_->SetHp(status_.maxHp_, status_.currentHp_);
+
     static float hp = 5.0f;
 
-    //デバッグ用
+    // デバッグ用
     if (Input::IsKeyDown(DIK_M))
     {
         IncreaseHp(hp);
@@ -146,11 +136,9 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     movement_.x += moveVector.x * acceleration_;
     movement_.z += moveVector.z * acceleration_;
 
-
     // 移動量を適用
     transform_.position_.x += movement_.x;
     transform_.position_.z += movement_.z;
-
 }
 
 // 減速を適用する関数
@@ -185,10 +173,6 @@ void Player::Jump()
     velocity_.x = parameter_.jumpVelocity_ * moveDirection.x;
     velocity_.y = parameter_.jumpVelocity_;
     velocity_.z = parameter_.jumpVelocity_ * moveDirection.z;
-
-    //デバック用
-    //OutputDebugStringA(std::to_string(parameter_.jumpVelocity_).c_str());
-    //OutputDebugString("\n");
 
     // ジャンプできなくする
     jumping_ = true;
@@ -245,44 +229,7 @@ void Player::ApplyGravity()
     }
 }
 
-// HPを増やす
-void Player::IncreaseHp(float amount)
-{
-    currentHp_ += amount;
-    if (currentHp_ > status_.maxHp_) {
-        currentHp_ = status_.maxHp_;
-    }
-}
-
-// HPを減らす
-void Player::DecreaseHp(float amount)
-{
-    currentHp_ -= amount;
-    if (currentHp_ < 0) {
-        currentHp_ = 0;
-    }
-}
-
-//bool Player::RayCastStage(XMFLOAT3 position)
-//{
-//    if (!useRayCast_) return false;
-//
-//    RayCastData data;
-//    data.start = position;                  // レイの発射座標
-//    data.start.y = 0;                       // レイの発射位置
-//    data.dir = { 0, -1, 0 };                // レイの方向
-//    Model::RayCast(hGroundModel_, &data);
-//
-//    // 当たったら、距離分位置を下げる
-//    if (data.hit) 
-//    { 
-//        transform_.position_.y = -data.dist; 
-//        return true;
-//    }
-//    return false;
-//}
-
-    // 何かに当たった
+// 何かに当たった
 void Player::OnCollision(GameObject* pTarget)
 {
     // 敵に当たったとき
@@ -293,6 +240,5 @@ void Player::OnCollision(GameObject* pTarget)
 
         // HP減らす処理
         DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
-        
     }
 }

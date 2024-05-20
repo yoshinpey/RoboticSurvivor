@@ -8,10 +8,11 @@ namespace
 
 // コンストラクタの実装
 EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-    : GameObject(parent, name), enemyType_(enemyType), currentHp_(0.0f)
+    : Character(parent, name), enemyType_(enemyType)
 {
-    status_ = { 0,0,0,0 };
-    algorithm_ = { 0,0,0,0 };
+    // 初期化
+    status_ = { 0, 0, 0 };
+    algorithm_ = { 0, 0, 0, 0 };
 }
 
 // プレイヤーとの距離を算出する
@@ -49,7 +50,7 @@ float EnemyBase::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
 void EnemyBase::ApproachPlayer(const XMFLOAT3& directionToPlayer)
 {
     // 移動ベクターをエネミーのポジションに加算する
-    XMFLOAT3 moveVector = { directionToPlayer.x * status_.walkSpeed_, 0, directionToPlayer.z * status_.walkSpeed_ };
+    XMFLOAT3 moveVector = { directionToPlayer.x * parameter_.walkSpeed_, 0, directionToPlayer.z * parameter_.walkSpeed_ };
     transform_.position_ = CalculateFloat3Add(transform_.position_, moveVector);
 }
 

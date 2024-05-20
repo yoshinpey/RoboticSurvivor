@@ -89,3 +89,27 @@ Clear：
 Rでプレイへ遷移
 
 =============================
+
+//ステージオブジェクトを探す
+//Ground* pGround = (Ground*)FindObject("Ground");
+//hGroundModel_ = pGround->GetModelHandle();
+
+レイキャストのやつ
+//bool Player::RayCastStage(XMFLOAT3 position)
+//{
+//    if (!useRayCast_) return false;
+//
+//    RayCastData data;
+//    data.start = position;                  // レイの発射座標
+//    data.start.y = 0;                       // レイの発射位置
+//    data.dir = { 0, -1, 0 };                // レイの方向
+//    Model::RayCast(hGroundModel_, &data);
+//
+//    // 当たったら、距離分位置を下げる
+//    if (data.hit) 
+//    { 
+//        transform_.position_.y = -data.dist; 
+//        return true;
+//    }
+//    return false;
+//}

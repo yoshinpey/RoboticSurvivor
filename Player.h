@@ -10,29 +10,20 @@ class Gauge;
 class Player : public PlayerBase
 {
 private:
-    float currentHp_;           // 現在のHP 
-
     XMFLOAT3 velocity_;         // 移動加速
     XMFLOAT3 movement_;         // 移動量
     float acceleration_;        // 加速度
     float friction_;            // 摩擦力(減速度)
-
     float jumpFriction_;        // 滞空中の減速度
     int gravity_;               // 重力
     float jumpDelta_;           // 適当なごく小さい値
     bool jumping_;              // ジャンプ可能な状態かどうか
-
-    //int hGroundModel_;          // モデルハンドル
-    //bool useRayCast_;           // レイキャストを使うかどうか
 
     // インスタンス
     StateManager* pStateManager_;       // 状態を切り替える用
     Text* pText_;                       // テキスト表示用
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // hpゲージ
-
-    PlayerParameter parameter_;     // パラメータ
-    PlayerStatus status_;           // ステータス
 
 public:
     Player(GameObject* parent);     // コンストラクタ
@@ -47,7 +38,7 @@ public:
     void Walk();                    // 歩く
     void Run();                     // 走る
     void ApplyMovement(const XMFLOAT3& moveVector, float speed);
-    void ApplyDeceleration();       
+    void ApplyDeceleration();
     void Jump();                    // ジャンプ
     void PlayerHitPoint();          // 体力
 
@@ -57,16 +48,8 @@ public:
     // 重力を適用する
     void ApplyGravity();
 
-    // HPを増やす
-    void IncreaseHp(float amount);
-
-    // HPを減らす
-    void DecreaseHp(float amount);
-
     // 何かに当たった
-    void OnCollision(GameObject* pTarget);
-
-    //bool RayCastStage(XMFLOAT3 position);
+    void OnCollision(GameObject* pTarget) override;
 
     // 地面についているかどうかを判定する
     bool Jumping() const { return transform_.position_.y >= 0; }

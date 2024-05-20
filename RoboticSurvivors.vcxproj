@@ -74,11 +74,15 @@
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;$(LibraryPath)</LibraryPath>
+    <OutDir>.\x64\Debug</OutDir>
+    <IntDir>.\x64\Debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\include;$(SolutionDir)packages\rapidjson.1.0.2\build\native\include\rapidjson;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\include</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.7\lib\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2.1\lib\vs2019\x64\release;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
+    <OutDir>.\x64\Release</OutDir>
+    <IntDir>.\x64\Release</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,6 +139,7 @@
     <ClCompile Include="Bullet_Normal.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonFactory.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="EffectManager.cpp" />
@@ -201,6 +206,7 @@
     <ClInclude Include="BulletBase.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonFactory.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Engine\BillBoard.h" />

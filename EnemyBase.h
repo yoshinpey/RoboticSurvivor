@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/GameObject.h"
+#include "Character.h"
 
 // エネミーの名前とIDを管理するenum
 enum class EnemyType
@@ -11,36 +11,33 @@ enum class EnemyType
 };
 
 // エネミーベースクラス
-class EnemyBase : public GameObject
+class EnemyBase : public Character
 {
 private:
-
-    // 各ステータス
+    // エネミーのステータス
     struct EnemyStatus
     {
-        float walkSpeed_;       // 移動速度
+        float walkSpeed_;
+        float maxHp_;           
+        float currentHp_;
         int attackPower_;       // 攻撃力
         int attackCooldown_;    // 攻撃頻度
-        float maxHp_;           // 体力
         float collisionScale_;  // 当たり判定の大きさ
     };
 
-    // アルゴリズム
+    // エネミーのアルゴリズム
     struct EnemyAlgorithm
     {
         int detectPlayerDistance_;  // プレイヤーまでの距離
-        int patrolRadius_;          // プレイヤーを検知する距離
-        int approachDistance_;      // プレイヤーへ接近する距離
-        int attackDistance_;        // プレイヤーへ攻撃を加える距離
+        int patrolRadius_;          // 巡回半径
+        int approachDistance_;      // 接近距離
+        int attackDistance_;        // 攻撃距離
     };
 
 protected:
-    // 構造体のインスタンス
-    EnemyStatus status_;            // ステータス
-    EnemyAlgorithm algorithm_;      // 行動
+    EnemyStatus status_;       // エネミーのステータス
+    EnemyAlgorithm algorithm_; // エネミーのアルゴリズム
     EnemyType enemyType_;           // エネミーの種類
-    float currentHp_;               // 現在のHP 
-    bool isFirstHit_;               // 初回ヒットで立てるフラグ
 
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
@@ -50,11 +47,11 @@ public:
     // 敵の種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
 
-    // 敵のパラメータを取得
+    // 敵のステータスを取得
     EnemyStatus GetEnemyStatus() const { return status_; }
 
-    // 敵の行動を取得
-    EnemyAlgorithm EnemyAlgorithm() const { return algorithm_; }
+    // 敵のアルゴリズムを取得
+    EnemyAlgorithm GetEnemyAlgorithm() const { return algorithm_; }
 
     // 攻撃
     virtual void Attack() = 0;
@@ -73,29 +70,4 @@ public:
 
     // 敵の体をプレイヤーの方向へ回転させる
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
-
-    // HPを取得
-    float GetCurrentHp() const { return currentHp_; }
-
-    // HPを増やす
-    void IncreaseHp(float amount) {
-        currentHp_ += amount;
-        if (currentHp_ > status_.maxHp_) {
-            currentHp_ = status_.maxHp_;
-        }
-    }
-
-    // HPを減らす
-    void DecreaseHp(float amount) {
-        currentHp_ -= amount;
-        if (currentHp_ < 0) {
-            currentHp_ = 0;
-        }
-    }
-
-    // 死亡判定
-    bool IsDead() { 
-        bool b = (currentHp_ <= 0.0f); 
-        return b;
-    }
 };
