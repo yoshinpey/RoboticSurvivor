@@ -15,11 +15,8 @@ class EnemyBase : public Character
 {
 private:
     // エネミーのステータス
-    struct EnemyStatus
+    struct EnemyStatus : public CharacterStatus
     {
-        float walkSpeed_;
-        float maxHp_;           
-        float currentHp_;
         int attackPower_;       // 攻撃力
         int attackCooldown_;    // 攻撃頻度
         float collisionScale_;  // 当たり判定の大きさ
@@ -35,8 +32,8 @@ private:
     };
 
 protected:
-    EnemyStatus status_;       // エネミーのステータス
-    EnemyAlgorithm algorithm_; // エネミーのアルゴリズム
+    EnemyStatus enemyStatus_;       // エネミーのステータス
+    EnemyAlgorithm enemyAlgorithm_; // エネミーのアルゴリズム
     EnemyType enemyType_;           // エネミーの種類
 
 public:
