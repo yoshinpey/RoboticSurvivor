@@ -23,7 +23,7 @@ protected:
         float maxHp_;         // ‘Ì—Í
         float currentHp_;     // Œ»İ‚Ì‘Ì—Í
         CommonStatus()
-            : maxHp_(100.0f), currentHp_(100.0f)
+            : maxHp_(100.0f), currentHp_(maxHp_)
         {
         }
     };

@@ -15,7 +15,7 @@ class EnemyBase : public Character
 {
 private:
     // エネミーのステータス
-    struct EnemyStatus : public CommonStatus
+    struct EnemyStatus
     {
         int attackPower_;       // 攻撃力
         int attackCooldown_;    // 攻撃頻度

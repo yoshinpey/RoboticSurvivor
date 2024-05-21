@@ -10,8 +10,6 @@ class Gauge;
 class Player : public PlayerBase
 {
 private:
-
-private:
     // インスタンス
     StateManager* pStateManager_;       // 状態を切り替える用
     Text* pText_;                       // テキスト表示用

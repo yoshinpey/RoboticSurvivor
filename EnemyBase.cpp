@@ -10,10 +10,6 @@ namespace
 EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
     : Character(parent, name), enemyType_(enemyType)
 {
-    // 初期化
-    commonStatus_ = { 0, 0,};
-    enemyStatus_ = { 0, 0, 0, 0 };
-    enemyAlgorithm_ = { 0, 0, 0, 0 };
 }
 
 // プレイヤーとの距離を算出する

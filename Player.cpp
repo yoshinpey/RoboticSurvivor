@@ -15,14 +15,13 @@ namespace
 Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
 pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr)
 {
-    // パラメータをセット
+    // 標準パラメータをセット
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
 
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
-    commonStatus_.currentHp_ = commonStatus_.maxHp_;    // 現在のHPを最大値で初期化
 
     // ステートマネージャー
     pStateManager_ = new StateManager(this);
@@ -62,7 +61,7 @@ void Player::Update()
     // ステートマネージャーの更新
     pStateManager_->Update();
     PlayerHitPoint();
-    if (jumping_)
+    if (playerParams_.jumping_)
     {
         ApplyGravity();
     }
@@ -119,61 +118,61 @@ void Player::Run()
 void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
 {
     // 現在の速度
-    float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&movement_)));
+    float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&playerParams_.movement_)));
 
     // 最大速度を超えていたら正規化、最大値の値にする
     if (currentSpeed > speed)
     {
-        XMVECTOR vMove = XMLoadFloat3(&movement_);
+        XMVECTOR vMove = XMLoadFloat3(&playerParams_.movement_);
         vMove = XMVector3Normalize(vMove);
         vMove *= speed;
-        XMStoreFloat3(&movement_, vMove);
+        XMStoreFloat3(&playerParams_.movement_, vMove);
     }
 
     // 移動に反映
-    movement_.x += moveVector.x * acceleration_;
-    movement_.z += moveVector.z * acceleration_;
+    playerParams_.movement_.x += moveVector.x * playerParams_.acceleration_;
+    playerParams_.movement_.z += moveVector.z * playerParams_.acceleration_;
 
     // 移動量を適用
-    transform_.position_.x += movement_.x;
-    transform_.position_.z += movement_.z;
+    transform_.position_.x += playerParams_.movement_.x;
+    transform_.position_.z += playerParams_.movement_.z;
 }
 
 // 減速を適用する関数
 void Player::ApplyDeceleration()
 {
     // 滞空中は減速係数を変える
-    if (jumping_)
+    if (playerParams_.jumping_)
     {
-        movement_.x *= friction_ * jumpFriction_;
-        movement_.z *= friction_ * jumpFriction_;
+        playerParams_.movement_.x *= playerParams_.friction_ * playerParams_.jumpFriction_;
+        playerParams_.movement_.z *= playerParams_.friction_ * playerParams_.jumpFriction_;
     }
     else
     {
-        movement_.x *= friction_;
-        movement_.z *= friction_;
+        playerParams_.movement_.x *= playerParams_.friction_;
+        playerParams_.movement_.z *= playerParams_.friction_;
     }
 
     // 移動に反映
-    transform_.position_.x += movement_.x;
-    transform_.position_.z += movement_.z;
+    transform_.position_.x += playerParams_.movement_.x;
+    transform_.position_.z += playerParams_.movement_.z;
 }
 
 // ジャンプ
 void Player::Jump()
 {
-    if (jumping_) return;
+    if (playerParams_.jumping_) return;
 
     // 移動方向を取得
     XMFLOAT3 moveDirection = CalculateMoveInput();
 
     // 移動方向をジャンプの方向として適用
-    velocity_.x = commonParameter_.jumpVelocity_ * moveDirection.x;
-    velocity_.y = commonParameter_.jumpVelocity_;
-    velocity_.z = commonParameter_.jumpVelocity_ * moveDirection.z;
+    playerParams_.velocity_.x = commonParameter_.jumpVelocity_ * moveDirection.x;
+    playerParams_.velocity_.y = commonParameter_.jumpVelocity_;
+    playerParams_.velocity_.z = commonParameter_.jumpVelocity_ * moveDirection.z;
 
     // ジャンプできなくする
-    jumping_ = true;
+    playerParams_.jumping_ = true;
 }
 
 // 移動計算を行う関数
@@ -215,15 +214,15 @@ XMFLOAT3 Player::CalculateMoveInput()
 
 void Player::ApplyGravity()
 {
-    velocity_.y += gravity_ * jumpDelta_;
-    transform_.position_.y += velocity_.y;
+    playerParams_.velocity_.y += playerParams_.gravity_ * playerParams_.jumpDelta_;
+    transform_.position_.y += playerParams_.velocity_.y;
 
     // 地面に到達したらジャンプ可能な状態に戻す
     if (transform_.position_.y < 0)
     {
         transform_.position_.y = 0;
-        jumping_ = false;
-        velocity_.y = 0;
+        playerParams_.jumping_ = false;
+        playerParams_.velocity_.y = 0;
     }
 }
 
