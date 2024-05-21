@@ -10,20 +10,13 @@ class Gauge;
 class Player : public PlayerBase
 {
 private:
-    XMFLOAT3 velocity_;         // 移動加速
-    XMFLOAT3 movement_;         // 移動量
-    float acceleration_;        // 加速度
-    float friction_;            // 摩擦力(減速度)
-    float jumpFriction_;        // 滞空中の減速度
-    int gravity_;               // 重力
-    float jumpDelta_;           // 適当なごく小さい値
-    bool jumping_;              // ジャンプ可能な状態かどうか
 
+private:
     // インスタンス
     StateManager* pStateManager_;       // 状態を切り替える用
     Text* pText_;                       // テキスト表示用
     Aim* pAim_;                         // エイム呼び出し用
-    Gauge* pGauge_;                     // hpゲージ
+    Gauge* pGauge_;                     // HPゲージ
 
 public:
     Player(GameObject* parent);     // コンストラクタ
@@ -34,23 +27,16 @@ public:
     void Draw() override;           // 描画
     void Release() override;        // 開放
 
-    // アクション
     void Walk();                    // 歩く
     void Run();                     // 走る
-    void ApplyMovement(const XMFLOAT3& moveVector, float speed);
-    void ApplyDeceleration();
+    void ApplyMovement(const XMFLOAT3& moveVector, float speed);    // 移動適応
+    void ApplyDeceleration();       // 減速適応
     void Jump();                    // ジャンプ
     void PlayerHitPoint();          // 体力
+    XMFLOAT3 CalculateMoveInput();  // 移動計算
+    void ApplyGravity();            // 重力を適用
+    void OnCollision(GameObject* pTarget) override; // 何かに当たった
 
-    // 移動計算を行う関数
-    XMFLOAT3 CalculateMoveInput();
-
-    // 重力を適用する
-    void ApplyGravity();
-
-    // 何かに当たった
-    void OnCollision(GameObject* pTarget) override;
-
-    // 地面についているかどうかを判定する
+    // 地面についているかどうかを判定
     bool Jumping() const { return transform_.position_.y >= 0; }
 };

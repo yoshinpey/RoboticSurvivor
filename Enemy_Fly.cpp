@@ -14,13 +14,13 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
     : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
-    status_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
-    status_.attackPower_                = GetPrivateProfileInt("Enemy_Fly", "attackPower", 0, "Settings/EnemySettings.ini");
-    status_.attackCooldown_             = GetPrivateProfileInt("Enemy_Fly", "attackCooldown", 0, "Settings/EnemySettings.ini");
-    status_.maxHp_                      = GetPrivateProfileFloat("Enemy_Fly", "maxHp", 0, "Settings/EnemySettings.ini");
-    status_.collisionScale_             = GetPrivateProfileFloat("Enemy_Fly", "collisionScale", 0, "Settings/EnemySettings.ini");
+    commonStatus_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
+    commonStatus_.attackPower_                = GetPrivateProfileInt("Enemy_Fly", "attackPower", 0, "Settings/EnemySettings.ini");
+    commonStatus_.attackCooldown_             = GetPrivateProfileInt("Enemy_Fly", "attackCooldown", 0, "Settings/EnemySettings.ini");
+    commonStatus_.maxHp_                      = GetPrivateProfileFloat("Enemy_Fly", "maxHp", 0, "Settings/EnemySettings.ini");
+    commonStatus_.collisionScale_             = GetPrivateProfileFloat("Enemy_Fly", "collisionScale", 0, "Settings/EnemySettings.ini");
     // 現在のHPを最大値で初期化
-    currentHp_ = status_.maxHp_;
+    commonStatus_.currentHp_ = commonStatus_.maxHp_;
 
     algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Fly", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
     algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Fly", "patrolRadius", 0, "Settings/EnemySettings.ini");
@@ -42,7 +42,7 @@ void Enemy_Fly::Initialize()
     assert(hModel_ >= 0);
 
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionPosition, status_.collisionScale_);
+    SphereCollider* pCollision = new SphereCollider(collisionPosition, commonStatus_.collisionScale_);
     AddCollider(pCollision);
 
     transform_.rotate_.y = modelRotate.y;

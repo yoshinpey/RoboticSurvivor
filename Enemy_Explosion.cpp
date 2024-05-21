@@ -52,7 +52,7 @@ void Enemy_Explosion::Initialize()
     Model::SetAnimFrame(hModel_, anim.startFrame, anim.endFrame, anim.speed);
 
     // “–‚½‚è”»’è•t—^
-    SphereCollider* pCollision = new SphereCollider(collisionOffset, status_.collisionScale_);
+    SphereCollider* pCollision = new SphereCollider(collisionOffset, commonStatus_.collisionScale_);
     AddCollider(pCollision);
 
     // ƒ‚ƒfƒ‹‚Ì‰ñ“]

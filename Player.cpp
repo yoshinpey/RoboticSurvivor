@@ -13,18 +13,16 @@ namespace
 
 // コンストラクタ
 Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
-pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr),
-gravity_(-1), jumping_(false), jumpDelta_(0.01f), velocity_(0.0f, 0.0f, 0.0f),
-movement_(0.0f, 0.0f, 0.0f), acceleration_(0.03f), friction_(0.85f), jumpFriction_(1.15f)
+pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr)
 {
     // パラメータをセット
-    parameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
-    parameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
-    parameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
+    commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
+    commonParameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
+    commonParameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
 
     // ステータスをセット
-    status_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
-    status_.currentHp_ = status_.maxHp_;    // 現在のHPを最大値で初期化
+    commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
+    commonStatus_.currentHp_ = commonStatus_.maxHp_;    // 現在のHPを最大値で初期化
 
     // ステートマネージャー
     pStateManager_ = new StateManager(this);
@@ -92,7 +90,7 @@ void Player::Release()
 void Player::PlayerHitPoint()
 {
     // HPゲージ呼び出し
-    pGauge_->SetHp(status_.maxHp_, status_.currentHp_);
+    pGauge_->SetHp(commonStatus_.maxHp_, commonStatus_.currentHp_);
 
     static float hp = 5.0f;
 
@@ -109,12 +107,12 @@ void Player::PlayerHitPoint()
 
 void Player::Walk()
 {
-    ApplyMovement(CalculateMoveInput(), parameter_.walkSpeed_);
+    ApplyMovement(CalculateMoveInput(), commonParameter_.walkSpeed_);
 }
 
 void Player::Run()
 {
-    ApplyMovement(CalculateMoveInput(), parameter_.runSpeed_);
+    ApplyMovement(CalculateMoveInput(), commonParameter_.runSpeed_);
 }
 
 // 移動に反映する関数
@@ -170,9 +168,9 @@ void Player::Jump()
     XMFLOAT3 moveDirection = CalculateMoveInput();
 
     // 移動方向をジャンプの方向として適用
-    velocity_.x = parameter_.jumpVelocity_ * moveDirection.x;
-    velocity_.y = parameter_.jumpVelocity_;
-    velocity_.z = parameter_.jumpVelocity_ * moveDirection.z;
+    velocity_.x = commonParameter_.jumpVelocity_ * moveDirection.x;
+    velocity_.y = commonParameter_.jumpVelocity_;
+    velocity_.z = commonParameter_.jumpVelocity_ * moveDirection.z;
 
     // ジャンプできなくする
     jumping_ = true;

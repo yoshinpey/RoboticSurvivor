@@ -3509,8 +3509,8 @@ bool ImGui::IsItemHovered(ImGuiHoveredFlags flags)
     else
     {
         // Test for bounding box overlap, as updated as ItemAdd()
-        ImGuiItemStatusFlags status_flags = g.LastItemData.StatusFlags;
-        if (!(status_flags & ImGuiItemStatusFlags_HoveredRect))
+        ImGuiItemStatusFlags commonStatus_flags = g.LastItemData.StatusFlags;
+        if (!(commonStatus_flags & ImGuiItemStatusFlags_HoveredRect))
             return false;
         IM_ASSERT((flags & (ImGuiHoveredFlags_AnyWindow | ImGuiHoveredFlags_RootWindow | ImGuiHoveredFlags_ChildWindows | ImGuiHoveredFlags_NoPopupHierarchy)) == 0);   // Flags not supported by this function
 
@@ -3519,7 +3519,7 @@ bool ImGui::IsItemHovered(ImGuiHoveredFlags flags)
         // [2017/10/16] Reverted commit 344d48be3 and testing RootWindow instead. I believe it is correct to NOT test for RootWindow but this leaves us unable
         // to use IsItemHovered() after EndChild() itself. Until a solution is found I believe reverting to the test from 2017/09/27 is safe since this was
         // the test that has been running for a long while.
-        if (g.HoveredWindow != window && (status_flags & ImGuiItemStatusFlags_HoveredWindow) == 0)
+        if (g.HoveredWindow != window && (commonStatus_flags & ImGuiItemStatusFlags_HoveredWindow) == 0)
             if ((flags & ImGuiHoveredFlags_AllowWhenOverlapped) == 0)
                 return false;
 

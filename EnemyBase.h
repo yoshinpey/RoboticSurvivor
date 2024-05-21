@@ -15,7 +15,7 @@ class EnemyBase : public Character
 {
 private:
     // エネミーのステータス
-    struct EnemyStatus : public CharacterStatus
+    struct EnemyStatus : public CommonStatus
     {
         int attackPower_;       // 攻撃力
         int attackCooldown_;    // 攻撃頻度
@@ -45,10 +45,10 @@ public:
     EnemyType GetEnemyType() const { return enemyType_; }
 
     // 敵のステータスを取得
-    EnemyStatus GetEnemyStatus() const { return status_; }
+    EnemyStatus GetEnemyStatus() const { return enemyStatus_; }
 
     // 敵のアルゴリズムを取得
-    EnemyAlgorithm GetEnemyAlgorithm() const { return algorithm_; }
+    EnemyAlgorithm GetEnemyAlgorithm() const { return enemyAlgorithm_; }
 
     // 攻撃
     virtual void Attack() = 0;
