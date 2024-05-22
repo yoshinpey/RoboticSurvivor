@@ -97,6 +97,7 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
 
         // ƒ_ƒ[ƒW‚ð—^‚¦‚é
         DecreaseHp(pBullet->GetBulletParameter().damage_);
+        if (IsCharacterDead()) return;
 
         // ƒqƒbƒg‚ð‹L˜^
         hitEnemies.insert(pTarget);

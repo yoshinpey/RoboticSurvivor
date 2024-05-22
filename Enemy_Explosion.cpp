@@ -65,9 +65,6 @@ void Enemy_Explosion::Update()
     // 現在地を保存する
     currentPosition_ = transform_.position_;
 
-    if (CharacterDead()) OutputDebugString("Dead\n");
-    else OutputDebugString("no Dead\n");
-
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 

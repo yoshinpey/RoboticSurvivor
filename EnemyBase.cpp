@@ -16,6 +16,9 @@ EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
 float EnemyBase::CheckPlayerDistance()
 {
     Player* pPlayer = static_cast<Player*>(FindObject("Player"));
+    if (!pPlayer) {
+        return 0.0f;
+    }
     XMFLOAT3 plaPos = pPlayer->GetPosition();
     XMFLOAT3 enePos = this->GetPosition();
     return CalculateDistance(plaPos, enePos);
@@ -25,6 +28,9 @@ float EnemyBase::CheckPlayerDistance()
 XMFLOAT3 EnemyBase::CheckPlayerDirection()
 {
     Player* pPlayer = static_cast<Player*>(FindObject("Player"));
+    if (!pPlayer) {
+        return XMFLOAT3();
+    }
     XMFLOAT3 plaPos = pPlayer->GetPosition();
     XMFLOAT3 enePos = this->GetPosition();
     return CalculateDirection(plaPos, enePos);

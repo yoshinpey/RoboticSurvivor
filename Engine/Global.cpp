@@ -29,6 +29,9 @@ XMFLOAT3 CalculateFloat3Sub(XMFLOAT3& a, XMFLOAT3& b)
 float CalculateDistance(XMFLOAT3& point1, XMFLOAT3& point2)
 {
     // ベクトルの長さを計算して距離を取得
+    if (point1.x == 0.0f || point1.y == 0.0f || point1.z == 0.0f) return 0.0f;
+    if (point2.x == 0.0f || point2.y == 0.0f || point2.z == 0.0f) return 0.0f;
+
     return XMVectorGetX(XMVector3Length(XMVectorSubtract(XMLoadFloat3(&point1), XMLoadFloat3(&point2))));
 }
 

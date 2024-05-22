@@ -62,7 +62,7 @@ void Enemy_Ground::Update()
 
     // ƒvƒŒƒCƒ„[‚Æ‚Ì“àÏ‚ðŒvŽZ‚µ‚ÄŽ‹ŠEŠp“x‚ðŽæ“¾
     float dotProduct = CalculateDotProduct(directionToPlayer);
-    const float fovAngle = XMConvertToRadians(1.0f);
+    constexpr float fovAngle = XMConvertToRadians(1.0f);
 
     // ƒvƒŒƒCƒ„[‚ªŽ‹ŠE“à‚É‚¢‚éê‡
     if (dotProduct >= fovAngle)
@@ -101,6 +101,7 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
 
         // ƒ_ƒ[ƒW‚ð—^‚¦‚é
         DecreaseHp(pBullet->GetBulletParameter().damage_);
+        if (IsCharacterDead()) return;
 
         // ƒqƒbƒg‚ð‹L˜^
         hitEnemies.insert(pTarget);

@@ -56,12 +56,12 @@ public:
         commonStatus_.currentHp_ -= amount;
         if (commonStatus_.currentHp_ < 0) {
             commonStatus_.currentHp_ = 0;
-            if (CharacterDead())KillMe();
+            if (IsCharacterDead()) KillMe();
         }
     }
 
     // Ž€–S”»’è
-    bool CharacterDead()
+    bool IsCharacterDead()
     {
         return commonStatus_.currentHp_ <= 0.0f;
     }
