@@ -37,6 +37,7 @@ class FbxParts
 		XMFLOAT4 speculer;		//スペキュラー（Lambertの場合は0）
 		XMFLOAT4 cameraPosition;//カメラの位置（ハイライトの計算に必要）
 		FLOAT	 shininess;		//ハイライトの強さ（MayaのCosinePower）
+		FLOAT	 shininess2;	//damage
 		BOOL	 isTexture;		//テクスチャの有無
 	};
 
@@ -123,7 +124,6 @@ public:
 	//引数：pNode　情報が入っているノード
 	//戻値：結果
 	HRESULT Init(FbxNode* pNode);
-
 
 	//描画
 	//引数：world	ワールド行列

@@ -6,6 +6,7 @@
 #include "Gun.h"
 #include "AudioManager.h"
 #include "EffectManager.h"
+#include "Character.h"
 
 namespace
 {
@@ -123,6 +124,18 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
+        // すでにこの敵に対してヒット済みの場合は無視
+        if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
+
+        // EnemyBaseにキャスト
+        Character* chara = dynamic_cast<Character*>(pTarget);
+
+        // ダメージを与える
+        chara->DecreaseHp(GetBulletParameter().damage_);
+
+        // 貫通しない場合は弾丸を消す / ヒットを記録
         parameter_.killTimer_ = 0;
+        hitEnemies.insert(pTarget);
+
     }
 };

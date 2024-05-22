@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/Model.h"
 #include "EnemyBase.h"
-#include <unordered_set>
 
 class Player;
 
@@ -10,9 +9,7 @@ class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // モデル番号
     XMFLOAT3 currentPosition_;      // 現在地
-
-    // ヒットした敵のデータを入れておく
-    std::unordered_set<GameObject*> hitEnemies;
+    float damageTime;
 
 public:
     Enemy_Explosion(GameObject* parent);    // コンストラクタ

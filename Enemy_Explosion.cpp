@@ -4,6 +4,8 @@
 #include "EnemyManager.h"
 #include "PlayScene.h"
 
+#include "Engine/Direct3D.h"
+
 namespace
 {
     XMFLOAT3 collisionOffset = { 0.0f, 1.0f, 0.0f };        // 当たり判定の位置
@@ -18,11 +20,12 @@ namespace
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), damageTime(0.0f)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
     commonStatus_.maxHp_                         = GetPrivateProfileFloat("Enemy_Explosion", "maxHp", 0, "Settings/EnemySettings.ini");
+    commonStatus_.currentHp_ = commonStatus_.maxHp_;
 
     enemyStatus_.attackPower_                = GetPrivateProfileInt("Enemy_Explosion", "attackPower", 0, "Settings/EnemySettings.ini");
     enemyStatus_.attackCooldown_             = GetPrivateProfileInt("Enemy_Explosion", "attackCooldown", 0, "Settings/EnemySettings.ini");
@@ -66,7 +69,8 @@ void Enemy_Explosion::Update()
     currentPosition_ = transform_.position_;
 
     // 許可された距離までプレイヤーに接近
-    if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
+    float dist = CheckPlayerDistance();
+    if (enemyAlgorithm_.attackDistance_ <= dist)
     {
         ApproachPlayer(CheckPlayerDirection());
     }
@@ -77,8 +81,13 @@ void Enemy_Explosion::Update()
 
 void Enemy_Explosion::Draw()
 {
+    if (damageTime > 0.0f) damageTime -= 0.05f;
+    Direct3D::damageTime = damageTime;
+    
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
+
+    Direct3D::damageTime = 0.0f;
 }
 
 void Enemy_Explosion::Release()
@@ -90,20 +99,7 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        // すでにこの敵に対してヒット済みの場合は無視
-        if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
-
-        // EnemyBaseにキャスト
-        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
-
-        // ダメージを与える
-        DecreaseHp(pBullet->GetBulletParameter().damage_);
-
-        // ヒットを記録
-        hitEnemies.insert(pTarget);
-
-        // 貫通しない場合は弾丸を消す
-        if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
+        damageTime = 1.0f;
     }
 
     // 敵に当たったとき

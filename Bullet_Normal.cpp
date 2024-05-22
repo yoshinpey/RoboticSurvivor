@@ -67,3 +67,18 @@ void Bullet_Normal::Draw()
 void Bullet_Normal::Release()
 {
 }
+
+void Bullet_Normal::OnCollision(GameObject* pTarget)
+{
+    // 敵に当たったとき
+    if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
+    {
+        // EnemyBaseにキャスト
+        Character* chara = dynamic_cast<Character*>(pTarget);
+
+        // ダメージを与える
+        chara->DecreaseHp(GetBulletParameter().damage_);
+
+        KillMe();
+    }
+}

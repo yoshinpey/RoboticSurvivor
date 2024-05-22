@@ -19,7 +19,8 @@ cbuffer global
 	float4		g_vecSpeculer;		// スペキュラーカラー（ハイライトの色）
 	float4		g_vecCameraPosition;// 視点（カメラの位置）
 	float		g_shuniness;		// ハイライトの強さ（テカリ具合）
-	bool		g_isTexture;		// テクスチャ貼ってあるかどうか
+	float		g_shuniness2;		// ハイライトの強さ（テカリ具合）
+    bool g_isTexture; // テクスチャ貼ってあるかどうか
 
 };
 
@@ -106,6 +107,15 @@ float4 PS(VS_OUT inData) : SV_Target
 		speculer = pow(saturate(dot(R, inData.eye)), g_shuniness) * g_vecSpeculer;	//ハイライトを求める
 	}
 
+    float4 color = diffuse * shade + diffuse * ambient + speculer;
+    
+    if (g_shuniness2 > 0.0f)
+    {
+        float r = color.r;
+        color.r = color.g + g_shuniness2;
+        color.g = r + g_shuniness2;
+    }
+	
 	//最終的な色
-	return diffuse * shade + diffuse * ambient + speculer;
+    return color;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "BulletBase.h"
+#include <unordered_set>
 
 class BulletBase;
 class Gun;
@@ -14,6 +15,9 @@ class Bullet_Explosion : public BulletBase
 
     float gravity_;         // 銃弾にかける重力
     float verticalSpeed_;   // スピード
+
+    // ヒットした敵のデータを入れておく
+    std::unordered_set<GameObject*> hitEnemies;
 
 public:
     Bullet_Explosion(GameObject* parent);

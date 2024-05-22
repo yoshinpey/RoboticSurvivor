@@ -40,8 +40,7 @@ namespace Direct3D
 	SHADER_BUNDLE			shaderBundle[SHADER_MAX] = { 0 };
 	int						screenWidth_ = 0;
 	int						screenHeight_ = 0;
-
-
+	float damageTime;
 
 	//‰Šú‰»ˆ—
 	HRESULT Direct3D::Initialize(HWND hWnd, int screenWidth, int screenHeight)
