@@ -57,9 +57,6 @@ void Enemy_Ground::Update()
     // 現在地を保存する
     currentPosition_ = transform_.position_;
 
-    // HPがなければ死亡
-    if (IsDead()) KillMe();
-
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 

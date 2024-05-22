@@ -56,8 +56,16 @@ public:
         commonStatus_.currentHp_ -= amount;
         if (commonStatus_.currentHp_ < 0) {
             commonStatus_.currentHp_ = 0;
+            if (CharacterDead())KillMe();
         }
     }
+
+    // Ž€–S”»’è
+    bool CharacterDead()
+    {
+        return commonStatus_.currentHp_ <= 0.0f;
+    }
+
     float GetCurrentHp() const { return commonStatus_.currentHp_; }
     float GetMaxHp() const { return commonStatus_.maxHp_; }
 };
