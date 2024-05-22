@@ -186,7 +186,6 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="jsonReader.cpp" />
-    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="OverScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Aim.cpp" />
@@ -213,7 +212,6 @@
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="jsonReader.h" />
-    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />

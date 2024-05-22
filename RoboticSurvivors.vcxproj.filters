@@ -256,9 +256,6 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="ModelManager.cpp">
-      <Filter>Multipurpose\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Global.cpp">
       <Filter>01Engine</Filter>
     </ClCompile>
@@ -467,9 +464,6 @@
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelManager.h">
-      <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Character</Filter>

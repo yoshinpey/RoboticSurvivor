@@ -65,25 +65,14 @@ void Enemy_Explosion::Update()
     // 現在地を保存する
     currentPosition_ = transform_.position_;
 
-    // プレイヤーへの方向ベクトル(正規化済)
-    XMFLOAT3 directionToPlayer = CheckPlayerDirection();
-
-    // プレイヤーとの内積を計算して視界角度を取得
-    float dotProduct = CalculateDotProduct(directionToPlayer);
-    const float fovAngle = XMConvertToRadians(1.0f);
-
-    // プレイヤーが視界内にいる場合
-    if (dotProduct >= fovAngle)
+    // 許可された距離までプレイヤーに接近
+    if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
     {
-        // 許可された距離までプレイヤーに接近
-        if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
-        {
-            ApproachPlayer(directionToPlayer);
-        }
-
-        // プレイヤーの方向を向くように視界を回転
-        RotateTowardsPlayer(directionToPlayer);
+        ApproachPlayer(CheckPlayerDirection());
     }
+
+    // プレイヤーの方向を向くように視界を回転
+    RotateTowardsPlayer(CheckPlayerDirection());
 }
 
 void Enemy_Explosion::Draw()
