@@ -10,8 +10,8 @@ namespace
     XMFLOAT3 modelRotate = { 0.0f, 0.0f, 0.0f };          // モデルの回転
     struct AnimFrame
     {
-        float startFrame = 0.0f;
-        float endFrame = 100.0f;
+        int startFrame = 0;
+        int endFrame = 100;
         float speed = 0.75f;
     };
     AnimFrame anim;
@@ -51,7 +51,7 @@ void Enemy_Explosion::Initialize()
     Model::SetAnimFrame(hModel_, anim.startFrame, anim.endFrame, anim.speed);
 
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionOffset, commonStatus_.collisionScale_);
+    SphereCollider* pCollision = new SphereCollider(collisionOffset, enemyStatus_.collisionScale_);
     AddCollider(pCollision);
 
     // モデルの回転
@@ -79,7 +79,7 @@ void Enemy_Explosion::Update()
     if (dotProduct >= fovAngle)
     {
         // 許可された距離までプレイヤーに接近
-        if (algorithm_.attackDistance_ <= CheckPlayerDistance())
+        if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
         {
             ApproachPlayer(directionToPlayer);
         }

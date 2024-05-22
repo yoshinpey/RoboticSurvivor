@@ -47,7 +47,7 @@ float EnemyBase::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
 void EnemyBase::ApproachPlayer(const XMFLOAT3& directionToPlayer)
 {
     // 移動ベクターをエネミーのポジションに加算する
-    XMFLOAT3 moveVector = { directionToPlayer.x * parameter_.walkSpeed_, 0, directionToPlayer.z * parameter_.walkSpeed_ };
+    XMFLOAT3 moveVector = { directionToPlayer.x * commonParameter_.walkSpeed_, 0, directionToPlayer.z * commonParameter_.walkSpeed_ };
     transform_.position_ = CalculateFloat3Add(transform_.position_, moveVector);
 }
 

@@ -15,18 +15,17 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
     : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
-    commonStatus_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
-    commonStatus_.attackPower_                = GetPrivateProfileInt("Enemy_Ground", "attackPower", 0, "Settings/EnemySettings.ini");
-    commonStatus_.attackCooldown_             = GetPrivateProfileInt("Enemy_Ground", "attackCooldown", 0, "Settings/EnemySettings.ini");
-    commonStatus_.maxHp_                      = GetPrivateProfileFloat("Enemy_Ground", "maxHp", 0, "Settings/EnemySettings.ini");
-    commonStatus_.collisionScale_             = GetPrivateProfileFloat("Enemy_Ground", "collisionScale", 0, "Settings/EnemySettings.ini");
-    // 現在のHPを最大値で初期化
-    currentHp_ = commonStatus_.maxHp_;
+    commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
+    commonStatus_.maxHp_ = GetPrivateProfileFloat("Enemy_Ground", "maxHp", 0, "Settings/EnemySettings.ini");
+    
+    enemyStatus_.attackPower_                = GetPrivateProfileInt("Enemy_Ground", "attackPower", 0, "Settings/EnemySettings.ini");
+    enemyStatus_.attackCooldown_             = GetPrivateProfileInt("Enemy_Ground", "attackCooldown", 0, "Settings/EnemySettings.ini");
+    enemyStatus_.collisionScale_             = GetPrivateProfileFloat("Enemy_Ground", "collisionScale", 0, "Settings/EnemySettings.ini");
 
-    algorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Ground", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
-    algorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Ground", "patrolRadius", 0, "Settings/EnemySettings.ini");
-    algorithm_.approachDistance_        = GetPrivateProfileInt("Enemy_Ground", "approachDistance", 0, "Settings/EnemySettings.ini");
-    algorithm_.attackDistance_          = GetPrivateProfileInt("Enemy_Ground", "attackDistance", 0, "Settings/EnemySettings.ini");
+    enemyAlgorithm_.detectPlayerDistance_    = GetPrivateProfileInt("Enemy_Ground", "detectPlayerDistance", 0, "Settings/EnemySettings.ini");
+    enemyAlgorithm_.patrolRadius_            = GetPrivateProfileInt("Enemy_Ground", "patrolRadius", 0, "Settings/EnemySettings.ini");
+    enemyAlgorithm_.approachDistance_        = GetPrivateProfileInt("Enemy_Ground", "approachDistance", 0, "Settings/EnemySettings.ini");
+    enemyAlgorithm_.attackDistance_          = GetPrivateProfileInt("Enemy_Ground", "attackDistance", 0, "Settings/EnemySettings.ini");
 }
 
 Enemy_Ground::~Enemy_Ground()
@@ -46,7 +45,7 @@ void Enemy_Ground::Initialize()
     //Model::SetAnimFrame(hModel_, 0, 120, 0.75);
      
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionPosition, commonStatus_.collisionScale_);
+    SphereCollider* pCollision = new SphereCollider(collisionPosition, enemyStatus_.collisionScale_);
     AddCollider(pCollision);
 
     transform_.rotate_.y = modelRotate.y;
@@ -72,7 +71,7 @@ void Enemy_Ground::Update()
     if (dotProduct >= fovAngle)
     {
         // 許可された距離までプレイヤーに接近
-        if (algorithm_.attackDistance_ <= CheckPlayerDistance())
+        if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
         {
             ApproachPlayer(directionToPlayer);
         }
