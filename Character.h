@@ -65,7 +65,4 @@ public:
     {
         return commonStatus_.currentHp_ <= 0.0f;
     }
-
-    float GetCurrentHp() const { return commonStatus_.currentHp_; }
-    float GetMaxHp() const { return commonStatus_.maxHp_; }
 };

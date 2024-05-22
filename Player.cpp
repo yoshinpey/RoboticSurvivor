@@ -234,8 +234,6 @@ void Player::OnCollision(GameObject* pTarget)
     {
         // ノックバック処理
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
-        if (!pEnemy) OutputDebugString("ene Null\n");
-        if (!pEnemy) return;
 
         // HP減らす処理
         DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
