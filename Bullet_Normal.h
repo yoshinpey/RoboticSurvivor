@@ -1,5 +1,6 @@
 #pragma once
 #include "BulletBase.h"
+#include <unordered_set>
 
 class BulletBase;
 
@@ -7,6 +8,10 @@ class BulletBase;
 class Bullet_Normal : public BulletBase
 {
     int hModel_;    
+
+    // ヒットした敵のデータを入れておく
+    std::unordered_set<GameObject*> hitEnemies;
+
 public:
     Bullet_Normal(GameObject* parent);
     ~Bullet_Normal();

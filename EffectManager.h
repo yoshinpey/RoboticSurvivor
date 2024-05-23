@@ -5,6 +5,7 @@ using namespace DirectX;
 enum class VFX_TYPE 
 {
 	EXPLODE = 0,
+	MAX
 };
 
 namespace EffectManager

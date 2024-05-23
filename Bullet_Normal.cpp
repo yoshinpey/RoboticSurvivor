@@ -2,13 +2,16 @@
 #include "Engine/Model.h"
 
 #include "Bullet_Normal.h"
+
 #include "JsonReader.h"
-#include "EnemyBase.h"
+//#include "AudioManager.h"
+//#include "EffectManager.h"
+#include "Character.h"
 
 namespace
 {
-    XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };        // 当たり判定の位置
-    std::string modelName = "Entity/Bullet.fbx";            // モデル名
+    const XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };        // 当たり判定の位置
+    const std::string modelName = "Entity/Bullet.fbx";            // モデル名
 }
 
 //コンストラクタ
@@ -51,9 +54,9 @@ void Bullet_Normal::Update()
     //弾を飛ばす
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
-    //弾を消す
-    parameter_.killTimer_--;
-    if (parameter_.killTimer_ <= 0) { KillMe(); }
+    // 弾の生存時間処理
+    if (parameter_.killTimer_ > 0) parameter_.killTimer_--;    // 弾の生存タイマーを減らす
+    else KillMe();
 }
 
 //描画
@@ -70,15 +73,26 @@ void Bullet_Normal::Release()
 
 void Bullet_Normal::OnCollision(GameObject* pTarget)
 {
+    // 地面関連の物体に当たったとき
+    if (pTarget->GetObjectName().find("Stage") != std::string::npos)
+    {
+        parameter_.killTimer_ = 0;
+    }
+
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        // EnemyBaseにキャスト
-        Character* chara = dynamic_cast<Character*>(pTarget);
+        // すでにこの敵に対してヒット済みの場合は無視
+        if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
+
+        // Characterにキャスト
+        Character* pCharacter = dynamic_cast<Character*>(pTarget);
 
         // ダメージを与える
-        chara->DecreaseHp(GetBulletParameter().damage_);
+        pCharacter->DecreaseHp(parameter_.damage_);
 
-        KillMe();
+        // 貫通しない場合は弾丸を消す.貫通する場合はヒットを記録
+        if (parameter_.isPenetration_ == 0)  parameter_.killTimer_ = 0;     
+        else hitEnemies.insert(pTarget);
     }
 }

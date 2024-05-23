@@ -10,7 +10,7 @@ namespace
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage"), hModel_(-1)
+    :GameObject(parent, "Stage_a"), hModel_(-1)
 {
 }
 

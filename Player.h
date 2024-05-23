@@ -12,7 +12,6 @@ class Player : public PlayerBase
 private:
     // インスタンス
     StateManager* pStateManager_;       // 状態を切り替える用
-    Text* pText_;                       // テキスト表示用
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // HPゲージ
 
@@ -30,7 +29,6 @@ public:
     void ApplyMovement(const XMFLOAT3& moveVector, float speed);    // 移動適応
     void ApplyDeceleration();       // 減速適応
     void Jump();                    // ジャンプ
-    void PlayerHitPoint();          // 体力
     XMFLOAT3 CalculateMoveInput();  // 移動計算
     void ApplyGravity();            // 重力を適用
     void OnCollision(GameObject* pTarget) override; // 何かに当たった

@@ -10,7 +10,7 @@ class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
     XMFLOAT3 currentPosition_;          // 現在地
-
+    float damageTime_;
     // ヒットした敵のデータを入れておく
     std::unordered_set<GameObject*> hitEnemies;
 

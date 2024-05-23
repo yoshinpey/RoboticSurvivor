@@ -12,8 +12,8 @@ namespace
 }
 
 // コンストラクタ
-Player::Player(GameObject* parent) : PlayerBase(parent, "Player"),
-pText_(nullptr), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr)
+Player::Player(GameObject* parent) 
+    : PlayerBase(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr)
 {
     // 標準パラメータをセット
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
@@ -60,7 +60,21 @@ void Player::Update()
 {
     // ステートマネージャーの更新
     pStateManager_->Update();
-    PlayerHitPoint();
+
+    // HPゲージ呼び出し
+    pGauge_->SetHp(commonStatus_.maxHp_, commonStatus_.currentHp_);
+    ///////////////////////// デバッグ用
+    static float hp = 5.0f;
+    if (Input::IsKeyDown(DIK_M))
+    {
+        IncreaseHp(hp);
+    }
+    if (Input::IsKeyDown(DIK_N))
+    {
+        DecreaseHp(hp);
+    }
+    //////////////////////////
+
     if (playerParams_.jumping_)
     {
         ApplyGravity();
@@ -70,38 +84,11 @@ void Player::Update()
 // 描画
 void Player::Draw()
 {
-    // デバック用
-    //pText_->Draw(1150, 100, "X:");
-    //pText_->Draw(1200, 100, (int)transform_.position_.x);
-    //pText_->Draw(1150, 250, "Y:");
-    //pText_->Draw(1200, 250, (int)transform_.position_.y);
-    //pText_->Draw(1150, 400, "Z:");
-    //pText_->Draw(1200, 400, (int)transform_.position_.z);
 }
 
 // 開放
 void Player::Release()
 {
-    SAFE_DELETE(pText_);
-}
-
-// プレイヤーのHP
-void Player::PlayerHitPoint()
-{
-    // HPゲージ呼び出し
-    pGauge_->SetHp(commonStatus_.maxHp_, commonStatus_.currentHp_);
-
-    static float hp = 5.0f;
-
-    // デバッグ用
-    if (Input::IsKeyDown(DIK_M))
-    {
-        IncreaseHp(hp);
-    }
-    if (Input::IsKeyDown(DIK_N))
-    {
-        DecreaseHp(hp);
-    }
 }
 
 void Player::Walk()

@@ -59,9 +59,6 @@ public:
     // プレイヤーへの方向を算出する
     XMFLOAT3 CheckPlayerDirection();
 
-    // 内積計算(視野角計算)
-    float CalculateDotProduct(const XMFLOAT3& directionToPlayer);
-
     // 移動速度に応じた移動量でプレイヤーに接近する
     void ApproachPlayer(const XMFLOAT3& directionToPlayer);
 

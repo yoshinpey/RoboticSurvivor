@@ -6,14 +6,6 @@
 #define SAFE_DELETE_ARRAY(p) {if ((p)!=nullptr) { delete[] (p); (p)=nullptr;}}
 #define SAFE_RELEASE(p) {if ((p)!=nullptr) { p->Release(); (p)=nullptr;}}
 
-// 方向ベクトル
-static constexpr XMFLOAT3 UP_VECTOR = { 0.0f, 1.0f, 0.0f };         //上
-static constexpr XMFLOAT3 DOWN_VECTOR = { 0.0f, -1.0f, 0.0f };      //下
-static constexpr XMFLOAT3 RIGHT_VECTOR = { 1.0f, 0.0f, 0.0f };      //右
-static constexpr XMFLOAT3 LEFT_VECTOR = { -1.0f, 0.0f, 0.0f };      //左
-static constexpr XMFLOAT3 FORWARD_VECTOR = { 0.0f, 0.0f, 1.0f };    //前
-static constexpr XMFLOAT3 BACKWARD_VECTOR = { 0.0f, 0.0f, -1.0f };  //後
-
 // 1度ベクトルに変換した方がSIMD演算(同時演算)を活用できるため効率的らしい
 // 以下、各種計算関数
 

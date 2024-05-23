@@ -8,19 +8,21 @@
 
 namespace
 {
-    XMFLOAT3 collisionOffset = { 0.0f, 1.0f, 0.0f };        // 当たり判定の位置
-    XMFLOAT3 modelRotate = { 0.0f, 0.0f, 0.0f };          // モデルの回転
+    const std::string modelName = "Enemy/Enemy_Explosion.fbx";    // モデル名
+    const XMFLOAT3 collisionOffset = { 0.0f, 1.0f, 0.0f };        // 当たり判定の位置
+    const XMFLOAT3 modelRotate = { 0.0f, 0.0f, 0.0f };            // モデルの回転
+    const float deltaTime = 0.05f;                                // ダメージの表現用の経過時間
+
     struct AnimFrame
     {
         int startFrame = 0;
         int endFrame = 100;
         float speed = 0.75f;
-    };
-    AnimFrame anim;
+    }anim;
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), damageTime(0.0f)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), damageTime_(0.0f)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -39,7 +41,7 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
 
 Enemy_Explosion::~Enemy_Explosion()
 {
-    // エネミーのマネージャーリストから死んだエネミーを削除する
+    // エネミーマネージャーのリストから死んだエネミーを削除する
     PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
     pPlayScene->GetEnemyManager()->RemoveDeadEnemies(this);
 }
@@ -47,7 +49,7 @@ Enemy_Explosion::~Enemy_Explosion()
 void Enemy_Explosion::Initialize()
 {
     // モデルデータのロード
-    hModel_ = Model::Load("Enemy/Enemy_Explosion.fbx");
+    hModel_ = Model::Load(modelName);
     assert(hModel_ >= 0);
 
     //アニメーション
@@ -59,18 +61,15 @@ void Enemy_Explosion::Initialize()
 
     // モデルの回転
     transform_.rotate_.y = modelRotate.y;
-
-
 }
 
 void Enemy_Explosion::Update()
 {
     // 現在地を保存する
-    currentPosition_ = transform_.position_;
+    pastPosition_ = transform_.position_;
 
     // 許可された距離までプレイヤーに接近
-    float dist = CheckPlayerDistance();
-    if (enemyAlgorithm_.attackDistance_ <= dist)
+    if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
     {
         ApproachPlayer(CheckPlayerDirection());
     }
@@ -81,8 +80,9 @@ void Enemy_Explosion::Update()
 
 void Enemy_Explosion::Draw()
 {
-    if (damageTime > 0.0f) damageTime -= 0.05f;
-    Direct3D::damageTime = damageTime;
+    // ダメージシェーダーの適応処理
+    if (damageTime_ > 0) damageTime_ -= deltaTime;
+    Direct3D::damageTime = damageTime_;
     
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
@@ -99,13 +99,13 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        damageTime = 1.0f;
+        damageTime_ = 1.0f;
     }
 
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        transform_.position_ = currentPosition_;
+        //transform_.position_ = pastPosition_;
     }
 };
 

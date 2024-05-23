@@ -19,6 +19,6 @@
     "speed": 0.4,
     "killTimer": 300,
     "collisionScale": 0.3,
-    "isPenetration": 1
+    "isPenetration": 0
   }
 }

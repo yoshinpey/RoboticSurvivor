@@ -14,10 +14,12 @@
 #include "AudioManager.h"
 #include "EffectManager.h"
 
+#include <array>
+
 namespace
 {
 	// このシーンで使用するモデル群
-	std::vector<std::string> modelName =
+	std::array<std::string, 6> modelName = 
 	{
 		"DebugCollision/sphereCollider.fbx",
 		"Entity/Bullet.fbx",

@@ -3,18 +3,12 @@
 #include <unordered_set>
 
 class BulletBase;
-class Gun;
 
 // 銃弾を管理するクラス
 class Bullet_Explosion : public BulletBase
 {
-    int hModel_; 
-    Gun* pGun_;
-
-    bool isFirstHit_;    // 初めて当たった時
-
-    float gravity_;         // 銃弾にかける重力
-    float verticalSpeed_;   // スピード
+    int hModel_;
+    float verticalSpeed_;   // 垂直方向のスピード変数
 
     // ヒットした敵のデータを入れておく
     std::unordered_set<GameObject*> hitEnemies;
@@ -26,7 +20,9 @@ public:
     void Update() override;
     void Draw() override;
     void Release() override;
+    void OnCollision(GameObject* pTarget);
+
+    // 弾の向きを対象方向へ回転させる
     void RotateToTarget(XMFLOAT3& directionToPlayer);
 
-    void OnCollision(GameObject* pTarget);
 };

@@ -8,6 +8,17 @@
 #include "Gun.h"
 #include <algorithm>
 
+namespace
+{
+    const float upLimit = 89.0f;
+    const float downLimit = -89.0f;
+
+    const int halfScreenWidth = Direct3D::screenWidth_ / 2;
+    const int halfScreenHeight = Direct3D::screenHeight_ / 2;
+
+    XMFLOAT3 FORWARD_VECTOR = { 0.0f,0.0f,1.0f };
+}
+
 // コンストラクタ
 Aim::Aim(GameObject* parent) : GameObject(parent, "Aim"), pNum_(nullptr), pPlayer_(nullptr),
 aimDirection_{ 0,0,0 }, camPos_{0,0,0}, mouseSensitivity_{0, 0}, eyePositon_{0,0,0}
@@ -58,7 +69,7 @@ void Aim::UpdateRotation()
 
     // 垂直方向の回転は上下の限界を超えないように制限
     float newRotationX = transform_.rotate_.x + Input::GetMouseMove().y * mouseSensitivity_.y;
-    transform_.rotate_.x = std::clamp(newRotationX, -89.0f, 89.0f);
+    transform_.rotate_.x = std::clamp(newRotationX, downLimit, upLimit);
 }
 
 void Aim::UpdateCameraPosition() 
@@ -69,10 +80,8 @@ void Aim::UpdateCameraPosition()
     XMMATRIX mView = mRotX * mRotY;
 
     // カメラ位置の計算
-    XMFLOAT3 playerPos = pPlayer_->GetPosition();
-    camPos_.x = playerPos.x;
-    camPos_.y = playerPos.y + EYE_POSITION; // 目線の高さ
-    camPos_.z = playerPos.z;
+    XMFLOAT3 plaPos = pPlayer_->GetPosition();
+    camPos_ = { plaPos.x , plaPos.y + EYE_POSITION, plaPos.z };
 
     // カメラの位置と焦点を取得
     XMVECTOR camPosVector = XMLoadFloat3(&camPos_);
@@ -99,7 +108,7 @@ void Aim::UpdateCameraPosition()
 void Aim::Draw()
 {
     // クロスヘアを表示
-    pNum_->Draw(Direct3D::screenWidth_ /2, Direct3D::screenHeight_ /2, "+");
+    pNum_->Draw(halfScreenWidth, halfScreenHeight, "+");
 }
 
 // 開放

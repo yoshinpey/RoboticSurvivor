@@ -1,16 +1,18 @@
 #include "Engine/Model.h"
 
+#include "AudioManager.h"
 #include "InputManager.h"
+
 #include "Gun.h"
 #include "Bullet_Normal.h"
 #include "Bullet_Explosion.h"
-#include "AudioManager.h"
+
 
 namespace
 {
-    XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };      // 移動量
-    XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
-    std::string modelName = "Entity/Rifle.fbx";         // モデル名
+    const XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };      // 移動量
+    const XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
+    const std::string modelName = "Entity/Rifle.fbx";         // モデル名
 }
 
 Gun::Gun(GameObject* parent)

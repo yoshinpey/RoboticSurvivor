@@ -16,9 +16,7 @@ EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
 float EnemyBase::CheckPlayerDistance()
 {
     Player* pPlayer = static_cast<Player*>(FindObject("Player"));
-    if (!pPlayer) {
-        return 0.0f;
-    }
+    if (!pPlayer)return 0.0f;
     XMFLOAT3 plaPos = pPlayer->GetPosition();
     XMFLOAT3 enePos = this->GetPosition();
     return CalculateDistance(plaPos, enePos);
@@ -28,25 +26,10 @@ float EnemyBase::CheckPlayerDistance()
 XMFLOAT3 EnemyBase::CheckPlayerDirection()
 {
     Player* pPlayer = static_cast<Player*>(FindObject("Player"));
-    if (!pPlayer) {
-        return XMFLOAT3();
-    }
+    if (!pPlayer)return { 0.0f,0.0f,0.0f };
     XMFLOAT3 plaPos = pPlayer->GetPosition();
     XMFLOAT3 enePos = this->GetPosition();
     return CalculateDirection(plaPos, enePos);
-}
-
-// 内積計算(視野角計算)
-float EnemyBase::CalculateDotProduct(const XMFLOAT3& directionToPlayer)
-{
-    // エネミーが向いている方向
-    float rotY = XMConvertToRadians(transform_.rotate_.y);
-    XMVECTOR enemyForward = XMVector3Normalize(XMVectorSet(sinf(rotY), 0, cosf(rotY), 0));
-
-    // プレイヤーへの方向ベクトルとの内積を計算して視界角度を取得
-    float dotProduct;
-    XMStoreFloat(&dotProduct, XMVector3Dot(enemyForward, XMLoadFloat3(&directionToPlayer)));
-    return acosf(dotProduct);
 }
 
 // 移動速度に応じた移動量でプレイヤーに接近する

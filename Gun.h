@@ -11,7 +11,6 @@ struct BulletInfo
     int coolTime_;
 };
 
-
 //e‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Gun : public GameObject
 {

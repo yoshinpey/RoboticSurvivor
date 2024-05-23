@@ -8,10 +8,13 @@ namespace
 {
     XMFLOAT3 collisionPosition = { 0.0f, 0.0f, 0.0f };      // 当たり判定の位置
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };          // モデルの回転
+
+
+    const float deltaTime = 0.05f;                                // ダメージの表現用の経過時間
 }
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
-    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1)
+    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), damageTime_(0.0f)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -56,28 +59,26 @@ void Enemy_Fly::Update()
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 
-    // プレイヤーとの内積を計算して視界角度を取得
-    float dotProduct = CalculateDotProduct(directionToPlayer);
-    const float fovAngle = XMConvertToRadians(1.0f);
-
-    // プレイヤーが視界内にいる場合
-    if (dotProduct >= fovAngle)
+    // 許可された距離までプレイヤーに接近
+    if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
     {
-        // 許可された距離までプレイヤーに接近
-        if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
-        {
-            ApproachPlayer(directionToPlayer);
-        }
-
-        // プレイヤーの方向を向くように視界を回転
-        RotateTowardsPlayer(directionToPlayer);
+        ApproachPlayer(directionToPlayer);
     }
+
+    // プレイヤーの方向を向くように視界を回転
+    RotateTowardsPlayer(directionToPlayer);
 }
 
 void Enemy_Fly::Draw()
 {
+    // ダメージシェーダーの適応処理
+    if (damageTime_ > 0) damageTime_ -= deltaTime;
+    Direct3D::damageTime = damageTime_;
+
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
+
+    Direct3D::damageTime = 0.0f;
 }
 
 void Enemy_Fly::Release()
@@ -89,27 +90,14 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        // すでにこの敵に対してヒット済みの場合は無視
-        if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
-
-        // EnemyBaseにキャスト
-        BulletBase* pBullet = dynamic_cast<BulletBase*>(pTarget);
-
-        // ダメージを与える
-        DecreaseHp(pBullet->GetBulletParameter().damage_);
-        if (IsCharacterDead()) return;
-
-        // ヒットを記録
-        hitEnemies.insert(pTarget);
-
-        // 貫通しない場合は弾丸を消す
-        if (pBullet->GetBulletParameter().isPenetration_ == 0) pBullet->KillMe();
+        damageTime_ = 1.0f;
     }
+
 
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        transform_.position_ = currentPosition_;
+        //transform_.position_ = currentPosition_;
     }
 }
 

@@ -6,8 +6,8 @@
 namespace 
 {
 	//Max‚Å950‚­‚ç‚¢
-	XMFLOAT3 SPHERE_SCALE = { 300,300,300 };
-	std::string modelName = "Stage/skyBox.fbx";     // ƒ‚ƒfƒ‹–¼
+	XMFLOAT3 SphereScale = { 300,300,300 };
+	std::string modelName = "Stage/skyBox.fbx";
 }
 
 SkyBox::SkyBox(GameObject* parent)
@@ -24,7 +24,7 @@ void SkyBox::Initialize()
 	hModel_ = Model::Load(modelName);
 	assert(hModel_ >= 0);
 
-	transform_.scale_ = SPHERE_SCALE;
+	transform_.scale_ = SphereScale;
 	pPlayer_ = (Player*)FindObject("Player");
 }
 

@@ -14,7 +14,7 @@ class PlayerBase : public Character
         float jumpFriction_{ 1.15f };                // 滞空中の減速度
         int gravity_{ -1 };                          // 重力
         float jumpDelta_{ 0.01f };                   // 適当なごく小さい値
-        bool jumping_{ false };                      // ジャンプ可能な状態かどうか
+        bool jumping_{ false };                      // ジャンプ中は真になるフラグ
 
         // デフォルトコンストラクタ
         PlayerParameter() = default;
