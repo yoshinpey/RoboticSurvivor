@@ -54,7 +54,7 @@ void Bullet_Explosion::Initialize()
     transform_.scale_ = modelScale;
 
     //当たり判定
-    pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
+    SphereCollider* pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
     AddCollider(pCollision_);
 
 }
@@ -91,6 +91,8 @@ void Bullet_Explosion::Update()
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
 
         // 敵との距離を計測し、範囲内だったら与ダメージ
+        // 
+        ///////////////////////////////////////// ここいまやってる
 
         EnemyBase* pEnemyBase = static_cast<EnemyBase*>(FindObject("EnemyBase"));
 
