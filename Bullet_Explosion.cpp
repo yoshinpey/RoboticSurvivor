@@ -19,7 +19,7 @@ namespace
 
     //////////////////////////////
     const float gravity = -0.0025f;          // 銃弾にかける重力
-    const float explodeScale = 20.0f;        // 爆発の膨張サイズ
+    const float explodeScale = 10.0f;        // 爆発の膨張サイズ
     const float accelerationLimit = -0.4f;   // 加速限界
     const int modelRotate = 180;             // モデル回転
 }
@@ -92,13 +92,13 @@ void Bullet_Explosion::Update()
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
 
         // 敵との距離を計測し、範囲内だったら与ダメージ
-        EnemyManager* manager = static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager();
-        std::vector<EnemyBase*> list = manager->GetEnemyList();
-        for (EnemyBase* e : list) 
+        EnemyManager* pEnemyManager = static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager();
+        // エネミーリストから距離の条件を満たす敵を探す
+        for (EnemyBase* e : pEnemyManager->GetEnemyList())
         {
             XMFLOAT3 enePos = e->GetPosition();
             float dist = CalculateDistance(transform_.position_, enePos);
-            if (dist < 10.0f) 
+            if (dist < explodeScale)
             {
                 e->DecreaseHp(parameter_.damage_);
                 e->BulletHit();

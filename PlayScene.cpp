@@ -79,7 +79,7 @@ void PlayScene::Initialize()
 
 	//タイマー設定
 	Timer* t = (Timer*)FindObject("Timer");
-	t->SetLimit(30);
+	t->SetLimit(5);
 	t->Start();
 
 }
@@ -153,8 +153,10 @@ void PlayScene::Update()
 	{
 		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
 	}
+	Timer* t = (Timer*)FindObject("Timer");
+	
 	// 時間切れ
-	if (time == 0)
+	if (t->IsFinished() || pPlayer_ == nullptr)
 	{
 		pEnemyManager_->RemoveAllEnemies();
 		pSceneManager_->ChangeScene(SCENE_ID_OVER);

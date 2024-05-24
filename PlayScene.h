@@ -23,4 +23,6 @@ public:
 	void Release() override;        //ŠJ•ú
 
 	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
+
+	void SetPlayer(Player* player) { pPlayer_  = player;}
 };

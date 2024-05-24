@@ -4,6 +4,7 @@
 #include "Gauge.h"
 #include "PlayerState.h"
 #include "EnemyBase.h"
+#include "PlayScene.h"
 
 namespace
 {
@@ -44,6 +45,10 @@ Player::Player(GameObject* parent)
 Player::~Player()
 {
     SAFE_DELETE(pStateManager_);
+
+    // 死んだときにポインターをnullにする
+    PlayScene* pPlayScene = static_cast<PlayScene*>(FindObject("PlayScene"));
+    pPlayScene->SetPlayer(nullptr);
 }
 
 // 初期化
