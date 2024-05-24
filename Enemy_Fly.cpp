@@ -14,7 +14,7 @@ namespace
 }
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
-    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1), damageTime_(0.0f)
+    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -90,7 +90,7 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        damageTime_ = 1.0f;
+        BulletHit();
     }
 
 

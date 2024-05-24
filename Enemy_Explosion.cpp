@@ -22,7 +22,7 @@ namespace
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1), damageTime_(0.0f)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -99,7 +99,7 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        damageTime_ = 1.0f;
+        BulletHit();
     }
 
     // 敵に当たったとき

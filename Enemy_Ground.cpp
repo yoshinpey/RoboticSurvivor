@@ -15,7 +15,7 @@ namespace
 }
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1), damageTime_(0.0f)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");

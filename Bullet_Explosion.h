@@ -10,9 +10,6 @@ class Bullet_Explosion : public BulletBase
     int hModel_;
     float verticalSpeed_;   // 垂直方向のスピード変数
 
-    // ヒットした敵のデータを入れておく
-    std::unordered_set<GameObject*> hitEnemies;
-
 public:
     Bullet_Explosion(GameObject* parent);
     ~Bullet_Explosion();

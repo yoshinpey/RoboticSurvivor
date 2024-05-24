@@ -8,6 +8,8 @@
 #include "EffectManager.h"
 #include "Character.h"
 #include "EnemyBase.h"
+#include "EnemyManager.h"
+#include "PlayScene.h"
 
 namespace
 {
@@ -36,7 +38,6 @@ Bullet_Explosion::Bullet_Explosion(GameObject* parent)
     parameter_.speed_ = bullet_explosion["speed"];
     parameter_.killTimer_ = bullet_explosion["killTimer"];
     parameter_.collisionScale_ = bullet_explosion["collisionScale"];
-    parameter_.isPenetration_ = bullet_explosion["isPenetration"];
 }
 
 //デストラクタ
@@ -91,11 +92,18 @@ void Bullet_Explosion::Update()
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
 
         // 敵との距離を計測し、範囲内だったら与ダメージ
-        // 
-        ///////////////////////////////////////// ここいまやってる
-
-        EnemyBase* pEnemyBase = static_cast<EnemyBase*>(FindObject("EnemyBase"));
-
+        EnemyManager* manager = static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager();
+        std::vector<EnemyBase*> list = manager->GetEnemyList();
+        for (EnemyBase* e : list) 
+        {
+            XMFLOAT3 enePos = e->GetPosition();
+            float dist = CalculateDistance(transform_.position_, enePos);
+            if (dist < 10.0f) 
+            {
+                e->DecreaseHp(parameter_.damage_);
+                e->BulletHit();
+            }
+        }
         KillMe();
     }
 }
@@ -127,18 +135,7 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        // すでにこの敵に対してヒット済みの場合は無視
-        if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
-
-        // Characterにキャスト
-        Character* pCharacter = dynamic_cast<Character*>(pTarget);
-
-        // ダメージを与える
-        pCharacter->DecreaseHp(GetBulletParameter().damage_);
-
-        // 貫通しない場合は弾丸を消す.貫通する場合はヒットを記録
-        if (parameter_.isPenetration_ == 0)  parameter_.killTimer_ = 0;
-        else hitEnemies.insert(pTarget);
+        parameter_.killTimer_ = 0;
     }
     
     // 地面関連の物体に当たったとき
@@ -146,6 +143,4 @@ void Bullet_Explosion::OnCollision(GameObject* pTarget)
     {
         parameter_.killTimer_ = 0;
     }
-
-
 };

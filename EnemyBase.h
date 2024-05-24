@@ -36,6 +36,9 @@ protected:
     EnemyAlgorithm enemyAlgorithm_; // エネミーのアルゴリズム
     EnemyType enemyType_;           // エネミーの種類
 
+    // 銃弾が当たった時の演出
+    float damageTime_;
+
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
 
@@ -64,4 +67,7 @@ public:
 
     // 敵の体をプレイヤーの方向へ回転させる
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
+
+    // 銃弾が当たった時
+    void BulletHit();
 };

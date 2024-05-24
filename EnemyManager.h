@@ -69,4 +69,7 @@ public:
 
     // 指定したenemyTypeに一致するエネミーの総数を取得する
     int GetEnemyCount(EnemyType enemyType = EnemyType::MAX);
+
+    // エネミーリストを取得する
+    std::vector<EnemyBase*> GetEnemyList() { return enemies; }
 };
