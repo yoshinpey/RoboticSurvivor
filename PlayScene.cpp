@@ -61,7 +61,7 @@ void PlayScene::Initialize()
 	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	
 	///////////////////初回の敵を出現させるテスト
-	for (int i = 0; i < 30; i+=5)
+	for (int i = 0; i < 10; i+=5)
 	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 5), EnemyType::EXPLOSION);
 	}
@@ -79,7 +79,7 @@ void PlayScene::Initialize()
 
 	//タイマー設定
 	Timer* t = (Timer*)FindObject("Timer");
-	t->SetLimit(5);
+	t->SetLimit(30);
 	t->Start();
 
 }
