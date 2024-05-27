@@ -19,6 +19,7 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
     commonStatus_.maxHp_                         = GetPrivateProfileFloat("Enemy_Fly", "maxHp", 0, "Settings/EnemySettings.ini");
+    commonStatus_.currentHp_ = commonStatus_.maxHp_;        // 現在のHPを最大値で初期化
 
     enemyStatus_.attackPower_                = GetPrivateProfileInt("Enemy_Fly", "attackPower", 0, "Settings/EnemySettings.ini");
     enemyStatus_.attackCooldown_             = GetPrivateProfileInt("Enemy_Fly", "attackCooldown", 0, "Settings/EnemySettings.ini");

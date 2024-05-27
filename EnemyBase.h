@@ -70,4 +70,7 @@ public:
 
     // e’e‚ª“–‚½‚Á‚½
     void BulletHit();
+
+    // “G“¯m‚Ì“–‚½‚è”»’èˆ—
+    void CollisionDetectionWithEnemy(EnemyBase* pEnemy);
 };

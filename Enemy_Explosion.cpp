@@ -1,10 +1,11 @@
-#include "Enemy_Explosion.h"
 #include "Engine/SphereCollider.h"
+#include "Engine/Model.h"
+
+#include "Enemy_Explosion.h"
 #include "BulletBase.h"
 #include "EnemyManager.h"
 #include "PlayScene.h"
 
-#include "Engine/Direct3D.h"
 
 namespace
 {
@@ -13,6 +14,7 @@ namespace
     const XMFLOAT3 modelRotate = { 0.0f, 0.0f, 0.0f };            // モデルの回転
     const float deltaTime = 0.05f;                                // ダメージの表現用の経過時間
 
+    // モデルのアニメーション
     struct AnimFrame
     {
         int startFrame = 0;
@@ -27,7 +29,7 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
     commonStatus_.maxHp_                         = GetPrivateProfileFloat("Enemy_Explosion", "maxHp", 0, "Settings/EnemySettings.ini");
-    commonStatus_.currentHp_ = commonStatus_.maxHp_;
+    commonStatus_.currentHp_                     = commonStatus_.maxHp_;        // 現在のHPを最大値で初期化
 
     enemyStatus_.attackPower_                = GetPrivateProfileInt("Enemy_Explosion", "attackPower", 0, "Settings/EnemySettings.ini");
     enemyStatus_.attackCooldown_             = GetPrivateProfileInt("Enemy_Explosion", "attackCooldown", 0, "Settings/EnemySettings.ini");
@@ -105,36 +107,9 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
+        // エネミーベースにキャスト
         EnemyBase* pEnemy = static_cast<EnemyBase*>(pTarget);
-
-        // ぶつかった対象の半径サイズを調べる
-        float selfScale = enemyStatus_.collisionScale_;                  // 自身の半径
-        float enemyScale = pEnemy->GetEnemyStatus().collisionScale_;     // 対象の半径
-
-        // ぶつかった対象の位置を求める
-        XMFLOAT3 targetPos = pEnemy->GetPosition();
-
-        // ぶつかった対象の方向を調べる
-        XMFLOAT3 targetDir = CalculateDirection(targetPos, transform_.position_);
-
-        // 距離
-        float pushDist = CalculateDistance(targetPos, transform_.position_);
-
-        // コライダー足したやつ - 距離
-        float coll = selfScale + enemyScale;
-        coll = coll - pushDist;
-
-        OutputDebugStringA(std::to_string(coll).c_str());
-        OutputDebugString("\n");
-
-        // 押し出し距離
-        XMVECTOR pushBackVec = XMLoadFloat3(&targetDir) * coll;
-        XMVECTOR tarPos = XMLoadFloat3(&targetPos) + pushBackVec;
-        XMStoreFloat3(&targetPos, tarPos);
-        pTarget->SetPosition(targetPos);
-        
-        tarPos = XMLoadFloat3(&transform_.position_) - pushBackVec;
-        XMStoreFloat3(&transform_.position_, tarPos);
+        CollisionDetectionWithEnemy(pEnemy);
     }
 };
 
