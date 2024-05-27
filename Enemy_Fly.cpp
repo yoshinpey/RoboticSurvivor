@@ -98,7 +98,9 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        //transform_.position_ = currentPosition_;
+        // エネミーベースにキャスト
+        EnemyBase* pEnemy = static_cast<EnemyBase*>(pTarget);
+        CollisionDetectionWithEnemy(pEnemy);
     }
 }
 

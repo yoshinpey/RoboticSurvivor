@@ -60,8 +60,10 @@ void EnemyBase::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     transform_.rotate_.y += XMConvertToDegrees(angle) * rotateSpeed;
 }
 
+// 銃弾が当たった時の処理
 void EnemyBase::BulletHit()
 {
+    //ダメージシェーダーの適応時間をセットする
     damageTime_ = damageTime;
 }
 

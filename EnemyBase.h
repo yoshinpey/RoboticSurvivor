@@ -68,7 +68,7 @@ public:
     // “G‚Ì‘Ì‚ğƒvƒŒƒCƒ„[‚Ì•ûŒü‚Ö‰ñ“]‚³‚¹‚é
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
 
-    // e’e‚ª“–‚½‚Á‚½
+    // e’e‚ª“–‚½‚Á‚½‚Ìˆ—
     void BulletHit();
 
     // “G“¯m‚Ì“–‚½‚è”»’èˆ—
