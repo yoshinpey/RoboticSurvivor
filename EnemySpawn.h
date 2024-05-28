@@ -1,7 +1,7 @@
 #pragma once
 
-#include "EnemyManager.h"
 class Player;
+class EnemyManager;
 
 class EnemySpawn 
 {

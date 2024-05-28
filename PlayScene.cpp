@@ -86,8 +86,19 @@ void PlayScene::Initialize()
 
 void PlayScene::Update()
 {
-	//if (Input::IsKeyDown(DIK_E))
-		//EffectManager::CreateVfx(XMFLOAT3{ 0,3,10 }, VFX_TYPE::EXPLODE);
+	//敵がすべて消えたらゲームクリア
+	if (pEnemyManager_->GetEnemyCount() == 0)
+	{
+		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
+	}
+	Timer* t = (Timer*)FindObject("Timer");
+
+	// 時間切れ
+	if (t->IsFinished() || pPlayer_ == nullptr)
+	{
+		pEnemyManager_->RemoveAllEnemies();
+		pSceneManager_->ChangeScene(SCENE_ID_OVER);
+	}
 
 	////////////////////////敵の個体数デバッグログ
 	static float count[4] = {0,0,0,0};
@@ -103,63 +114,56 @@ void PlayScene::Update()
 	if(Input::IsKeyDown(DIK_TAB))
 		OutputDebugStringA(output.c_str());
 
-	//////////////////////////デバック用
-	//// タイム制ウェーブスポーンのテスト用
-	//Timer* pTimer = static_cast<Timer*>(FindObject("Timer"));
-	//int time = pTimer->GetFrame();
-	//// プレイヤーの位置を使って相対座標で出現させる用の変数
-	//XMFLOAT3 plaPos = pPlayer_->GetPosition();
-	////XMFLOAT3 plaDir = pPlayer_->CalculateMoveInput();
+	////////////////////////デバック用
+	// タイム制ウェーブスポーンのテスト用
+	Timer* pTimer = static_cast<Timer*>(FindObject("Timer"));
+	int time = pTimer->GetFrame();
+	// プレイヤーの位置を使って相対座標で出現させる用の変数
 
-	//if (time % waveTimer == 0)
-	//{
-	//	// ウェーブの開始時間になったら敵をスポーンさせる
-	//	// 指定した座標に指定した敵を複数体スポーン
-	//	pEnemyManager_->SpawnMultiEnemy
-	//	(
-	//		CalculateFloat3Add(plaPos, XMFLOAT3(-5, 3, 5)),
-	//		CalculateFloat3Add(plaPos, XMFLOAT3(5, 6, 10)),
-	//		3,
-	//		EnemyType::FLY
-	//	);
-	//}
-	//
-	//if (time % waveTimer * 2 == 0)
-	//{
+	if (!pPlayer_)return;
+	XMFLOAT3 plaPos = pPlayer_->GetPosition();
+	//XMFLOAT3 plaDir = pPlayer_->CalculateMoveInput();
 
-	//	// 指定した座標に指定した敵をスポーン
-	//	pEnemyManager_->SpawnEnemy(XMFLOAT3(plaPos.x, plaPos.y+3, plaPos.z + 5), EnemyType::FLY);
-	//}
-
-	//if (time % waveTimer * 0.5 == 0)
-	//{
-	//	// 指定した座標にランダムな敵を出現させる。
-	//	pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 3, 20), XMFLOAT3(-10, 5, 30), 2);
-	//}
-
-	//if (time % waveTimer * 3 == 0)
-	//{
-	//	// 指定した座標にランダムな敵を出現させる。今回フライを除外してる
-	//	pEnemyManager_->SpawnRandomMultiEnemy
-	//	(
-	//		CalculateFloat3Add(plaPos, XMFLOAT3(10, 2, 10)),
-	//		CalculateFloat3Add(plaPos, XMFLOAT3(20, 5, 20)),
-	//		3
-	//	);
-	//}
-
-	//敵がすべて消えたらゲームクリア
-	if (pEnemyManager_->GetEnemyCount() == 0)
+	if (time % waveTimer == 0)
 	{
-		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
+		// ウェーブの開始時間になったら敵をスポーンさせる
+		// 指定した座標に指定した敵を複数体スポーン
+		XMFLOAT3 minPos = XMFLOAT3(-5, 3, 5);
+		XMFLOAT3 maxPos = XMFLOAT3(5, 6, 10);
+		pEnemyManager_->SpawnMultiEnemy
+		(
+			CalculateFloat3Add(plaPos, minPos),
+			CalculateFloat3Add(plaPos, maxPos),
+			3,
+			EnemyType::FLY
+		);
 	}
-	Timer* t = (Timer*)FindObject("Timer");
 	
-	// 時間切れ
-	if (t->IsFinished() || pPlayer_ == nullptr)
+	if (time % waveTimer * 2 == 0)
 	{
-		pEnemyManager_->RemoveAllEnemies();
-		pSceneManager_->ChangeScene(SCENE_ID_OVER);
+
+		// 指定した座標に指定した敵をスポーン
+		pEnemyManager_->SpawnEnemy(XMFLOAT3(plaPos.x, plaPos.y+3, plaPos.z + 5), EnemyType::FLY);
+	}
+
+	if (time % waveTimer * 0.5 == 0)
+	{
+		// 指定した座標にランダムな敵を出現させる。
+		pEnemyManager_->SpawnRandomMultiEnemy(XMFLOAT3(-20, 3, 20), XMFLOAT3(-10, 5, 30), 2);
+	}
+
+	if (time % waveTimer * 3 == 0)
+	{
+		XMFLOAT3 minPos = XMFLOAT3(-5, 3, 5);
+		XMFLOAT3 maxPos = XMFLOAT3(5, 6, 10);
+
+		// 指定した座標にランダムな敵を出現させる。今回フライを除外してる
+		pEnemyManager_->SpawnRandomMultiEnemy
+		(
+			CalculateFloat3Add(plaPos, minPos),
+			CalculateFloat3Add(plaPos, maxPos),
+			3
+		);
 	}
 	//////////////////////////////////////
 

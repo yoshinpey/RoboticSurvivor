@@ -93,6 +93,11 @@ std::mt19937 EnemyManager::InitializeRandomGenerator()
 
 XMFLOAT3 EnemyManager::GenerateRandomPosition(std::mt19937& mt, XMFLOAT3 minPosition, XMFLOAT3 maxPosition)
 {
+    // もし大小関係が不正だった場合、正しい順序に並べ替える
+    if (minPosition.x > maxPosition.x) std::swap(minPosition.x, maxPosition.x);
+    if (minPosition.y > maxPosition.y) std::swap(minPosition.y, maxPosition.y);
+    if (minPosition.z > maxPosition.z) std::swap(minPosition.z, maxPosition.z);
+
     // 範囲内のランダムな座標を生成
     std::uniform_real_distribution<float> distPosX(minPosition.x, maxPosition.x);
     std::uniform_real_distribution<float> distPosY(minPosition.y, maxPosition.y);

@@ -2,7 +2,7 @@
 #include <random>
 
 #include "Player.h"
-
+#include "EnemyManager.h"
 
 // コンストラクタの実装
 EnemySpawn::EnemySpawn(EnemyManager* enemyManager, Player* player, int waveTimer, int maxWaves)
@@ -10,24 +10,12 @@ EnemySpawn::EnemySpawn(EnemyManager* enemyManager, Player* player, int waveTimer
 
 // ウェーブのスポーン処理の実装
 void EnemySpawn::SpawnWave() {
-    // ランダムな位置に敵をスポーンさせる
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> disX(-20.0f, 20.0f);
-    std::uniform_real_distribution<float> disZ(-20.0f, 20.0f);
 
-    // ランダムな位置を計算
-    XMFLOAT3 spawnPosition(disX(gen), 0.0f, disZ(gen));
-
-    // ランダムな種類の敵をスポーンさせる
-    EnemyType enemyType = static_cast<EnemyType>(rand() % static_cast<int>(EnemyType::MAX));
-
-    // 敵をスポーンさせる
-    enemyManager_->SpawnEnemy(spawnPosition, enemyType);
 }
 
 // ウェーブの更新処理の実装
-void EnemySpawn::UpdateWave() {
+void EnemySpawn::UpdateWave() 
+{
     waveTimer_--; // タイマーを減らす
 
     // タイマーが0以下になったら新しいウェーブをスタート

@@ -24,9 +24,6 @@ public:
     EnemyManager(GameObject* parent);
     ~EnemyManager();
 
-    // 更新
-    void Update();
-
     // エネミーの生成を行う
     void SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType);
 
