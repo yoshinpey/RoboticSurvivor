@@ -18,8 +18,8 @@ private:
     XMFLOAT3 GenerateRandomPosition(std::mt19937& mt, XMFLOAT3 minPosition, XMFLOAT3 maxPosition);
 
     // ランダムな敵の種類を選択
-    // 引数:乱数, 生成リストから除外する敵(あれば), 生成リストから除外する敵のリスト(あれば)
-    EnemyType GenerateRandomEnemyType(std::mt19937& mt, EnemyType excludeType = EnemyType::MAX, const std::vector<EnemyType>& excludeList = {});
+    // 引数:乱数, 生成リストから選択する敵のリスト
+    EnemyType GenerateRandomEnemyType(std::mt19937& mt, const std::vector<EnemyType>& includeList);
 public:
     EnemyManager(GameObject* parent);
     ~EnemyManager();
@@ -53,15 +53,13 @@ public:
     // minPosition  : スポーン位置の最小値(X, Y, Z)
     // maxPosition  : スポーン位置の最大値(X, Y, Z)
     // spawnCount   : 生成数
-    // excludeType  : 生成リストから除外する敵の種類単体(あれば指定)
-    // excludeList  : 生成リストから除外する敵の種類リスト(あれば指定)
+    // includeList  : 生成リストから選択する敵の種類リスト
     void SpawnRandomMultiEnemy
     (
         XMFLOAT3 minPosition = { 0,0,0 },
         XMFLOAT3 maxPosition = { 0,0,0 },
         int spawnCount = 1,
-        EnemyType excludeType = EnemyType::MAX,
-        const std::vector<EnemyType>& excludeList = {}
+        const std::vector<EnemyType>&includeList = {}
     );
 
     // 指定したenemyTypeに一致するエネミーの総数を取得する
