@@ -1,0 +1,23 @@
+{
+  "wave0": 
+  {
+    "enemyID": 0,
+    "enemyCount": 3,
+    "minPosition(X,Y,Z)": [-10, 0, 10],
+    "maxPosition(X,Y,Z)": [10, 0, 20]
+  },
+  "wave1": 
+  {
+  	"enemyID": [0, 1, 2],
+    "enemyCount": 5,
+    "minPosition(X,Y,Z)": [-5, 0, 15],
+    "maxPosition(X,Y,Z)": [5, 0, 25]
+  },
+  "wave2": 
+  {
+  	"enemyID": [0, 1, 2],
+    "enemyCount": 8,
+    "minPosition(X,Y,Z)":[0, 0, 15],
+    "maxPosition(X,Y,Z)": [10, 0, 25]
+  }
+}
