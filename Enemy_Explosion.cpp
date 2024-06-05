@@ -12,7 +12,7 @@ namespace
     const std::string modelName = "Enemy/Enemy_Explosion.fbx";    // モデル名
     const XMFLOAT3 collisionOffset = { 0.0f, 1.0f, 0.0f };        // 当たり判定の位置
     const XMFLOAT3 modelRotate = { 0.0f, 0.0f, 0.0f };            // モデルの回転
-    const float deltaTime = 0.05f;                                // ダメージの表現用の経過時間
+    const float deltaTime = 0.05f;                                // ダメージのシェーダーの変化量
 
     // モデルのアニメーション
     struct AnimFrame

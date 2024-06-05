@@ -2,9 +2,10 @@
 //#include "EnemyManager.h"
 //#include "Player.h"
 //
-//EnemySpawn::EnemySpawn(EnemyManager* enemyManager, Player* player) :
-//    pEnemyManager_(enemyManager), pPlayer_(player), currentWaveIndex_(0), isWaveActive_(false)
+//EnemySpawn::EnemySpawn() 
+//    :pEnemyManager_(nullptr), pPlayer_(nullptr), currentWaveIndex_(0), isWaveActive_(false)
 //{
+//    pEnemyManager_ = EnemyManager*
 //    std::string filename = "EnemySpawn.json";
 //    JsonReader::Load(filename);
 //}

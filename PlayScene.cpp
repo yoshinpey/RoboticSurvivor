@@ -13,6 +13,7 @@
 #include "Engine/Model.h"
 #include "AudioManager.h"
 #include "EffectManager.h"
+//#include "EnemySpawn.h"
 
 #include <array>
 
@@ -187,5 +188,4 @@ void PlayScene::Draw()
 void PlayScene::Release()
 {
 	SAFE_DELETE(pEnemyManager_);
-	AudioManager::Release();
 }

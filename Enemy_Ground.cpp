@@ -10,8 +10,15 @@ namespace
     XMFLOAT3 collisionPosition = { 0.0f, 1.0f, 0.0f };      // 当たり判定の位置
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };          // モデルの回転
 
+    // モデルのアニメーション
+    struct AnimFrame
+    {
+        int startFrame = 70;
+        int endFrame = 260;
+        float speed = 0.75f;
+    }anim;
 
-    const float deltaTime = 0.05f;                                // ダメージの表現用の経過時間
+    const float deltaTime = 0.05f;  // ダメージのシェーダーの変化量
 }
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
@@ -46,8 +53,8 @@ void Enemy_Ground::Initialize()
     assert(hModel_ >= 0);
 
     //アニメーション
-    //Model::SetAnimFrame(hModel_, 0, 120, 0.75);
-     
+    Model::SetAnimFrame(hModel_, anim.startFrame, anim.endFrame, anim.speed);
+
     // 当たり判定付与
     SphereCollider* pCollision = new SphereCollider(collisionPosition, enemyStatus_.collisionScale_);
     AddCollider(pCollision);

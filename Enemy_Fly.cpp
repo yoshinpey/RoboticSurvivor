@@ -10,7 +10,7 @@ namespace
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };          // モデルの回転
 
 
-    const float deltaTime = 0.05f;                                // ダメージの表現用の経過時間
+    const float deltaTime = 0.05f;      // ダメージのシェーダーの変化量
 }
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)

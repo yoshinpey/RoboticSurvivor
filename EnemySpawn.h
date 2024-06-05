@@ -24,7 +24,7 @@
 //    bool isWaveActive_;
 //
 //public:
-//    EnemySpawn(EnemyManager* enemyManager, Player* player);
+//    EnemySpawn(GameObject* parent);
 //    ~EnemySpawn();
 //
 //    // ウェーブの追加
