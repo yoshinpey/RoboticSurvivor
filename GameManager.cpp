@@ -6,7 +6,7 @@
 namespace GameManager
 {	
 	GameObject* pGameObject_ = nullptr;
-	EnemyManager* pEnemyManager_ = nullptr;
+	//EnemyManager* pEnemyManager_ = nullptr;
 
 
 	void GameManager::Initialize()
@@ -21,8 +21,8 @@ namespace GameManager
 
 	void GameManager::Release()
 	{
-		SAFE_DELETE(pEnemyManager_);
+		//SAFE_DELETE(pEnemyManager_);
 	}
 
-	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
+	//EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 }

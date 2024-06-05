@@ -1,23 +1,46 @@
 {
-  "wave0": 
-  {
-    "enemyID": 0,
-    "enemyCount": 3,
-    "minPosition(X,Y,Z)": [-10, 0, 10],
-    "maxPosition(X,Y,Z)": [10, 0, 20]
-  },
-  "wave1": 
-  {
-  	"enemyID": [0, 1, 2],
-    "enemyCount": 5,
-    "minPosition(X,Y,Z)": [-5, 0, 15],
-    "maxPosition(X,Y,Z)": [5, 0, 25]
-  },
-  "wave2": 
-  {
-  	"enemyID": [0, 1, 2],
-    "enemyCount": 8,
-    "minPosition(X,Y,Z)":[0, 0, 15],
-    "maxPosition(X,Y,Z)": [10, 0, 25]
-  }
+  "waves": [
+    {
+      "enemyID": 0,
+      "enemyCount": 3,
+      "minPosition": {
+        "x": -10,
+        "y": 0,
+        "z": 10
+      },
+      "maxPosition": {
+        "x": 10,
+        "y": 0,
+        "z": 20
+      }
+    },
+    {
+      "enemyID": 1,
+      "enemyCount": 5,
+      "minPosition": {
+        "x": -5,
+        "y": 0,
+        "z": 15
+      },
+      "maxPosition": {
+        "x": 5,
+        "y": 0,
+        "z": 25
+      }
+    },
+    {
+      "enemyID": 2,
+      "enemyCount": 8,
+      "minPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 15
+      },
+      "maxPosition": {
+        "x": 10,
+        "y": 0,
+        "z": 25
+      }
+    }
+  ]
 }
