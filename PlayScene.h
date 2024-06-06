@@ -2,6 +2,7 @@
 #include "Engine/GameObject.h"
 
 class Player;
+class Timer;
 class EnemyManager;
 class SceneManager;
 
@@ -9,6 +10,7 @@ class SceneManager;
 class PlayScene : public GameObject
 {
 	Player* pPlayer_;
+	Timer* pTimer_;
 	EnemyManager* pEnemyManager_;
 	SceneManager* pSceneManager_;
 
@@ -27,5 +29,6 @@ public:
 
 	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 
+	// ƒV[ƒ“‚ÌØ‚è‘Ö‚¦”»’èŠÖ”
 	void CheckAndChangeScene();
 };
