@@ -144,7 +144,6 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="EnemySpawn.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="Enemy_Explosion.cpp" />
     <ClCompile Include="Enemy_Fly.cpp" />
@@ -207,7 +206,6 @@
     <ClInclude Include="ButtonFactory.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="EnemyBase.h" />
-    <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\VFX.h" />

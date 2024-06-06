@@ -259,9 +259,6 @@
     <ClCompile Include="Engine\Global.cpp">
       <Filter>01Engine</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawn.cpp">
-      <Filter>Character\Enemy</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -470,9 +467,6 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawn.h">
-      <Filter>Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

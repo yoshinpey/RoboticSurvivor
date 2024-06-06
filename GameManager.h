@@ -9,5 +9,4 @@ namespace GameManager
     void Update();
     void Release();
 
-    EnemyManager* GetEnemyManager();
 };

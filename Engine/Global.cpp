@@ -25,6 +25,14 @@ XMFLOAT3 CalculateFloat3Sub(XMFLOAT3& a, XMFLOAT3& b)
     return result;
 }
 
+// XMFLOAT3ÇÃä|ÇØéZ
+XMFLOAT3 CalculateFloat3Mul(XMFLOAT3& a, XMFLOAT3& b)
+{
+    XMFLOAT3 result = { 0,0,0 };
+    XMStoreFloat3(&result, XMVectorMultiply(XMLoadFloat3(&a), XMLoadFloat3(&b)));
+    return result;
+}
+
 // XMFLOAT3å^ÇÃ2ì_ä‘ãóó£ÇåvéZÇ∑ÇÈä÷êî
 float CalculateDistance(XMFLOAT3& point1, XMFLOAT3& point2)
 {

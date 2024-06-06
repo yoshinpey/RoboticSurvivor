@@ -1,19 +1,18 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
+#include "Engine/Model.h"
 
 #include "PlayScene.h"
-#include "GameManager.h"
-#include "EnemyManager.h"
 #include "Player.h"
 #include "Stage.h"
 #include "Timer.h"
 #include "Score.h"
 #include "SkyBox.h"
-#include "Engine/Model.h"
+
 #include "AudioManager.h"
 #include "EffectManager.h"
-//#include "EnemySpawn.h"
+#include "EnemyManager.h"
 
 #include <array>
 
@@ -116,21 +115,8 @@ void PlayScene::Update()
 
 	// プレイヤーの位置を使って相対座標で出現させる用の変数
 	XMFLOAT3 plaPos = pPlayer_->GetPosition();
-	//XMFLOAT3 plaDir = pPlayer_->CalculateMoveInput();
-
-	//if (time % waveTimer == 0)
-	//{
-	//	// 指定した座標に指定した敵を複数体スポーン
-	//	XMFLOAT3 minPos = XMFLOAT3(-5, 3, 5);
-	//	XMFLOAT3 maxPos = XMFLOAT3(5, 6, 10);
-	//	pEnemyManager_->SpawnMultiEnemy
-	//	(
-	//		CalculateFloat3Add(plaPos, minPos),
-	//		CalculateFloat3Add(plaPos, maxPos),
-	//		3,
-	//		EnemyType::FLY
-	//	);
-	//}
+	XMFLOAT3 plaDir = pPlayer_->CalculateMoveInput();
+	//plaPos = CalculateFloat3Add(plaPos, plaDir);
 
 	if (pTimer->GetFrame() % waveTimer * 3 == 0)
 	{
@@ -187,5 +173,22 @@ void PlayScene::Draw()
 
 void PlayScene::Release()
 {
-	SAFE_DELETE(pEnemyManager_);
+}
+
+void PlayScene::CheckAndChangeScene()
+{
+	// 敵がすべて消えたらゲームクリア
+	if (pEnemyManager_->GetEnemyCount() == 0)
+	{
+		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
+	}
+
+	Timer* pTimer = static_cast<Timer*>(FindObject("Timer"));
+
+	// 時間切れ、あるいはプレイヤーの死亡
+	if (pTimer->IsFinished() || pPlayer_ == nullptr)
+	{
+		pEnemyManager_->RemoveAllEnemies();
+		pSceneManager_->ChangeScene(SCENE_ID_OVER);
+	}
 }

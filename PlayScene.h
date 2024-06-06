@@ -8,9 +8,10 @@ class SceneManager;
 //Playシーンを管理するクラス
 class PlayScene : public GameObject
 {
+	Player* pPlayer_;
 	EnemyManager* pEnemyManager_;
 	SceneManager* pSceneManager_;
-	Player* pPlayer_;
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -22,7 +23,9 @@ public:
 	void Draw() override;           //描画
 	void Release() override;        //開放
 
+	void SetPlayer(Player* player) { pPlayer_ = player; }
+
 	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 
-	void SetPlayer(Player* player) { pPlayer_  = player;}
+	void CheckAndChangeScene();
 };
