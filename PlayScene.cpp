@@ -82,7 +82,7 @@ void PlayScene::Update()
 	// シーンの切り替え判定関数
 	CheckAndChangeScene();
 
-#ifndef DEBUG
+#ifdef _DEBUG
 	////////////////////////敵の個体数デバッグログ
 	static float count[4] = { 0,0,0,0 };
 	count[0] = pEnemyManager_->GetEnemyCount(EnemyType::GROUND);
@@ -94,6 +94,7 @@ void PlayScene::Update()
 		"Explosion	: " + std::to_string(count[1]) + "\n"
 		"Fly			: " + std::to_string(count[2]) + "\n"
 		"All			: " + std::to_string(count[3]) + "\n";
+	// Tab押したとき個体数を表示する
 	if (Input::IsKeyDown(DIK_TAB)) OutputDebugStringA(output.c_str());
 #endif
 
@@ -123,7 +124,7 @@ void PlayScene::Update()
 	}
 
 	////////////////////////デバック用
-	// 特定のエネミー消す
+#ifdef _DEBUG
 	if (Input::IsKeyDown(DIK_1))
 	{
 		pEnemyManager_->RemoveEnemy(EnemyType::FLY);
@@ -136,6 +137,8 @@ void PlayScene::Update()
 	{
 		pEnemyManager_->RemoveEnemy(EnemyType::EXPLOSION);
 	}
+#endif
+	// 特定のエネミー消す
 
 	// 全部のエネミー消し炭
 	if (Input::IsKeyDown(DIK_4))

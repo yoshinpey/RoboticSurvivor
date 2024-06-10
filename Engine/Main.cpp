@@ -14,11 +14,13 @@
 #include "VFX.h"
 
 //ImGui関連のデータ
+#ifdef _DEBUG
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
+#endif
 
-#include "../GameManager.h"
+//#include "../GameManager.h"
 #include "GameObject.h"
 
 #pragma comment(lib,"Winmm.lib")
@@ -85,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Audio::Initialize();
 
 	//ゲームマネージャー初期化
-	GameManager::Initialize();
+	//GameManager::Initialize();
 
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
@@ -137,7 +139,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//時間計測関連
 				lastUpdateTime = nowTime;	//現在の時間（最後に画面を更新した時間）を覚えておく
 				FPS++;						//画面更新回数をカウントする
-
+#ifdef _DEBUG
 				//ImGuiの更新処理
 				ImGui_ImplDX11_NewFrame();
 				ImGui_ImplWin32_NewFrame();
@@ -151,13 +153,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//	}
 				//}
 				//ImGui::End();//ImGuiの処理を終了
-
+#endif
 
 				//入力（キーボード、マウス、コントローラー）情報を更新
 				Input::Update();
 
 				//ゲームマネージャー更新
-				GameManager::Update();
+				//GameManager::Update();
 
 				//全オブジェクトの更新処理
 				//ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -180,9 +182,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				VFX::Draw();
 
 				//描画処理の前に記述
+#ifdef _DEBUG
 				ImGui::Render();
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
+#endif
 				//描画終了
 				Direct3D::EndDraw();
 
@@ -203,14 +206,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Audio::AllRelease();
 	Model::AllRelease();
 	Image::AllRelease();
-	GameManager::Release();
+	//GameManager::Release();
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
 
 	//ImGuiの開放処理
+#ifdef _DEBUG
 	ImGui_ImplDX11_Shutdown();
 	ImGui::DestroyContext();
-
+#endif
 	Direct3D::Release();
 
 	return 0;
@@ -244,7 +248,7 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	char caption[64];
 	GetPrivateProfileString("SCREEN", "Caption", "***", caption, 64, ".\\setup.ini");
 
-#ifndef DEBUG
+#ifdef _DEBUG
 	//ウィンドウを作成
 	HWND hWnd = CreateWindow(
 		WIN_CLASS_NAME,						//ウィンドウクラス名
@@ -349,11 +353,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
 
     //ImGuiに情報を渡す
+#ifdef _DEBUG
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
     {
         return true;
     }
-
+#endif
     return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
