@@ -1,9 +1,9 @@
 #pragma once
-#include "Engine/GameObject.h"
+#include "StageBase.h"
 
 class Player;
 
-class SkyBox : public GameObject
+class SkyBox : public StageBase
 {
     int hModel_;
     Player* pPlayer_;

@@ -5,21 +5,20 @@
 
 namespace
 {
+    XMFLOAT3 collisionPosition = { 0.0f, -0.5f, 0.0f };    // 当たり判定の位置
+    XMFLOAT3 collisionScale = { 100.0f, 1.0f, 100.0f };      // 当たり判定の大きさ
     std::string modelName = "Stage/Ground.fbx";     // モデル名
 }
 
-//コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage_a"), hModel_(-1)
+    :StageBase(parent, StageType::GROUND, "Stage_a"), hModel_(-1)
 {
 }
 
-//デストラクタ
 Stage::~Stage()
 {
 }
 
-//初期化
 void Stage::Initialize()
 {
     //モデルデータのロード
@@ -27,23 +26,20 @@ void Stage::Initialize()
     assert(hModel_ >= 0);
 
     // コライダー付与
-    BoxCollider* pBoxCollider = new BoxCollider(XMFLOAT3{0,0,0}, XMFLOAT3 {80.0f, 0.2f, 80.0f});
+    BoxCollider* pBoxCollider = new BoxCollider(collisionPosition, collisionScale);
     AddCollider(pBoxCollider);
 }
 
-//更新
 void Stage::Update()
 {
 }
 
-//描画
 void Stage::Draw()
 {
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 }
 
-//開放
 void Stage::Release()
 {
 }

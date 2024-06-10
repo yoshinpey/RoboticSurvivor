@@ -37,9 +37,7 @@ public:
     {
     }
 
-    virtual ~Character()
-    {
-    };
+    virtual ~Character() = default;
 
     // HP�𑝂₷
     void IncreaseHp(float amount)

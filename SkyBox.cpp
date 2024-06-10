@@ -11,7 +11,7 @@ namespace
 }
 
 SkyBox::SkyBox(GameObject* parent)
-	:GameObject(parent, "SkyBox"), hModel_(-1), pPlayer_(nullptr)
+	:StageBase(parent, StageType::GROUND, "SkyBox"), hModel_(-1), pPlayer_(nullptr)
 {
 }
 
