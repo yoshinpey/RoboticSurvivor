@@ -250,7 +250,7 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="jsonReader.cpp">
+    <ClCompile Include="JsonReader.cpp">
       <Filter>Json</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
@@ -459,7 +459,7 @@
     <ClInclude Include="GameManager.h">
       <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="jsonReader.h">
+    <ClInclude Include="JsonReader.h">
       <Filter>Json</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
