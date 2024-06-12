@@ -7,8 +7,9 @@
 class EnemyManager
 {
 private:
-    std::vector<EnemyBase*> enemies;  // エネミーのリスト
+    std::vector<EnemyBase*> enemies_;  // エネミーのリスト
     GameObject* pParent_;
+
 
     // 乱数生成器の初期化
     std::mt19937 InitializeRandomGenerator();
@@ -66,5 +67,5 @@ public:
     int GetEnemyCount(EnemyType enemyType = EnemyType::MAX);
 
     // エネミーリストを取得する
-    std::vector<EnemyBase*> GetEnemyList() { return enemies; }
+    std::vector<EnemyBase*> GetEnemyList() { return enemies_; }
 };

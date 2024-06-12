@@ -1,6 +1,6 @@
 #include "Engine/Model.h"
 
-#include "SkyBox.h"
+#include "Stage_Skybox.h"
 #include "Player.h"
 
 namespace 
@@ -10,16 +10,16 @@ namespace
 	std::string modelName = "Stage/skyBox.fbx";
 }
 
-SkyBox::SkyBox(GameObject* parent)
-	:StageBase(parent, StageType::GROUND, "SkyBox"), hModel_(-1), pPlayer_(nullptr)
+Stage_Skybox::Stage_Skybox(GameObject* parent)
+	:StageBase(parent, StageType::SKYBOX, "Stage_Skybox"), hModel_(-1), pPlayer_(nullptr)
 {
 }
 
-SkyBox::~SkyBox()
+Stage_Skybox::~Stage_Skybox()
 {
 }
 
-void SkyBox::Initialize()
+void Stage_Skybox::Initialize()
 {
 	hModel_ = Model::Load(modelName);
 	assert(hModel_ >= 0);
@@ -28,18 +28,18 @@ void SkyBox::Initialize()
 	pPlayer_ = (Player*)FindObject("Player");
 }
 
-void SkyBox::Update()
+void Stage_Skybox::Update()
 {
 	// スカイボックスはプレイヤーに付いて常に移動する
 	if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
 }
 
-void SkyBox::Draw()
+void Stage_Skybox::Draw()
 {
 	Model::SetTransform(hModel_, transform_);
 	Model::Draw(hModel_, Direct3D::SHADER_TYPE::SHADER_SKYBOX);
 }
 
-void SkyBox::Release()
+void Stage_Skybox::Release()
 {
 }

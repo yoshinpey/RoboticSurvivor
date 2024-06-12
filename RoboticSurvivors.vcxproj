@@ -181,7 +181,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gauge.cpp" />
-    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Stage_Floor.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ItemManager.cpp" />
@@ -192,7 +192,7 @@
     <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="Stage_Skybox.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -253,7 +253,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Gauge.h" />
-    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Stage_Floor.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemManager.h" />
@@ -261,7 +261,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Aim.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="SkyBox.h" />
+    <ClInclude Include="Stage_Skybox.h" />
     <ClInclude Include="StageBase.h" />
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="StateBase.h" />

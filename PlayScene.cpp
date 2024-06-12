@@ -5,10 +5,10 @@
 
 #include "PlayScene.h"
 #include "Player.h"
-#include "Stage.h"
+#include "Stage_Floor.h"
 #include "Timer.h"
 #include "Score.h"
-#include "SkyBox.h"
+#include "Stage_Skybox.h"
 
 #include "AudioManager.h"
 #include "EffectManager.h"
@@ -57,8 +57,8 @@ void PlayScene::Initialize()
 		Model::Load(modelName[i]);
 	}
 
-	Instantiate<Stage>(this);			// ’n–Ê“oê
-	Instantiate<SkyBox>(this);			// ‹ó“oê
+	Instantiate<Stage_Floor>(this);			// ’n–Ê“oê
+	Instantiate<Stage_Skybox>(this);			// ‹ó“oê
 	pPlayer_=Instantiate<Player>(this);			//ƒvƒŒƒCƒ„[“oê
 	
 	///////////////////‰‰ñ‚Ì“G‚ğoŒ»‚³‚¹‚éƒeƒXƒg

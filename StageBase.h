@@ -4,7 +4,7 @@
 // ステージの種類
 enum class StageType
 {
-    GROUND,
+    FLOOR,
     SKYBOX,
     MAX
 };

@@ -1,7 +1,7 @@
 #include "Engine/Model.h"
 #include "Engine/BoxCollider.h"
 
-#include "Stage.h"
+#include "Stage_Floor.h"
 
 namespace
 {
@@ -10,16 +10,16 @@ namespace
     std::string modelName = "Stage/Ground.fbx";     // モデル名
 }
 
-Stage::Stage(GameObject* parent)
-    :StageBase(parent, StageType::GROUND, "Stage_a"), hModel_(-1)
+Stage_Floor::Stage_Floor(GameObject* parent)
+    :StageBase(parent, StageType::FLOOR, "Stage_Floor"), hModel_(-1)
 {
 }
 
-Stage::~Stage()
+Stage_Floor::~Stage_Floor()
 {
 }
 
-void Stage::Initialize()
+void Stage_Floor::Initialize()
 {
     //モデルデータのロード
     hModel_ = Model::Load(modelName);
@@ -30,16 +30,16 @@ void Stage::Initialize()
     AddCollider(pBoxCollider);
 }
 
-void Stage::Update()
+void Stage_Floor::Update()
 {
 }
 
-void Stage::Draw()
+void Stage_Floor::Draw()
 {
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 }
 
-void Stage::Release()
+void Stage_Floor::Release()
 {
 }

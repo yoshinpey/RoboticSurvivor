@@ -13,7 +13,7 @@ EnemyManager::EnemyManager(GameObject* parent) : pParent_(parent)
 EnemyManager::~EnemyManager()
 {
     // エネミーの解放(ゲームオブジェクトでやってるからデリートは不要)
-    enemies.clear();
+    enemies_.clear();
 }
 
 void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
@@ -37,18 +37,18 @@ void EnemyManager::SpawnEnemy(XMFLOAT3 spawnPosition, EnemyType enemyType)
         return;
     }
     pNewEnemy->SetPosition(spawnPosition);
-    enemies.push_back(pNewEnemy);
+    enemies_.push_back(pNewEnemy);
 }
 
 void EnemyManager::RemoveEnemy(EnemyType enemyType)
 {
     // 指定したenemyTypeに一致するエネミーを全削除する
-    for (auto it = enemies.begin(); it != enemies.end(); )
+    for (auto it = enemies_.begin(); it != enemies_.end(); )
     {
         if ((*it)->GetEnemyType() == enemyType)
         {
             (*it)->KillMe();        // エネミー本体を削除
-            it = enemies.erase(it); // エネミーをリストから削除
+            it = enemies_.erase(it); // エネミーをリストから削除
         }
         else
         {
@@ -60,11 +60,11 @@ void EnemyManager::RemoveEnemy(EnemyType enemyType)
 void EnemyManager::RemoveDeadEnemies(EnemyBase* enemy)
 {
     // 死亡したエネミーをマネージャー内のリストから削除する
-    for (auto it = enemies.begin(); it != enemies.end(); )
+    for (auto it = enemies_.begin(); it != enemies_.end(); )
     {
         if ((*it) == enemy)
         {
-            it = enemies.erase(it); // エネミーをリストから削除
+            it = enemies_.erase(it); // エネミーをリストから削除
             return;
         }
         else
@@ -77,12 +77,12 @@ void EnemyManager::RemoveDeadEnemies(EnemyBase* enemy)
 void EnemyManager::RemoveAllEnemies()
 {
     // 全てのエネミーオブジェクトを削除する
-    for (auto enemy : enemies)
+    for (auto enemy : enemies_)
     {
         enemy->KillMe();
     }
     // エネミーリストをクリアする
-    enemies.clear();
+    enemies_.clear();
 }
 
 std::mt19937 EnemyManager::InitializeRandomGenerator()
@@ -154,12 +154,12 @@ int EnemyManager::GetEnemyCount(EnemyType enemyType)
     if (enemyType == EnemyType::MAX) 
     {
         // エネミーの総数を返す
-        return static_cast<int>(enemies.size());
+        return static_cast<int>(enemies_.size());
     }
 
     // 指定されたエネミーの個体数を返す
     int count = 0;
-    for (auto enemy : enemies)
+    for (auto enemy : enemies_)
     {
         if (enemy->GetEnemyType() == enemyType) ++count;
     }

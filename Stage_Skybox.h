@@ -3,14 +3,14 @@
 
 class Player;
 
-class SkyBox : public StageBase
+class Stage_Skybox : public StageBase
 {
     int hModel_;
     Player* pPlayer_;
 
 public:
-    SkyBox(GameObject* parent);
-    ~SkyBox();
+    Stage_Skybox(GameObject* parent);
+    ~Stage_Skybox();
     void Initialize() override;
     void Update() override;
     void Draw() override;
