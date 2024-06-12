@@ -4,6 +4,7 @@
 class Player;
 class Timer;
 class EnemyManager;
+class StageManager;
 class SceneManager;
 
 //Playシーンを管理するクラス
@@ -12,6 +13,7 @@ class PlayScene : public GameObject
 	Player* pPlayer_;
 	Timer* pTimer_;
 	EnemyManager* pEnemyManager_;
+	StageManager* pStageManager_;
 	SceneManager* pSceneManager_;
 
 public:
@@ -28,6 +30,7 @@ public:
 	void SetPlayer(Player* player) { pPlayer_ = player; }
 
 	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
+	StageManager* GetStageManager() { return pStageManager_; }
 
 	// シーンの切り替え判定関数
 	void CheckAndChangeScene();

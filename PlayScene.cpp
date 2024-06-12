@@ -5,14 +5,14 @@
 
 #include "PlayScene.h"
 #include "Player.h"
-#include "Stage_Floor.h"
+
 #include "Timer.h"
 #include "Score.h"
-#include "Stage_Skybox.h"
 
 #include "AudioManager.h"
 #include "EffectManager.h"
 #include "EnemyManager.h"
+#include "StageManager.h"
 
 #include <array>
 
@@ -35,9 +35,10 @@ namespace
 }
 
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr), pSceneManager_(nullptr), pPlayer_(nullptr)
+	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr), pStageManager_(nullptr),  pSceneManager_(nullptr), pPlayer_(nullptr)
 {
 	pEnemyManager_ = new EnemyManager(this);
+	pStageManager_ = new StageManager(this);
 	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
 	/////////////////////////////////////////
 	AudioManager::Initialize();
@@ -57,8 +58,9 @@ void PlayScene::Initialize()
 		Model::Load(modelName[i]);
 	}
 
-	Instantiate<Stage_Floor>(this);			// 地面登場
-	Instantiate<Stage_Skybox>(this);			// 空登場
+	pStageManager_->CreateStage(XMFLOAT3(0,0,0),StageType::FLOOR);
+	pStageManager_->CreateStage(XMFLOAT3(0,0,0),StageType::SKYBOX);
+
 	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	
 	///////////////////初回の敵を出現させるテスト

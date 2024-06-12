@@ -2,6 +2,9 @@
 #include "Engine/BoxCollider.h"
 
 #include "Stage_Floor.h"
+#include "StageManager.h"
+
+#include "PlayScene.h"
 
 namespace
 {
@@ -17,6 +20,9 @@ Stage_Floor::Stage_Floor(GameObject* parent)
 
 Stage_Floor::~Stage_Floor()
 {
+    // ステージリストから削除する
+    PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
+    pPlayScene->GetStageManager()->RemoveCompletedStages(this);
 }
 
 void Stage_Floor::Initialize()

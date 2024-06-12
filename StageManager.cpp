@@ -1,11 +1,11 @@
 #include "StageManager.h"
+
 #include "Stage_Floor.h"
 #include "Stage_Skybox.h"
 
 StageManager::StageManager(GameObject* parent)
-	: pParent_(parent)
+	: pParent_(parent), stages_()
 {
-    //ここにstages_の初期化追加
 }
 
 StageManager::~StageManager()
@@ -41,7 +41,7 @@ void StageManager::RemoveStage(StageType stageType)
     {
         if ((*it)->GetStageType() == stageType)
         {
-            (*it)->KillMe();        // エネミー本体を削除
+            (*it)->KillMe();        // Stage本体を削除
             it = stages_.erase(it); // リストから削除
         }
         else

@@ -2,7 +2,9 @@
 
 #include "Stage_Skybox.h"
 #include "Player.h"
+#include "StageManager.h"
 
+#include "PlayScene.h"
 namespace 
 {
 	//Maxで950くらい
@@ -17,6 +19,9 @@ Stage_Skybox::Stage_Skybox(GameObject* parent)
 
 Stage_Skybox::~Stage_Skybox()
 {
+	// ステージリストから削除する
+	PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
+	pPlayScene->GetStageManager()->RemoveCompletedStages(this);
 }
 
 void Stage_Skybox::Initialize()
@@ -31,7 +36,7 @@ void Stage_Skybox::Initialize()
 void Stage_Skybox::Update()
 {
 	// スカイボックスはプレイヤーに付いて常に移動する
-	if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
+	//if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
 }
 
 void Stage_Skybox::Draw()

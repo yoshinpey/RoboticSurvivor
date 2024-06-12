@@ -19,8 +19,8 @@ cbuffer global
 	float4		g_vecSpeculer;		// スペキュラーカラー（ハイライトの色）
 	float4		g_vecCameraPosition;// 視点（カメラの位置）
 	float		g_shuniness;		// ハイライトの強さ（テカリ具合）
-	float		g_shuniness2;		// ハイライトの強さ（テカリ具合）
-    bool g_isTexture; // テクスチャ貼ってあるかどうか
+	float		g_damageColor;		// ダメージ受けたときの色変化
+    bool		g_isTexture;		// テクスチャ貼ってあるかどうか
 
 };
 
@@ -101,19 +101,20 @@ float4 PS(VS_OUT inData) : SV_Target
 
 	//鏡面反射光（スペキュラー）
 	float4 speculer = float4(0, 0, 0, 0);	//とりあえずハイライトは無しにしておいて…
-	if (g_vecSpeculer.a != 0)	//スペキュラーの情報があれば
+	if (g_vecSpeculer.a != 0)				//スペキュラーの情報があれば
 	{
-		float4 R = reflect(lightDir, inData.normal);			//正反射ベクトル
+		float4 R = reflect(lightDir, inData.normal);								//正反射ベクトル
 		speculer = pow(saturate(dot(R, inData.eye)), g_shuniness) * g_vecSpeculer;	//ハイライトを求める
 	}
 
     float4 color = diffuse * shade + diffuse * ambient + speculer;
     
-    if (g_shuniness2 > 0.0f)
+	// ダメージカラーの数値を代入されたら
+    if (g_damageColor > 0.0f)
     {
-        float r = color.r;
-        color.r = color.g + g_shuniness2;
-        color.g = r + g_shuniness2;
+        float r = color.r;					// 赤色を保存する
+        color.r = color.g + g_damageColor;	// 赤色を 緑+ダメージカラー(0～1で変化)にする
+        color.g = r + g_damageColor;		// 緑を保存した赤+ダメージカラー(0～1で変化)にする
     }
 	
 	//最終的な色
