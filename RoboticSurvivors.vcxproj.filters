@@ -148,9 +148,6 @@
     <ClCompile Include="Crystal.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Stage</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Character\Player</Filter>
     </ClCompile>
@@ -235,9 +232,6 @@
     <ClCompile Include="Engine\BillBoard.cpp">
       <Filter>01Engine\01DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>Stage</Filter>
-    </ClCompile>
     <ClCompile Include="ButtonFactory.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
@@ -260,6 +254,12 @@
       <Filter>01Engine</Filter>
     </ClCompile>
     <ClCompile Include="StageManager.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_Skybox.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_Floor.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
   </ItemGroup>
@@ -338,9 +338,6 @@
     </ClInclude>
     <ClInclude Include="Crystal.h">
       <Filter>Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Global.h">
       <Filter>01Engine</Filter>
@@ -444,9 +441,6 @@
     <ClInclude Include="Engine\BillBoard.h">
       <Filter>01Engine\01DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Stage</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
@@ -475,6 +469,12 @@
       <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="StageBase.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Skybox.h">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_Floor.h">
       <Filter>Stage</Filter>
     </ClInclude>
   </ItemGroup>

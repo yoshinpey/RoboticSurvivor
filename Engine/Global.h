@@ -22,6 +22,10 @@ XMFLOAT3 CalculateFloat3Add(XMFLOAT3& a, XMFLOAT3& b);
 // 戻り値 = a - b
 XMFLOAT3 CalculateFloat3Sub(XMFLOAT3& a, XMFLOAT3& b);
 
+// XMFLOAT3の乗算
+// 戻り値 = a * b
+XMFLOAT3 CalculateFloat3Mul(XMFLOAT3& a, XMFLOAT3& b);
+
 // XMFLOAT3型の2点間距離を計算する関数 
 // 戻り値 = |point1 - point2|
 float CalculateDistance(XMFLOAT3& point1, XMFLOAT3& point2);

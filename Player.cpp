@@ -173,6 +173,15 @@ XMFLOAT3 Player::CalculateMoveInput()
     // 計算結果入れる用
     XMFLOAT3 moveDirection = { 0.0f, 0.0f, 0.0f };
 
+    // 逆キー入力したら移動変数の逆行列を掛けてストップさせる
+    if (InputManager::IsMoveForward() && InputManager::IsMoveBackward() && !InputManager::IsMoveLeft() && !InputManager::IsMoveRight()) 
+        return XMFLOAT3(-playerParams_.movement_.x, -playerParams_.movement_.y, -playerParams_.movement_.z);
+    else if (InputManager::IsMoveLeft() && InputManager::IsMoveRight() && !InputManager::IsMoveForward() && !InputManager::IsMoveBackward()) 
+        return XMFLOAT3(-playerParams_.movement_.x, -playerParams_.movement_.y, -playerParams_.movement_.z);
+    else if (InputManager::IsMoveForward() && InputManager::IsMoveBackward() && !InputManager::IsMoveLeft() && !InputManager::IsMoveRight()) 
+        return XMFLOAT3(-playerParams_.movement_.x, -playerParams_.movement_.y, -playerParams_.movement_.z);
+
+
     // エイム情報呼び出し
     XMFLOAT3 aimDirection = pAim_->GetAimDirection();
 
