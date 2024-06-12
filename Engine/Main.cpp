@@ -35,9 +35,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void LimitMousePointer(HWND hwnd);
 void ReleaseMousePointer();
 
+#ifdef _DEBUG
 //ImGuiにウィンドウプロシージャ―から情報を取得する関数
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
+#endif
 
 // エントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -69,6 +70,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//Direct3D準備
 	Direct3D::Initialize(hWnd, screenWidth, screenHeight);
 
+#ifdef _DEBUG
 	//ImGuiを初期化
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -76,6 +78,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(Direct3D::pDevice_, Direct3D::pContext_);
+#endif
 
 	//カメラを準備
 	Camera::Initialize();
