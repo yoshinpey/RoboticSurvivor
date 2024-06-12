@@ -5,9 +5,9 @@
 
 namespace
 {
-    XMFLOAT3 collisionPosition = { 0.0f, -0.5f, 0.0f };    // 当たり判定の位置
-    XMFLOAT3 collisionScale = { 100.0f, 1.0f, 100.0f };      // 当たり判定の大きさ
-    std::string modelName = "Stage/Ground.fbx";     // モデル名
+    XMFLOAT3 collisionPosition = { 0.0f, -0.5f, 0.0f };     // 当たり判定の位置
+    XMFLOAT3 collisionScale = { 100.0f, 1.0f, 100.0f };     // 当たり判定の大きさ
+    std::string modelName = "Stage/Ground.fbx";             // モデル名
 }
 
 Stage_Floor::Stage_Floor(GameObject* parent)
