@@ -28,6 +28,8 @@
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";	//ウィンドウクラス名
 class GameObject;
+int fpsLimit;
+static bool isPaused = false;			// ポーズ中
 
 //プロトタイプ宣言
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
@@ -53,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int screenHeight;		//スクリーンの高さ
 
 	//初期化ファイル（setup.ini）から必要な情報を取得
-	int fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
+	fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
 #ifdef _DEBUG
 	screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");			//スクリーンの幅
@@ -113,6 +115,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//メッセージなし（ここでゲームの処理）
 		else
 		{
+			// ポーズ中はループ処理しない
+			if (isPaused)continue;
+
 			//時間計測
 			timeBeginPeriod(1);	//時間計測の制度を上げる
 			static int FPS = 0;								//画面更新回数のカウンタ
@@ -325,26 +330,40 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             else if (result == IDCANCEL)LimitMousePointer(hWnd);	// マウスポインターの制限を設定
         }
 		// デバック用
-        // Iキーが押された場合
-        else if (wParam == 'I')
-        {
-            if (isCursorVisible)
-            {
-                // カーソルを非表示
-                while (ShowCursor(FALSE) >= 0);
-                isCursorVisible = false;
-            }
-            else
-            {
-                // カーソルを表示
-                while (ShowCursor(TRUE) < 0);
-                isCursorVisible = true;
+#ifdef _DEBUG
+		else if (wParam == 'I')
+		{
+			if (isCursorVisible)
+			{
+				// カーソルを非表示
+				while (ShowCursor(FALSE) >= 0);
+				isCursorVisible = false;
+			}
+			else
+			{
+				// カーソルを表示
+				while (ShowCursor(TRUE) < 0);
+				isCursorVisible = true;
 				ReleaseMousePointer();
-            }
+			}
 
-            // マウスポインターの制限を解除するか設定するか切り替える
-            isCursorLimited =! isCursorVisible;
-        }
+			// マウスポインターの制限を解除するか設定するか切り替える
+			isCursorLimited = !isCursorVisible;
+		}
+		//fps変える
+		else if (wParam == 'O')
+		{
+			fpsLimit *= 2.0f;
+		}
+		else if (wParam == 'L')
+		{
+			fpsLimit *= 0.5f;
+		}
+		else if (wParam == 'P')
+		{
+			isPaused = !isPaused;
+		}
+#endif
         return 0;
     }
 
