@@ -292,8 +292,8 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    static bool isCursorVisible = false;  // カーソルが表示されているかどうかを示すフラグ
-    static bool isCursorLimited = true;  // マウスポインターの制限をかけるかどうかを示すフラグ
+    static bool isCursorVisible = false;	// カーソルが表示されている
+    static bool isCursorLimited = true;		// カーソルが制限を受けている
 
     switch (msg)
     {
@@ -319,18 +319,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
 			ReleaseMousePointer();			// マウスポインターの制限を解除
             while (ShowCursor(TRUE) < 0);   // マウスカーソルを表示する
-
             int result = MessageBox(hWnd, "プログラムを終了しますか？", "確認", MB_OKCANCEL | MB_ICONQUESTION);
-            // OKボタンが押された場合、プログラムを終了
-            if (result == IDOK)
-            {
-                PostQuitMessage(0);      // プログラム終了
-            }
-            else if (result == IDCANCEL)
-            {
-                // マウスポインターの制限を設定
-                LimitMousePointer(hWnd);
-            }
+
+            if (result == IDOK)PostQuitMessage(0);					// プログラム終了
+            else if (result == IDCANCEL)LimitMousePointer(hWnd);	// マウスポインターの制限を設定
         }
 		// デバック用
         // Iキーが押された場合
@@ -347,10 +339,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 // カーソルを表示
                 while (ShowCursor(TRUE) < 0);
                 isCursorVisible = true;
+				ReleaseMousePointer();
             }
 
             // マウスポインターの制限を解除するか設定するか切り替える
-            isCursorLimited = !isCursorVisible;
+            isCursorLimited =! isCursorVisible;
         }
         return 0;
     }
@@ -365,33 +358,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-
 // マウスポインターを中央に固定する関数
 void LimitMousePointer(HWND hwnd)
 {
 	RECT windowRect;
 	GetClientRect(hwnd, &windowRect);
 
+	// ウィンドウの矩形領域をスクリーン座標に変換
+	MapWindowPoints(hwnd, nullptr, reinterpret_cast<POINT*>(&windowRect), 2);
+	windowRect.left++;
+	windowRect.top++;
+	windowRect.right--;
+	windowRect.bottom--;
+
+	// マウスポインターを制限
+	ClipCursor(&windowRect);
+
 	// ウィンドウの中心座標を計算
 	POINT windowCenter = { Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2 };
 
 	// マウスポインターをウィンドウの中心に移動
-	SetCursorPos(windowCenter.x, windowCenter.y);
-
-	// ウィンドウの矩形領域をスクリーン座標に変換
-	MapWindowPoints(hwnd, nullptr, reinterpret_cast<POINT*>(&windowRect), 2);
-
-	// タスクバーの高さを取得
-	RECT taskbarRect;
-	HWND taskbar = FindWindow("Shell_TrayWnd", nullptr);
-	if (taskbar && GetWindowRect(taskbar, &taskbarRect))
-	{
-		// タスクバーの高さを制限領域から除外
-		windowRect.bottom -= (taskbarRect.bottom - taskbarRect.top);
-	}
-
-	// マウスポインターを制限
-	ClipCursor(&windowRect);
+	SetCursorPos(windowRect.left + windowCenter.x, windowRect.top + windowCenter.y);
 }
 
 // マウスポインターの制限を解除する関数
