@@ -20,7 +20,7 @@ Player::Player(GameObject* parent)
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
-
+    commonParameter_.knockBackStrength_ = 10.0f;
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
 
@@ -233,10 +233,19 @@ void Player::OnCollision(GameObject* pTarget)
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        // ノックバック処理
+        // エネミーベースにキャスト
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
+        // エネミー位置
+        XMFLOAT3 enemyPos = pEnemy->GetPosition();
+
+        // プレイヤーからエネミーへの方向ベクトルを計算
+        XMFLOAT3 directionToEnemy = CalculateDirection(enemyPos, transform_.position_);
+
+        // ノックバック処理を適用
+        KnockBack(directionToEnemy, commonParameter_.knockBackStrength_);
+
         // HP減らす処理
-        DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        // DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
     }
 }

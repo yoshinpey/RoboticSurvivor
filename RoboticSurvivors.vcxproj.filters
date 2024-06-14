@@ -262,6 +262,9 @@
     <ClCompile Include="Stage_Floor.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
