@@ -2,7 +2,7 @@
 #include "Engine/GameObject.h"
 #include <vector>
 
-//Titleシーンを管理するクラス
+// Titleシーンを管理するクラス
 class TitleScene : public GameObject
 {
 	// テキスト画像の内容
@@ -11,18 +11,19 @@ class TitleScene : public GameObject
 		TITLE = 0,
 		START,
 	};
-	std::vector<int> hPict_;	// 画像番号
+	std::vector<int> hPict_;    // 画像番号
 
 	Transform textTrans_;
-	bool transFlag;
+	float time_;				// サインカーブのための時間変数
+
 public:
-	//コンストラクタ
-	//引数：parent  親オブジェクト（SceneManager）
+	// コンストラクタ
+	// 引数：parent  親オブジェクト（SceneManager）
 	TitleScene(GameObject* parent);
 	~TitleScene();
 
-	void Initialize() override;     //初期化
-	void Update() override;         //更新
-	void Draw() override;           //描画
-	void Release() override;        //開放
+	void Initialize() override;     // 初期化
+	void Update() override;         // 更新
+	void Draw() override;           // 描画
+	void Release() override;        // 開放
 };

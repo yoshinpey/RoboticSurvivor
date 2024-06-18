@@ -36,7 +36,7 @@ void Stage_Skybox::Initialize()
 void Stage_Skybox::Update()
 {
 	// スカイボックスはプレイヤーに付いて常に移動する
-	//if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
+	if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
 }
 
 void Stage_Skybox::Draw()

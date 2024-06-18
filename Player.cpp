@@ -14,13 +14,14 @@ namespace
 
 // コンストラクタ
 Player::Player(GameObject* parent) 
-    : PlayerBase(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr)
+    : PlayerBase(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr), knockDirection_(0.0f, 0.0f, 0.0f), isEnemyHit_(false)
 {
     // 標準パラメータをセット
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
-    commonParameter_.knockBackStrength_ = 10.0f;
+    commonParameter_.knockBackStrength_ = 0.2f;
+
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
 
@@ -80,9 +81,26 @@ void Player::Update()
     }
     //////////////////////////
 
+    // ジャンプ中だったら
     if (playerParams_.jumping_)
     {
         ApplyGravity();
+    }
+
+    if (isEnemyHit_)
+    {
+        // ノックバック抑制
+        knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
+        knockDirection_.z -= knockDirection_.z * commonParameter_.knockBackStrength_;
+
+        transform_.position_.x += knockDirection_.x;
+        transform_.position_.z += knockDirection_.z;
+
+        // ノックバックがほとんどなくなったらフラグをリセット
+        if (fabs(knockDirection_.x) < 0.01f && fabs(knockDirection_.z) < 0.01f)
+        {
+            isEnemyHit_ = false;
+        }
     }
 }
 
@@ -236,16 +254,17 @@ void Player::OnCollision(GameObject* pTarget)
         // エネミーベースにキャスト
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
+        // HP減らす処理
+        if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+
         // エネミー位置
         XMFLOAT3 enemyPos = pEnemy->GetPosition();
 
-        // プレイヤーからエネミーへの方向ベクトルを計算
-        XMFLOAT3 directionToEnemy = CalculateDirection(enemyPos, transform_.position_);
+        // プレイヤーからエネミーへの方向(ノックバックの方向)ベクトルを計算
+        XMVECTOR vKnockbackDirection = XMVectorSubtract(XMLoadFloat3(&transform_.position_), XMLoadFloat3(&enemyPos));
 
-        // ノックバック処理を適用
-        KnockBack(directionToEnemy, commonParameter_.knockBackStrength_);
-
-        // HP減らす処理
-        // DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        // float3に戻す
+        XMStoreFloat3(&knockDirection_, vKnockbackDirection);
+        isEnemyHit_ = true;
     }
 }

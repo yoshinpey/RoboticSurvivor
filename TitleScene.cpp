@@ -2,18 +2,20 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include "TitleScene.h"
+#include <cmath>
 
 namespace 
 {
-	const float defaultScale = 1.00f;
-	const float minScale = 0.60f;
-	const float maxScale = 1.20f;
-	const float stepScale = 0.01f;
+	const float defaultScale = 1.00f;	// 標準の大きさ
+	const float minScale = 0.80f;		// 最大画像サイズ
+	const float maxScale = 1.20f;		// 最小画像サイズ
+	const float stepScale = 0.02f;		// 時間経過による変化量
+	const float frequency = 4.0f;		// 頻度
 }
 
-//コンストラクタ
+// コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "TitleScene"), transFlag(false)
+	: GameObject(parent, "TitleScene"), time_(0.0f)
 {
 }
 
@@ -21,7 +23,7 @@ TitleScene::~TitleScene()
 {
 }
 
-//初期化
+// 初期化
 void TitleScene::Initialize()
 {
 	// 画像のパス
@@ -31,7 +33,7 @@ void TitleScene::Initialize()
 		"Pictures/Start.png"
 	};
 
-	//画像データのロード
+	// 画像データのロード
 	for (int i = 0; i < picturePaths.size(); ++i)
 	{
 		int handle = Image::Load(picturePaths[i]);
@@ -53,7 +55,7 @@ void TitleScene::Initialize()
 	textTrans_.position_.y = textPosition.y;
 }
 
-//更新
+// 更新
 void TitleScene::Update()
 {
 	// キー入力があったらゲームを開始する
@@ -62,24 +64,15 @@ void TitleScene::Update()
 		SceneManager* pSceneManager = static_cast<SceneManager*>(FindObject("SceneManager"));
 		pSceneManager->ChangeScene(SCENE_ID_PLAY);
 	}
-
-	// スタートテキストの演出処理
-	if (textTrans_.scale_.x <= maxScale && !transFlag)
-	{
-		textTrans_.scale_.x *= defaultScale + stepScale;
-		textTrans_.scale_.y *= defaultScale + stepScale;
-		if (textTrans_.scale_.x > maxScale) transFlag = true;
-	}
-
-	if (transFlag)
-	{
-		textTrans_.scale_.x *= defaultScale - stepScale;
-		textTrans_.scale_.y *= defaultScale - stepScale;
-		if (textTrans_.scale_.x <= minScale) transFlag = false;
-	}
+	
+	// サインカーブを使ったスタートテキストの拡大縮小
+	time_ += stepScale;
+	float scale = minScale + (maxScale - minScale) * (0.5f * (1.0f + sinf(frequency * time_)));
+	textTrans_.scale_.x = scale;
+	textTrans_.scale_.y = scale;
 }
 
-//描画
+// 描画
 void TitleScene::Draw()
 {
 	Image::SetTransform(hPict_[TITLE], transform_);
@@ -88,7 +81,6 @@ void TitleScene::Draw()
 	Image::SetTransform(hPict_[START], textTrans_);
 	Image::Draw(hPict_[START]);
 }
-
 
 void TitleScene::Release()
 {

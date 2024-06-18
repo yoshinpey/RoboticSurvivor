@@ -35,7 +35,7 @@ void Character::IncreaseHp(float amount)
 void Character::DecreaseHp(float amount)
 {
     commonStatus_.currentHp_ -= amount;
-    if (commonStatus_.currentHp_ < 0) {
+    if (commonStatus_.currentHp_ <= 0) {
         commonStatus_.currentHp_ = 0;
         if (IsCharacterDead()) KillMe();
     }

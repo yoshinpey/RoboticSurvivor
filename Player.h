@@ -15,6 +15,9 @@ private:
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // HPゲージ
 
+    bool isEnemyHit_;
+    XMFLOAT3 knockDirection_;
+
 public:
     Player(GameObject* parent);     // コンストラクタ
     ~Player();                      // デストラクタ
