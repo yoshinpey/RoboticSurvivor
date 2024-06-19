@@ -4,8 +4,16 @@
 //HPを管理するクラス
 class Gauge : public GameObject
 {
-    int hpPict_[2];    //画像番号
-    float maxHp_, nowHp_;
+    // テキスト画像の内容
+    enum
+    {
+        FRAME = 0,
+        GAUGE
+    };
+    std::vector<int> hPict_;    // 画像番号
+
+    float maxHp_;               // 最大HP
+    float nowHp_;               // 現在のHP
 
 public:
     Gauge(GameObject* parent);      //コンストラクタ
