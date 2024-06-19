@@ -32,12 +32,13 @@ private:
     };
 
 protected:
+
+    // ダメージを受けた時のシェーダーの適応時間
+    float damageTime_;
+
     EnemyStatus enemyStatus_;       // エネミーのステータス
     EnemyAlgorithm enemyAlgorithm_; // エネミーのアルゴリズム
     EnemyType enemyType_;           // エネミーの種類
-
-    // 銃弾が当たった時の演出
-    float damageTime_;
 
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
@@ -73,4 +74,10 @@ public:
 
     // 敵同士の当たり判定処理
     void CollisionDetectionWithEnemy(EnemyBase* pEnemy);
+
+    // ダメージシェーダーの適応処理（前処理）
+    void PreDrawDamageShader();
+
+    // ダメージシェーダーの適応処理（後処理）
+    void PostDrawDamageShader();
 };

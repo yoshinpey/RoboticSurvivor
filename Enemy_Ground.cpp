@@ -1,9 +1,10 @@
-#include "Enemy_Ground.h"
 #include "Engine/SphereCollider.h"
+#include "Engine/Model.h"
+
+#include "Enemy_Ground.h"
 #include "BulletBase.h"
 #include "EnemyManager.h"
 #include "PlayScene.h"
-#include "Player.h"
 
 namespace
 {
@@ -17,8 +18,6 @@ namespace
         int endFrame = 260;
         float speed = 0.75f;
     }anim;
-
-    const float deltaTime = 0.05f;  // ダメージのシェーダーの変化量
 }
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
@@ -65,6 +64,8 @@ void Enemy_Ground::Initialize()
 
 void Enemy_Ground::Update()
 {
+    /////////////////////// 今のところコイツは地上にだけ出す予定
+    if (transform_.position_.y != 0)transform_.position_.y = 0;
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
@@ -81,17 +82,14 @@ void Enemy_Ground::Update()
 
 void Enemy_Ground::Draw()
 {
-    /////////////////////// 今のところコイツは地上にだけ出す予定
-    if (transform_.position_.y != 0)transform_.position_.y = 0;
-
-    // ダメージシェーダーの適応処理
-    if (damageTime_ > 0) damageTime_ -= deltaTime;
-    Direct3D::damageTime = damageTime_;
+    // ダメージシェーダーの適応処理（前処理）
+    PreDrawDamageShader();
 
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 
-    Direct3D::damageTime = 0.0f;
+    // ダメージシェーダーの適応処理（後処理）
+    PostDrawDamageShader();
 }
 
 void Enemy_Ground::Release()
@@ -103,7 +101,7 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
-        damageTime_ = 1.0f;
+        BulletHit();
     }
 
     // 敵に当たったとき

@@ -5,11 +5,12 @@ namespace
 {
     float rotateSpeed = 0.03f;      // 体の回転スピード
     float damageTime = 1.0f;        // ダメージを受けた時のシェーダーの適応時間
+    const float deltaTime = 0.05f;  // ダメージのシェーダーの変化量
 }
 
 // コンストラクタの実装
 EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-    : Character(parent, name), enemyType_(enemyType)
+    : Character(parent, name), enemyType_(enemyType), damageTime_(0.0f)
 {
 }
 
@@ -152,4 +153,19 @@ void EnemyBase::CollisionDetectionWithEnemy(EnemyBase* pEnemy)
         XMStoreFloat3(&newTargetPos, targetPos);
         pEnemy->SetPosition(newTargetPos);
     }
+}
+
+// ダメージシェーダーの前処理）
+void EnemyBase::PreDrawDamageShader()
+{
+    if (damageTime_ > 0) {
+        damageTime_ -= deltaTime;
+    }
+    Direct3D::damageTime = damageTime_;
+}
+
+// ダメージシェーダーの後処理）
+void EnemyBase::PostDrawDamageShader()
+{
+    Direct3D::damageTime = 0.0f;
 }

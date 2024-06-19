@@ -1,5 +1,7 @@
-#include "Enemy_Fly.h"
 #include "Engine/SphereCollider.h"
+#include "Engine/Model.h"
+
+#include "Enemy_Fly.h"
 #include "BulletBase.h"
 #include "EnemyManager.h"
 #include "PlayScene.h"
@@ -8,9 +10,6 @@ namespace
 {
     XMFLOAT3 collisionPosition = { 0.0f, 0.0f, 0.0f };      // 当たり判定の位置
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };          // モデルの回転
-
-
-    const float deltaTime = 0.05f;      // ダメージのシェーダーの変化量
 }
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
@@ -69,14 +68,14 @@ void Enemy_Fly::Update()
 
 void Enemy_Fly::Draw()
 {
-    // ダメージシェーダーの適応処理
-    if (damageTime_ > 0) damageTime_ -= deltaTime;
-    Direct3D::damageTime = damageTime_;
+    // ダメージシェーダーの適応処理（前処理）
+    PreDrawDamageShader();
 
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 
-    Direct3D::damageTime = 0.0f;
+    // ダメージシェーダーの適応処理（後処理）
+    PostDrawDamageShader();
 }
 
 void Enemy_Fly::Release()
