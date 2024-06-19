@@ -14,7 +14,7 @@ namespace
 
 // コンストラクタ
 Player::Player(GameObject* parent) 
-    : PlayerBase(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr), knockDirection_(0.0f, 0.0f, 0.0f), isEnemyHit_(false)
+    : Character(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr), knockDirection_(0.0f, 0.0f, 0.0f), isEnemyHit_(false)
 {
     // 標準パラメータをセット
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
@@ -25,17 +25,13 @@ Player::Player(GameObject* parent)
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
 
-    // ステートマネージャー
+    // ステートマネージャー設定
     pStateManager_ = new StateManager(this);
-
-    // あらかじめ状態インスタンスを生成して登録
     pStateManager_->AddState("IdleState", new PlayerIdleState(pStateManager_));
     pStateManager_->AddState("WalkingState", new PlayerWalkingState(pStateManager_));
     pStateManager_->AddState("RunningState", new PlayerRunningState(pStateManager_));
     pStateManager_->AddState("JumpingState", new PlayerJumpingState(pStateManager_));
-
-    // 初期状態
-    pStateManager_->ChangeState("IdleState");
+    pStateManager_->ChangeState("IdleState");           // 初期状態
 
     // 当たり判定付与
     SphereCollider* pCollision = new SphereCollider(collisionOffset, collisionScale);
@@ -47,7 +43,7 @@ Player::~Player()
 {
     SAFE_DELETE(pStateManager_);
 
-    // 死んだときにポインターをnullにする
+    // 死んだときにプレイヤーのポインターを解放する
     PlayScene* pPlayScene = static_cast<PlayScene*>(FindObject("PlayScene"));
     pPlayScene->SetPlayer(nullptr);
 }
@@ -87,6 +83,7 @@ void Player::Update()
         ApplyGravity();
     }
 
+    // 敵と衝突
     if (isEnemyHit_)
     {
         //// 減衰値の調整でノックバックの威力を変更している。////
@@ -101,8 +98,6 @@ void Player::Update()
         transform_.position_.x += knockDirection_.x;
         transform_.position_.y += knockDirection_.y;
         transform_.position_.z += knockDirection_.z;
-
-
 
         // ノックバックがほとんどなくなったらフラグをリセット
         if (fabs(knockDirection_.x) < 0.01f && fabs(knockDirection_.z) < 0.01 && fabs(knockDirection_.y) < 0.01f)
@@ -142,8 +137,7 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     if (currentSpeed > speed)
     {
         XMVECTOR vMove = XMLoadFloat3(&playerParams_.movement_);
-        vMove = XMVector3Normalize(vMove);
-        vMove *= speed;
+        vMove = XMVector3Normalize(vMove) * speed;
         XMStoreFloat3(&playerParams_.movement_, vMove);
     }
 
@@ -156,17 +150,19 @@ void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
     transform_.position_.z += playerParams_.movement_.z;
 }
 
-// 減速を適用する関数
+// 移動の減速を適用する関数
 void Player::ApplyDeceleration()
 {
-    // 滞空中は減速係数を変える
+    // 減速係数を適応する
     if (playerParams_.jumping_)
     {
+        // 滞空中の減速係数
         playerParams_.movement_.x *= playerParams_.friction_ * playerParams_.jumpFriction_;
         playerParams_.movement_.z *= playerParams_.friction_ * playerParams_.jumpFriction_;
     }
     else
     {
+        // 地面にいるときの減速係数
         playerParams_.movement_.x *= playerParams_.friction_;
         playerParams_.movement_.z *= playerParams_.friction_;
     }

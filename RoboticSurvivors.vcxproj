@@ -214,7 +214,6 @@
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonReader.h" />
-    <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="EffectManager.h" />

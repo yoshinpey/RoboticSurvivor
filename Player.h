@@ -1,16 +1,33 @@
 #pragma once
 #include "InputManager.h"
-#include "PlayerBase.h"
+#include "Character.h"
 
 class Aim;
 class StateManager;
 class Text;
 class Gauge;
 
-class Player : public PlayerBase
+class Player : public Character
 {
 private:
+
+    // プレイヤー固有のパラメータ
+    struct PlayerParameter
+    {
+        XMFLOAT3 velocity_{ 0.0f, 0.0f, 0.0f };      // 移動速度
+        XMFLOAT3 movement_{ 0.0f, 0.0f, 0.0f };      // 移動量
+        float acceleration_{ 0.03f };                // 加速度
+        float friction_{ 0.85f };                    // 摩擦力(減速度)
+        float jumpFriction_{ 1.15f };                // 滞空中の減速度
+        int gravity_{ -1 };                          // 重力
+        float jumpDelta_{ 0.01f };                   // ジャンプの高さ
+        bool jumping_{ false };                      // ジャンプ中フラグ
+
+        PlayerParameter() = default;
+    };
+
     // インスタンス
+    PlayerParameter playerParams_;      // プレイヤー固有のパラメータ
     StateManager* pStateManager_;       // 状態を切り替える用
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // HPゲージ
