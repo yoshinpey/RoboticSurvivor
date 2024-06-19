@@ -265,20 +265,8 @@ void Player::OnCollision(GameObject* pTarget)
         XMFLOAT3 enemyPos = pEnemy->GetPosition();
 
         // プレイヤーからエネミーへの方向(ノックバックの方向)ベクトルを計算
-        XMVECTOR vKnockbackDirection = XMVectorSubtract(XMLoadFloat3(&transform_.position_), XMLoadFloat3(&enemyPos));
-
-        // 正規化して方向ベクトルにする
-        vKnockbackDirection = XMVector3Normalize(vKnockbackDirection);
-
-        // ノックバックベクトルを設定
-        XMFLOAT3 knockbackDirection;
-        XMStoreFloat3(&knockbackDirection, vKnockbackDirection);
-
-        knockDirection_.x = knockbackDirection.x;
-        knockDirection_.z = knockbackDirection.z;
-
-        knockDirection_.y = 1.0f;                    // 0だと飛ばなくて困るから1にする
-
+        knockDirection_ = CalculateDirection(transform_.position_, enemyPos);
+        knockDirection_.y = 1.0f;   // 0だと上に飛ばないので1にする
         isEnemyHit_ = true;
     }
 }

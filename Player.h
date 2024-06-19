@@ -32,8 +32,8 @@ private:
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // HPゲージ
 
-    bool isEnemyHit_;
-    XMFLOAT3 knockDirection_;
+    bool isEnemyHit_;                   // エネミーに当たった
+    XMFLOAT3 knockDirection_;           // ノックバック方向
 
 public:
     Player(GameObject* parent);     // コンストラクタ

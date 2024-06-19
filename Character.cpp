@@ -48,8 +48,3 @@ void Character::DecreaseHp(float amount)
         KillMe();
     }
 }
-
-// ノックバック処理
-void Character::KnockBack(const XMFLOAT3& direction, float strength)
-{
-}
