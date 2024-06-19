@@ -64,9 +64,7 @@ void Enemy_Ground::Initialize()
 }
 
 void Enemy_Ground::Update()
-{    
-    // 現在地を保存する
-    currentPosition_ = transform_.position_;
+{
 
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
@@ -83,6 +81,9 @@ void Enemy_Ground::Update()
 
 void Enemy_Ground::Draw()
 {
+    /////////////////////// 今のところコイツは地上にだけ出す予定
+    if (transform_.position_.y != 0)transform_.position_.y = 0;
+
     // ダメージシェーダーの適応処理
     if (damageTime_ > 0) damageTime_ -= deltaTime;
     Direct3D::damageTime = damageTime_;

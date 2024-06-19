@@ -9,7 +9,6 @@ class Player;
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    XMFLOAT3 currentPosition_;          // 現在地
 
 public:
     Enemy_Fly(GameObject* parent);      // コンストラクタ

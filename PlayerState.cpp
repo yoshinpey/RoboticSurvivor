@@ -109,12 +109,13 @@ void PlayerJumpingState::EnterState()
 #ifdef _DEBUG
     OutputDebugString("JumpingState\n");
 #endif
+
+    // ジャンプの加速を適応
+    pPlayer_->Jump();
 }
 
 void PlayerJumpingState::UpdateState()
 {
-    pPlayer_->Jump();
-
     // 地面についたとき待機へ
     if (pPlayer_->Jumping()) { pStateManager_->ChangeState("IdleState"); }
 }

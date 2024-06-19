@@ -40,6 +40,9 @@ public:
     // 死亡判定
     bool IsCharacterDead();
 
+    // 地面についているかどうかを判定
+    bool Jumping() const { return transform_.position_.y >= 0; }
+
     // ノックバック処理
     void KnockBack(const XMFLOAT3& direction, float strength);
 };

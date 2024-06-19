@@ -67,17 +67,17 @@ void Enemy_Explosion::Initialize()
 
 void Enemy_Explosion::Update()
 {
-    // 現在地を保存する
-    pastPosition_ = transform_.position_;
+    // プレイヤーへの方向ベクトル(正規化済)
+    XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 
     // 許可された距離までプレイヤーに接近
     if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
     {
-        ApproachPlayer(CheckPlayerDirection());
+        ApproachPlayer(directionToPlayer);
     }
 
     // プレイヤーの方向を向くように視界を回転
-    RotateTowardsPlayer(CheckPlayerDirection());
+    RotateTowardsPlayer(directionToPlayer);
 }
 
 void Enemy_Explosion::Draw()

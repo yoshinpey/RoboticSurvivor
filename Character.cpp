@@ -12,7 +12,7 @@ Character::~Character() = default;
 
 // CommonParameterのコンストラクタ
 Character::CommonParameter::CommonParameter()
-    : jumpVelocity_(0.2f), walkSpeed_(0.1f), runSpeed_(0.2f), knockBackStrength_(10.0f)
+    : jumpVelocity_(0.2f), walkSpeed_(0.1f), runSpeed_(0.2f), knockBackStrength_(1.0f)
 {
 }
 

@@ -53,6 +53,4 @@ public:
     void ApplyGravity();            // 重力を適用
     void OnCollision(GameObject* pTarget) override; // 何かに当たった
 
-    // 地面についているかどうかを判定
-    bool Jumping() const { return transform_.position_.y >= 0; }
 };

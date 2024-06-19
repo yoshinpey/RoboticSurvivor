@@ -9,7 +9,6 @@ class Player;
 class Enemy_Ground : public EnemyBase
 {
     int hModel_;                        // モデル番号
-    XMFLOAT3 currentPosition_;          // 現在地
 
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ

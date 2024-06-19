@@ -54,9 +54,6 @@ void Enemy_Fly::Initialize()
 
 void Enemy_Fly::Update()
 {
-    // 現在地を保存する
-    currentPosition_ = transform_.position_;
-
     // プレイヤーへの方向ベクトル(正規化済)
     XMFLOAT3 directionToPlayer = CheckPlayerDirection();
 

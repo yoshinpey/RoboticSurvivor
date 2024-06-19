@@ -7,7 +7,6 @@ class Player;
 class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // モデル番号
-    XMFLOAT3 pastPosition_;      // 現在地
 
 public:
     Enemy_Explosion(GameObject* parent);    // コンストラクタ
