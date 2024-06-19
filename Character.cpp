@@ -50,11 +50,4 @@ bool Character::IsCharacterDead()
 // ノックバック処理
 void Character::KnockBack(const XMFLOAT3& direction, float strength)
 {
-    // ノックバックベクトルを計算
-    XMFLOAT3 knockBackVector = { direction.x * strength, direction.y * strength, direction.z * strength };
-
-    // ノックバックベクトルをキャラクターのポジションに加算
-    transform_.position_.x += knockBackVector.x;
-    transform_.position_.y += knockBackVector.y;
-    transform_.position_.z += knockBackVector.z;
 }

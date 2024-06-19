@@ -89,15 +89,23 @@ void Player::Update()
 
     if (isEnemyHit_)
     {
-        // ノックバック抑制
+        //// 減衰値の調整でノックバックの威力を変更している。////
+        // ノックバック減衰
         knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
         knockDirection_.z -= knockDirection_.z * commonParameter_.knockBackStrength_;
 
+        // Y軸のノックバック減衰と重力適用
+        knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * 3.0f);
+        ApplyGravity();
+
         transform_.position_.x += knockDirection_.x;
+        transform_.position_.y += knockDirection_.y;
         transform_.position_.z += knockDirection_.z;
 
+
+
         // ノックバックがほとんどなくなったらフラグをリセット
-        if (fabs(knockDirection_.x) < 0.01f && fabs(knockDirection_.z) < 0.01f)
+        if (fabs(knockDirection_.x) < 0.01f && fabs(knockDirection_.z) < 0.01 && fabs(knockDirection_.y) < 0.01f)
         {
             isEnemyHit_ = false;
         }
@@ -255,7 +263,7 @@ void Player::OnCollision(GameObject* pTarget)
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
         // HP減らす処理
-        if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        //if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
 
         // エネミー位置
         XMFLOAT3 enemyPos = pEnemy->GetPosition();
@@ -263,8 +271,18 @@ void Player::OnCollision(GameObject* pTarget)
         // プレイヤーからエネミーへの方向(ノックバックの方向)ベクトルを計算
         XMVECTOR vKnockbackDirection = XMVectorSubtract(XMLoadFloat3(&transform_.position_), XMLoadFloat3(&enemyPos));
 
-        // float3に戻す
-        XMStoreFloat3(&knockDirection_, vKnockbackDirection);
+        // 正規化して方向ベクトルにする
+        vKnockbackDirection = XMVector3Normalize(vKnockbackDirection);
+
+        // ノックバックベクトルを設定
+        XMFLOAT3 knockbackDirection;
+        XMStoreFloat3(&knockbackDirection, vKnockbackDirection);
+
+        knockDirection_.x = knockbackDirection.x;
+        knockDirection_.z = knockbackDirection.z;
+
+        knockDirection_.y = 1.0f;                    // 0だと飛ばなくて困るから1にする
+
         isEnemyHit_ = true;
     }
 }
