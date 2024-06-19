@@ -26,7 +26,10 @@ Character::CommonStatus::CommonStatus()
 void Character::IncreaseHp(float amount)
 {
     commonStatus_.currentHp_ += amount;
-    if (commonStatus_.currentHp_ > commonStatus_.maxHp_) {
+
+    if (commonStatus_.currentHp_ > commonStatus_.maxHp_) 
+    {
+        // 最大値補正
         commonStatus_.currentHp_ = commonStatus_.maxHp_;
     }
 }
@@ -35,16 +38,15 @@ void Character::IncreaseHp(float amount)
 void Character::DecreaseHp(float amount)
 {
     commonStatus_.currentHp_ -= amount;
-    if (commonStatus_.currentHp_ <= 0) {
-        commonStatus_.currentHp_ = 0;
-        if (IsCharacterDead()) KillMe();
-    }
-}
 
-// 死亡判定
-bool Character::IsCharacterDead()
-{
-    return commonStatus_.currentHp_ <= 0.0f;
+    if (commonStatus_.currentHp_ <= 0) 
+    {
+        // 最小値補正
+        commonStatus_.currentHp_ = 0;
+
+        // キャラクター死亡
+        KillMe();
+    }
 }
 
 // ノックバック処理

@@ -27,6 +27,10 @@ protected:
     CommonParameter commonParameter_;
     CommonStatus commonStatus_;
 
+    // ノックバック関連
+    //XMFLOAT3 knockDirection_;
+    //bool isKnockedBack_;
+
 public:
     Character(GameObject* parent, std::string name);
     virtual ~Character();

@@ -259,7 +259,7 @@ void Player::OnCollision(GameObject* pTarget)
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
         // HP減らす処理
-        //if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
 
         // エネミー位置
         XMFLOAT3 enemyPos = pEnemy->GetPosition();
