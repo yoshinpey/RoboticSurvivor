@@ -13,7 +13,7 @@ namespace
 }
 
 Stage_Skybox::Stage_Skybox(GameObject* parent)
-	:StageBase(parent, StageType::SKYBOX, "Stage_Skybox"), hModel_(-1), pPlayer_(nullptr)
+	:StageBase(parent, StageType::SKYBOX, "Stage_Skybox"), hModel_(-1)
 {
 }
 
@@ -30,13 +30,14 @@ void Stage_Skybox::Initialize()
 	assert(hModel_ >= 0);
 
 	transform_.scale_ = SphereScale;
-	pPlayer_ = (Player*)FindObject("Player");
 }
 
 void Stage_Skybox::Update()
 {
 	// スカイボックスはプレイヤーに付いて常に移動する
-	if (pPlayer_ != nullptr) transform_.position_ = pPlayer_->GetPosition();	
+	Player* pPlayer = (Player*)FindObject("Player");
+	transform_.position_ = pPlayer->GetPosition();
+	transform_.rotate_.y += 0.02f;
 }
 
 void Stage_Skybox::Draw()

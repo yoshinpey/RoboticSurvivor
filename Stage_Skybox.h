@@ -6,7 +6,6 @@ class Player;
 class Stage_Skybox : public StageBase
 {
     int hModel_;
-    Player* pPlayer_;
 
 public:
     Stage_Skybox(GameObject* parent);
