@@ -20,7 +20,7 @@ Player::Player(GameObject* parent)
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
-    commonParameter_.knockBackStrength_ = 0.2f;
+    commonParameter_.knockBackStrength_ = 0.4f;
 
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
@@ -260,6 +260,19 @@ void Player::OnCollision(GameObject* pTarget)
 
         // HP減らす処理
         if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+
+        // 敵にぶつかったらノックバック値を設定する
+        // ノックバック関数に自身の座標と敵の座標、ノックバックさせる威力を渡す
+        // 受け取った座標の引き算をして、正規化を行い方向を求める。
+        // 方向に威力をかけてノックバックベクトルを作成する
+
+        // アップデート関数で現在地ベクトルにノックバックベクトルをかけてやりノックバックさせる。
+        // しかしこのままではいつまでも止まらないので、ノックバックの減衰を行う。
+        // ノックバックベクトルが0より大きくなったら、ノックバックベクトルに減衰変数をかける。
+        // 減衰値が大きいほど結果的にノックバックの威力が下がる(ノックバックベクトルが0に達するまでの時間が減るため)
+        // Y軸に関してはぶつかり角度を考慮せず上に飛ばしたいので、1.0を与え、それに減衰値のn倍かけてやる。
+        // ノックバックベクトルが0になる、かつ地面に足がついたらノックバック計算を終了する。
+
 
         // エネミー位置
         XMFLOAT3 enemyPos = pEnemy->GetPosition();

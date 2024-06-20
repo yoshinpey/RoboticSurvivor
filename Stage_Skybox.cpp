@@ -36,7 +36,7 @@ void Stage_Skybox::Update()
 {
 	// スカイボックスはプレイヤーに付いて常に移動する
 	Player* pPlayer = (Player*)FindObject("Player");
-	transform_.position_ = pPlayer->GetPosition();
+	if(pPlayer != nullptr)transform_.position_ = pPlayer->GetPosition();
 	transform_.rotate_.y += 0.02f;
 }
 
