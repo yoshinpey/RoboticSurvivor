@@ -20,7 +20,7 @@ Player::Player(GameObject* parent)
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.runSpeed_ = GetPrivateProfileFloat("Parameter", "runSpeed", 0, "Settings/PlayerSettings.ini");
     commonParameter_.jumpVelocity_ = GetPrivateProfileFloat("Parameter", "jumpHeight", 0, "Settings/PlayerSettings.ini");
-    commonParameter_.knockBackStrength_ = 0.4f;
+    commonParameter_.knockBackStrength_ = 0.1f;
 
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
@@ -77,15 +77,13 @@ void Player::Update()
     }
     //////////////////////////
 
-    // ジャンプ中だったら
-    if (playerParams_.jumping_)
-    {
-        ApplyGravity();
-    }
-
+    // 重力加算
+    ApplyGravity();
+    
     // 敵と衝突
     if (isEnemyHit_)
     {
+        playerParams_.jumping_ = true;
         //// 減衰値の調整でノックバックの威力を変更している。////
         // ノックバック減衰
         knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
@@ -93,7 +91,6 @@ void Player::Update()
 
         // Y軸のノックバック減衰と重力適用
         knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * 3.0f);
-        ApplyGravity();
 
         transform_.position_.x += knockDirection_.x;
         transform_.position_.y += knockDirection_.y;
@@ -240,11 +237,14 @@ void Player::ApplyGravity()
     playerParams_.velocity_.y += playerParams_.gravity_ * playerParams_.jumpDelta_;
     transform_.position_.y += playerParams_.velocity_.y;
 
+
+    //if (Input::IsKey(DIK_SPACE))transform_.position_.y += 0.6;
+        
     // 地面に到達したらジャンプ可能な状態に戻す
     if (transform_.position_.y < 0)
     {
         transform_.position_.y = 0;
-        playerParams_.jumping_ = false;
+        playerParams_.jumping_ = falwse;
         playerParams_.velocity_.y = 0;
     }
 }

@@ -31,7 +31,7 @@ namespace
 	////////////WaveTest
 	XMFLOAT3 spawnPosition;		// スポーンする位置
 	int waveTimer = 300;		// 出現の区切り時間(60/1フレーム)
-	int timeLimit = 30;			// 時間制限(秒)
+	int timeLimit = 3000;			// 時間制限(秒)
 }
 
 PlayScene::PlayScene(GameObject * parent)
