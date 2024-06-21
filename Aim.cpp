@@ -98,6 +98,16 @@ void Aim::UpdateCameraPosition()
     XMStoreFloat3(&camPosFloat3, camPosVector);
     XMStoreFloat3(&camTargetFloat3, forwardVector);
 
+    // カメラシェイクを適用
+    if (shakeTimeLeft_ > 0)
+    {
+        camPosFloat3.x += ((rand() % 100) / 100.0f - 0.5f) * shakeMagnitude_ * 2;
+        camPosFloat3.y += ((rand() % 100) / 100.0f - 0.5f) * shakeMagnitude_ * 2;
+        camPosFloat3.z += ((rand() % 100) / 100.0f - 0.5f) * shakeMagnitude_ * 2;
+
+        shakeTimeLeft_ -= 0.01f;
+    }
+
     eyePositon_ = camPosFloat3;
 
     Camera::SetPosition(camPosFloat3);
@@ -116,3 +126,9 @@ void Aim::Release()
 {
 }
 
+void Aim::StartCameraShake(float duration, float magnitude)
+{
+    shakeDuration_ = duration;
+    shakeMagnitude_ = magnitude;
+    shakeTimeLeft_ = duration;
+}

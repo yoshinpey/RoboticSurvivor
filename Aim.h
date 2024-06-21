@@ -16,6 +16,11 @@ class Aim : public GameObject
     Text* pNum_;
     Player* pPlayer_;
 
+    // カメラシェイク用のパラメータ
+    float shakeDuration_;
+    float shakeMagnitude_;
+    float shakeTimeLeft_;
+
     void UpdateRotation();
     void UpdateCameraPosition();
 
@@ -26,6 +31,9 @@ public:
     void Update() override;         //更新
     void Draw() override;           //描画
     void Release() override;        //開放
+    
+    // カメラシェイクを開始するメソッド
+    void StartCameraShake(float duration, float magnitude);
 
     //進行方向ベクトルのAim情報を取得
     XMFLOAT3 GetAimDirection(){ return aimDirection_; }

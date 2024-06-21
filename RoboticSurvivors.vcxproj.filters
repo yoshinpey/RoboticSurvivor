@@ -265,6 +265,7 @@
     <ClCompile Include="Character.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -420,9 +421,6 @@
     <ClInclude Include="Enemy_Explosion.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBase.h">
-      <Filter>Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="BulletBase.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -480,6 +478,7 @@
     <ClInclude Include="Stage_Floor.h">
       <Filter>Stage</Filter>
     </ClInclude>
+    <ClInclude Include="PerlinNoise.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

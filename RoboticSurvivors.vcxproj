@@ -182,6 +182,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gauge.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Stage_Floor.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Gauge.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Stage_Floor.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="InputManager.h" />

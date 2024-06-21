@@ -244,7 +244,7 @@ void Player::ApplyGravity()
     if (transform_.position_.y < 0)
     {
         transform_.position_.y = 0;
-        playerParams_.jumping_ = falwse;
+        playerParams_.jumping_ = false;
         playerParams_.velocity_.y = 0;
     }
 }
@@ -259,7 +259,9 @@ void Player::OnCollision(GameObject* pTarget)
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
         // HP減らす処理
-        if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        //if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        // カメラシェイクをトリガー
+        pAim_->StartCameraShake(0.3f, 0.05f); // 強さ0.2, 0.5秒間のシェイク
 
         // 敵にぶつかったらノックバック値を設定する
         // ノックバック関数に自身の座標と敵の座標、ノックバックさせる威力を渡す
