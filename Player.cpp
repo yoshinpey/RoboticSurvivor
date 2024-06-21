@@ -259,9 +259,10 @@ void Player::OnCollision(GameObject* pTarget)
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
         // HP減らす処理
-        //if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
-        // カメラシェイクをトリガー
-        pAim_->StartCameraShake(0.3f, 0.05f); // 強さ0.2, 0.5秒間のシェイク
+        if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+
+        // カメラシェイク
+        pAim_->StartCameraShake(0.2f, 0.1f); // 0.2秒間, 強さ0.1
 
         // 敵にぶつかったらノックバック値を設定する
         // ノックバック関数に自身の座標と敵の座標、ノックバックさせる威力を渡す
@@ -274,8 +275,7 @@ void Player::OnCollision(GameObject* pTarget)
         // 減衰値が大きいほど結果的にノックバックの威力が下がる(ノックバックベクトルが0に達するまでの時間が減るため)
         // Y軸に関してはぶつかり角度を考慮せず上に飛ばしたいので、1.0を与え、それに減衰値のn倍かけてやる。
         // ノックバックベクトルが0になる、かつ地面に足がついたらノックバック計算を終了する。
-
-
+        
         // エネミー位置
         XMFLOAT3 enemyPos = pEnemy->GetPosition();
 

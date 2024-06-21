@@ -13,9 +13,6 @@ namespace
     const float upLimit = 89.0f;
     const float downLimit = -89.0f;
 
-    const int halfScreenWidth = Direct3D::screenWidth_ / 2;
-    const int halfScreenHeight = Direct3D::screenHeight_ / 2;
-
     XMFLOAT3 FORWARD_VECTOR = { 0.0f,0.0f,1.0f };
 }
 
@@ -48,11 +45,6 @@ void Aim::Initialize()
 
     // プレイヤーオブジェクト取得
     pPlayer_ = static_cast<Player*>(FindObject("Player"));
-    
-    //マウス初期位置(幅/2, 高さ/2)
-    Input::SetMousePosition(Direct3D::screenWidth_ /2, Direct3D::screenHeight_ /2);
-
-
 }
 
 // 更新
@@ -72,7 +64,7 @@ void Aim::UpdateRotation()
     transform_.rotate_.x = std::clamp(newRotationX, downLimit, upLimit);
 }
 
-void Aim::UpdateCameraPosition() 
+void Aim::UpdateCameraPosition()
 {
     // カメラの回転
     XMMATRIX mRotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
@@ -98,14 +90,24 @@ void Aim::UpdateCameraPosition()
     XMStoreFloat3(&camPosFloat3, camPosVector);
     XMStoreFloat3(&camTargetFloat3, forwardVector);
 
+    // フレームごとの時間経過を利用してカメラの揺れを制御する
+    static float timeElapsed = 0.0f;
+    float deltaTime = 1.0f / 60.0f; // 60FPS を前提として、1フレームの時間を設定
+
     // カメラシェイクを適用
     if (shakeTimeLeft_ > 0)
     {
-        camPosFloat3.x += ((rand() % 100) / 100.0f - 0.5f) * shakeMagnitude_ * 2;
-        camPosFloat3.y += ((rand() % 100) / 100.0f - 0.5f) * shakeMagnitude_ * 2;
-        camPosFloat3.z += ((rand() % 100) / 100.0f - 0.5f) * shakeMagnitude_ * 2;
+        float shakeAmount = sin(timeElapsed * XM_PI * 10.0f) * shakeMagnitude_; // 10.0f は揺れの周波数を調整するパラメータ
+        camPosFloat3.x += shakeAmount;
+        camPosFloat3.y += shakeAmount;
+        camPosFloat3.z += shakeAmount;
 
-        shakeTimeLeft_ -= 0.01f;
+        shakeTimeLeft_ -= deltaTime;
+        timeElapsed += 0.01;
+    }
+    else
+    {
+        timeElapsed = 0.0f; // シェイクが終了したら時間をリセット
     }
 
     eyePositon_ = camPosFloat3;
@@ -118,7 +120,7 @@ void Aim::UpdateCameraPosition()
 void Aim::Draw()
 {
     // クロスヘアを表示
-    pNum_->Draw(halfScreenWidth, halfScreenHeight, "+");
+    pNum_->Draw(Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2, "+");
 }
 
 // 開放
@@ -126,9 +128,8 @@ void Aim::Release()
 {
 }
 
-void Aim::StartCameraShake(float duration, float magnitude)
+void Aim::StartCameraShake(float time, float strength)
 {
-    shakeDuration_ = duration;
-    shakeMagnitude_ = magnitude;
-    shakeTimeLeft_ = duration;
+    shakeTimeLeft_ = time;
+    shakeMagnitude_ = strength;
 }
