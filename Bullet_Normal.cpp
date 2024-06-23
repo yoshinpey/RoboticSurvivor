@@ -44,8 +44,7 @@ void Bullet_Normal::Initialize()
     assert(hModel_ >= 0);
 
     //当たり判定
-    pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
-    AddCollider(pCollision_);
+    AddCollider(new SphereCollider(collisionOffset, parameter_.collisionScale_));
 }
 
 //更新
@@ -73,26 +72,23 @@ void Bullet_Normal::Release()
 
 void Bullet_Normal::OnCollision(GameObject* pTarget)
 {
-    // 地面関連の物体に当たったとき
-    if (pTarget->GetObjectName().find("Stage") != std::string::npos)
-    {
-        parameter_.killTimer_ = 0;
-    }
-
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
         // すでにこの敵に対してヒット済みの場合は無視
         if (hitEnemies.find(pTarget) != hitEnemies.end()) return;
 
-        // Characterにキャスト
-        Character* pCharacter = dynamic_cast<Character*>(pTarget);
-
         // ダメージを与える
-        pCharacter->DecreaseHp(parameter_.damage_);
+        static_cast<Character*>(pTarget)->DecreaseHp(parameter_.damage_);
 
         // 貫通しない場合は弾丸を消す.貫通する場合はヒットを記録
-        if (parameter_.isPenetration_ == 0)  parameter_.killTimer_ = 0;     
+        if (parameter_.isPenetration_ == 0)  parameter_.killTimer_ = 0;
         else hitEnemies.insert(pTarget);
+    }
+
+    // 地面関連の物体に当たったとき
+    if (pTarget->GetObjectName().find("Stage") != std::string::npos)
+    {
+        parameter_.killTimer_ = 0;
     }
 }

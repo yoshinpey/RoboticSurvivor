@@ -12,7 +12,7 @@ SphereCollider::SphereCollider(XMFLOAT3 center, float radius)
 	center_ = center;
 	size_ = XMFLOAT3(radius, radius, radius);
 	type_ = COLLIDER_CIRCLE;
-
+	
 	//リリース時は判定枠は表示しない
 #ifdef _DEBUG
 	//テスト表示用判定枠

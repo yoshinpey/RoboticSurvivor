@@ -17,6 +17,8 @@ namespace
     const XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
     const std::string modelName = "Entity/Missile.fbx";       // モデル名
 
+    const float explosionVolume = 0.1f;
+
     //////////////////////////////
     const float gravity = -0.0025f;          // 銃弾にかける重力
     const float explodeScale = 10.0f;        // 爆発の膨張サイズ
@@ -55,9 +57,7 @@ void Bullet_Explosion::Initialize()
     transform_.scale_ = modelScale;
 
     //当たり判定
-    SphereCollider* pCollision_ = new SphereCollider(collisionOffset, parameter_.collisionScale_);
-    AddCollider(pCollision_);
-
+    AddCollider(new SphereCollider(collisionOffset, parameter_.collisionScale_));
 }
 
 //更新
@@ -67,7 +67,7 @@ void Bullet_Explosion::Update()
     if(verticalSpeed_ >= accelerationLimit) verticalSpeed_ += gravity;
     
     // 位置を保存する
-    XMFLOAT3 pastPosition = transform_.position_;
+    XMFLOAT3 previousPosition = transform_.position_;
 
     // 重力を加算して放物線運動させる
     transform_.position_.y += verticalSpeed_;
@@ -76,7 +76,7 @@ void Bullet_Explosion::Update()
     transform_.position_ = CalculateFloat3Add(transform_.position_, move_);
 
     // モデルの向きを合わせる
-    XMFLOAT3 targetVector = CalculateDirection(transform_.position_, pastPosition);
+    XMFLOAT3 targetVector = CalculateDirection(transform_.position_, previousPosition);
     RotateToTarget(targetVector);
 
     // 弾の生存時間処理
@@ -88,7 +88,7 @@ void Bullet_Explosion::Update()
     else
     {
         // 爆発する
-        AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE, 0.1f);
+        AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE, explosionVolume);
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
 
         // 敵との距離を計測し、範囲内だったら与ダメージ

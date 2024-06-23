@@ -8,7 +8,7 @@
 
 namespace
 {
-    XMFLOAT3 collisionPosition = { 0.0f, 1.0f, 0.0f };      // 当たり判定の位置
+    XMFLOAT3 collisionOffset = { 0.0f, 1.0f, 0.0f };      // 当たり判定の位置
     XMFLOAT3 modelRotate = { 0.0f, 180.0f, 0.0f };          // モデルの回転
 
     // モデルのアニメーション
@@ -40,9 +40,8 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
 
 Enemy_Ground::~Enemy_Ground()
 {
-    // エネミーのマネージャーリストから死んだエネミーを削除する
-    PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
-    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(this);
+    // 死んだエネミーをエネミーマネージャーのリストから削除する
+    static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager()->RemoveDeadEnemies(this);
 }
 
 void Enemy_Ground::Initialize()
@@ -55,11 +54,9 @@ void Enemy_Ground::Initialize()
     Model::SetAnimFrame(hModel_, anim.startFrame, anim.endFrame, anim.speed);
 
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionPosition, enemyStatus_.collisionScale_);
-    AddCollider(pCollision);
+    AddCollider(new SphereCollider(collisionOffset, enemyStatus_.collisionScale_));
 
     transform_.rotate_.y = modelRotate.y;
-
 }
 
 void Enemy_Ground::Update()

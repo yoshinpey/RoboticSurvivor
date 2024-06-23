@@ -41,9 +41,8 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
 
 Enemy_Explosion::~Enemy_Explosion()
 {
-    // エネミーマネージャーのリストから死んだエネミーを削除する
-    PlayScene* pPlayScene = (PlayScene*)FindObject("PlayScene");
-    pPlayScene->GetEnemyManager()->RemoveDeadEnemies(this);
+    // 死んだエネミーをエネミーマネージャーのリストから削除する
+    static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager()->RemoveDeadEnemies(this);
 }
 
 void Enemy_Explosion::Initialize()
@@ -56,8 +55,7 @@ void Enemy_Explosion::Initialize()
     Model::SetAnimFrame(hModel_, anim.startFrame, anim.endFrame, anim.speed);
 
     // 当たり判定付与
-    SphereCollider* pCollision = new SphereCollider(collisionOffset, enemyStatus_.collisionScale_);
-    AddCollider(pCollision);
+    AddCollider(new SphereCollider(collisionOffset, enemyStatus_.collisionScale_));
 
     // モデルの回転
     transform_.rotate_.y = modelRotate.y;

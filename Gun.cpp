@@ -79,13 +79,10 @@ void Gun::Release()
 
 XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletSpeed)
 {
-    // ŽËo•ûŒü‚ðŒvŽZ‚µ‚Ä³‹K‰»  (top - root)
-    XMVECTOR vMove = XMVector3Normalize(XMVectorSubtract(XMLoadFloat3(&top), XMLoadFloat3(&root)));
+    // ŽËo•ûŒü‚ðŒvŽZ‚µ‚Ä³‹K‰»‚µ‘¬“x‚ðŠ|‚¯‚é  (top - root) * speed
+    XMVECTOR vMove = XMVector3Normalize(XMVectorSubtract(XMLoadFloat3(&top), XMLoadFloat3(&root))) * bulletSpeed;
 
-    // ’e‘¬‚ð’Ç‰ÁÝ’è(e‚ÉŽí—Þ‚ª‘‚¦‚½‚Æ‚«—p)
-    vMove *= bulletSpeed;
-
-    // float3Œ^‚É–ß‚·
+    // XMFLOAT3Œ^‚É–ß‚·
     XMFLOAT3 move;
     XMStoreFloat3(&move, vMove);
     return move;
@@ -103,9 +100,10 @@ void Gun::ShootBullet(BulletType type)
 
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
-    XMFLOAT3 move = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
-    moveDirection_ = move;
+
+    // ƒ‚ƒfƒ‹‚Ìƒ{[ƒ“ˆÊ’u‚ðŒ³‚ÉAŽËo•ûŒü¥‘¬“xŒvŽZ‚·‚é
+    moveDirection_ = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
 
     pNewBullet->SetPosition(GunTop);
-    pNewBullet->SetMove(move);
+    pNewBullet->SetMove(moveDirection_);
 }

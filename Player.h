@@ -32,7 +32,7 @@ private:
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // HPゲージ
 
-    bool isEnemyHit_;                   // エネミーに当たった
+    bool isEnemyHit_;                   // エネミーに当たったとき真(多段ノックバック対策)
     XMFLOAT3 knockDirection_;           // ノックバック方向
 
 public:

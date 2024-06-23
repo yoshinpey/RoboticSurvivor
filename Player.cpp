@@ -10,11 +10,18 @@ namespace
 {
     XMFLOAT3 collisionOffset = { 0.0f, 1.6f, 0.0f };    // 当たり判定の位置
     float collisionScale = 0.6f;                        // 当たり判定の大きさ
+
+    float knockY = 1.0f;        // ノックバックの縦方向を0にしないための変数
+    float knockDelta = 3.0f;    // 縦方向のノックバックを大きくするための変数
+
+    float shakeTime = 0.3f;     // カメラ揺らす時間
+    float shakeStrength = 0.1f; // カメラ揺らす強さ
 }
 
 // コンストラクタ
 Player::Player(GameObject* parent) 
-    : Character(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr), knockDirection_(0.0f, 0.0f, 0.0f), isEnemyHit_(false)
+    : Character(parent, "Player"), pStateManager_(nullptr), pAim_(nullptr), pGauge_(nullptr), 
+    knockDirection_(0.0f, 0.0f, 0.0f), isEnemyHit_(false)
 {
     // 標準パラメータをセット
     commonParameter_.walkSpeed_ = GetPrivateProfileFloat("Parameter", "walkSpeed", 0, "Settings/PlayerSettings.ini");
@@ -43,9 +50,8 @@ Player::~Player()
 {
     SAFE_DELETE(pStateManager_);
 
-    // 死んだときにプレイヤーのポインターを解放する
-    PlayScene* pPlayScene = static_cast<PlayScene*>(FindObject("PlayScene"));
-    pPlayScene->SetPlayer(nullptr);
+    // 死んだときにプレイヤーのポインターをnullにする
+    static_cast<PlayScene*>(FindObject("PlayScene"))->SetPlayer(nullptr);
 }
 
 // 初期化
@@ -67,14 +73,8 @@ void Player::Update()
     pGauge_->SetHp(commonStatus_.maxHp_, commonStatus_.currentHp_);
     ///////////////////////// デバッグ用
     static float hp = 50.0f;
-    if (Input::IsKeyDown(DIK_M))
-    {
-        IncreaseHp(hp);
-    }
-    if (Input::IsKeyDown(DIK_N))
-    {
-        DecreaseHp(hp);
-    }
+    if (Input::IsKeyDown(DIK_M))IncreaseHp(hp);
+    if (Input::IsKeyDown(DIK_N))DecreaseHp(hp);
     //////////////////////////
 
     // 重力加算
@@ -89,7 +89,7 @@ void Player::Update()
         // ノックバック減衰
         knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
         knockDirection_.z -= knockDirection_.z * commonParameter_.knockBackStrength_;
-        knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * 3.0f);
+        knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * knockDelta);
 
         transform_.position_.x += knockDirection_.x;
         transform_.position_.y += knockDirection_.y;
@@ -237,9 +237,6 @@ void Player::ApplyGravity()
     playerParams_.velocity_.y += playerParams_.gravity_ * playerParams_.jumpDelta_;
     transform_.position_.y += playerParams_.velocity_.y;
 
-
-    //if (Input::IsKey(DIK_SPACE))transform_.position_.y += 0.6;
-        
     // 地面に到達したらジャンプ可能な状態に戻す
     if (transform_.position_.y < 0)
     {
@@ -262,26 +259,14 @@ void Player::OnCollision(GameObject* pTarget)
         if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
 
         // カメラシェイク
-        pAim_->StartCameraShake(0.2f, 0.1f); // 0.2秒間, 強さ0.1
-
-        // 敵にぶつかったらノックバック値を設定する
-        // ノックバック関数に自身の座標と敵の座標、ノックバックさせる威力を渡す
-        // 受け取った座標の引き算をして、正規化を行い方向を求める。
-        // 方向に威力をかけてノックバックベクトルを作成する
-
-        // アップデート関数で現在地ベクトルにノックバックベクトルをかけてやりノックバックさせる。
-        // しかしこのままではいつまでも止まらないので、ノックバックの減衰を行う。
-        // ノックバックベクトルが0より大きくなったら、ノックバックベクトルに減衰変数をかける。
-        // 減衰値が大きいほど結果的にノックバックの威力が下がる(ノックバックベクトルが0に達するまでの時間が減るため)
-        // Y軸に関してはぶつかり角度を考慮せず上に飛ばしたいので、1.0を与え、それに減衰値のn倍かけてやる。
-        // ノックバックベクトルが0になる、かつ地面に足がついたらノックバック計算を終了する。
+        pAim_->StartCameraShake(shakeTime, shakeStrength); // 0.2秒間, 強さ0.1
         
         // エネミー位置
         XMFLOAT3 enemyPos = pEnemy->GetPosition();
 
         // プレイヤーからエネミーへの方向(ノックバックの方向)ベクトルを計算
         knockDirection_ = CalculateDirection(transform_.position_, enemyPos);
-        knockDirection_.y = 1.0f;   // 0だと上に飛ばないので1にする
+        knockDirection_.y = knockY;   // 0だと上に飛ばないので1にする
         isEnemyHit_ = true;
     }
 }

@@ -10,6 +10,7 @@ namespace
 	//Maxで950くらい
 	XMFLOAT3 SphereScale = { 300,300,300 };
 	std::string modelName = "Stage/skyBox.fbx";
+	float rotateSpeed = 0.02f;
 }
 
 Stage_Skybox::Stage_Skybox(GameObject* parent)
@@ -37,7 +38,7 @@ void Stage_Skybox::Update()
 	// スカイボックスはプレイヤーに付いて常に移動する
 	Player* pPlayer = (Player*)FindObject("Player");
 	if(pPlayer != nullptr)transform_.position_ = pPlayer->GetPosition();
-	transform_.rotate_.y += 0.02f;
+	transform_.rotate_.y += rotateSpeed;
 }
 
 void Stage_Skybox::Draw()
