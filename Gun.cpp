@@ -7,6 +7,7 @@
 #include "Bullet_Normal.h"
 #include "Bullet_Explosion.h"
 
+#include "Player.h"
 
 namespace
 {
@@ -16,7 +17,7 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr)
 {
 }
 
@@ -36,11 +37,14 @@ void Gun::Initialize()
 
     // バレットタイプのenumサイズで初期化
     bulletInfoList_.resize(static_cast<int>(BulletType::MAX));
-}
+
+    // プレイヤーのポインタ取得
+    pPlayer_ = static_cast<Player*>(FindObject("Player"));
+}    
 
 void Gun::Update()
 {
-    // クールタイムを減らす
+    // すべての弾丸のクールタイムをそれぞれ減らす
     for (auto& bullet : bulletInfoList_) { bullet.coolTime_--; }
 
     // 通常射撃
@@ -49,28 +53,42 @@ void Gun::Update()
         AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
         ShootBullet<Bullet_Normal>(BulletType::NORMAL);
     }
-    else
-    {
-        AudioManager::Stop(AudioManager::AUDIO_ID::SHOT);
-    }
 
     // 特殊射撃
     if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
     {
+        AudioManager::Play(AudioManager::AUDIO_ID::SHOT_EXPLODE, 0.1f);
         ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
     }
 }
 
 void Gun::Draw()
 {
-    // 銃は常に手前に表示したいので深度を無視する
-    Direct3D::SetDepthBafferWriteEnable(false);
 
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
+    bool shouldDraw = true;
 
-    // 深度設定を戻す
-    Direct3D::SetDepthBafferWriteEnable(true);
+    if (pPlayer_->IsInvincible())
+    {
+        flickerTimer_++;
+
+        // 点滅の間隔を決める（ここでは10フレームごとに点滅）
+        if (flickerTimer_ % 20 >= 10)shouldDraw = false;
+    }
+    else
+    {
+        // 無敵時間でない場合、タイマーをリセット
+        flickerTimer_ = 0;
+    }
+
+    if (shouldDraw)
+    {
+        // 銃は常に手前に表示したいので、深度バッファ書き込みを無効にする
+        // こうすれば壁や地面に埋まらない
+        Direct3D::SetDepthBafferWriteEnable(false);
+        Model::SetTransform(hModel_, transform_);
+        Model::Draw(hModel_);
+        Direct3D::SetDepthBafferWriteEnable(true);
+    }
 }
 
 void Gun::Release()
@@ -94,15 +112,14 @@ void Gun::ShootBullet(BulletType type)
     // これは高頻度で処理するので、わかりにくいけどFindではなく親をたどって生成（Aim->Player->PlayScene）
     BulletBase* pNewBullet = Instantiate<T>(GetParent()->GetParent()->GetParent());
 
-    // パラメータ設定
-    float bulletSpeed = pNewBullet->GetBulletParameter().speed_;
+    // 弾丸の種類に応じたクールタイムを設定
     bulletInfoList_[(int)type].coolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
 
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
 
     // モデルのボーン位置を元に、射出方向･速度計算する
-    moveDirection_ = CalculateBulletMovement(GunTop, GunRoot, bulletSpeed);
+    moveDirection_ = CalculateBulletMovement(GunTop, GunRoot, pNewBullet->GetBulletParameter().speed_);
 
     pNewBullet->SetPosition(GunTop);
     pNewBullet->SetMove(moveDirection_);

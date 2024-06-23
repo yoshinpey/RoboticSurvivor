@@ -1,8 +1,8 @@
 #pragma once
-#include "Engine/GameObject.h"
+#include "UIBase.h"
 
 //HPを管理するクラス
-class Gauge : public GameObject
+class Gauge : public UIBase
 {
     // テキスト画像の内容
     enum

@@ -1,12 +1,13 @@
 #pragma once
 
-namespace AudioManager 
+namespace AudioManager
 {
 	// ‰¹Œ¹‚ÌID
 	enum AUDIO_ID
 	{
 		EXPLODE = 0,
 		SHOT,
+		SHOT_EXPLODE,
 		MAX
 	};
 

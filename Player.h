@@ -32,25 +32,41 @@ private:
     Aim* pAim_;                         // エイム呼び出し用
     Gauge* pGauge_;                     // HPゲージ
 
-    bool isEnemyHit_;                   // エネミーに当たったとき真(多段ノックバック対策)
+    bool isEnemyHit_;                   // エネミーに当たったとき真(無敵時間設定用)
     XMFLOAT3 knockDirection_;           // ノックバック方向
 
 public:
-    Player(GameObject* parent);     // コンストラクタ
-    ~Player();                      // デストラクタ
+    Player(GameObject* parent);
+    ~Player();
+    void Initialize() override;
+    void Update() override;
+    void Draw() override;
+    void Release() override;
 
-    void Initialize() override;     // 初期化
-    void Update() override;         // 更新
-    void Draw() override;           // 描画
-    void Release() override;        // 開放
+    // 歩く
+    void Walk();
 
-    void Walk();                    // 歩く
-    void Run();                     // 走る
-    void ApplyMovement(const XMFLOAT3& moveVector, float maxSpeed);    // 移動適応
-    void ApplyDeceleration();       // 減速適応
-    void Jump();                    // ジャンプ
-    XMFLOAT3 CalculateMoveInput();  // 移動計算
-    void ApplyGravity();            // 重力を適用
-    void OnCollision(GameObject* pTarget) override; // 何かに当たった
+    // 走る
+    void Run();
 
+    // 移動適応
+    void ApplyMovement(const XMFLOAT3& moveVector, float maxSpeed);
+
+    // 減速適応
+    void ApplyDeceleration();
+
+    // ジャンプ
+    void Jump();
+
+    // 移動計算
+    XMFLOAT3 CalculateMoveInput();
+
+    // 重力を適用
+    void ApplyGravity();
+
+    // 何かに当たった
+    void OnCollision(GameObject* pTarget) override;
+
+    // 無敵中かどうか
+    bool IsInvincible() const { return isEnemyHit_; }
 };

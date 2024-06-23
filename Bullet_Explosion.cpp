@@ -21,7 +21,6 @@ namespace
 
     //////////////////////////////
     const float gravity = -0.0025f;          // e’e‚É‚©‚¯‚éd—Í
-    const float explodeScale = 10.0f;        // ”š”­‚Ì–c’£ƒTƒCƒY
     const float accelerationLimit = -0.4f;   // ‰Á‘¬ŒÀŠE
     const int modelRotate = 180;             // ƒ‚ƒfƒ‹‰ñ“]
 }
@@ -40,6 +39,7 @@ Bullet_Explosion::Bullet_Explosion(GameObject* parent)
     parameter_.speed_ = bullet_explosion["speed"];
     parameter_.killTimer_ = bullet_explosion["killTimer"];
     parameter_.collisionScale_ = bullet_explosion["collisionScale"];
+    explodeScale_ = bullet_explosion["explodeScale"];
 }
 
 //ƒfƒXƒgƒ‰ƒNƒ^
@@ -98,7 +98,7 @@ void Bullet_Explosion::Update()
         {
             XMFLOAT3 enePos = e->GetPosition();
             float dist = CalculateDistance(transform_.position_, enePos);
-            if (dist < explodeScale)
+            if (dist < explodeScale_)
             {
                 e->DecreaseHp(parameter_.damage_);
                 e->BulletHit();

@@ -9,7 +9,8 @@ class Timer : public GameObject
     bool active_;        // 起動しているかどうか
     float frame_;        // フレーム数
     Text* pNum_;         // テキスト表示用
-    static const int FPS = 60;
+    const int FPS = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");
+
 public:
     Timer(GameObject* parent);
     ~Timer();

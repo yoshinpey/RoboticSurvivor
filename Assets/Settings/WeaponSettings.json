@@ -6,7 +6,7 @@
   "Bullet_Normal": 
   {
     "damage": 25,
-    "shotCoolTime": 10,
+    "shotCoolTime": 8,
     "speed": 1,
     "killTimer": 240,
     "collisionScale": 0.2,
@@ -15,9 +15,10 @@
   "Bullet_Explosion": 
   {
     "damage": 75,
-    "shotCoolTime": 60,
-    "speed": 0.4,
+    "shotCoolTime": 120,
+    "speed": 0.3,
     "killTimer": 300,
-    "collisionScale": 0.3
+    "collisionScale": 0.3,
+    "explodeScale": 6
   }
 }

@@ -9,6 +9,7 @@ class Bullet_Explosion : public BulletBase
 {
     int hModel_;
     float verticalSpeed_;   // 垂直方向のスピード変数
+    float explodeScale_;    // 爆発の膨張サイズ
 
 public:
     Bullet_Explosion(GameObject* parent);

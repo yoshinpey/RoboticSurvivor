@@ -479,6 +479,9 @@
       <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="UIBase.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

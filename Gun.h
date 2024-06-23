@@ -3,6 +3,7 @@
 #include "Engine/GameObject.h"
 #include <vector>
 
+class Player;
 enum class BulletType;
 
 // バレットの情報を保管する構造体
@@ -16,10 +17,11 @@ class Gun : public GameObject
 {
     int hModel_;                    // モデル番号
     XMFLOAT3 moveDirection_;        // 動く方向
-
+    Player* pPlayer_;
     // バレットのリスト
     std::vector<BulletInfo> bulletInfoList_;
 
+    int flickerTimer_;              // 無敵状態のちらつきタイマー
 public:
     Gun(GameObject* parent);
     ~Gun();
