@@ -66,7 +66,7 @@ void Player::Update()
     // HPゲージ呼び出し
     pGauge_->SetHp(commonStatus_.maxHp_, commonStatus_.currentHp_);
     ///////////////////////// デバッグ用
-    static float hp = 5.0f;
+    static float hp = 50.0f;
     if (Input::IsKeyDown(DIK_M))
     {
         IncreaseHp(hp);
@@ -83,13 +83,12 @@ void Player::Update()
     // 敵と衝突
     if (isEnemyHit_)
     {
+        // 滞空中の移動摩擦を適応
         playerParams_.jumping_ = true;
         //// 減衰値の調整でノックバックの威力を変更している。////
         // ノックバック減衰
         knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
         knockDirection_.z -= knockDirection_.z * commonParameter_.knockBackStrength_;
-
-        // Y軸のノックバック減衰と重力適用
         knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * 3.0f);
 
         transform_.position_.x += knockDirection_.x;
@@ -125,16 +124,16 @@ void Player::Run()
 }
 
 // 移動に反映する関数
-void Player::ApplyMovement(const XMFLOAT3& moveVector, float speed)
+void Player::ApplyMovement(const XMFLOAT3& moveVector, float maxSpeed)
 {
     // 現在の速度
     float currentSpeed = XMVectorGetX(XMVector3Length(XMLoadFloat3(&playerParams_.movement_)));
 
     // 最大速度を超えていたら正規化、最大値の値にする
-    if (currentSpeed > speed)
+    if (currentSpeed > maxSpeed)
     {
         XMVECTOR vMove = XMLoadFloat3(&playerParams_.movement_);
-        vMove = XMVector3Normalize(vMove) * speed;
+        vMove = XMVector3Normalize(vMove) * maxSpeed;
         XMStoreFloat3(&playerParams_.movement_, vMove);
     }
 
@@ -172,6 +171,7 @@ void Player::ApplyDeceleration()
 // ジャンプ
 void Player::Jump()
 {
+    // ジャンプ中は計算しない
     if (playerParams_.jumping_) return;
 
     // 移動方向を取得
@@ -192,7 +192,7 @@ XMFLOAT3 Player::CalculateMoveInput()
     // 計算結果入れる用
     XMFLOAT3 moveDirection = { 0.0f, 0.0f, 0.0f };
 
-    // 逆キー入力したら移動変数の逆行列を掛けてストップさせる
+    // 逆キー入力しているときは移動変数のマイナスで打ち消す
     if (InputManager::IsMoveForward() && InputManager::IsMoveBackward() && !InputManager::IsMoveLeft() && !InputManager::IsMoveRight()) 
         return XMFLOAT3(-playerParams_.movement_.x, -playerParams_.movement_.y, -playerParams_.movement_.z);
     else if (InputManager::IsMoveLeft() && InputManager::IsMoveRight() && !InputManager::IsMoveForward() && !InputManager::IsMoveBackward()) 

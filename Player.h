@@ -46,7 +46,7 @@ public:
 
     void Walk();                    // 歩く
     void Run();                     // 走る
-    void ApplyMovement(const XMFLOAT3& moveVector, float speed);    // 移動適応
+    void ApplyMovement(const XMFLOAT3& moveVector, float maxSpeed);    // 移動適応
     void ApplyDeceleration();       // 減速適応
     void Jump();                    // ジャンプ
     XMFLOAT3 CalculateMoveInput();  // 移動計算
