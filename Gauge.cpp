@@ -16,7 +16,7 @@ namespace
 
 //コンストラクタ
 Gauge::Gauge(GameObject* parent)
-    :UIBase(parent, "Gauge"), maxHp_(0), nowHp_(0)
+    :GameObject(parent, "Gauge"), maxHp_(0), nowHp_(0)
 {
     // 画像読み込み
     hPict_.resize(pictureName.size());
