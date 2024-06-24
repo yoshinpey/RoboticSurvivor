@@ -39,4 +39,5 @@ public:
 
     // ˆÚ“®•ûŒüŽæ“¾
     XMFLOAT3 GetMoveDirection() const { return moveDirection_; }
+    void InputConfirmation();
 };

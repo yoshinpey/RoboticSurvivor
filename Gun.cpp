@@ -14,6 +14,7 @@ namespace
     const XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };      // 移動量
     const XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
     const std::string modelName = "Entity/Rifle.fbx";         // モデル名
+    const float Volume = 0.1f;                                // 音量
 }
 
 Gun::Gun(GameObject* parent)
@@ -47,19 +48,8 @@ void Gun::Update()
     // すべての弾丸のクールタイムをそれぞれ減らす
     for (auto& bullet : bulletInfoList_) { bullet.coolTime_--; }
 
-    // 通常射撃
-    if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
-    {
-        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, 0.1f);
-        ShootBullet<Bullet_Normal>(BulletType::NORMAL);
-    }
+    InputConfirmation();
 
-    // 特殊射撃
-    if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
-    {
-        AudioManager::Play(AudioManager::AUDIO_ID::SHOT_EXPLODE, 0.1f);
-        ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
-    }
 }
 
 void Gun::Draw()
@@ -104,6 +94,26 @@ XMFLOAT3 Gun::CalculateBulletMovement(XMFLOAT3 top, XMFLOAT3 root, float bulletS
     XMFLOAT3 move;
     XMStoreFloat3(&move, vMove);
     return move;
+}
+
+void Gun::InputConfirmation()
+{
+    // 無敵時間中は攻撃無効化
+    if (pPlayer_->IsInvincible())return;
+
+    // 通常射撃
+    if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
+    {
+        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, Volume);
+        ShootBullet<Bullet_Normal>(BulletType::NORMAL);
+    }
+
+    // 特殊射撃
+    if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
+    {
+        AudioManager::Play(AudioManager::AUDIO_ID::SHOT_EXPLODE, Volume);
+        ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
+    }
 }
 
 template <class T>
