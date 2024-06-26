@@ -24,9 +24,9 @@ void UIBase::Initialize(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::func
 	// フレームと使いたい文字画像をロードする
 	const std::string fileName[] = 
 	{ 
-		"Image/ButtonFrame1.png", 
-		"Image/ButtonFrame2.png", 
-		"Image/" + name + ".png" 
+		"Pictures/ButtonFrame1.png", 
+		"Pictures/ButtonFrame2.png", 
+		"Pictures/" + name + ".png" 
 	};
 
 	for (int i = 0; i < 3; i++) 
