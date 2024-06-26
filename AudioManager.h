@@ -1,16 +1,18 @@
 #pragma once
 
+// âπåπÇÃID
+enum AUDIO_ID
+{
+	EXPLODE = 0,
+	SHOT,
+	SHOT_EXPLODE,
+	CURSOR_POINT,
+	CURSOR_ENTER,
+	MAX
+};
+
 namespace AudioManager
 {
-	// âπåπÇÃID
-	enum AUDIO_ID
-	{
-		EXPLODE = 0,
-		SHOT,
-		SHOT_EXPLODE,
-		MAX
-	};
-
 	// èâä˙âª
 	void Initialize();
 

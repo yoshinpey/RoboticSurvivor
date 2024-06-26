@@ -88,7 +88,7 @@ void Bullet_Explosion::Update()
     else
     {
         // 爆発する
-        AudioManager::Play(AudioManager::AUDIO_ID::EXPLODE, explosionVolume);
+        AudioManager::Play(AUDIO_ID::EXPLODE, explosionVolume);
         EffectManager::CreateVfx(transform_.position_, VFX_TYPE::EXPLODE);
 
         // 敵との距離を計測し、範囲内だったら与ダメージ

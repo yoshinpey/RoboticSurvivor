@@ -104,14 +104,14 @@ void Gun::InputConfirmation()
     // ’ÊíËŒ‚
     if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
     {
-        AudioManager::Play(AudioManager::AUDIO_ID::SHOT, Volume);
+        AudioManager::Play(AUDIO_ID::SHOT, Volume);
         ShootBullet<Bullet_Normal>(BulletType::NORMAL);
     }
 
     // “ÁêËŒ‚
     if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
     {
-        AudioManager::Play(AudioManager::AUDIO_ID::SHOT_EXPLODE, Volume);
+        AudioManager::Play(AUDIO_ID::SHOT_EXPLODE, Volume);
         ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
     }
 }

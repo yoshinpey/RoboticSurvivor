@@ -31,7 +31,9 @@ void AudioManager::Initialize()
     {
         {"Sounds/Explode.wav", false, 3},
         {"Sounds/Shot.wav", false, 3},
-        {"Sounds/ShotExplode.wav", false, 3}
+        {"Sounds/ShotExplode.wav", false, 3},
+        {"Sounds/PointCursor.wav", false, 3},
+        {"Sounds/EnterCursor.wav", false, 3}
     };
 
     // リストの数に合わせてハンドルのサイズを初期化
