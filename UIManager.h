@@ -18,10 +18,9 @@ public:
 protected:
 	std::vector<UIBase*> uiList_;
 	UI_STATE state_;
-	SceneBase* pParent_;
 
 public:
-	UIManager(SceneBase* parent);
+	UIManager();
 	virtual ~UIManager();
 	virtual void Update();
 	virtual void Draw();

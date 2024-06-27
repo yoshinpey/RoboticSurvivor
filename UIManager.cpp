@@ -2,8 +2,8 @@
 #include "UIBase.h"
 #include "Engine/Input.h"
 
-UIManager::UIManager(SceneBase* parent)
-	: state_(UI_STATE::DRAW), pParent_(parent)
+UIManager::UIManager()
+	: state_(UI_STATE::DRAW)
 {
 }
 
@@ -30,8 +30,6 @@ void UIManager::Draw()
 	{
 		u->Draw();
 	}
-
-	pCursor_->Draw();
 }
 
 void UIManager::AddUi(std::string name, XMFLOAT2 pos, std::function<void()> onClick)

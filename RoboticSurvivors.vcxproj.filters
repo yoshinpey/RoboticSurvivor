@@ -266,6 +266,15 @@
       <Filter>Character</Filter>
     </ClCompile>
     <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>03Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -481,6 +490,12 @@
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="UIBase.h">
       <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>03Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
