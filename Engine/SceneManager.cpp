@@ -33,28 +33,27 @@ void SceneManager::Initialize()
 void SceneManager::Update()
 {
 	//次のシーンが現在のシーンと違う　＝　シーンを切り替えなければならない
-	if (currentSceneID_ != nextSceneID_)
+	if (currentSceneID_ == nextSceneID_)return;
+
+	//そのシーンのオブジェクトを全削除
+	KillAllChildren();
+
+	//ロードしたデータを全削除
+	Audio::Release();
+	Model::AllRelease();
+	Image::AllRelease();
+
+	//次のシーンを作成
+	switch (nextSceneID_)
 	{
-		//そのシーンのオブジェクトを全削除
-		KillAllChildren();
+	case SCENE_ID_TITLE: Instantiate<TitleScene>(this); break;
+	case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
+	case SCENE_ID_OVER: Instantiate<OverScene>(this); break;
+	case SCENE_ID_CLEAR: Instantiate<ClearScene>(this); break;
 
-		//ロードしたデータを全削除
-		Audio::Release();
-		Model::AllRelease();
-		Image::AllRelease();
-
-		//次のシーンを作成
-		switch (nextSceneID_)
-		{
-		case SCENE_ID_TITLE: Instantiate<TitleScene>(this); break;
-		case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
-		case SCENE_ID_OVER: Instantiate<OverScene>(this); break;
-		case SCENE_ID_CLEAR: Instantiate<ClearScene>(this); break;
-
-		}
-		Audio::Initialize();
-		currentSceneID_ = nextSceneID_;
 	}
+	Audio::Initialize();
+	currentSceneID_ = nextSceneID_;
 }
 
 //描画

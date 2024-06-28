@@ -4,13 +4,13 @@
 #include "TitleScene.h"
 #include <cmath>
 
-namespace 
+namespace
 {
-	const float defaultScale = 1.00f;	// 標準の大きさ
-	const float minScale = 0.80f;		// 最大画像サイズ
-	const float maxScale = 1.20f;		// 最小画像サイズ
-	const float stepScale = 0.02f;		// 時間経過による変化量
-	const float frequency = 4.0f;		// 頻度
+	const float defaultScale = 1.00f;    // 標準の大きさ
+	const float minScale = 0.80f;        // 最大画像サイズ
+	const float maxScale = 1.20f;        // 最小画像サイズ
+	const float stepScale = 0.02f;       // 時間経過による変化量
+	const float frequency = 4.0f;        // 頻度
 }
 
 // コンストラクタ
@@ -50,7 +50,7 @@ void TitleScene::Initialize()
 
 	// スタートテキスト画像の位置をウィンドウの中央に設定する
 	// 画像の配置：-1＝左端、0＝中央、1＝右端
-	XMFLOAT2 textPosition = {0,0};
+	XMFLOAT2 textPosition = { 0, 0 };
 	textTrans_.position_.x = textPosition.x;
 	textTrans_.position_.y = textPosition.y;
 }
@@ -64,10 +64,10 @@ void TitleScene::Update()
 		SceneManager* pSceneManager = static_cast<SceneManager*>(FindObject("SceneManager"));
 		pSceneManager->ChangeScene(SCENE_ID_PLAY);
 	}
-	
+
 	// サインカーブを使ったスタートテキストの拡大縮小
 	time_ += stepScale;
-	float scale = minScale + (maxScale - minScale) * (0.5f * (1.0f + sinf(frequency * time_)));
+	float scale = minScale + (maxScale - minScale) * (0.5 * (defaultScale + sinf(frequency * time_)));
 	textTrans_.scale_.x = scale;
 	textTrans_.scale_.y = scale;
 }

@@ -31,7 +31,4 @@ namespace AudioManager
 	// 引数：オーディオID
 	void Stop(AUDIO_ID id);
 
-	// 解放
-	void Release();
-
 };

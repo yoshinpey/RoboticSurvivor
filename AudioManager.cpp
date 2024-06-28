@@ -63,7 +63,7 @@ void AudioManager::SetVolume(float volume)
 {
     // もし再設定したボリュームが範囲外だった時、0.0f ～ 1.0fの範囲に制限する
     if (volume < 0.0f)      volume = 0.0f;
-    else if (volume > 1.0f) volume = 1.0f;
+    else if (volume >= 1.0f) volume = 1.0f;
 
     // ボリュームを0.0f ～ 1.0fの範囲から、0～100の範囲に変換する
     gameVolume_ = volume * 100.0f;
@@ -83,9 +83,4 @@ void AudioManager::Play(AUDIO_ID id, float volume)
 void AudioManager::Stop(AUDIO_ID id)
 {
     Audio::Stop(hSound_[id]);
-}
-
-void AudioManager::Release()
-{
-    Audio::Release();
 }

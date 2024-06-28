@@ -48,6 +48,8 @@ PlayScene::PlayScene(GameObject * parent)
 
 PlayScene::~PlayScene()
 {
+	SAFE_DELETE(pEnemyManager_);
+	SAFE_DELETE(pStageManager_);
 }
 
 void PlayScene::Initialize()
