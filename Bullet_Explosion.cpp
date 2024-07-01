@@ -40,6 +40,8 @@ Bullet_Explosion::Bullet_Explosion(GameObject* parent)
     parameter_.killTimer_ = bullet_explosion["killTimer"];
     parameter_.collisionScale_ = bullet_explosion["collisionScale"];
     explodeScale_ = bullet_explosion["explodeScale"];
+    parameter_.magazineSize_ = bullet_explosion["magazineSize"];
+    parameter_.reloadTime_ = bullet_explosion["reloadTime"];
 }
 
 //デストラクタ

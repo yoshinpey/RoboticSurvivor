@@ -10,6 +10,10 @@ enum class BulletType;
 struct BulletInfo
 {
     int coolTime_;
+    int magazineSize_;
+    int reloadTime_;
+    int magazineCount_;
+    int currentReloadTime_; // 現在のリロードタイム
 };
 
 //銃を管理するクラス
@@ -39,5 +43,10 @@ public:
 
     // 移動方向取得
     XMFLOAT3 GetMoveDirection() const { return moveDirection_; }
+
+    // 入力の確認
     void InputConfirmation();
+
+    // リロードを行う
+    void StartReloading(BulletType type);
 };

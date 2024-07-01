@@ -29,6 +29,8 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
     parameter_.killTimer_ = bullet_normal["killTimer"];
     parameter_.collisionScale_ = bullet_normal["collisionScale"];
     parameter_.isPenetration_ = bullet_normal["isPenetration"];
+    parameter_.magazineSize_ = bullet_normal["magazineSize"];
+    parameter_.reloadTime_ = bullet_normal["reloadTime"];
 }
 
 //デストラクタ

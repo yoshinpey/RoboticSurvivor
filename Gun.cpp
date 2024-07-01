@@ -8,6 +8,7 @@
 #include "Bullet_Explosion.h"
 
 #include "Player.h"
+#include "JsonReader.h"
 
 namespace
 {
@@ -41,13 +42,52 @@ void Gun::Initialize()
 
     // プレイヤーのポインタ取得
     pPlayer_ = static_cast<Player*>(FindObject("Player"));
+
+    // JSONファイルの読み込み
+    JsonReader::Load("Settings/WeaponSettings.json");
+
+    // BulletTypeに対応するセクション名を管理するハッシュマップ
+    std::unordered_map<BulletType, std::string> bulletTypeToSectionName = {
+        { BulletType::NORMAL, "Bullet_Normal" },
+        { BulletType::EXPLOSION, "Bullet_Explosion" }
+        // 他のBulletTypeが追加されたらここに追加
+    };
+
+    // 各弾丸タイプの情報を初期化
+    for (int i = 0; i < static_cast<int>(BulletType::MAX); ++i)
+    {
+        BulletType type = static_cast<BulletType>(i);
+        bulletInfoList_[i].coolTime_ = 0;
+
+        // 銃弾ごとの設定を読み込む
+        auto it = bulletTypeToSectionName.find(type);
+        if (it != bulletTypeToSectionName.end())
+        {
+            auto& bulletSection = JsonReader::GetSection(it->second);
+
+            bulletInfoList_[i].magazineSize_ = bulletSection["magazineSize"];
+            bulletInfoList_[i].reloadTime_ = bulletSection["reloadTime"];
+            bulletInfoList_[i].magazineCount_ = bulletInfoList_[i].magazineSize_;
+            bulletInfoList_[i].currentReloadTime_ = 0;
+        }
+    }
 }    
 
 void Gun::Update()
 {
-    // すべての弾丸のクールタイムをそれぞれ減らす
-    for (auto& bullet : bulletInfoList_) { bullet.coolTime_--; }
-
+    // すべての弾丸のクールタイムと、リロード時間などをそれぞれ減らす
+    for (auto& bullet : bulletInfoList_)
+    {
+        bullet.coolTime_--;
+        if (bullet.currentReloadTime_ > 0)
+        {
+            bullet.currentReloadTime_--;
+            if (bullet.currentReloadTime_ == 0)
+            {
+                bullet.magazineCount_ = bullet.magazineSize_; // リロード完了
+            }
+        }
+    }
     InputConfirmation();
 
 }
@@ -104,15 +144,31 @@ void Gun::InputConfirmation()
     // 通常射撃
     if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
     {
-        AudioManager::Play(AUDIO_ID::SHOT, Volume);
-        ShootBullet<Bullet_Normal>(BulletType::NORMAL);
+        if (bulletInfoList_[(int)BulletType::NORMAL].magazineCount_ > 0)
+        {
+            AudioManager::Play(AUDIO_ID::SHOT, Volume);
+            ShootBullet<Bullet_Normal>(BulletType::NORMAL);
+            bulletInfoList_[(int)BulletType::NORMAL].magazineCount_--;
+        }
+        else if (bulletInfoList_[(int)BulletType::NORMAL].currentReloadTime_ == 0)
+        {
+            StartReloading(BulletType::NORMAL);
+        }
     }
 
     // 特殊射撃
     if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
     {
-        AudioManager::Play(AUDIO_ID::SHOT_EXPLODE, Volume);
-        ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
+        if (bulletInfoList_[(int)BulletType::EXPLOSION].magazineCount_ > 0)
+        {
+            AudioManager::Play(AUDIO_ID::SHOT_EXPLODE, Volume);
+            ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
+            bulletInfoList_[(int)BulletType::EXPLOSION].magazineCount_--;
+        }
+        else if (bulletInfoList_[(int)BulletType::EXPLOSION].currentReloadTime_ == 0)
+        {
+            StartReloading(BulletType::EXPLOSION);
+        }
     }
 }
 
@@ -133,4 +189,12 @@ void Gun::ShootBullet(BulletType type)
 
     pNewBullet->SetPosition(GunTop);
     pNewBullet->SetMove(moveDirection_);
+}
+
+// リロード開始
+void Gun::StartReloading(BulletType type)
+{
+    bulletInfoList_[(int)type].currentReloadTime_ = bulletInfoList_[(int)type].reloadTime_;
+
+    // ここでリロード中の音、エフェクトを再生
 }

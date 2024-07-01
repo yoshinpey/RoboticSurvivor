@@ -23,6 +23,8 @@ private:
         int killTimer_;         // 消失時間
         float collisionScale_;  // 当たり判定のサイズ
         int isPenetration_;     // 貫通   あり:1 なし:0
+        int magazineSize_;
+        int reloadTime_;
     };
 protected:
     BulletParameter parameter_; // パラメータ

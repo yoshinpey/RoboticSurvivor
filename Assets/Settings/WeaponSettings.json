@@ -10,7 +10,9 @@
     "speed": 1,
     "killTimer": 240,
     "collisionScale": 0.2,
-    "isPenetration": 0
+    "isPenetration": 0,
+    "magazineSize": 30,
+    "reloadTime": 90
   },
   "Bullet_Explosion": 
   {
@@ -19,6 +21,8 @@
     "speed": 0.3,
     "killTimer": 300,
     "collisionScale": 0.3,
-    "explodeScale": 6
+    "explodeScale": 6,
+    "magazineSize": 5,
+    "reloadTime": 120
   }
 }
