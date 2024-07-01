@@ -67,6 +67,9 @@ public:
     // 何かに当たった
     void OnCollision(GameObject* pTarget) override;
 
+    // ノックバック適応関数
+    void ApplyKnockback();
+
     // 無敵中かどうか
     bool IsInvincible() const { return isEnemyHit_; }
 };

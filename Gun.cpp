@@ -72,7 +72,7 @@ void Gun::Draw()
 
     if (shouldDraw)
     {
-        // 銃は常に手前に表示したいので、深度バッファ書き込みを無効にする
+        // 銃は常に手前に表示したいので、深度バッファ書き込みを一時無効にする
         // こうすれば壁や地面に埋まらない
         Direct3D::SetDepthBafferWriteEnable(false);
         Model::SetTransform(hModel_, transform_);

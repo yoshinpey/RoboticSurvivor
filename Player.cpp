@@ -71,6 +71,7 @@ void Player::Update()
 
     // HPゲージ呼び出し
     pGauge_->SetHp(commonStatus_.maxHp_, commonStatus_.currentHp_);
+
     ///////////////////////// デバッグ用
     static float hp = 50.0f;
     if (Input::IsKeyDown(DIK_M))IncreaseHp(hp);
@@ -81,26 +82,8 @@ void Player::Update()
     ApplyGravity();
     
     // 敵と衝突
-    if (isEnemyHit_)
-    {
-        // 滞空中の移動摩擦を適応
-        playerParams_.jumping_ = true;
-        //// 減衰値の調整でノックバックの威力を変更している。////
-        // ノックバック減衰
-        knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
-        knockDirection_.z -= knockDirection_.z * commonParameter_.knockBackStrength_;
-        knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * knockDelta);
+    if (isEnemyHit_)ApplyKnockback();
 
-        transform_.position_.x += knockDirection_.x;
-        transform_.position_.y += knockDirection_.y;
-        transform_.position_.z += knockDirection_.z;
-
-        // ノックバックがほとんどなくなったらフラグをリセット
-        if (fabs(knockDirection_.x) < 0.01f && fabs(knockDirection_.z) < 0.01 && fabs(knockDirection_.y) < 0.01f)
-        {
-            isEnemyHit_ = false;
-        }
-    }
 }
 
 // 描画
@@ -268,5 +251,29 @@ void Player::OnCollision(GameObject* pTarget)
         knockDirection_ = CalculateDirection(transform_.position_, enemyPos);
         knockDirection_.y = knockY;   // 0だと上に飛ばないので1にする
         isEnemyHit_ = true;
+    }
+}
+
+void Player::ApplyKnockback()
+{
+    // ノックバックしたら加速度含め移動速度をリセットする
+    playerParams_.movement_ = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+    // 滞空中の移動摩擦を適応
+    playerParams_.jumping_ = true;
+    //// 減衰値の調整でノックバックの威力を変更している。////
+    // ノックバック減衰
+    knockDirection_.x -= knockDirection_.x * commonParameter_.knockBackStrength_;
+    knockDirection_.z -= knockDirection_.z * commonParameter_.knockBackStrength_;
+    knockDirection_.y -= knockDirection_.y * (commonParameter_.knockBackStrength_ * knockDelta);
+
+    transform_.position_.x += knockDirection_.x;
+    transform_.position_.y += knockDirection_.y;
+    transform_.position_.z += knockDirection_.z;
+
+    // ノックバックがほとんどなくなったらフラグをリセット
+    if (fabs(knockDirection_.x) < 0.01f && fabs(knockDirection_.z) < 0.01 && fabs(knockDirection_.y) < 0.01f)
+    {
+        isEnemyHit_ = false;
     }
 }
