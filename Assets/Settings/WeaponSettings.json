@@ -6,23 +6,23 @@
   "Bullet_Normal": 
   {
     "damage": 25,
-    "shotCoolTime": 8,
     "speed": 1,
     "killTimer": 240,
     "collisionScale": 0.2,
     "isPenetration": 0,
-    "magazineSize": 30,
+    "shotCoolTime": 8,
+    "magazineCount": 25,
     "reloadTime": 90
   },
   "Bullet_Explosion": 
   {
     "damage": 75,
-    "shotCoolTime": 120,
     "speed": 0.3,
     "killTimer": 300,
     "collisionScale": 0.3,
     "explodeScale": 6,
-    "magazineSize": 5,
+    "shotCoolTime": 120,
+    "magazineCount": 2,
     "reloadTime": 120
   }
 }

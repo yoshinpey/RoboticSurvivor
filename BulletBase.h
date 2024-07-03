@@ -21,7 +21,7 @@ private:
         float speed_;           // スピード
         int killTimer_;         // 消失時間
         float collisionScale_;  // 当たり判定のサイズ
-        int isPenetration_;     // 貫通   あり:1 なし:0
+        int isPenetration_;    // 貫通   あり:1 なし:0
     };
 protected:
     BulletParameter parameter_; // パラメータ
@@ -30,7 +30,7 @@ protected:
 
 public:
     BulletBase(GameObject* parent, BulletType bulletType, std::string name)
-        :GameObject(parent, name), bulletType_(bulletType), move_(0,0,0), parameter_{ 0, 0, 0, 0, 0, false }, pCollision_(nullptr)
+        :GameObject(parent, name), bulletType_(bulletType), move_(0,0,0), parameter_{ 0, 0, 0, 0, 0 }, pCollision_(nullptr)
     {
     };
     virtual ~BulletBase() = default;

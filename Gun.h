@@ -5,6 +5,7 @@
 
 class Player;
 enum class BulletType;
+enum  AUDIO_ID;
 
 // バレットの情報を保管する構造体
 struct BulletInfo
@@ -45,6 +46,11 @@ public:
     template<class T>
     void ShootBullet(BulletType type);
 
+    // 銃を撃つ処理
+    // 引数：種類、射撃音、リロード音
+    template<class T>
+    void HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadSoundId);
+
     // 移動方向取得
     XMFLOAT3 GetMoveDirection() const { return moveDirection_; }
 
@@ -52,5 +58,5 @@ public:
     void InputConfirmation();
 
     // リロードを行う
-    void StartReloading(BulletType type);
+    void StartReloading(BulletType type, AUDIO_ID reloadSoundId);
 };
