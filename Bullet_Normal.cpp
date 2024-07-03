@@ -24,13 +24,10 @@ Bullet_Normal::Bullet_Normal(GameObject* parent)
 
     // パラメータを取得
     parameter_.damage_ = bullet_normal["damage"];
-    parameter_.shotCoolTime_ = bullet_normal["shotCoolTime"];
     parameter_.speed_ = bullet_normal["speed"];
     parameter_.killTimer_ = bullet_normal["killTimer"];
     parameter_.collisionScale_ = bullet_normal["collisionScale"];
     parameter_.isPenetration_ = bullet_normal["isPenetration"];
-    parameter_.magazineSize_ = bullet_normal["magazineSize"];
-    parameter_.reloadTime_ = bullet_normal["reloadTime"];
 }
 
 //デストラクタ

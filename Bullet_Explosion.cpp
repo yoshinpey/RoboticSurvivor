@@ -35,13 +35,10 @@ Bullet_Explosion::Bullet_Explosion(GameObject* parent)
 
     // パラメータを取得
     parameter_.damage_ = bullet_explosion["damage"];
-    parameter_.shotCoolTime_ = bullet_explosion["shotCoolTime"];
     parameter_.speed_ = bullet_explosion["speed"];
     parameter_.killTimer_ = bullet_explosion["killTimer"];
     parameter_.collisionScale_ = bullet_explosion["collisionScale"];
     explodeScale_ = bullet_explosion["explodeScale"];
-    parameter_.magazineSize_ = bullet_explosion["magazineSize"];
-    parameter_.reloadTime_ = bullet_explosion["reloadTime"];
 }
 
 //デストラクタ

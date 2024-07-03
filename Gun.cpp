@@ -46,18 +46,18 @@ void Gun::Initialize()
     // JSONファイルの読み込み
     JsonReader::Load("Settings/WeaponSettings.json");
 
-    // BulletTypeに対応するセクション名を管理するハッシュマップ
-    std::unordered_map<BulletType, std::string> bulletTypeToSectionName = {
+    // BulletTypeに対応するセクション名を管理するマップ
+    std::unordered_map<BulletType, std::string> bulletTypeToSectionName = 
+    {
         { BulletType::NORMAL, "Bullet_Normal" },
         { BulletType::EXPLOSION, "Bullet_Explosion" }
-        // 他のBulletTypeが追加されたらここに追加
+        // 他の銃弾が追加されたらここに追加
     };
 
     // 各弾丸タイプの情報を初期化
     for (int i = 0; i < static_cast<int>(BulletType::MAX); ++i)
     {
         BulletType type = static_cast<BulletType>(i);
-        bulletInfoList_[i].coolTime_ = 0;
 
         // 銃弾ごとの設定を読み込む
         auto it = bulletTypeToSectionName.find(type);
@@ -65,9 +65,16 @@ void Gun::Initialize()
         {
             auto& bulletSection = JsonReader::GetSection(it->second);
 
-            bulletInfoList_[i].magazineSize_ = bulletSection["magazineSize"];
+            // 射撃間隔の初期化
+            bulletInfoList_[i].shotCoolTime_ = bulletSection["shotCoolTime"];
+            bulletInfoList_[i].currentShotCoolTime_ = 0;
+
+            // マガジン数の初期化
+            bulletInfoList_[i].magazineCount_ = bulletSection["magazineCount"];
+            bulletInfoList_[i].currentMagazineCount_ = bulletInfoList_[i].magazineCount_;
+
+            // リロード時間の初期化
             bulletInfoList_[i].reloadTime_ = bulletSection["reloadTime"];
-            bulletInfoList_[i].magazineCount_ = bulletInfoList_[i].magazineSize_;
             bulletInfoList_[i].currentReloadTime_ = 0;
         }
     }
@@ -75,21 +82,25 @@ void Gun::Initialize()
 
 void Gun::Update()
 {
-    // すべての弾丸のクールタイムと、リロード時間などをそれぞれ減らす
+    // すべての弾丸のクールタイム、リロード時間などをそれぞれ減らす
     for (auto& bullet : bulletInfoList_)
     {
-        bullet.coolTime_--;
+        // 銃一発の射撃間隔を減らす
+        if (bullet.currentShotCoolTime_ > 0) bullet.currentShotCoolTime_--;
+
+        // リロード中の場合
         if (bullet.currentReloadTime_ > 0)
         {
+            // リロード時間を減らす
             bullet.currentReloadTime_--;
-            if (bullet.currentReloadTime_ == 0)
-            {
-                bullet.magazineCount_ = bullet.magazineSize_; // リロード完了
-            }
+
+            // 装弾数を最大にする
+            if (bullet.currentReloadTime_ <= 0) bullet.currentMagazineCount_ = bullet.magazineCount_;
         }
     }
-    InputConfirmation();
 
+    // 入力処理
+    InputConfirmation();
 }
 
 void Gun::Draw()
@@ -141,31 +152,39 @@ void Gun::InputConfirmation()
     // 無敵時間中は攻撃無効化
     if (pPlayer_->IsInvincible())return;
 
-    // 通常射撃
-    if (InputManager::IsShoot() && bulletInfoList_[(int)BulletType::NORMAL].coolTime_ <= 0)
+    // 通常射撃ボタンを押したとき
+    if (InputManager::IsShoot())
     {
-        if (bulletInfoList_[(int)BulletType::NORMAL].magazineCount_ > 0)
+        // 射撃クールが残っていたら計算しない
+        if (bulletInfoList_[(int)BulletType::NORMAL].currentShotCoolTime_ > 0)return;
+
+        // マガジンに弾が残っているとき
+        if (bulletInfoList_[(int)BulletType::NORMAL].currentMagazineCount_ > 0)
         {
-            AudioManager::Play(AUDIO_ID::SHOT, Volume);
-            ShootBullet<Bullet_Normal>(BulletType::NORMAL);
-            bulletInfoList_[(int)BulletType::NORMAL].magazineCount_--;
+            AudioManager::Play(AUDIO_ID::SHOT, Volume);                         // 発砲音再生
+            ShootBullet<Bullet_Normal>(BulletType::NORMAL);                     // 銃弾の生成
+            bulletInfoList_[(int)BulletType::NORMAL].currentMagazineCount_--;   //マガジンを減らす
         }
-        else if (bulletInfoList_[(int)BulletType::NORMAL].currentReloadTime_ == 0)
+        else if (bulletInfoList_[(int)BulletType::NORMAL].currentReloadTime_ <= 0)
         {
             StartReloading(BulletType::NORMAL);
         }
     }
 
-    // 特殊射撃
-    if (InputManager::IsWeaponAction() && bulletInfoList_[(int)BulletType::EXPLOSION].coolTime_ <= 0)
+    // 特殊射撃ボタンを押したとき
+    if (InputManager::IsWeaponAction())
     {
-        if (bulletInfoList_[(int)BulletType::EXPLOSION].magazineCount_ > 0)
+        // 射撃クールが残っていたら計算しない
+        if (bulletInfoList_[(int)BulletType::EXPLOSION].currentShotCoolTime_ > 0)return;
+
+        // マガジンに弾が残っているとき
+        if (bulletInfoList_[(int)BulletType::EXPLOSION].currentMagazineCount_ > 0)
         {
-            AudioManager::Play(AUDIO_ID::SHOT_EXPLODE, Volume);
-            ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);
-            bulletInfoList_[(int)BulletType::EXPLOSION].magazineCount_--;
+            AudioManager::Play(AUDIO_ID::SHOT_EXPLODE, Volume);                         // 発砲音再生
+            ShootBullet<Bullet_Explosion>(BulletType::EXPLOSION);                       // 銃弾の生成
+            bulletInfoList_[(int)BulletType::EXPLOSION].currentMagazineCount_--;        //マガジンを減らす
         }
-        else if (bulletInfoList_[(int)BulletType::EXPLOSION].currentReloadTime_ == 0)
+        else if (bulletInfoList_[(int)BulletType::EXPLOSION].currentReloadTime_ <= 0)
         {
             StartReloading(BulletType::EXPLOSION);
         }
@@ -175,14 +194,14 @@ void Gun::InputConfirmation()
 template <class T>
 void Gun::ShootBullet(BulletType type)
 {
-    // これは高頻度で処理するので、わかりにくいけどFindではなく親をたどって生成（Aim->Player->PlayScene）
-    BulletBase* pNewBullet = Instantiate<T>(GetParent()->GetParent()->GetParent());
-
     // 弾丸の種類に応じたクールタイムを設定
-    bulletInfoList_[(int)type].coolTime_ = pNewBullet->GetBulletParameter().shotCoolTime_;
+    bulletInfoList_[(int)type].currentShotCoolTime_ = bulletInfoList_[(int)type].shotCoolTime_;
 
     XMFLOAT3 GunTop = Model::GetBonePosition(hModel_, "Top");
     XMFLOAT3 GunRoot = Model::GetBonePosition(hModel_, "Root");
+
+    // これは高頻度で処理するので、わかりにくいけどFindではなく親をたどって生成（Aim->Player->PlayScene）
+    BulletBase* pNewBullet =  Instantiate<T>(GetParent()->GetParent()->GetParent());
 
     // モデルのボーン位置を元に、射出方向･速度計算する
     moveDirection_ = CalculateBulletMovement(GunTop, GunRoot, pNewBullet->GetBulletParameter().speed_);
@@ -196,5 +215,5 @@ void Gun::StartReloading(BulletType type)
 {
     bulletInfoList_[(int)type].currentReloadTime_ = bulletInfoList_[(int)type].reloadTime_;
 
-    // ここでリロード中の音、エフェクトを再生
+    ////////// ここでリロード中の音、エフェクトを再生予定だけど、種類によって変わるかもしれんから、、、、、
 }

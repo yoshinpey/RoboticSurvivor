@@ -9,11 +9,14 @@ enum class BulletType;
 // バレットの情報を保管する構造体
 struct BulletInfo
 {
-    int coolTime_;
-    int magazineSize_;
-    int reloadTime_;
-    int magazineCount_;
-    int currentReloadTime_; // 現在のリロードタイム
+    int shotCoolTime_;                  // 射撃間隔最大値
+    int currentShotCoolTime_;           // 射撃間隔保存用
+
+    int reloadTime_;                // リロード時間最大値
+    int currentReloadTime_;         // 現在のリロード時間保存用
+
+    int magazineCount_;             // マガジン最大値
+    int currentMagazineCount_;      // 現在の装弾数保存用
 };
 
 //銃を管理するクラス
@@ -26,6 +29,7 @@ class Gun : public GameObject
     std::vector<BulletInfo> bulletInfoList_;
 
     int flickerTimer_;              // 無敵状態のちらつきタイマー
+
 public:
     Gun(GameObject* parent);
     ~Gun();
