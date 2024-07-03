@@ -6,7 +6,7 @@
 
 //コンストラクタ
 OverScene::OverScene(GameObject* parent)
-	: GameObject(parent, "OverScene"), hPict_(-1)
+	: SceneBase(parent, "OverScene"), hPict_(-1)
 {
 }
 

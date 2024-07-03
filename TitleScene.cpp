@@ -15,7 +15,7 @@ namespace
 
 // コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "TitleScene"), time_(0.0f)
+	: SceneBase(parent, "TitleScene"), time_(0.0f)
 {
 }
 

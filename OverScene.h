@@ -1,8 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
-
+#include "SceneBase.h"
 //Overシーンを管理するクラス
-class OverScene : public GameObject
+class OverScene : public SceneBase
 {
 	int hPict_;    //画像番号
 public:

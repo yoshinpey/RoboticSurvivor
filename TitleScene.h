@@ -1,9 +1,10 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include <vector>
+#include "SceneBase.h"
 
 // Titleシーンを管理するクラス
-class TitleScene : public GameObject
+class TitleScene : public SceneBase
 {
 	// テキスト画像の内容
 	enum 

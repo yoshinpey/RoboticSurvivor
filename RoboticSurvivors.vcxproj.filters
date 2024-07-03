@@ -232,12 +232,6 @@
     <ClCompile Include="Engine\BillBoard.cpp">
       <Filter>01Engine\01DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonFactory.cpp">
-      <Filter>Multipurpose\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Multipurpose\UI</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
@@ -450,12 +444,6 @@
     </ClInclude>
     <ClInclude Include="Engine\BillBoard.h">
       <Filter>01Engine\01DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Multipurpose\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonFactory.h">
-      <Filter>Multipurpose\UI</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Multipurpose\Manager</Filter>

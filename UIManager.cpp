@@ -2,21 +2,28 @@
 #include "UIBase.h"
 #include "Engine/Input.h"
 
-UIManager::UIManager()
+UIManager::UIManager(SceneBase* parent)
 	: state_(UI_STATE::DRAW)
 {
 }
 
 UIManager::~UIManager()
 {
+	for (auto u : uiList_)
+	{
+		delete u;
+	}
+	uiList_.clear();
 }
 
 void UIManager::Update()
 {
 	for (auto u : uiList_)
 	{
-		if (u->IsWithinBound()) {
-			if (Input::IsMouseButtonUp(0)) {
+		if (u->IsWithinBound()) 
+		{
+			if (Input::IsMouseButtonUp(0)) 
+			{
 				u->OnClick();
 			}
 		}

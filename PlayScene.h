@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "SceneBase.h"
 
 class Player;
 class Timer;
@@ -8,7 +9,7 @@ class StageManager;
 class SceneManager;
 
 //Playシーンを管理するクラス
-class PlayScene : public GameObject
+class PlayScene : public SceneBase
 {
 	Player* pPlayer_;
 	Timer* pTimer_;

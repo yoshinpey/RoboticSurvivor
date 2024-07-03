@@ -6,7 +6,7 @@
 
 
 ClearScene::ClearScene(GameObject* parent)
-	: GameObject(parent, "ClearScene"), hPict_(-1)
+	: SceneBase(parent, "ClearScene"), hPict_(-1)
 {
 }
 

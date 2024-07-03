@@ -3,6 +3,7 @@
 #include <string>
 #include <DirectXMath.h>
 #include<functional>
+#include "SceneBase.h"
 
 using namespace DirectX;
 class UIBase;
@@ -20,7 +21,7 @@ protected:
 	UI_STATE state_;
 
 public:
-	UIManager();
+	UIManager(SceneBase* parent);
 	virtual ~UIManager();
 	virtual void Update();
 	virtual void Draw();

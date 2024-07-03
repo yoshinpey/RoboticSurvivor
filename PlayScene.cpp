@@ -35,7 +35,7 @@ namespace
 }
 
 PlayScene::PlayScene(GameObject * parent)
-	: GameObject(parent, "PlayScene"), pEnemyManager_(nullptr), pStageManager_(nullptr),  pSceneManager_(nullptr), pPlayer_(nullptr)
+	: SceneBase(parent, "PlayScene"), pEnemyManager_(nullptr), pStageManager_(nullptr),  pSceneManager_(nullptr), pPlayer_(nullptr)
 {
 	pEnemyManager_ = new EnemyManager(this);
 	pStageManager_ = new StageManager(this);

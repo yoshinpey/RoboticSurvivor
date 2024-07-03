@@ -1,8 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
-
+#include "SceneBase.h"
 //Clearシーンを管理するクラス
-class ClearScene : public GameObject
+class ClearScene : public SceneBase
 {
 	int hPict_;    //画像番号
 public:

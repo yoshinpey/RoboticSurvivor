@@ -6,6 +6,7 @@
 
 using namespace DirectX;
 
+
 class UIBase
 {
 	int hPict_[3];
