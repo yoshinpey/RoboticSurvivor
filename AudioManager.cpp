@@ -26,18 +26,22 @@ namespace AudioManager
 
 void AudioManager::Initialize()
 {
-    // オーディオのリスト(enumの順番に並べる)
-    audioList_ = 
+    // 未初期化だったら初期化する
+    if (audioList_.empty())
     {
-        {"Sounds/Explode.wav", false, 3},
-        {"Sounds/Shot.wav", false, 3},
-        {"Sounds/ShotExplode.wav", false, 3},
-        {"Sounds/PointCursor.wav", false, 3},
-        {"Sounds/EnterCursor.wav", false, 3}
-    };
+        // オーディオのリスト(enumの順番に並べる)
+        audioList_ =
+        {
+            {"Sounds/Explode.wav", false, 3},
+            {"Sounds/Shot.wav", false, 3},
+            {"Sounds/ShotExplode.wav", false, 3},
+            {"Sounds/PointCursor.wav", false, 3},
+            {"Sounds/EnterCursor.wav", false, 3}
+        };
 
-    // リストの数に合わせてハンドルのサイズを初期化
-    hSound_.resize(audioList_.size());
+        // リストの数に合わせてハンドルのサイズを初期化
+        hSound_.resize(audioList_.size());
+    }
 
     // データリスト読み込み
     for (int i = 0; i < audioList_.size(); ++i) 

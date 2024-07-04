@@ -7,11 +7,15 @@ namespace EffectManager
 	EmitterData flame;		// 炎
 	EmitterData sparks;		// 火の粉
 	EmitterData flash;		// 閃光
+	bool isInitialized = false; // 初期化フラグ
 	///////////////////////////////////////
 }
 
 void EffectManager::Initialize()
 {
+	// 初期化が既に行われている場合は何もしない
+	if (isInitialized) return;
+
 	//炎
 	flame.textureFileName = "Effects/cloudA.png";
 	flame.position = XMFLOAT3(0.0f, 0.05f, 0.0f);
@@ -60,6 +64,8 @@ void EffectManager::Initialize()
 	flash.scale = XMFLOAT2(1.25f, 1.25f);
 	flash.color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.3f);
 
+	// 初期化が完了したらフラグを立てる
+	isInitialized = true;
 }
 
 void EffectManager::CreateVfx(XMFLOAT3 pos, VFX_TYPE type)

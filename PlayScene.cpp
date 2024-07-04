@@ -13,6 +13,7 @@
 #include "EffectManager.h"
 #include "EnemyManager.h"
 #include "StageManager.h"
+#include "UIManager.h"
 
 #include <array>
 
@@ -44,6 +45,9 @@ PlayScene::PlayScene(GameObject * parent)
 	AudioManager::Initialize();
 	EffectManager::Initialize();
 	/////////////////////////////////////////
+
+	// UIManagerのインスタンスを作成して追加
+	AddUIManager(new UIManager(this));
 }
 
 PlayScene::~PlayScene()
@@ -78,7 +82,16 @@ void PlayScene::Initialize()
 	//タイマー設定
 	pTimer_ = static_cast<Timer*>(FindObject("Timer"));
 	pTimer_->SetLimit(timeLimit);
-	pTimer_->Start();
+
+
+
+	// ボタンを追加
+	UIManager* uiManager = pUIManagerList_.back();
+	uiManager->AddUi("StartButton", { 0.0f, 0.0f }, { 1.0f, 1.0f }, []() 
+		{
+		// ボタンがクリックされたときの処理
+			OutputDebugString("pressed\n");
+		});
 }
 
 void PlayScene::Update()
@@ -158,10 +171,15 @@ void PlayScene::Update()
 	//score = (num % 60) * 0.1f;
 	//s->ScoreAdd((int)score);
 	////////////////////////
+
+		// UIの更新
+	UIUpdate();
 }
 
 void PlayScene::Draw()
 {
+	// UIの描画
+	UIDraw();
 }
 
 void PlayScene::Release()
