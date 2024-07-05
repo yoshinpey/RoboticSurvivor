@@ -115,9 +115,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//メッセージなし（ここでゲームの処理）
 		else
 		{
-			// ポーズ中はループ処理しない
-			if (isPaused)continue;
-
 			//時間計測
 			timeBeginPeriod(1);	//時間計測の制度を上げる
 			static int FPS = 0;								//画面更新回数のカウンタ
@@ -140,6 +137,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				}
 			}
 
+			// ポーズ中はループ処理しない
+			if (isPaused)continue;
 
 			//指定した時間（FPSを60に設定した場合は60分の1秒）経過していたら更新処理
 			if ((nowTime - lastUpdateTime) * fpsLimit > 1000.0f)

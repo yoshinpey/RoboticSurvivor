@@ -6,6 +6,14 @@
 
 using namespace DirectX;
 
+enum class ButtonState 
+{
+	NORMAL,
+	HOVER,
+	CLICKED,
+	DISABLED
+};
+
 
 class UIBase
 {
@@ -16,11 +24,6 @@ class UIBase
 	XMFLOAT2 frameSize_;	//”¼Œa
 	Transform transform_;
 
-	enum BUTTON_STATE 
-	{
-		POINT = 0,
-		ENTER,
-	};
 
 	std::function<void()> onClick_;
 

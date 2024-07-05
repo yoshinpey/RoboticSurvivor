@@ -269,6 +269,9 @@
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -484,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="SceneBase.h">
       <Filter>03Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Multipurpose\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

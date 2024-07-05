@@ -32,7 +32,7 @@ namespace
 	////////////WaveTest
 	XMFLOAT3 spawnPosition;		// スポーンする位置
 	int waveTimer = 300;		// 出現の区切り時間(60/1フレーム)
-	int timeLimit = 3000;			// 時間制限(秒)
+	int timeLimit = 30;			// 時間制限(秒)
 }
 
 PlayScene::PlayScene(GameObject * parent)
@@ -82,16 +82,16 @@ void PlayScene::Initialize()
 	//タイマー設定
 	pTimer_ = static_cast<Timer*>(FindObject("Timer"));
 	pTimer_->SetLimit(timeLimit);
+	pTimer_->Start();
 
 
-
-	// ボタンを追加
-	UIManager* uiManager = pUIManagerList_.back();
-	uiManager->AddUi("StartButton", { 0.0f, 0.0f }, { 1.0f, 1.0f }, []() 
-		{
-		// ボタンがクリックされたときの処理
-			OutputDebugString("pressed\n");
-		});
+	//// ボタンを追加
+	//UIManager* uiManager = pUIManagerList_.back();
+	//uiManager->AddUi("StartButton", { 0.0f, 0.0f }, { 1.0f, 1.0f }, []() 
+	//	{
+	//	// ボタンがクリックされたときの処理
+	//		OutputDebugString("pressed\n");
+	//	});
 }
 
 void PlayScene::Update()
@@ -123,7 +123,7 @@ void PlayScene::Update()
 	XMFLOAT3 plaDir = pPlayer_->CalculateMoveInput();
 	//plaPos = CalculateFloat3Add(plaPos, plaDir);
 
-	if (pTimer_->GetFrame() % waveTimer * 3 == 0)
+	if (pTimer_->GetFrame() % waveTimer == 0)
 	{
 		XMFLOAT3 minPos = XMFLOAT3(-5, 3, 5);
 		XMFLOAT3 maxPos = XMFLOAT3(5, 6, 10);
