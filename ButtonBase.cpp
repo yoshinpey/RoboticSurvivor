@@ -1,36 +1,46 @@
-#include "UIBase.h"
+#include "ButtonBase.h"
 #include "Engine/Image.h"
 #include "Engine/Direct3D.h"
 #include "Engine/Input.h"
 #include "AudioManager.h"
 
+#include <array>
 
-UIBase::UIBase(GameObject* parent, std::string name)
-	: GameObject(parent, "UIBase"), hPict_{-1, -1, -1}, alpha_{255}, isBound_(false), widePos_(0.0f, 0.0f), frameSize_(0.0f, 0.0f)
+namespace 
+{
+	XMFLOAT2 BUTTON_SIZE = { 0.5f, 0.5f };
+
+}
+
+ButtonBase::ButtonBase()
+	:hPict_{ -1, -1, -1 }, alpha_{ 255 }, isBound_(false), widePos_(0.0f, 0.0f), frameSize_(0.0f, 0.0f)
 {
 }
 
-UIBase::~UIBase()
+ButtonBase::~ButtonBase()
 {
 }
 
-void UIBase::Initialize(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
+void ButtonBase::Initialize(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
 {
-	// フレームと使いたい文字画像をロードする
-	const std::string fileName[] = 
-	{ 
-		"Pictures/ButtonFrame1.png", 
-		"Pictures/ButtonFrame2.png", 
-		"Pictures/" + name + ".png" 
+	// ボタンフレームと文字画像をロードする
+	std::array<std::string, 3> fileName =
+	{
+		"Pictures/ButtonFrame1.png",
+		"Pictures/ButtonFrame2.png",
+		"Pictures/" + name + ".png"
 	};
-
 	for (int i = 0; i < 3; i++) 
 	{
 		hPict_[i] = Image::Load(fileName[i]);
 		assert(hPict_[i] >= 0);
 	}
 
-	transform_.scale_ = XMFLOAT3(size.x, size.y, 1.0f);
+	// 引数指定した関数を反映
+	onClick_ = onClick;
+
+	// サイズや場所調整
+	transform_.scale_ = XMFLOAT3(BUTTON_SIZE.x * size.x, BUTTON_SIZE.y * size.y, 1.0f);
 	transform_.position_.x = pos.x;
 	transform_.position_.y = pos.y;
 
@@ -42,14 +52,16 @@ void UIBase::Initialize(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::func
 	widePos_.x = screenWidth / 2.0f + screenWidth / 2.0f * transform_.position_.x;
 	widePos_.y = screenHeight / 2.0f + screenHeight / 2.0f * -transform_.position_.y;
 
-	onClick_ = onClick;
+	//継承先クラスのInitialize
+	this->Initialize();
+
 }
 
-void UIBase::Draw()
+void ButtonBase::Draw()
 {
 	Direct3D::SetBlendMode(Direct3D::BLEND_DEFAULT);
 
-	//押してない時はfalse(0)だから１が表示される
+	//押してない時はfalse(0)だからButtonFrame1が表示される
 	Image::SetTransform(hPict_[isBound_], transform_);
 	Image::Draw(hPict_[isBound_]);
 
@@ -61,7 +73,7 @@ void UIBase::Draw()
 
 }
 
-bool UIBase::IsWithinBound()
+bool ButtonBase::IsWithinBound()
 {
 	XMFLOAT3 mouse = Input::GetMousePosition();
 
@@ -69,7 +81,7 @@ bool UIBase::IsWithinBound()
 		mouse.x < widePos_.x + frameSize_.x && mouse.x > widePos_.x - frameSize_.x)
 	{
 		//範囲内に入り始めたら音再生
-		if (!isBound_) AudioManager::Play(AUDIO_ID::CURSOR_POINT);
+		//if (!isBound_) AudioManager::Play(AUDIO_ID::CURSOR_POINT);
 
 		isBound_ = true;
 		return true;
@@ -79,11 +91,11 @@ bool UIBase::IsWithinBound()
 	return false;
 }
 
-void UIBase::OnClick()
+void ButtonBase::OnClick()
 {
 	if (onClick_) 
 	{
-		AudioManager::Play(AUDIO_ID::CURSOR_ENTER);
+		//AudioManager::Play(AUDIO_ID::CURSOR_ENTER);
 		onClick_();
 	}
 }
