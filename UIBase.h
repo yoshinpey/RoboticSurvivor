@@ -1,35 +1,17 @@
 #pragma once
 #include "Engine/GameObject.h"
-#include <functional>
-
-using namespace DirectX;
-
-enum class ButtonState 
-{
-	NORMAL,
-	HOVER,
-	CLICKED,
-	DISABLED
-};
-
 
 class UIBase : public GameObject
 {
-	int hPict_[3];
-	int alpha_;
-	bool isBound_;			//îÕàÕÇÃì‡ë§Ç…Ç¢ÇÈÇ©Ç«Ç§Ç©
-	XMFLOAT2 widePos_;		//0 ~ 1980Ç∆Ç©ÇÃç¿ïW
-	XMFLOAT2 frameSize_;	//îºåa
-	Transform transform_;
-
-	std::function<void()> onClick_;
-
 public:
-	UIBase(GameObject* parent, std::string name);
-	~UIBase();
-	void Initialize(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick);
-	void Draw();
-	bool IsWithinBound();
-	void OnClick();
+    XMFLOAT2 position_;
+    XMFLOAT2 size_;
+    bool visible;
 
+    UIBase(GameObject* parent, std::string name)
+        : position_(pos), size_(sz), visible(true) 
+    {
+    }
+
+    virtual void draw() = 0;
 };
