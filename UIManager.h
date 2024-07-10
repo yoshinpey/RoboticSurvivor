@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <DirectXMath.h>
-#include<functional>
+#include <functional>
 #include "SceneBase.h"
 
 using namespace DirectX;

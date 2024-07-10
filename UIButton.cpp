@@ -2,6 +2,7 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include "AudioManager.h"
+#include "Engine/Direct3D.h"
 
 
 UIButton::UIButton(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
@@ -21,9 +22,26 @@ UIButton::UIButton(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<
 		assert(hPict_[i] >= 0);
 	}
 
+	transform_.scale_ = XMFLOAT3(size.x, size.y, 1.0f);
+	transform_.position_.x = pos.x;
+	transform_.position_.y = pos.y;
+
+	XMFLOAT3 txtSi = Image::GetTextureSize(hPict_[0]);
+	frameSize_ = XMFLOAT2(txtSi.x * transform_.scale_.x / 2.0f, txtSi.y * transform_.scale_.y / 2.0f);
+
+	float screenWidth = (float)Direct3D::screenWidth_;		//スクリーンの幅
+	float screenHeight = (float)Direct3D::screenHeight_;	//スクリーンの高さ
+	widePos_.x = screenWidth / 2.0f + screenWidth / 2.0f * transform_.position_.x;
+	widePos_.y = screenHeight / 2.0f + screenHeight / 2.0f * -transform_.position_.y;
+
+	onClick_ = onClick;
 }
 
-bool UIButton::checkHover()
+UIButton::~UIButton()
+{
+}
+
+bool UIButton::CheckingHover()
 {
 	XMFLOAT3 cursorPosition = Input::GetMousePosition();
 
@@ -39,4 +57,29 @@ bool UIButton::checkHover()
 
 	isHovered_ = false;
 	return false;
+}
+
+void UIButton::OnClick()
+{
+	if (onClick_)
+	{
+		AudioManager::Play(AUDIO_ID::CURSOR_ENTER);
+		onClick_();
+	}
+}
+
+
+void UIButton::Draw()
+{
+	Direct3D::SetBlendMode(Direct3D::BLEND_DEFAULT);
+
+	// 重なってないときはfalse(0)だからButtonFrame1が表示される
+	// 重なっているときはtrue(1)だからButtonFrame2が表示される
+	Image::SetTransform(hPict_[isHovered_], transform_);
+	Image::Draw(hPict_[isHovered_]);
+
+	//テキストの表示
+	Image::SetTransform(hPict_[TEXT], transform_);
+	Image::Draw(hPict_[TEXT]);
+
 }

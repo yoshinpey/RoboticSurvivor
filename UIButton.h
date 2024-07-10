@@ -20,13 +20,19 @@ class UIButton : public UIBase
 
     XMFLOAT2 widePos_;				// 0 ~ 1980とかの座標
     XMFLOAT2 frameSize_;			// 画像の一辺の半分
-    Transform transform_;
 
 public:
 
     UIButton(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick);
     ~UIButton();
 
-    virtual void draw() = 0;
-    bool checkHover();
+    // 描画
+    void Draw() override;
+
+    // カーソルが重なっているか確認をする
+    bool CheckingHover();
+
+    // クリックをした
+    void OnClick();
+
 };
