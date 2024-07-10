@@ -1,8 +1,9 @@
 #include "UIButton .h"
 #include "Engine/Image.h"
 #include "Engine/Direct3D.h"
-#include "Engine/Input.h"
+
 #include "AudioManager.h"
+#include "UIButton.h"
 
 namespace
 {
@@ -16,6 +17,8 @@ UIButton ::UIButton (std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::functio
 UIButton ::~UIButton ()
 {
 }
+
+
 
 void UIButton ::Initialize()
 {
@@ -54,20 +57,7 @@ void UIButton ::Draw()
 
 bool UIButton ::IsWithinBound()
 {
-	XMFLOAT3 cursorPosition = Input::GetMousePosition();
 
-	if (cursorPosition.y < widePos_.y + frameSize_.y && cursorPosition.y > widePos_.y - frameSize_.y &&
-		cursorPosition.x < widePos_.x + frameSize_.x && cursorPosition.x > widePos_.x - frameSize_.x)
-	{
-		//îÕàÕì‡Ç…ì¸ÇËénÇﬂÇΩÇÁâπçƒê∂
-		if (!isBound_) AudioManager::Play(AUDIO_ID::CURSOR_POINT);
-
-		isBound_ = true;
-		return true;
-	}
-
-	isBound_ = false;
-	return false;
 }
 
 void UIButton ::OnClick()
