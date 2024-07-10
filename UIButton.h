@@ -13,7 +13,7 @@ class UIButton : public UIBase
     };
 
     std::function<void()> onClick_;     // クリックしたとき関数を受け取る
-    std::array<int, 2> hButtonPict_;    // ボタンフレームの各状態画像(マウスが重なっているとき、いないとき)
+    std::array<int, 2> hButtonPict_;    // ボタンフレームの各状態画像(マウスが重なっている、いない)
     int hTextPict_;                     // ボタンに表示する文字画像
     bool isHovered_;                    // ボタンの上にカーソルが重なっているかどうか判定
     int alpha_;						    // 画像透明度(0~255)

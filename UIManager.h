@@ -27,9 +27,7 @@ public:
 	virtual void Draw();
 
 	//ボタンの追加
-	void AddUi(std::string name, XMFLOAT2 pos, std::function<void()> onClick);
-	//ボタンの追加
-	void AddUi(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick);
+	void AddUi(std::string name, XMFLOAT2 pos, XMFLOAT2 size = {1.0f, 1.0f }, std::function<void()> onClick);
 
 	UI_STATE GetUIState() { return state_; };
 
