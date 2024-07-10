@@ -263,13 +263,19 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UIBase.cpp">
+    <ClCompile Include="UIButton.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMenu.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBase.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -479,7 +485,7 @@
       <Filter>Stage</Filter>
     </ClInclude>
     <ClInclude Include="PerlinNoise.h" />
-    <ClInclude Include="UIBase.h">
+    <ClInclude Include="UIButton.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
@@ -489,6 +495,12 @@
       <Filter>03Scene</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMenu.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBase.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
   </ItemGroup>

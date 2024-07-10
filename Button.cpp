@@ -8,8 +8,8 @@ namespace
 {
 }
 
-UIButton ::UIButton (GameObject* parent, std::string name)
-	: GameObject(parent, "UIButton"), hPict_{ -1, -1, -1 }, alpha_{ 255 }, isHovered_(false), widePos_(0.0f, 0.0f), frameSize_(0.0f, 0.0f)
+UIButton ::UIButton (std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
+	: hPict_{ -1, -1, -1 }, alpha_{ 255 }, isHovered_(false), widePos_(0.0f, 0.0f), frameSize_(0.0f, 0.0f)
 {
 }
 
@@ -17,21 +17,9 @@ UIButton ::~UIButton ()
 {
 }
 
-void UIButton ::Initialize(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
+void UIButton ::Initialize()
 {
-	// フレームと使いたい文字画像をロードする
-	const std::string fileName[] =
-	{
-		"Pictures/ButtonFrame1.png",
-		"Pictures/ButtonFrame2.png",
-		"Pictures/" + name + ".png"
-	};
 
-	for (int i = 0; i < 3; ++i)
-	{
-		hPict_[i] = Image::Load(fileName[i]);
-		assert(hPict_[i] >= 0);
-	}
 
 	transform_.scale_ = XMFLOAT3(size.x, size.y, 1.0f);
 	transform_.position_.x = pos.x;
@@ -66,10 +54,10 @@ void UIButton ::Draw()
 
 bool UIButton ::IsWithinBound()
 {
-	XMFLOAT3 mouse = Input::GetMousePosition();
+	XMFLOAT3 cursorPosition = Input::GetMousePosition();
 
-	if (mouse.y < widePos_.y + frameSize_.y && mouse.y > widePos_.y - frameSize_.y &&
-		mouse.x < widePos_.x + frameSize_.x && mouse.x > widePos_.x - frameSize_.x)
+	if (cursorPosition.y < widePos_.y + frameSize_.y && cursorPosition.y > widePos_.y - frameSize_.y &&
+		cursorPosition.x < widePos_.x + frameSize_.x && cursorPosition.x > widePos_.x - frameSize_.x)
 	{
 		//範囲内に入り始めたら音再生
 		if (!isBound_) AudioManager::Play(AUDIO_ID::CURSOR_POINT);

@@ -1,17 +1,19 @@
 #pragma once
-#include "Engine/GameObject.h"
+#include <array>
+#include <string>
+#include <DirectXMath.h>
 
-class UIBase : public GameObject
+using namespace DirectX;
+
+class UIBase 
 {
 public:
-    XMFLOAT2 position_;
-    XMFLOAT2 size_;
-    bool visible;
+    std::string name_;          // UIの名前
+    XMFLOAT2 position_;         // UIの位置
+    XMFLOAT2 size_;             // UIのサイズ
 
-    UIBase(GameObject* parent, std::string name)
-        : position_(pos), size_(sz), visible(true) 
-    {
-    }
+    UIBase(std::string name, XMFLOAT2 pos, XMFLOAT2 size);
+    virtual ~UIBase();
 
     virtual void draw() = 0;
 };

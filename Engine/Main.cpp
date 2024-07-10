@@ -48,16 +48,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 乱数初期化
 	srand((unsigned)time(NULL));
 
-	//　現在地をアセットフォルダに設定
+	// 現在地をアセットフォルダに設定
 	SetCurrentDirectory("Assets");
 
 	int screenWidth;		//スクリーンの幅
 	int screenHeight;		//スクリーンの高さ
 
-	//初期化ファイル（setup.ini）から必要な情報を取得
+	// 初期化ファイル（setup.ini）から必要な情報を取得
 	fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
+
 #ifdef _DEBUG
+	// デバック時は指定したウィンドウサイズで起動
 	screenWidth = GetPrivateProfileInt("SCREEN", "Width", 800, ".\\setup.ini");			//スクリーンの幅
 	screenHeight = GetPrivateProfileInt("SCREEN", "Height", 600, ".\\setup.ini");		//スクリーンの高さ
 #else
@@ -152,14 +154,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				ImGui_ImplWin32_NewFrame();
 
 				ImGui::NewFrame();
-				//ImGui::Begin("Hello");//ImGuiの処理を開始
-				//{
-				//	//描画されるボタンを押したら...
-				//	if (ImGui::Button("button")) {
-				//		PostQuitMessage(0);	//プログラム終了
-				//	}
-				//}
-				//ImGui::End();//ImGuiの処理を終了
+				ImGui::Begin("Hello");//ImGuiの処理を開始
+				{
+					//描画されるボタンを押したら...
+					if (ImGui::Button("button")) {
+						PostQuitMessage(0);	//プログラム終了
+					}
+				}
+				ImGui::End();//ImGuiの処理を終了
 #endif
 
 				//入力（キーボード、マウス、コントローラー）情報を更新
@@ -188,17 +190,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//エフェクトの描画
 				VFX::Draw();
 
-				//描画処理の前に記述
 #ifdef _DEBUG
+				// imguiの描画
 				ImGui::Render();
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 #endif
 				//描画終了
 				Direct3D::EndDraw();
 
-
-
-				
 				//ちょっと休ませる
 				Sleep(1);
 			}

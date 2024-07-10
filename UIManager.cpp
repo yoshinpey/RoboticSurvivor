@@ -1,5 +1,5 @@
 #include "UIManager.h"
-#include "UIBase.h"
+#include "UIButton.h"
 #include "Engine/Input.h"
 
 UIManager::UIManager(SceneBase* parent)
@@ -47,7 +47,7 @@ void UIManager::AddUi(std::string name, XMFLOAT2 pos, std::function<void()> onCl
 
 void UIManager::AddUi(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
 {
-	UIBase* ui = new UIBase();
+	UIBase* ui = new UIButton(name, pos, size);
 	ui->Initialize(name, pos, size, onClick);
 	uiList_.push_back(ui);
 }
