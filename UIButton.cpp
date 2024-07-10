@@ -68,7 +68,6 @@ void UIButton::OnClick()
 	}
 }
 
-
 void UIButton::Draw()
 {
 	Direct3D::SetBlendMode(Direct3D::BLEND_DEFAULT);

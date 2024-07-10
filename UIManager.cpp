@@ -3,44 +3,40 @@
 #include "Engine/Input.h"
 
 UIManager::UIManager(SceneBase* parent)
-	: state_(UI_STATE::DRAW)
+    : state_(UI_STATE::DRAW)
 {
 }
 
 UIManager::~UIManager()
 {
-	for (auto u : uiList_)
-	{
-		delete u;
-	}
-	uiList_.clear();
+    // unique_ptrが自動的にメモリを解放するため、明示的なdeleteは不要
 }
 
 void UIManager::Update()
 {
-	for (auto u : uiList_)
-	{
-		if (u->IsWithinBound()) 
-		{
-			if (Input::IsMouseButtonUp(0)) 
-			{
-				u->OnClick();
-			}
-		}
-	}
-
+    for (const auto& u : uiList_)
+    {
+        // UIButton型にキャスト
+        UIButton* button = dynamic_cast<UIButton*>(u.get());
+        if (button && button->CheckingHover())
+        {
+            if (Input::IsMouseButtonUp(0))
+            {
+                button->OnClick();
+            }
+        }
+    }
 }
 
 void UIManager::Draw()
 {
-	for (auto u : uiList_)
-	{
-		u->Draw();
-	}
+    for (const auto& u : uiList_)
+    {
+        u->Draw();
+    }
 }
 
-void UIManager::AddUi(std::string name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
+void UIManager::AddUi(const std::string& name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick)
 {
-	UIBase* ui = new UIButton(name, pos, size, onClick);
-	uiList_.push_back(ui);
+    uiList_.emplace_back(std::make_unique<UIButton>(name, pos, size, onClick));
 }

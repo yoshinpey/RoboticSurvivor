@@ -3,6 +3,7 @@
 #include <string>
 #include <DirectXMath.h>
 #include <functional>
+#include <memory>
 #include "SceneBase.h"
 
 using namespace DirectX;
@@ -11,24 +12,24 @@ class UIBase;
 class UIManager
 {
 public:
-	enum UI_STATE {
-		DRAW = 0,
-		ENDDRAW,
-	};
+    enum UI_STATE
+    {
+        DRAW = 0,
+        ENDDRAW,
+    };
 
 protected:
-	std::vector<UIBase*> uiList_;
-	UI_STATE state_;
+    std::vector<std::unique_ptr<UIBase>> uiList_;
+    UI_STATE state_;
 
 public:
-	UIManager(SceneBase* parent);
-	virtual ~UIManager();
-	virtual void Update();
-	virtual void Draw();
+    UIManager(SceneBase* parent);
+    virtual ~UIManager();
+    virtual void Update();
+    virtual void Draw();
 
-	//ボタンの追加
-	void AddUi(std::string name, XMFLOAT2 pos, XMFLOAT2 size = {1.0f, 1.0f }, std::function<void()> onClick);
+    //ボタンの追加
+    void AddUi(const std::string& name, XMFLOAT2 pos, XMFLOAT2 size = { 1.0f, 1.0f }, std::function<void()> onClick);
 
-	UI_STATE GetUIState() { return state_; };
-
+    UI_STATE GetUIState() const { return state_; };
 };
