@@ -32,6 +32,7 @@ public:
 
 	EnemyManager* GetEnemyManager() { return pEnemyManager_; }
 	StageManager* GetStageManager() { return pStageManager_; }
+	SceneManager* GetSceneManager() { return pSceneManager_; }
 
 	// ƒV[ƒ“‚ÌØ‚è‘Ö‚¦”»’èŠÖ”
 	void CheckAndChangeScene();

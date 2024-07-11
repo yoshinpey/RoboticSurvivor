@@ -3,7 +3,7 @@
 #include "Engine/Input.h"
 
 UIManager::UIManager(SceneBase* parent)
-    : state_(UI_STATE::DRAW)
+    : state_(UI_STATE::DRAW), pParent_(parent)
 {
 }
 

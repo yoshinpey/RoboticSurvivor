@@ -14,6 +14,7 @@
 #include "EnemyManager.h"
 #include "StageManager.h"
 #include "UIManager.h"
+#include "UIMenu.h"
 
 #include <array>
 
@@ -47,7 +48,7 @@ PlayScene::PlayScene(GameObject * parent)
 	/////////////////////////////////////////
 
 	// UIManagerのインスタンスを作成して追加
-	AddUIManager(new UIManager(this));
+	AddUIManager(new UIMenu(this));
 }
 
 PlayScene::~PlayScene()

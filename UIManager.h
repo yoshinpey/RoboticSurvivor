@@ -21,6 +21,7 @@ public:
 protected:
     std::vector<std::unique_ptr<UIBase>> uiList_;
     UI_STATE state_;
+    SceneBase* pParent_;
 
 public:
     UIManager(SceneBase* parent);
@@ -29,7 +30,7 @@ public:
     virtual void Draw();
 
     //ƒ{ƒ^ƒ“‚Ì’Ç‰Á
-    void AddUi(const std::string& name, XMFLOAT2 pos, XMFLOAT2 size = { 1.0f, 1.0f }, std::function<void()> onClick);
+    void AddUi(const std::string& name, XMFLOAT2 pos, XMFLOAT2 size, std::function<void()> onClick);
 
     UI_STATE GetUIState() const { return state_; };
 };
