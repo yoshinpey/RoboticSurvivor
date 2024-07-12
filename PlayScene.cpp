@@ -13,7 +13,7 @@
 #include "EffectManager.h"
 #include "EnemyManager.h"
 #include "StageManager.h"
-#include "UIManager.h"
+
 #include "UIMenu.h"
 
 #include <array>
@@ -166,7 +166,7 @@ void PlayScene::Update()
 	//s->ScoreAdd((int)score);
 	////////////////////////
 
-
+	UIUpdate();
 }
 
 void PlayScene::Draw()

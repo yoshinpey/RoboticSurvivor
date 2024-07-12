@@ -1,6 +1,5 @@
 #include "GameManager.h"
 
-
 namespace GameManager
 {	
 
@@ -10,7 +9,10 @@ namespace GameManager
 
 	void GameManager::Update()
 	{
+	}
 
+	void GameManager::Draw()
+	{
 	}
 
 	void GameManager::Release()

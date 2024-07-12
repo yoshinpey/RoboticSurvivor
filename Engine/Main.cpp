@@ -20,7 +20,7 @@
 #include "ImGui/imgui_impl_win32.h"
 #endif
 
-//#include "../GameManager.h"
+#include "../GameManager.h"
 #include "GameObject.h"
 
 #pragma comment(lib,"Winmm.lib")
@@ -94,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Audio::Initialize();
 
 	//ゲームマネージャー初期化
-	//GameManager::Initialize();
+	GameManager::Initialize();
 
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
@@ -170,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				Input::Update();
 
 				//ゲームマネージャー更新
-				//GameManager::Update();
+				GameManager::Update();
 
 				//全オブジェクトの更新処理
 				//ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
@@ -214,7 +214,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Audio::AllRelease();
 	Model::AllRelease();
 	Image::AllRelease();
-	//GameManager::Release();
+	GameManager::Release();
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
 

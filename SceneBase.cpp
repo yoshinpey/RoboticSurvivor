@@ -1,6 +1,7 @@
 #include "SceneBase.h"
-#include "UIManager.h"
 #include "AudioManager.h"
+
+#include "UIManager.h"
 
 SceneBase::SceneBase(GameObject* parent, std::string name)
 	: GameObject(parent, name)
