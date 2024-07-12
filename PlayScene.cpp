@@ -46,6 +46,8 @@ PlayScene::PlayScene(GameObject * parent)
 	AudioManager::Initialize();
 	EffectManager::Initialize();
 	/////////////////////////////////////////
+
+
 }
 
 PlayScene::~PlayScene()
@@ -164,8 +166,7 @@ void PlayScene::Update()
 	//s->ScoreAdd((int)score);
 	////////////////////////
 
-	// UIÇÃçXêV
-	UIUpdate();
+
 }
 
 void PlayScene::Draw()
