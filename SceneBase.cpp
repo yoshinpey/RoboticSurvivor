@@ -14,8 +14,6 @@ SceneBase::~SceneBase()
 		delete u;
 	}
 	pUIManagerList_.clear();
-	//AudioManager::Release();
-
 }
 
 void SceneBase::AddUIManager(UIManager* ma)
@@ -28,7 +26,6 @@ void SceneBase::UIUpdate()
 	if (!pUIManagerList_.empty())
 		pUIManagerList_.back()->Update();
 
-	// UI??delete
 	for (auto iter = pUIManagerList_.begin(); iter != pUIManagerList_.end();) {
 		if ((*iter)->GetUIState() == UIManager::UI_STATE::ENDDRAW)
 		{

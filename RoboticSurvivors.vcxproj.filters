@@ -269,9 +269,6 @@
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Multipurpose\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIMenu.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
@@ -493,9 +490,6 @@
     </ClInclude>
     <ClInclude Include="SceneBase.h">
       <Filter>03Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Multipurpose\UI</Filter>
     </ClInclude>
     <ClInclude Include="UIMenu.h">
       <Filter>Multipurpose\UI</Filter>

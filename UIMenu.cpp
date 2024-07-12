@@ -11,8 +11,11 @@ UIMenu::UIMenu(SceneBase* parent)
 	: UIManager(parent)
 {
 	//SceneManager* pSceneManager_ = (SceneManager*)FindObject("SceneManager");
-	AddUi("Start", XMFLOAT2(0.0f, -0.5f), XMFLOAT2(0.0f, -0.5f), [this]() {PostQuitMessage(0); });
-	
+	AddUi("Start", { 0.0f, 0.0f }, { 1.0f, 1.0f }, [this]()
+		{
+			// ボタンがクリックされたときの処理
+			OutputDebugString("pressed\n");
+		});
 }
 
 UIMenu::~UIMenu()

@@ -36,7 +36,7 @@ void Aim::Initialize()
     // エイムクラスの呼び出し位置
     transform_.position_.y = EYE_POSITION;
 
-    // マウス座標ポインター
+    // クロスヘア
     pNum_ = new Text;
     pNum_->Initialize();
 

@@ -46,9 +46,6 @@ PlayScene::PlayScene(GameObject * parent)
 	AudioManager::Initialize();
 	EffectManager::Initialize();
 	/////////////////////////////////////////
-
-	// UIManagerのインスタンスを作成して追加
-	AddUIManager(new UIMenu(this));
 }
 
 PlayScene::~PlayScene()
@@ -85,14 +82,8 @@ void PlayScene::Initialize()
 	pTimer_->SetLimit(timeLimit);
 	pTimer_->Start();
 
-
-	//// ボタンを追加
-	//UIManager* uiManager = pUIManagerList_.back();
-	//uiManager->AddUi("StartButton", { 0.0f, 0.0f }, { 1.0f, 1.0f }, []() 
-	//	{
-	//	// ボタンがクリックされたときの処理
-	//		OutputDebugString("pressed\n");
-	//	});
+	// UIManagerのインスタンスを作成して追加
+	AddUIManager(new UIMenu(this));
 }
 
 void PlayScene::Update()
@@ -173,7 +164,7 @@ void PlayScene::Update()
 	//s->ScoreAdd((int)score);
 	////////////////////////
 
-		// UIの更新
+	// UIの更新
 	UIUpdate();
 }
 
