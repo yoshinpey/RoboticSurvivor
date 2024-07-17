@@ -11,11 +11,12 @@ protected:
 
 public:
     SceneBase(GameObject* parent, std::string name);
-    virtual ~SceneBase();
-    virtual void Initialize() override = 0 {};
-    virtual void Update() override = 0 {};
-    virtual void Draw() override = 0 {};
-    virtual void Release() override = 0 {};
+    ~SceneBase() override;
+    void Initialize() override;
+    void Update() override;
+    void Draw() override;
+    void Release() override;
+
     void AddUIManager(UIManager* ma);
 
     void UIUpdate();

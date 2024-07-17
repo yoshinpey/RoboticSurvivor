@@ -201,7 +201,7 @@
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="UIMenu.cpp" />
+    <ClCompile Include="UI_PauseMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
@@ -277,7 +277,7 @@
     <ClInclude Include="UIBase.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIManager.h" />
-    <ClInclude Include="UIMenu.h" />
+    <ClInclude Include="UI_PauseMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

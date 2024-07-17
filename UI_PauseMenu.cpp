@@ -1,4 +1,4 @@
-#include "UIMenu.h"
+#include "UI_PauseMenu.h"
 #include "AudioManager.h"
 #include "Engine/Image.h"
 #include "Engine/SceneManager.h"
@@ -7,7 +7,7 @@ namespace
 {
 }
 
-UIMenu::UIMenu(SceneBase* parent)
+UI_PauseMenu::UI_PauseMenu(SceneBase* parent)
 	: UIManager(parent)
 {
 	//SceneManager* pSceneManager_ = (SceneManager*)FindObject("SceneManager");
@@ -18,11 +18,11 @@ UIMenu::UIMenu(SceneBase* parent)
 		});
 }
 
-UIMenu::~UIMenu()
+UI_PauseMenu::~UI_PauseMenu()
 {
 }
 
-void UIMenu::Draw()
+void UI_PauseMenu::Draw()
 {
 	UIManager::Draw();
 }

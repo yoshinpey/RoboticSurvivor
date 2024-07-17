@@ -14,8 +14,6 @@
 #include "EnemyManager.h"
 #include "StageManager.h"
 
-#include "UIMenu.h"
-
 #include <array>
 
 namespace
@@ -84,8 +82,7 @@ void PlayScene::Initialize()
 	pTimer_->SetLimit(timeLimit);
 	pTimer_->Start();
 
-	// UIManagerのインスタンスを作成して追加
-	AddUIManager(new UIMenu(this));
+
 }
 
 void PlayScene::Update()

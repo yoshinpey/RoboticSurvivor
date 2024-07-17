@@ -9,7 +9,7 @@ UIManager::UIManager(SceneBase* parent)
 
 UIManager::~UIManager()
 {
-    // unique_ptrが自動的にメモリを解放するため、明示的なdeleteは不要
+    // unique_ptrが自動的にメモリを解放するため、deleteは不要
 }
 
 void UIManager::Update()
