@@ -263,6 +263,9 @@
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -472,6 +475,9 @@
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="SceneBase.h">
       <Filter>03Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBase.h">
+      <Filter>Multipurpose\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
