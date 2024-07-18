@@ -162,14 +162,10 @@ void PlayScene::Update()
 	//score = (num % 60) * 0.1f;
 	//s->ScoreAdd((int)score);
 	////////////////////////
-
-	UIUpdate();
 }
 
 void PlayScene::Draw()
 {
-	// UI‚Ì•`‰æ
-	UIDraw();
 }
 
 void PlayScene::Release()
