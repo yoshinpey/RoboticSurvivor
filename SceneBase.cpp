@@ -7,8 +7,7 @@
 SceneBase::SceneBase(GameObject* parent, std::string name)
 	: GameObject(parent, name)
 {
-	// UIManagerのインスタンスを作成して追加
-	AddUIManager(new UI_PauseMenu(this));
+
 }
 
 SceneBase::~SceneBase()
@@ -20,9 +19,6 @@ SceneBase::~SceneBase()
 	pUIManagerList_.clear();
 }
 
-void SceneBase::Draw()
-{
-}
 
 void SceneBase::AddUIManager(UIManager* ma)
 {

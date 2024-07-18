@@ -11,12 +11,7 @@ protected:
 
 public:
     SceneBase(GameObject* parent, std::string name);
-    ~SceneBase() override;
-    void Initialize() override;
-    void Update() override;
-    void Draw() override;
-    void Release() override;
-
+    ~SceneBase();
     void AddUIManager(UIManager* ma);
 
     void UIUpdate();

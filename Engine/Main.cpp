@@ -93,14 +93,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//オーディオ（効果音）の準備
 	Audio::Initialize();
 
-	//ゲームマネージャー初期化
-	GameManager::Initialize();
-
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	RootObject* pRootObject = new RootObject;
 	pRootObject->Initialize();
 
+	//ゲームマネージャー初期化
+	GameManager::Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -169,9 +168,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//入力（キーボード、マウス、コントローラー）情報を更新
 				Input::Update();
 
-				//ゲームマネージャー更新
-				GameManager::Update();
-
 				//全オブジェクトの更新処理
 				//ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->UpdateSub();
@@ -182,6 +178,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//エフェクトの更新
 				VFX::Update();
 
+				//ゲームマネージャー更新
+				GameManager::Update();
+
 				//このフレームの描画開始
 				Direct3D::BeginDraw();
 
@@ -191,6 +190,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				//エフェクトの描画
 				VFX::Draw();
+
+				//ゲームマネージャー描画
+				GameManager::Draw();
 
 #ifdef _DEBUG
 				// imguiの描画
@@ -210,11 +212,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 
 	//いろいろ解放
+	GameManager::Release();
 	VFX::Release();
 	Audio::AllRelease();
 	Model::AllRelease();
 	Image::AllRelease();
-	GameManager::Release();
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
 

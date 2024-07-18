@@ -269,10 +269,10 @@
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
-    <ClCompile Include="UIMenu.cpp">
+    <ClCompile Include="UIBase.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UIBase.cpp">
+    <ClCompile Include="UI_PauseMenu.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -491,10 +491,10 @@
     <ClInclude Include="SceneBase.h">
       <Filter>03Scene</Filter>
     </ClInclude>
-    <ClInclude Include="UIMenu.h">
+    <ClInclude Include="UIBase.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
-    <ClInclude Include="UIBase.h">
+    <ClInclude Include="UI_PauseMenu.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
   </ItemGroup>
