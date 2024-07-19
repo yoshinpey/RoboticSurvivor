@@ -14,7 +14,7 @@ namespace
 
     XMFLOAT3 positionOffset = { -0.95f,0.75f,0.0f };
     XMFLOAT3 scaleOffset = { 1.0f, 1.0f, 0.0f };
-    const float hpDecreaseSpeed = 1.0f; // HPが減少する速度
+    const float hpDecreaseSpeed = 0.5f; // HPが減少する速度
 }
 
 // コンストラクタ
@@ -77,11 +77,7 @@ void Gauge::Update()
         }
         else if (nowHp_ < targetHp_)
         {
-            nowHp_ += hpDecreaseSpeed_;
-            if (nowHp_ > targetHp_)
-            {
-                nowHp_ = targetHp_;
-            }
+            nowHp_ = targetHp_;
         }
 
         // HPが変化した場合に描画処理を更新
@@ -95,20 +91,21 @@ void Gauge::Update()
 // 描画
 void Gauge::Draw()
 {
-    // バーの表示
-    Transform transGauge = transform_;
-    transGauge.scale_.x *= nowHp_ / maxHp_;
-
-    // 最大HPゲージ
+    // 最大HPゲージの描画
     Image::SetTransform(hPict_[FRAME], transform_);
     Image::Draw(hPict_[FRAME]);
 
-    // 残存HPゲージの画像選択（緑色または赤色）
-    int gaugeIndex = (nowHp_ > targetHp_) ? GAUGE_RED : GAUGE_GREEN;
+    // 赤ゲージの描画
+    Transform transRedGauge = transform_;
+    transRedGauge.scale_.x *= nowHp_ / maxHp_;
+    Image::SetTransform(hPict_[GAUGE_RED], transRedGauge);
+    Image::Draw(hPict_[GAUGE_RED]);
 
-    // 残存HPゲージ
-    Image::SetTransform(hPict_[gaugeIndex], transGauge);
-    Image::Draw(hPict_[gaugeIndex]);
+    // 緑ゲージの描画（常に赤ゲージの上に描画）
+    Transform transGreenGauge = transform_;
+    transGreenGauge.scale_.x *= targetHp_ / maxHp_;
+    Image::SetTransform(hPict_[GAUGE_GREEN], transGreenGauge);
+    Image::Draw(hPict_[GAUGE_GREEN]);
 }
 
 // 開放
