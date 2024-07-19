@@ -1,6 +1,7 @@
 #include "Gauge.h"
 #include "Engine/Image.h"
 #include <cassert>
+#include <algorithm>
 
 namespace
 {
@@ -69,11 +70,7 @@ void Gauge::Update()
         // 現在のHPを目標HPに向かって変化させる
         if (nowHp_ > targetHp_)
         {
-            nowHp_ -= hpDecreaseSpeed_;
-            if (nowHp_ < targetHp_)
-            {
-                nowHp_ = targetHp_;
-            }
+            nowHp_ = std::clamp(nowHp_ - hpDecreaseSpeed_, targetHp_, nowHp_);
         }
         else if (nowHp_ < targetHp_)
         {
@@ -81,10 +78,7 @@ void Gauge::Update()
         }
 
         // HPが変化した場合に描画処理を更新
-        if (nowHp_ == targetHp_)
-        {
-            hpChanged_ = false;  // フラグをリセット
-        }
+        if (nowHp_ == targetHp_) hpChanged_ = false;  // フラグをリセット
     }
 }
 
