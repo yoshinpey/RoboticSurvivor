@@ -70,10 +70,12 @@ void Gauge::Update()
         // 現在のHPを目標HPに向かって変化させる
         if (nowHp_ > targetHp_)
         {
+            // ゲージを徐々に減らす
             nowHp_ = std::clamp(nowHp_ - hpDecreaseSpeed_, targetHp_, nowHp_);
         }
         else if (nowHp_ < targetHp_)
         {
+            // 増えるときは時即適応
             nowHp_ = targetHp_;
         }
 
@@ -89,11 +91,14 @@ void Gauge::Draw()
     Image::SetTransform(hPict_[FRAME], transform_);
     Image::Draw(hPict_[FRAME]);
 
-    // 赤ゲージの描画
-    Transform transRedGauge = transform_;
-    transRedGauge.scale_.x *= nowHp_ / maxHp_;
-    Image::SetTransform(hPict_[GAUGE_RED], transRedGauge);
-    Image::Draw(hPict_[GAUGE_RED]);
+    if (hpChanged_)
+    {
+        // 赤ゲージの描画
+        Transform transRedGauge = transform_;
+        transRedGauge.scale_.x *= nowHp_ / maxHp_;
+        Image::SetTransform(hPict_[GAUGE_RED], transRedGauge);
+        Image::Draw(hPict_[GAUGE_RED]);
+    }
 
     // 緑ゲージの描画（常に赤ゲージの上に描画）
     Transform transGreenGauge = transform_;

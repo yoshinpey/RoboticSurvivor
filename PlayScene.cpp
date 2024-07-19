@@ -9,8 +9,11 @@
 #include "Timer.h"
 #include "Score.h"
 
-#include "AudioManager.h"
-#include "EffectManager.h"
+//#include "AudioManager.h"
+//#include "EffectManager.h"
+
+#include "GameManager.h"
+
 #include "EnemyManager.h"
 #include "StageManager.h"
 
@@ -41,8 +44,9 @@ PlayScene::PlayScene(GameObject * parent)
 	pStageManager_ = new StageManager(this);
 	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
 	/////////////////////////////////////////
-	AudioManager::Initialize();
-	EffectManager::Initialize();
+	//AudioManager::Initialize();
+	//EffectManager::Initialize();
+	GameManager::Initialize();
 	/////////////////////////////////////////
 
 
@@ -133,6 +137,7 @@ void PlayScene::Update()
 
 	////////////////////////デバック用
 #ifdef _DEBUG
+	// 特定のエネミー消す
 	if (Input::IsKeyDown(DIK_1))
 	{
 		pEnemyManager_->RemoveEnemy(EnemyType::FLY);
@@ -146,7 +151,7 @@ void PlayScene::Update()
 		pEnemyManager_->RemoveEnemy(EnemyType::EXPLOSION);
 	}
 #endif
-	// 特定のエネミー消す
+	
 
 	// 全部のエネミー消し炭
 	if (Input::IsKeyDown(DIK_4))
