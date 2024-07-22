@@ -232,6 +232,9 @@
     <ClCompile Include="Engine\BillBoard.cpp">
       <Filter>01Engine\01DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Multipurpose\Manager</Filter>
     </ClCompile>
@@ -262,12 +265,6 @@
     </ClCompile>
     <ClCompile Include="UIBase.cpp">
       <Filter>Multipurpose\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>03Scene\02Play</Filter>
-    </ClCompile>
-    <ClCompile Include="EventInitializer.cpp">
-      <Filter>03Scene\02Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +442,9 @@
     <ClInclude Include="Engine\BillBoard.h">
       <Filter>01Engine\01DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Multipurpose\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Multipurpose\Manager</Filter>
     </ClInclude>
@@ -478,18 +478,6 @@
     </ClInclude>
     <ClInclude Include="UIBase.h">
       <Filter>Multipurpose\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>03Scene\02Play</Filter>
-    </ClInclude>
-    <ClInclude Include="EventInitializer.h">
-      <Filter>03Scene\02Play</Filter>
-    </ClInclude>
-    <ClInclude Include="IEventListener.h">
-      <Filter>03Scene\02Play</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvent.h">
-      <Filter>03Scene\02Play</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

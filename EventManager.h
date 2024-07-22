@@ -1,8 +1,21 @@
 #pragma once
-#include "IEventListener.h"
-#include "GameEvent.h"
+#include "Engine/global.h"
 #include "Engine/GameObject.h"
 #include <vector>
+
+enum EVENT_STATE
+{
+    EVENT_STATE_INACTIVE,
+    EVENT_STATE_ACTIVE,
+    EVENT_STATE_COMPLETED,
+};
+
+struct GameEvent
+{
+    EVENT_STATE state;
+    std::string description;
+    // 他のイベントデータを追加
+};
 
 class EventManager : public GameObject
 {
@@ -15,12 +28,10 @@ public:
     void Release() override;
 
     void AddEvent(const GameEvent& event);
-    void AddListener(IEventListener* listener);
-    void NotifyListeners(const GameEvent& event);
+    void UpdateEvents();
+    void CompleteEvent(int eventIndex);
+
 
 private:
-    std::vector<GameEvent> events_;
-    std::vector<IEventListener*> listeners_;
-
-    void UpdateEvents();
+    std::vector<GameEvent> events;
 };

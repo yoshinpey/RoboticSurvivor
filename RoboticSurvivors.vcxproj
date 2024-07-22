@@ -177,7 +177,6 @@
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Engine\VFX.cpp" />
-    <ClCompile Include="EventInitializer.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gauge.cpp" />
@@ -211,8 +210,6 @@
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\VFX.h" />
-    <ClInclude Include="EventInitializer.h" />
-    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonReader.h" />
@@ -275,7 +272,6 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UIBase.h" />
-    <ClInclude Include="IEventListener.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">
