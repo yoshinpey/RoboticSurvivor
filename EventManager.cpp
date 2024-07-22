@@ -1,5 +1,5 @@
+
 #include "EventManager.h"
-#include "TitleScene.h"
 
 EventManager::EventManager(GameObject* parent)
     : GameObject(parent, "EventManager")
@@ -8,49 +8,51 @@ EventManager::EventManager(GameObject* parent)
 
 void EventManager::Initialize()
 {
-    // イベントの初期化処理を記述
+    // イベントの初期化処理
 }
 
 void EventManager::Update()
 {
-    // イベントの更新処理を記述
     UpdateEvents();
 }
 
 void EventManager::Draw()
 {
-    // イベントの描画処理を記述
+    // イベントの描画処理
 }
 
 void EventManager::Release()
 {
-    // イベントのリソース解放処理を記述
+    // イベントのリソース解放処理
 }
 
 void EventManager::AddEvent(const GameEvent& event)
 {
-    // イベントをリストに追加
-    events.push_back(event);
+    events_.push_back(event);
+}
+
+void EventManager::AddListener(IEventListener* listener)
+{
+    listeners_.push_back(listener);
+}
+
+void EventManager::NotifyListeners(const GameEvent& event)
+{
+    for (auto listener : listeners_)
+    {
+        listener->OnEvent(event);
+    }
 }
 
 void EventManager::UpdateEvents()
 {
-    // イベントの進行状況を確認し、必要なアクションを実行
-    for (size_t i = 0; i < events.size(); ++i)
+    for (auto& event : events_)
     {
-        if (events[i].state == EVENT_STATE_ACTIVE)
+        if (event.state == EVENT_STATE_ACTIVE && event.condition())
         {
-            // アクティブなイベントの処理を実行
-            // 必要に応じてイベントの進行状況を変更
+            event.action();
+            event.state = EVENT_STATE_COMPLETED;
+            NotifyListeners(event);
         }
-    }
-}
-
-void EventManager::CompleteEvent(int eventIndex)
-{
-    // イベントを完了状態に変更
-    if (eventIndex >= 0 && eventIndex < events.size())
-    {
-        events[eventIndex].state = EVENT_STATE_COMPLETED;
     }
 }

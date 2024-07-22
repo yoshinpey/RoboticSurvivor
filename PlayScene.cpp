@@ -87,6 +87,37 @@ void PlayScene::Initialize()
 	pTimer_->Start();
 
 
+	// イベントの初期化
+	EventInitializer::InitializeEvents(static_cast<EventManager*>(FindObject("EventManager")), this);
+
+	EventManager* eventManager = static_cast<EventManager*>(FindObject("EventManager"));
+	eventManager->AddListener(this);
+
+	// 勝利条件のイベントを追加
+	GameEvent victoryEvent;
+	victoryEvent.state = EVENT_STATE_ACTIVE;
+	victoryEvent.type = EVENT_TYPE_VICTORY;
+	victoryEvent.description = "All enemies defeated";
+	victoryEvent.condition = [this]() -> bool {
+		return pEnemyManager_->GetEnemyCount() == 0;
+		};
+	victoryEvent.action = [eventManager, victoryEvent]() {
+		eventManager->NotifyListeners(victoryEvent);
+		};
+	eventManager->AddEvent(victoryEvent);
+
+	// 敗北条件のイベントを追加
+	GameEvent defeatEvent;
+	defeatEvent.state = EVENT_STATE_ACTIVE;
+	defeatEvent.type = EVENT_TYPE_DEFEAT;
+	defeatEvent.description = "Player is dead";
+	defeatEvent.condition = [this]() -> bool {
+		return pPlayer_ == nullptr;
+		};
+	defeatEvent.action = [eventManager, defeatEvent]() {
+		eventManager->NotifyListeners(defeatEvent);
+		};
+	eventManager->AddEvent(defeatEvent);
 }
 
 void PlayScene::Update()
