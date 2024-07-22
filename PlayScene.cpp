@@ -16,7 +16,6 @@
 
 #include "EnemyManager.h"
 #include "StageManager.h"
-#include "EventManager.h"
 
 #include <array>
 
@@ -43,8 +42,6 @@ PlayScene::PlayScene(GameObject * parent)
 {
 	pEnemyManager_ = new EnemyManager(this);
 	pStageManager_ = new StageManager(this);
-	pEventManager_ = new EventManager(this);
-	pEventManager_->RegisterListener(this);
 	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
 	/////////////////////////////////////////
 	//AudioManager::Initialize();
@@ -59,23 +56,24 @@ PlayScene::~PlayScene()
 {
 	SAFE_DELETE(pEnemyManager_);
 	SAFE_DELETE(pStageManager_);
-	SAFE_DELETE(pEventManager_);
 }
 
 void PlayScene::Initialize()
 {
 	// シーンの途中で登場するモデルは先にロードだけしておく(ラグ対策)
-	for (const auto& model : modelName) {Model::Load(model);}
+	for (int i = 0; i < modelName.size(); ++i)
+	{
+		Model::Load(modelName[i]);
+	}
 
-	// ステージ登場
 	pStageManager_->CreateStage(XMFLOAT3(0,0,0),StageType::FLOOR);
 	pStageManager_->CreateStage(XMFLOAT3(0,0,0),StageType::SKYBOX);
 
-	//プレイヤー登場
-	pPlayer_ = Instantiate<Player>(this);			
+	pPlayer_=Instantiate<Player>(this);			//プレイヤー登場
 	
-	// 初回の敵を出現させる
-	for (int i = -10; i < 10; i += 5) {
+	///////////////////初回の敵を出現させるテスト
+	for (int i = -10; i < 10; i+=5)
+	{
 		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 5), EnemyType::GROUND);
 	}
 
@@ -88,9 +86,38 @@ void PlayScene::Initialize()
 	pTimer_->SetLimit(timeLimit);
 	pTimer_->Start();
 
+
 	// イベントの初期化
-	GameEvent victoryEvent = { EVENT_TYPE_GAME_WIN, EVENT_STATE_INACTIVE, "Defeat all enemies to win" };
-	pEventManager_->AddEvent(victoryEvent);
+	EventInitializer::InitializeEvents(static_cast<EventManager*>(FindObject("EventManager")), this);
+
+	EventManager* eventManager = static_cast<EventManager*>(FindObject("EventManager"));
+	eventManager->AddListener(this);
+
+	// 勝利条件のイベントを追加
+	GameEvent victoryEvent;
+	victoryEvent.state = EVENT_STATE_ACTIVE;
+	victoryEvent.type = EVENT_TYPE_VICTORY;
+	victoryEvent.description = "All enemies defeated";
+	victoryEvent.condition = [this]() -> bool {
+		return pEnemyManager_->GetEnemyCount() == 0;
+		};
+	victoryEvent.action = [eventManager, victoryEvent]() {
+		eventManager->NotifyListeners(victoryEvent);
+		};
+	eventManager->AddEvent(victoryEvent);
+
+	// 敗北条件のイベントを追加
+	GameEvent defeatEvent;
+	defeatEvent.state = EVENT_STATE_ACTIVE;
+	defeatEvent.type = EVENT_TYPE_DEFEAT;
+	defeatEvent.description = "Player is dead";
+	defeatEvent.condition = [this]() -> bool {
+		return pPlayer_ == nullptr;
+		};
+	defeatEvent.action = [eventManager, defeatEvent]() {
+		eventManager->NotifyListeners(defeatEvent);
+		};
+	eventManager->AddEvent(defeatEvent);
 }
 
 void PlayScene::Update()
@@ -181,25 +208,19 @@ void PlayScene::Release()
 {
 }
 
-void PlayScene::CheckAndChangeScene() {
+void PlayScene::CheckAndChangeScene()
+{
 	// ゲームクリアの条件
-	if (pEnemyManager_->GetEnemyCount() == 0) {
-		GameEvent event = { EVENT_TYPE_GAME_WIN, EVENT_STATE_ACTIVE, "All enemies defeated" };
-		pEventManager_->AddEvent(event);
+	// 敵がすべて消えたらゲームクリア
+	if (pEnemyManager_->GetEnemyCount() == 0)
+	{
+		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
 	}
 
 	// ゲームオーバーの条件
-	if (pTimer_->IsFinished() || pPlayer_ == nullptr) {
-		GameEvent event = { EVENT_TYPE_GAME_OVER, EVENT_STATE_ACTIVE, "Game over" };
-		pEventManager_->AddEvent(event);
-	}
-}
-
-void PlayScene::OnEvent(const GameEvent& event) {
-	if (event.type == EVENT_TYPE_GAME_WIN && event.state == EVENT_STATE_ACTIVE) {
-		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
-	}
-	else if (event.type == EVENT_TYPE_GAME_OVER && event.state == EVENT_STATE_ACTIVE) {
+	// 時間切れ、あるいはプレイヤーの死亡
+	if (pTimer_->IsFinished() || pPlayer_ == nullptr)
+	{
 		pEnemyManager_->RemoveAllEnemies();
 		pSceneManager_->ChangeScene(SCENE_ID_OVER);
 	}

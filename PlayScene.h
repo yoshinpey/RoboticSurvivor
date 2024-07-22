@@ -1,13 +1,13 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "SceneBase.h"
+#include "EventManager.h"
 
 class Player;
 class Timer;
 class EnemyManager;
 class StageManager;
 class SceneManager;
-class EventManager;
 
 //Playシーンを管理するクラス
 class PlayScene : public SceneBase, public IEventListener
@@ -17,7 +17,6 @@ class PlayScene : public SceneBase, public IEventListener
 	EnemyManager* pEnemyManager_;
 	StageManager* pStageManager_;
 	SceneManager* pSceneManager_;
-	EventManager* pEventManager_;
 
 public:
 	//コンストラクタ
@@ -39,5 +38,18 @@ public:
 	// シーンの切り替え判定関数
 	void CheckAndChangeScene();
 
-	void OnEvent(const GameEvent& event) override;
+	void OnEvent(const GameEvent& event) override
+	{
+		if (event.type == EVENT_TYPE_VICTORY)
+		{
+			// 勝利イベントの処理
+			pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
+		}
+		else if (event.type == EVENT_TYPE_DEFEAT)
+		{
+			// 敗北イベントの処理
+			pEnemyManager_->RemoveAllEnemies();
+			pSceneManager_->ChangeScene(SCENE_ID_OVER);
+		}
+	}
 };
