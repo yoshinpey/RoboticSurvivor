@@ -153,6 +153,7 @@ void Gun::InputConfirmation()
     // 通常射撃ボタンを押したとき
     if (InputManager::IsShoot())
     {
+        SwitchMode(ShootingMode::NORMAL); // 通常射撃モードに設定
         HandleShooting<Bullet_Normal>(BulletType::NORMAL, AUDIO_ID::SHOT, AUDIO_ID::CURSOR_POINT);
         return; // 通常射撃と同時に別の処理を行うことを防ぐ
     }
@@ -160,7 +161,15 @@ void Gun::InputConfirmation()
     // 特殊射撃ボタンを押したとき
     if (InputManager::IsWeaponAction())
     {
+        SwitchMode(ShootingMode::SPECIAL); // 特殊射撃モードに設定
         HandleShooting<Bullet_Explosion>(BulletType::EXPLOSION, AUDIO_ID::SHOT_EXPLODE, AUDIO_ID::CURSOR_POINT);
+    }
+
+    // リロードボタンを押したとき
+    if (InputManager::IsReload())
+    { 
+        if(currentMode_ == ShootingMode::NORMAL)StartReloading(BulletType::NORMAL, AUDIO_ID::CURSOR_POINT);
+        if(currentMode_ == ShootingMode::SPECIAL)StartReloading(BulletType::EXPLOSION, AUDIO_ID::CURSOR_POINT);
     }
 }
 
@@ -186,7 +195,7 @@ void Gun::ShootBullet(BulletType type)
 template <class T>
 void Gun::HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadSoundId)
 {
-    // 射撃クールが残っていたら計算しない
+    // 射撃クール(連射速度を制御する変数)が残っていたら計算しない
     if (bulletInfoList_[(int)type].currentShotCoolTime_ > 0)return;
 
     // マガジンに弾が残っているとき
@@ -198,6 +207,7 @@ void Gun::HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadS
     }
     else if (bulletInfoList_[(int)type].currentReloadTime_ <= 0)
     {
+        // マガジンが0になったなら自動でリロード開始
         StartReloading(type, reloadSoundId);
     }
 }

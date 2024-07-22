@@ -7,6 +7,13 @@ class Player;
 enum class BulletType;
 enum  AUDIO_ID;
 
+// 銃の射撃モード
+enum class ShootingMode
+{
+    NORMAL,
+    SPECIAL
+};
+
 // バレットの情報を保管する構造体
 struct BulletInfo
 {
@@ -30,6 +37,8 @@ class Gun : public GameObject
     std::vector<BulletInfo> bulletInfoList_;
 
     int flickerTimer_;              // 無敵状態のちらつきタイマー
+    ShootingMode currentMode_;      // 現在の射撃モード
+    BulletType currentBulletType_;  // 現在の弾の種類（モードに依存）
 
 public:
     Gun(GameObject* parent);
@@ -59,4 +68,7 @@ public:
 
     // リロードを行う
     void StartReloading(BulletType type, AUDIO_ID reloadSoundId);
+
+    // モード切り替えのメソッド
+    void SwitchMode(ShootingMode mode) { currentMode_ = mode; }
 };
