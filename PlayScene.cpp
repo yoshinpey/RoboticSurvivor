@@ -25,11 +25,11 @@ namespace
 	std::array<std::string, 6> modelName = 
 	{
 		"DebugCollision/sphereCollider.fbx",
-		"Entity/Bullet.fbx",
-		"Entity/Missile.fbx",
-		"Enemy/Enemy_Ground.fbx",
-		"Enemy/Enemy_Fly.fbx",
-		"Enemy/Enemy_Explosion.fbx"
+		"Model/Bullet.fbx",
+		"Model/Missile.fbx",
+		"Model/Enemy_Ground.fbx",
+		"Model/Enemy_Fly.fbx",
+		"Model/Enemy_Explosion.fbx"
 	};
 	////////////WaveTest
 	XMFLOAT3 spawnPosition;		// スポーンする位置

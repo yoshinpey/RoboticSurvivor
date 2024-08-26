@@ -39,7 +39,7 @@ Enemy_Fly::~Enemy_Fly()
 void Enemy_Fly::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("Enemy/Enemy_Fly.fbx");
+    hModel_ = Model::Load("Model/Enemy_Fly.fbx");
     assert(hModel_ >= 0);
 
     // 当たり判定付与

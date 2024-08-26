@@ -15,7 +15,7 @@ namespace
 {
     const XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };    // 当たり判定の位置
     const XMFLOAT3 modelScale = { 0.2f, 0.2f, 0.2f };         // モデルのサイズ
-    const std::string modelName = "Entity/Missile.fbx";       // モデル名
+    const std::string modelName = "Model/Missile.fbx";       // モデル名
 
     const float explosionVolume = 0.1f;
 
