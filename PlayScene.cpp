@@ -149,15 +149,14 @@ void PlayScene::Update()
 	if (Input::IsKeyDown(DIK_3))
 	{
 		pEnemyManager_->RemoveEnemy(EnemyType::EXPLOSION);
-	}
-#endif
-	
+	}	
 
 	// 全部のエネミー消し炭
 	if (Input::IsKeyDown(DIK_4))
 	{
 		pEnemyManager_->RemoveAllEnemies();
 	}
+#endif
 
 	//////スコアテスト用
 	//Score* s = (Score*)FindObject("Score");

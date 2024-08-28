@@ -79,7 +79,7 @@ Clear：
 //Ground* pGround = (Ground*)FindObject("Ground");
 //hGroundModel_ = pGround->GetModelHandle();
 
-レイキャストのやつ
+//レイキャスト
 //bool Player::RayCastStage(XMFLOAT3 position)
 //{
 //    if (!useRayCast_) return false;

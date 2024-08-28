@@ -263,9 +263,6 @@
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
-    <ClCompile Include="UIBase.cpp">
-      <Filter>Multipurpose\UI</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
