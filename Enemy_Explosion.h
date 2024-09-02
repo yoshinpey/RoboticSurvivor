@@ -7,6 +7,10 @@ class Player;
 class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // モデル番号
+    int explodeTimeLimit_;          // 爆発までの時間制限
+    float explodeTimer_;            // 現在の爆発タイマー
+    bool isInExplosionRange_;       // 爆発範囲内にいるかどうか
+    float explodeScale_;            // 爆発半径
 
 public:
     Enemy_Explosion(GameObject* parent);    // コンストラクタ
@@ -22,4 +26,6 @@ public:
     // 攻撃
     void Attack() override;
 
+    // 爆発までの時間制限をセット
+    void SetExplodeTimer(int explodeTimeLimit) { explodeTimeLimit_ = explodeTimeLimit; };
 };

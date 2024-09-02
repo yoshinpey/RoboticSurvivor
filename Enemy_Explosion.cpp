@@ -22,7 +22,8 @@ namespace
 }
 
 Enemy_Explosion::Enemy_Explosion(GameObject* parent)
-    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), hModel_(-1)
+    : EnemyBase(parent, EnemyType::EXPLOSION, "Enemy_Explosion"), 
+    hModel_(-1), explodeTimeLimit_(120)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Explosion", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -59,6 +60,9 @@ void Enemy_Explosion::Initialize()
 
     // モデルの回転
     transform_.rotate_.y = modelRotate.y;
+
+    // 爆発範囲は接近距離より少し多め
+    explodeScale_ = enemyAlgorithm_.approachDistance_+1;
 }
 
 void Enemy_Explosion::Update()
@@ -70,6 +74,10 @@ void Enemy_Explosion::Update()
     if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
     {
         ApproachPlayer(directionToPlayer);
+    }
+    else
+    {
+        //SetExplodeTimer(120);
     }
 
     // プレイヤーの方向を向くように視界を回転
@@ -97,15 +105,15 @@ void Enemy_Explosion::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
+        // 銃で撃たれたリアクション
         BulletHit();
     }
 
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        // エネミーベースにキャスト
-        EnemyBase* pEnemy = static_cast<EnemyBase*>(pTarget);
-        CollisionDetectionWithEnemy(pEnemy);
+        // エネミーベースの関数でエネミー同士の判定
+        CollisionDetectionWithEnemy(static_cast<EnemyBase*>(pTarget));
     }
 };
 

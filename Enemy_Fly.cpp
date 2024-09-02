@@ -85,6 +85,7 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
+        // 銃で撃たれたリアクション
         BulletHit();
     }
 
@@ -92,12 +93,21 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        // エネミーベースにキャスト
-        EnemyBase* pEnemy = static_cast<EnemyBase*>(pTarget);
-        CollisionDetectionWithEnemy(pEnemy);
+        // エネミーベースの関数でエネミー同士の判定
+        CollisionDetectionWithEnemy(static_cast<EnemyBase*>(pTarget));
     }
 }
 
 void Enemy_Fly::Attack()
 {
+    //////これは前の処理
+    // *アプローチ距離より遠ければ近づく
+    // *攻撃範囲レンジ(アプローチ距離+5)を満たしている
+    // *攻撃クールダウンが0になっている
+    // *これらの条件を外れたらアニメーションやサウンドをストップ
+
+    // プレイヤーへの方向を計算する
+    // 攻撃チャージアニメーション、サウンドスタート(これはあとで追加。とりあえずコメントアウトしとく)
+    // チャージ終了で弾を発射
+
 }

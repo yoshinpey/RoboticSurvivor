@@ -98,18 +98,19 @@ void Enemy_Ground::OnCollision(GameObject* pTarget)
     // 銃弾に当たったとき
     if (pTarget->GetObjectName().find("Bullet") != std::string::npos)
     {
+        // 銃で撃たれたリアクション
         BulletHit();
     }
 
     // 敵に当たったとき
     if (pTarget->GetObjectName().find("Enemy") != std::string::npos)
     {
-        // エネミーベースにキャスト
-        EnemyBase* pEnemy = static_cast<EnemyBase*>(pTarget);
-        CollisionDetectionWithEnemy(pEnemy);
+        // エネミーベースの関数でエネミー同士の判定
+        CollisionDetectionWithEnemy(static_cast<EnemyBase*>(pTarget));
     }
 }
 
 void Enemy_Ground::Attack()
 {
+    // ぶつかり攻撃のみ行うため未定義
 }
