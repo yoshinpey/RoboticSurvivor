@@ -178,6 +178,7 @@
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Engine\VFX.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\VFX.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonReader.h" />
