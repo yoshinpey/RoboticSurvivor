@@ -18,7 +18,7 @@ OverScene::~OverScene()
 void OverScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("Pictures/Over.jpg");
+	hPict_ = Image::Load("Pictures/Over.png");
 	assert(hPict_ >= 0);
 }
 
@@ -41,7 +41,7 @@ void OverScene::Draw()
 
 	// ディスプレイサイズに合わせる
 	transform_.scale_.x = (Direct3D::screenWidth_ / size.x);
-	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
+	transform_.scale_.y = (Direct3D::screenHeight_ / size.y*1.2);
 
 	// 描画設定
 	Image::SetTransform(hPict_, transform_);
