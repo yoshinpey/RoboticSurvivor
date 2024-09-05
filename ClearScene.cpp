@@ -17,7 +17,7 @@ ClearScene::~ClearScene()
 void ClearScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("Pictures/Clear.jpg");
+	hPict_ = Image::Load("Pictures/Clear.png");
 	assert(hPict_ >= 0);
 }
 
@@ -38,7 +38,7 @@ void ClearScene::Draw()
 
 	// ディスプレイサイズに合わせる
 	transform_.scale_.x = (Direct3D::screenWidth_ / size.x);
-	transform_.scale_.y = (Direct3D::screenHeight_ / size.y);
+	transform_.scale_.y = (Direct3D::screenHeight_ / size.y * 1.2);
 
 	// 描画設定
 	Image::SetTransform(hPict_, transform_);
