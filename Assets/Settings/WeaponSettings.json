@@ -11,7 +11,7 @@
     "collisionScale": 0.2,
     "isPenetration": 0,
     "shotCoolTime": 8,
-    "magazineCount": 25,
+    "bulletCount": 25,
     "reloadTime": 90
   },
   "Bullet_Explosion": 
@@ -21,8 +21,8 @@
     "killTimer": 300,
     "collisionScale": 0.3,
     "explodeScale": 6,
-    "shotCoolTime": 120,
-    "magazineCount": 2,
+    "shotCoolTime": 30,
+    "bulletCount": 2,
     "reloadTime": 120
   }
 }

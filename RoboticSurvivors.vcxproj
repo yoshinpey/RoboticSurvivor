@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BulletInfoDisplay.cpp" />
     <ClCompile Include="Bullet_Explosion.cpp" />
     <ClCompile Include="Bullet_Normal.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BulletInfoDisplay.h" />
     <ClInclude Include="Bullet_Explosion.h" />
     <ClInclude Include="Bullet_Normal.h" />
     <ClInclude Include="BulletBase.h" />

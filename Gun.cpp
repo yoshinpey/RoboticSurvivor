@@ -1,5 +1,4 @@
 #include "Engine/Model.h"
-
 #include "AudioManager.h"
 #include "InputManager.h"
 
@@ -68,13 +67,15 @@ void Gun::Initialize()
         bulletInfoList_[(int)type].currentShotCoolTime_ = 0;
 
         // マガジン数の初期化
-        bulletInfoList_[(int)type].magazineCount_ = bulletSection["magazineCount"];
-        bulletInfoList_[(int)type].currentMagazineCount_ = bulletInfoList_[(int)type].magazineCount_;
+        bulletInfoList_[(int)type].bulletCount_ = bulletSection["bulletCount"];
+        bulletInfoList_[(int)type].currentBulletCount_ = bulletInfoList_[(int)type].bulletCount_;
 
         // リロード時間の初期化
         bulletInfoList_[(int)type].reloadTime_ = bulletSection["reloadTime"];
         bulletInfoList_[(int)type].currentReloadTime_ = 0;
     }
+    // BulletInfoDisplay の初期化
+    bulletInfoDisplay_.Initialize();
 }    
 
 void Gun::Update()
@@ -91,13 +92,21 @@ void Gun::Update()
             // リロード時間を減らす
             bullet.currentReloadTime_--;
 
-            // 装弾数を最大にする
-            if (bullet.currentReloadTime_ <= 0) bullet.currentMagazineCount_ = bullet.magazineCount_;
+            // リロード時間が終了したら弾を補充する
+            if (bullet.currentReloadTime_ <= 0)
+            {
+                bullet.currentBulletCount_ = bullet.bulletCount_;  // マガジンをリロード
+                OutputDebugString("Reload Completed\n");
+            }
         }
     }
 
     // 入力処理
     InputConfirmation();
+
+    // BulletInfoDisplay を更新
+    bulletInfoDisplay_.Update(bulletInfoList_[static_cast<int>(currentBulletType_)].currentBulletCount_);
+
 }
 
 void Gun::Draw()
@@ -149,27 +158,41 @@ void Gun::InputConfirmation()
     // 無敵時間中は攻撃無効化
     if (pPlayer_->IsInvincible())return;
 
+    // リロードボタンを押したとき
+    if (InputManager::IsReload())
+    {
+        if (currentMode_ == ShootingMode::NORMAL)
+        {
+            OutputDebugString("NormalReloading");
+            StartReloading(BulletType::NORMAL, AUDIO_ID::CURSOR_POINT);
+        }
+        else if (currentMode_ == ShootingMode::SPECIAL)
+        {
+            OutputDebugString("SpecialReloading");
+            StartReloading(BulletType::EXPLOSION, AUDIO_ID::CURSOR_POINT);
+        }
+        return; // リロードが優先されるため、他の入力処理を行わない
+    }
 
     // 通常射撃ボタンを押したとき
     if (InputManager::IsShoot())
     {
-        SwitchMode(ShootingMode::NORMAL); // 通常射撃モードに設定
+        if (currentMode_ != ShootingMode::NORMAL)
+        {
+            SwitchMode(ShootingMode::NORMAL);  // 通常射撃モードに設定
+        }
         HandleShooting<Bullet_Normal>(BulletType::NORMAL, AUDIO_ID::SHOT, AUDIO_ID::CURSOR_POINT);
-        return; // 通常射撃と同時に別の処理を行うことを防ぐ
+        return; // 通常射撃と同時に特殊射撃の処理を行うことを防ぐ
     }
 
     // 特殊射撃ボタンを押したとき
     if (InputManager::IsWeaponAction())
     {
-        SwitchMode(ShootingMode::SPECIAL); // 特殊射撃モードに設定
+        if (currentMode_ != ShootingMode::SPECIAL)
+        {
+            SwitchMode(ShootingMode::SPECIAL); // 特殊射撃モードに設定
+        }
         HandleShooting<Bullet_Explosion>(BulletType::EXPLOSION, AUDIO_ID::SHOT_EXPLODE, AUDIO_ID::CURSOR_POINT);
-    }
-
-    // リロードボタンを押したとき
-    if (InputManager::IsReload())
-    { 
-        if(currentMode_ == ShootingMode::NORMAL)StartReloading(BulletType::NORMAL, AUDIO_ID::CURSOR_POINT);
-        if(currentMode_ == ShootingMode::SPECIAL)StartReloading(BulletType::EXPLOSION, AUDIO_ID::CURSOR_POINT);
     }
 }
 
@@ -195,15 +218,18 @@ void Gun::ShootBullet(BulletType type)
 template <class T>
 void Gun::HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadSoundId)
 {
+    // リロード中なら射撃を無効化
+    if (bulletInfoList_[(int)type].currentReloadTime_ > 0)return;
+
     // 射撃クール(連射速度を制御する変数)が残っていたら計算しない
     if (bulletInfoList_[(int)type].currentShotCoolTime_ > 0)return;
 
     // マガジンに弾が残っているとき
-    if (bulletInfoList_[(int)type].currentMagazineCount_ > 0)
+    if (bulletInfoList_[(int)type].currentBulletCount_ > 0)
     {
         AudioManager::Play(shotSoundId, Volume);                         // 発砲音再生
         ShootBullet<T>(type);                                            // 銃弾の生成
-        bulletInfoList_[(int)type].currentMagazineCount_--;              //マガジンを減らす
+        bulletInfoList_[(int)type].currentBulletCount_--;              //マガジンを減らす
     }
     else if (bulletInfoList_[(int)type].currentReloadTime_ <= 0)
     {
@@ -215,6 +241,10 @@ void Gun::HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadS
 // リロード開始
 void Gun::StartReloading(BulletType type, AUDIO_ID reloadSoundId)
 {
+    // 現在の弾数を整数型から文字列型に変換
+    OutputDebugString(std::to_string(bulletInfoList_[(int)type].currentBulletCount_).c_str());
+    OutputDebugString("\n");
+
     bulletInfoList_[(int)type].currentReloadTime_ = bulletInfoList_[(int)type].reloadTime_;
     AudioManager::Play(reloadSoundId, Volume);  // リロード音を再生
 }

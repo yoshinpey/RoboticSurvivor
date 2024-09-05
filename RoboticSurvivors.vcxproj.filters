@@ -263,6 +263,9 @@
     <ClCompile Include="SceneBase.cpp">
       <Filter>03Scene</Filter>
     </ClCompile>
+    <ClCompile Include="BulletInfoDisplay.cpp">
+      <Filter>Multipurpose\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -474,6 +477,9 @@
       <Filter>03Scene</Filter>
     </ClInclude>
     <ClInclude Include="UIBase.h">
+      <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletInfoDisplay.h">
       <Filter>Multipurpose\UI</Filter>
     </ClInclude>
   </ItemGroup>
