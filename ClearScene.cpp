@@ -17,7 +17,7 @@ ClearScene::~ClearScene()
 void ClearScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("Pictures/Clear.png");
+	hPict_ = Image::Load("IMG/Clear.png");
 	assert(hPict_ >= 0);
 }
 

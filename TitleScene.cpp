@@ -29,8 +29,8 @@ void TitleScene::Initialize()
 	// 画像のパス
 	std::vector<std::string> picturePaths =
 	{
-		"Pictures/Title.png",
-		"Pictures/Start.png"
+		"IMG/Title.png",
+		"IMG/Start.png"
 	};
 
 	// 画像データのロード

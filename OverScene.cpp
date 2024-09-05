@@ -18,7 +18,7 @@ OverScene::~OverScene()
 void OverScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("Pictures/Over.png");
+	hPict_ = Image::Load("IMG/Over.png");
 	assert(hPict_ >= 0);
 }
 

@@ -8,9 +8,9 @@ namespace
     // âÊëúñºì«Ç›çûÇ›
     std::vector<std::string> pictureName =
     {
-        "Pictures/HitPoint_Frame.png",
-        "Pictures/HitPoint_Green.png",
-        "Pictures/HitPoint_Red.png"
+        "IMG/HitPoint_Frame.png",
+        "IMG/HitPoint_Green.png",
+        "IMG/HitPoint_Red.png"
     };
 
     XMFLOAT3 positionOffset = { -0.95f,0.75f,0.0f };
