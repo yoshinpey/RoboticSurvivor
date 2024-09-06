@@ -24,8 +24,11 @@ struct BulletInfo
     int reloadTime_;                // リロード時間最大値
     int currentReloadTime_;         // 現在のリロード時間保存用
 
-    int bulletCount_;             // マガジン最大値
-    int currentBulletCount_;      // 現在の装弾数保存用
+
+    int magSize_;                   // マガジン最大値
+    int bulletCount_;               // 現在の装弾数
+
+    int magPool_;                   // 待機マガジンに含まれる弾丸の合計数
 };
 
 //銃を管理するクラス
@@ -40,8 +43,6 @@ class Gun : public GameObject
     int flickerTimer_;              // 無敵状態のちらつきタイマー
     ShootingMode currentMode_;      // 現在の射撃モード
     BulletType currentBulletType_;  // 現在の弾の種類（モードに依存）
-
-    BulletInfoDisplay* pBulletInfoDisplay_; // 弾丸情報を表示するインスタンス
 
 public:
     Gun(GameObject* parent);

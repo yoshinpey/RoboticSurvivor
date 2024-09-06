@@ -18,13 +18,12 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr), pBulletInfoDisplay_(nullptr)
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr)
 {
 }
 
 Gun::~Gun()
 {
-    SAFE_DELETE(pBulletInfoDisplay_);
 }
 
 void Gun::Initialize()
@@ -68,15 +67,16 @@ void Gun::Initialize()
         bulletInfoList_[(int)type].currentShotCoolTime_ = 0;
 
         // マガジン数の初期化
-        bulletInfoList_[(int)type].bulletCount_ = bulletSection["bulletCount"];
-        bulletInfoList_[(int)type].currentBulletCount_ = bulletInfoList_[(int)type].bulletCount_;
+        bulletInfoList_[(int)type].magSize_ = bulletSection["magSize"];
+        bulletInfoList_[(int)type].bulletCount_ = bulletInfoList_[(int)type].magSize_;
 
         // リロード時間の初期化
         bulletInfoList_[(int)type].reloadTime_ = bulletSection["reloadTime"];
         bulletInfoList_[(int)type].currentReloadTime_ = 0;
+
+        // 待機マガジンの最大数で初期化
+        bulletInfoList_[(int)type].magPool_ = bulletSection["magPool"];
     }
-    // BulletInfoDisplay の初期化
-    pBulletInfoDisplay_ = new BulletInfoDisplay();
 }    
 
 void Gun::Update()
@@ -96,12 +96,18 @@ void Gun::Update()
             // リロード時間が終了したら弾を補充する
             if (bullet.currentReloadTime_ <= 0)
             {
-                bullet.currentBulletCount_ = bullet.bulletCount_;  // マガジンをリロード
+                if (bullet.magPool_ <= 0)return;
+                if (bullet.magPool_ < bullet.magSize_)
+                {
+                    bullet.bulletCount_ = bullet.magPool_;
+                    bullet.magPool_ = 0;
+                    return;
+                }
+                bullet.bulletCount_ = bullet.magSize_;  // マガジンをリロード
+                bullet.magPool_ -= bullet.magSize_;
                 OutputDebugString("Reload Completed\n");
             }
         }
-        // BulletInfoDisplay を更新
-        pBulletInfoDisplay_->Update(bulletInfoList_[static_cast<int>(currentBulletType_)].currentBulletCount_);
     }
 
     // 入力処理
@@ -224,11 +230,11 @@ void Gun::HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadS
     if (bulletInfoList_[(int)type].currentShotCoolTime_ > 0)return;
 
     // マガジンに弾が残っているとき
-    if (bulletInfoList_[(int)type].currentBulletCount_ > 0)
+    if (bulletInfoList_[(int)type].bulletCount_ > 0)
     {
         AudioManager::Play(shotSoundId, Volume);                         // 発砲音再生
         ShootBullet<T>(type);                                            // 銃弾の生成
-        bulletInfoList_[(int)type].currentBulletCount_--;              //マガジンを減らす
+        bulletInfoList_[(int)type].bulletCount_--;              //マガジンを減らす
     }
     else if (bulletInfoList_[(int)type].currentReloadTime_ <= 0)
     {
@@ -241,7 +247,7 @@ void Gun::HandleShooting(BulletType type, AUDIO_ID shotSoundId, AUDIO_ID reloadS
 void Gun::StartReloading(BulletType type, AUDIO_ID reloadSoundId)
 {
     // 現在の弾数を整数型から文字列型に変換
-    OutputDebugString(std::to_string(bulletInfoList_[(int)type].currentBulletCount_).c_str());
+    OutputDebugString(std::to_string(bulletInfoList_[(int)type].bulletCount_).c_str());
     OutputDebugString("\n");
 
     bulletInfoList_[(int)type].currentReloadTime_ = bulletInfoList_[(int)type].reloadTime_;

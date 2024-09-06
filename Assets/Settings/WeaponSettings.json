@@ -11,8 +11,9 @@
     "collisionScale": 0.2,
     "isPenetration": 0,
     "shotCoolTime": 8,
-    "bulletCount": 25,
-    "reloadTime": 90
+    "magSize": 5,
+    "reloadTime": 90,
+    "magPool":12
   },
   "Bullet_Explosion": 
   {
@@ -22,7 +23,8 @@
     "collisionScale": 0.3,
     "explodeScale": 6,
     "shotCoolTime": 30,
-    "bulletCount": 2,
-    "reloadTime": 120
+    "magSize": 2,
+    "reloadTime": 120,
+    "magPool":60
   }
 }

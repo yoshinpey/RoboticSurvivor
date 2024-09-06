@@ -1,71 +1,97 @@
 // BulletInfoDisplay.cpp
 #include "BulletInfoDisplay.h"
+#include "Engine/Image.h"
+
+namespace 
+{
+    XMFLOAT3 MagUiPosition = XMFLOAT3(0.4f, -0.8f, 0.0f);    //左端の座標
+
+    float MagUiBlank = 0.08f;                             //文字間のサイズ
+    XMFLOAT3 MagUiScale = XMFLOAT3(1.0f, 1.0f, 1.0f);        //マガジン画像のサイズ
+    XMFLOAT3 MagCenterUiScale = XMFLOAT3(0.6f, 0.25f, 1.0f); //マガジン中心画像のサイズ
+}
+
+BulletInfoDisplay::BulletInfoDisplay(GameObject* parent)
+    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0)
+{
+}
+
+BulletInfoDisplay::~BulletInfoDisplay()
+{
+}
 
 void BulletInfoDisplay::Initialize()
 {
     // 画像のパス
-    for (int i = 0; i <= 9; ++i)
+    std::vector<std::string> numPicturePaths =
     {
-        std::string path = "IMG/Number/" + std::to_string(i) + ".png";
-        int hPict = Image::Load(path);
-        assert(hPict >= 0);
-        hPict_.push_back(hPict);
-    }
+        "IMG/Number/0.png",
+        "IMG/Number/1.png",
+        "IMG/Number/2.png",
+        "IMG/Number/3.png",
+        "IMG/Number/4.png",
+        "IMG/Number/5.png",
+        "IMG/Number/6.png",
+        "IMG/Number/7.png",
+        "IMG/Number/8.png",
+        "IMG/Number/9.png",
+        "IMG/Number/Slash.png"
+    };
 
-    // 画像のサイズを取得してウィンドウに合わせる
-    XMFLOAT3 size = Image::GetTextureSize(hPict_[0]); // "0"のサイズを基準に
-    transform_.scale_.x = Direct3D::screenWidth_ / size.x * 0.2f;
-    transform_.scale_.y = Direct3D::screenHeight_ / size.y * 0.2f;
-    transform_.scale_.z = 0.0f;
+    // 画像データのロード
+    for (int i = 0; i < numPicturePaths.size(); ++i)
+    {
+        int handle = Image::Load(numPicturePaths[i]);
+        assert(handle >= 0);
+        hPict_.push_back(handle);
+    }
 }
 
-void BulletInfoDisplay::Update(int bulletCount)
+void BulletInfoDisplay::Update()
 {
-    bulletCount_ = bulletCount;
 }
 
 void BulletInfoDisplay::Draw()
 {
-    // 弾丸数を描画するための位置
-    int posX = 50; // 初期のX座標
-    int posY = 50; // 初期のY座標
-
-    // 各桁の数字を画像として表示
-    if (bulletCount_ == 0)
-    {
-        DrawNumber(0, posX, posY);
-    }
-    else
-    {
-        int num = bulletCount_;
-        std::vector<int> digits;
-
-        // 数字を桁ごとに分解して保存する
-        while (num > 0)
-        {
-            digits.push_back(num % 10);
-            num /= 10;
-        }
-
-        // 数字の桁数が逆順なので、逆順に表示
-        for (int i = digits.size() - 1; i >= 0; --i)
-        {
-            DrawNumber(digits[i], posX, posY);
-            posX += 30; // 次の数字を少し右に表示
-        }
-    }
 }
 
-void BulletInfoDisplay::DrawNumber(int number, int positionX, int positionY)
+void BulletInfoDisplay::Release()
 {
-    if (number >= 0 && number < hPict_.size())
-    {
-        Transform textTrans = transform_;
-        textTrans.position_.x = static_cast<float>(positionX);
-        textTrans.position_.y = static_cast<float>(positionY);
+}
 
-        // 画像の描画設定
-        Image::SetTransform(hPict_[number], textTrans);
-        Image::Draw(hPict_[number]);
-    }
+void BulletInfoDisplay::DrawBullet()
+{
+    //十の位
+    Transform picTrans = transform_;
+    picTrans.position_ = MagUiPosition;
+    picTrans.scale_ = MagUiScale;
+    int secondDigit = (currentMagazine_ / 10) % 10;
+    Image::SetTransform(hPict_[secondDigit], picTrans);
+    Image::Draw(hPict_[secondDigit]);
+
+    //一の位
+    picTrans.position_.x += MagUiBlank;
+    int firstDigit = currentMagazine_ % 10;
+    Image::SetTransform(hPict_[firstDigit], picTrans);
+    Image::Draw(hPict_[firstDigit]);
+
+    //中心の画像-------------------
+    picTrans.position_.x += MagUiBlank;
+    picTrans.scale_ = MagCenterUiScale;
+    Image::SetTransform(hPict_[CENTER], picTrans);
+    Image::Draw(hPict_[CENTER]);
+
+    //最大マガジンサイズ----------------------
+    //十の位
+    picTrans.position_.x += MagUiBlank;
+    picTrans.scale_ = MagUiScale;
+    secondDigit = (maxMagazine_ / 10) % 10;
+    Image::SetTransform(hPict_[secondDigit], picTrans);
+    Image::Draw(hPict_[secondDigit]);
+
+    //一の位
+    firstDigit = maxMagazine_ % 10;
+    picTrans.position_.x += MagUiBlank;
+    Image::SetTransform(hPict_[firstDigit], picTrans);
+    Image::Draw(hPict_[firstDigit]);
 }

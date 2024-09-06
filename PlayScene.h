@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "SceneBase.h"
+#include "BulletInfoDisplay.h"
 
 class Player;
 class Timer;
@@ -16,6 +17,7 @@ class PlayScene : public SceneBase
 	EnemyManager* pEnemyManager_;
 	StageManager* pStageManager_;
 	SceneManager* pSceneManager_;
+	BulletInfoDisplay* pBulletInfoDisplay_[2];
 
 public:
 	//コンストラクタ

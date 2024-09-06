@@ -49,6 +49,8 @@ PlayScene::PlayScene(GameObject * parent)
 	GameManager::Initialize();
 	/////////////////////////////////////////
 
+	pBulletInfoDisplay_[0] = Instantiate<BulletInfoDisplay>(this);
+	pBulletInfoDisplay_[1] = Instantiate<BulletInfoDisplay>(this);
 
 }
 
