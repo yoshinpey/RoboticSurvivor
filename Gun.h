@@ -2,9 +2,9 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include <vector>
-#include "BulletInfoDisplay.h"
 
 class Player;
+class BulletInfoDisplay;
 enum class BulletType;
 enum  AUDIO_ID;
 
@@ -43,7 +43,7 @@ class Gun : public GameObject
     int flickerTimer_;              // 無敵状態のちらつきタイマー
     ShootingMode currentMode_;      // 現在の射撃モード
     BulletType currentBulletType_;  // 現在の弾の種類（モードに依存）
-
+    BulletInfoDisplay* pBulletInfoDisplay_;
 public:
     Gun(GameObject* parent);
     ~Gun();
@@ -75,4 +75,10 @@ public:
 
     // モード切り替えのメソッド
     void SwitchMode(ShootingMode mode) { currentMode_ = mode; }
+
+    BulletInfoDisplay* GetBulletInfoDisplay() { return pBulletInfoDisplay_; }
+
+    int GetBulletCount() { return bulletInfoList_.at((int)currentMode_).bulletCount_; }
+    int GetMagPool() { return bulletInfoList_.at((int)currentMode_).magPool_; }
+
 };

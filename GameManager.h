@@ -1,5 +1,7 @@
 #pragma once
 
+class Gun;
+
 namespace GameManager
 {
 
@@ -7,4 +9,7 @@ namespace GameManager
     void Update();
     void Draw();
     void Release();
+
+    void SetGun(Gun* gun);
+    Gun* GetGun();
 };

@@ -8,6 +8,8 @@
 
 #include "Player.h"
 #include "JsonReader.h"
+#include "BulletInfoDisplay.h"
+#include "GameManager.h"
 
 namespace
 {
@@ -18,12 +20,14 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr)
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr), pBulletInfoDisplay_(nullptr)
 {
+    GameManager::SetGun(this);
 }
 
 Gun::~Gun()
 {
+    GameManager::SetGun(nullptr);
 }
 
 void Gun::Initialize()
@@ -41,6 +45,8 @@ void Gun::Initialize()
 
     // プレイヤーのポインタ取得
     pPlayer_ = static_cast<Player*>(FindObject("Player"));
+
+    pBulletInfoDisplay_ = Instantiate<BulletInfoDisplay>(this);
 
     // JSONファイルの読み込み
     JsonReader::Load("Settings/WeaponSettings.json");
@@ -103,8 +109,9 @@ void Gun::Update()
                     bullet.magPool_ = 0;
                     return;
                 }
+                bullet.magPool_ -= bullet.magSize_ - bullet.bulletCount_;
+                
                 bullet.bulletCount_ = bullet.magSize_;  // マガジンをリロード
-                bullet.magPool_ -= bullet.magSize_;
                 OutputDebugString("Reload Completed\n");
             }
         }

@@ -7,7 +7,7 @@ class BulletInfoDisplay : public GameObject
 {
 private:
     enum {
-        CENTER = 11,
+        CENTER = 0,
     };
     // 数字の画像ハンドルのリスト
     std::vector<int> hPict_;

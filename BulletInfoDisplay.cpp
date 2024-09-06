@@ -78,8 +78,8 @@ void BulletInfoDisplay::DrawBullet()
     //中心の画像-------------------
     picTrans.position_.x += MagUiBlank;
     picTrans.scale_ = MagCenterUiScale;
-    Image::SetTransform(hPict_[CENTER], picTrans);
-    Image::Draw(hPict_[CENTER]);
+    Image::SetTransform(hPict_[9 + CENTER + 1], picTrans);
+    Image::Draw(hPict_[9 + CENTER + 1]);
 
     //最大マガジンサイズ----------------------
     //十の位
