@@ -18,12 +18,13 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr)
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr), pBulletInfoDisplay_(nullptr)
 {
 }
 
 Gun::~Gun()
 {
+    SAFE_DELETE(pBulletInfoDisplay_);
 }
 
 void Gun::Initialize()
@@ -75,7 +76,7 @@ void Gun::Initialize()
         bulletInfoList_[(int)type].currentReloadTime_ = 0;
     }
     // BulletInfoDisplay の初期化
-    bulletInfoDisplay_.Initialize();
+    pBulletInfoDisplay_ = new BulletInfoDisplay();
 }    
 
 void Gun::Update()
@@ -99,14 +100,12 @@ void Gun::Update()
                 OutputDebugString("Reload Completed\n");
             }
         }
+        // BulletInfoDisplay を更新
+        pBulletInfoDisplay_->Update(bulletInfoList_[static_cast<int>(currentBulletType_)].currentBulletCount_);
     }
 
     // 入力処理
     InputConfirmation();
-
-    // BulletInfoDisplay を更新
-    bulletInfoDisplay_.Update(bulletInfoList_[static_cast<int>(currentBulletType_)].currentBulletCount_);
-
 }
 
 void Gun::Draw()

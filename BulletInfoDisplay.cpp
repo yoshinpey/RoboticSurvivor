@@ -1,59 +1,58 @@
+// BulletInfoDisplay.cpp
 #include "BulletInfoDisplay.h"
-#include "Engine/Image.h"
 
 void BulletInfoDisplay::Initialize()
 {
     // 画像のパス
-    std::vector<std::string> numPicturePaths;
     for (int i = 0; i <= 9; ++i)
     {
         std::string path = "IMG/Number/" + std::to_string(i) + ".png";
-        numPicturePaths.push_back(path);
-    }
-
-    // 画像データのロード
-    for (const auto& path : numPicturePaths)
-    {
-        int handle = Image::Load(path);
-        assert(handle >= 0);
-        hPict_.push_back(handle);
+        int hPict = Image::Load(path);
+        assert(hPict >= 0);
+        hPict_.push_back(hPict);
     }
 
     // 画像のサイズを取得してウィンドウに合わせる
     XMFLOAT3 size = Image::GetTextureSize(hPict_[0]); // "0"のサイズを基準に
     transform_.scale_.x = Direct3D::screenWidth_ / size.x * 0.2f;
     transform_.scale_.y = Direct3D::screenHeight_ / size.y * 0.2f;
-    transform_.z = 0.0f;
-
-    // 表示位置を右上に設定
-    basePosition_.x = Direct3D::screenWidth_ - size.x * transform_.scale_.x * 3;
-    basePosition_.y = size.y * transform_.scale_.y;
+    transform_.scale_.z = 0.0f;
 }
 
-void BulletInfoDisplay::Update(const std::vector<int>& bulletInfoList_)
+void BulletInfoDisplay::Update(int bulletCount)
 {
-    // 弾丸情報を更新
-    currentBulletCount_ = bulletInfoList_;
+    bulletCount_ = bulletCount;
 }
 
 void BulletInfoDisplay::Draw()
 {
-    int posX = 50;  // 初期のX座標
-    int posY = 50;  // 初期のY座標
+    // 弾丸数を描画するための位置
+    int posX = 50; // 初期のX座標
+    int posY = 50; // 初期のY座標
 
-    // 各弾丸数を画像として表示
-    for (size_t i = 0; i < currentBulletCount_.size(); ++i)
+    // 各桁の数字を画像として表示
+    if (bulletCount_ == 0)
     {
-        int bulletCount = currentBulletCount_[i];
+        DrawNumber(0, posX, posY);
+    }
+    else
+    {
+        int num = bulletCount_;
+        std::vector<int> digits;
 
-        // 各桁の数字を画像で描画
-        if (bulletCount >= 0 && bulletCount <= 9)
+        // 数字を桁ごとに分解して保存する
+        while (num > 0)
         {
-            DrawNumber(bulletCount, posX, posY);
+            digits.push_back(num % 10);
+            num /= 10;
         }
 
-        // 表示位置をずらす
-        posX += 30; // 次の数字を少し右に表示
+        // 数字の桁数が逆順なので、逆順に表示
+        for (int i = digits.size() - 1; i >= 0; --i)
+        {
+            DrawNumber(digits[i], posX, posY);
+            posX += 30; // 次の数字を少し右に表示
+        }
     }
 }
 
@@ -61,12 +60,12 @@ void BulletInfoDisplay::DrawNumber(int number, int positionX, int positionY)
 {
     if (number >= 0 && number < hPict_.size())
     {
-        // 画像の位置を設定
-        textTrans_.position_.x = static_cast<float>(positionX);
-        textTrans_.position_.y = static_cast<float>(positionY);
+        Transform textTrans = transform_;
+        textTrans.position_.x = static_cast<float>(positionX);
+        textTrans.position_.y = static_cast<float>(positionY);
 
         // 画像の描画設定
-        Image::SetTransform(hPict_[number], transform_);
+        Image::SetTransform(hPict_[number], textTrans);
         Image::Draw(hPict_[number]);
     }
 }

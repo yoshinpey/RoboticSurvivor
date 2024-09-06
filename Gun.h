@@ -41,7 +41,7 @@ class Gun : public GameObject
     ShootingMode currentMode_;      // 現在の射撃モード
     BulletType currentBulletType_;  // 現在の弾の種類（モードに依存）
 
-    BulletInfoDisplay bulletInfoDisplay_; // 弾丸情報を表示するインスタンス
+    BulletInfoDisplay* pBulletInfoDisplay_; // 弾丸情報を表示するインスタンス
 
 public:
     Gun(GameObject* parent);
