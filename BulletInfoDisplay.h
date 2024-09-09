@@ -6,11 +6,23 @@
 class BulletInfoDisplay : public GameObject
 {
 private:
-    enum {
-        CENTER = 0,
+    enum NumPic
+    {
+        Num0,  // 0.png
+        Num1,  // 1.png
+        Num2,  // 2.png
+        Num3,  // 3.png
+        Num4,  // 4.png
+        Num5,  // 5.png
+        Num6,  // 6.png
+        Num7,  // 7.png
+        Num8,  // 8.png
+        Num9,  // 9.png
+        Slash  // Slash.png
     };
     // 数字の画像ハンドルのリスト
     std::vector<int> hPict_;
+    int missileIconHandle_;
 
     // 表示する弾丸数
     int bulletCount_;
