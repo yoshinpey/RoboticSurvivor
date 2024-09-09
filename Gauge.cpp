@@ -14,7 +14,7 @@ namespace
     };
 
     XMFLOAT3 positionOffset = { -0.95f,-0.8f,0.0f };
-    XMFLOAT3 scaleOffset = { 0.6f, 0.7f, 0.0f };
+    XMFLOAT3 scaleOffset = { 1.0f, 0.7f, 0.0f };
     const float hpDecreaseSpeed = 0.5f; // HPÇ™å∏è≠Ç∑ÇÈë¨ìx
 }
 

@@ -3,9 +3,9 @@
 
 namespace
 {
-    XMINT2 position = { 10,20 };
-    int offsetX = 100;
-    float defaultScale = 1.0f;
+    XMINT2 position = { 50,60 };
+    int offsetX = 200;
+    float defaultScale = 2.0f;
     int movingFlame = 10;
     float changeRate = 0.2f;
 }

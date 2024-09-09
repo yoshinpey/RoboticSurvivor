@@ -41,7 +41,7 @@ void BulletInfoDisplay::Initialize()
         "IMG/Number/8.png",
         "IMG/Number/9.png",
         "IMG/Number/Slash.png",
-        "IMG/Missile_Unredy.png",
+        "IMG/Normal.png",
         "IMG/Missile_Redy.png"
     };
 
@@ -103,18 +103,16 @@ void BulletInfoDisplay::DrawBullet()
         int thirdDigit = (currentMagazine_ / 100) % 10;
         Image::SetTransform(hPict_[thirdDigit], picTrans);
         Image::Draw(hPict_[thirdDigit]);
-        picTrans.position_.x += MagUiBlank;
     }
-
+    picTrans.position_.x += MagUiBlank;  // 百の位が描画されなくても、位置は進める
     // 十の位
     if (currentMagazine_ >= 10)     // 10以上の時だけ表示
     {
         int secondDigit = (currentMagazine_ / 10) % 10;
         Image::SetTransform(hPict_[secondDigit], picTrans);
         Image::Draw(hPict_[secondDigit]);
-        picTrans.position_.x += MagUiBlank;
     }
-
+    picTrans.position_.x += MagUiBlank;  // 百の位が描画されなくても、位置は進める
     // 一の位
     int firstDigit = currentMagazine_ % 10;
     Image::SetTransform(hPict_[firstDigit], picTrans);
