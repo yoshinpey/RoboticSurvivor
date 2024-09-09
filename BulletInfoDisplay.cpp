@@ -1,20 +1,23 @@
 #include "BulletInfoDisplay.h"
 #include "Engine/Image.h"
+#include "Gun.h"
 
 namespace
 {
-    XMFLOAT3 MagUiPosition = XMFLOAT3(0.4f, -0.8f, 0.0f);    // 左端の座標
-    XMFLOAT3 IconUiPosition = XMFLOAT3(0.2f, -0.8f, 0.0f);   // 弾丸アイコンの座標
+    XMFLOAT3 MagUiPosition = XMFLOAT3(0.56f, -0.8f, 0.0f);    // 左端の座標
+    XMFLOAT3 MagUiScale = XMFLOAT3(1.0f, 1.0f, 0.0f);        // 装備マガジン画像のサイズ
+    XMFLOAT3 stateMagUiScale = XMFLOAT3(0.6f, 0.6f, 0.0f);   // 待機マガジン画像のサイズ
+    XMFLOAT3 MagCenterUiScale = XMFLOAT3(0.8f, 1.0f, 0.0f);  // マガジン中心画像のサイズ
 
     float MagUiBlank = 0.08f;                                // 文字間のサイズ
-    XMFLOAT3 MagUiScale = XMFLOAT3(1.0f, 1.0f, 0.0f);        // マガジン画像のサイズ
+
+    XMFLOAT3 IconUiPosition = XMFLOAT3(MagUiPosition.x - 0.12f, MagUiPosition.y, 0.0f);   // 弾丸アイコンの座標
     XMFLOAT3 IconUiScale = XMFLOAT3(0.2f, 0.2f, 0.0f);       // 弾丸アイコン画像のサイズ
-    XMFLOAT3 stateMagUiScale = XMFLOAT3(0.6f, 0.6f, 0.0f);   // マガジン画像のサイズ
-    XMFLOAT3 MagCenterUiScale = XMFLOAT3(0.8f, 1.0f, 0.0f);  // マガジン中心画像のサイズ
+
 }
 
 BulletInfoDisplay::BulletInfoDisplay(GameObject* parent)
-    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0), missileIconHandle_(-1)
+    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0)
 {
 }
 
@@ -25,7 +28,7 @@ BulletInfoDisplay::~BulletInfoDisplay()
 void BulletInfoDisplay::Initialize()
 {
     // 画像のパス
-    std::vector<std::string> numPicturePaths =
+    std::vector<std::string> paths =
     {
         "IMG/Number/0.png",
         "IMG/Number/1.png",
@@ -37,20 +40,19 @@ void BulletInfoDisplay::Initialize()
         "IMG/Number/7.png",
         "IMG/Number/8.png",
         "IMG/Number/9.png",
-        "IMG/Number/Slash.png"
+        "IMG/Number/Slash.png",
+        "IMG/Missile_Unredy.png",
+        "IMG/Missile_Redy.png"
     };
 
     // 画像データのロード
-    for (int i = 0; i < numPicturePaths.size(); ++i)
+    for (int i = 0; i < paths.size(); ++i)
     {
-        int handle = Image::Load(numPicturePaths[i]);
+        int handle = Image::Load(paths[i]);
         assert(handle >= 0);
         hPict_.push_back(handle);
     }
 
-    // 弾丸アイコン画像をロード
-    missileIconHandle_ = Image::Load("IMG/Missile.png");
-    assert(missileIconHandle_ >= 0);
 }
 
 void BulletInfoDisplay::Update()
@@ -67,17 +69,32 @@ void BulletInfoDisplay::Release()
 
 void BulletInfoDisplay::DrawBullet()
 {
-    Transform picTrans = transform_;
-    picTrans.scale_ = MagUiScale;
+    // 弾丸アイコンの描画 -----------------------
+    Transform iconTrans = transform_;
+    iconTrans.position_ = IconUiPosition;
+    iconTrans.scale_ = IconUiScale;
 
-    //// 弾丸アイコンの描画 -----------------------
-    //Transform iconTrans = transform_;
-    //iconTrans.position_ = IconUiPosition;  // 弾丸アイコンの位置
-    //iconTrans.scale_ = IconUiScale;        // 弾丸アイコンのサイズ
-    //Image::SetTransform(missileIconHandle_, iconTrans);
-    //Image::Draw(missileIconHandle_);
+    // 弾丸の種類に応じて描画するアイコンを変更
+    int iconHandle;
+    switch (bulletType_)
+    {
+    case ShootingMode::NORMAL: // 通常弾
+        iconHandle = hPict_[Normal];
+        break;
+    case ShootingMode::EXPLODE: // 爆発弾
+        iconHandle = hPict_[Explode];
+        break;
+    default:
+        iconHandle = hPict_[Normal];  // デフォルトは通常弾
+        break;
+    }
+    // 選択されたアイコンを描画
+    Image::SetTransform(iconHandle, iconTrans);
+    Image::Draw(iconHandle);
 
     // マガジン残数の表示 ----------------------
+    Transform picTrans = transform_;
+    picTrans.scale_ = MagUiScale;
     picTrans.position_ = MagUiPosition;
 
     // 百の位
@@ -110,7 +127,8 @@ void BulletInfoDisplay::DrawBullet()
     Image::Draw(hPict_[Slash]);
 
     // 最大マガジンサイズ ----------------------
-    picTrans.position_.x += MagUiBlank;
+    picTrans.position_.x += MagUiBlank * 0.5f;
+    picTrans.position_.y += MagUiBlank * -0.25f;
 
     // 100の位 (maxMagazine_)
     if (maxMagazine_ >= 100)    // 100以上の時だけ表示

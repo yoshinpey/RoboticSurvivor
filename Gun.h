@@ -11,8 +11,8 @@ enum  AUDIO_ID;
 // 銃の射撃モード
 enum class ShootingMode
 {
-    NORMAL,
-    SPECIAL
+    NORMAL = 0,
+    EXPLODE
 };
 
 // バレットの情報を保管する構造体

@@ -62,7 +62,7 @@ void Enemy_Explosion::Initialize()
     transform_.rotate_.y = modelRotate.y;
 
     // ”š”­”ÍˆÍ‚ÍÚ‹ß‹——£‚æ‚è­‚µ‘½‚ß
-    explodeScale_ = enemyAlgorithm_.approachDistance_+1;
+    explodeScale_ = (float)enemyAlgorithm_.approachDistance_+1.0f;
 }
 
 void Enemy_Explosion::Update()

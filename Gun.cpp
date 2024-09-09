@@ -56,7 +56,6 @@ void Gun::Initialize()
     {
         { BulletType::NORMAL, "Bullet_Normal" },
         { BulletType::EXPLOSION, "Bullet_Explosion" }
-        // 他の銃弾が追加されたらここに追加
     };
 
     // 各弾丸タイプの情報を初期化
@@ -110,9 +109,7 @@ void Gun::Update()
                     return;
                 }
                 bullet.magPool_ -= bullet.magSize_ - bullet.bulletCount_;
-                
-                bullet.bulletCount_ = bullet.magSize_;  // マガジンをリロード
-                OutputDebugString("Reload Completed\n");
+                bullet.bulletCount_ = bullet.magSize_;
             }
         }
     }
@@ -123,7 +120,6 @@ void Gun::Update()
 
 void Gun::Draw()
 {
-
     bool shouldDraw = true;
 
     if (pPlayer_->IsInvincible())
@@ -175,12 +171,10 @@ void Gun::InputConfirmation()
     {
         if (currentMode_ == ShootingMode::NORMAL)
         {
-            OutputDebugString("NormalReloading");
             StartReloading(BulletType::NORMAL, AUDIO_ID::CURSOR_POINT);
         }
-        else if (currentMode_ == ShootingMode::SPECIAL)
+        else if (currentMode_ == ShootingMode::EXPLODE)
         {
-            OutputDebugString("SpecialReloading");
             StartReloading(BulletType::EXPLOSION, AUDIO_ID::CURSOR_POINT);
         }
         return; // リロードが優先されるため、他の入力処理を行わない
@@ -191,8 +185,10 @@ void Gun::InputConfirmation()
     {
         if (currentMode_ != ShootingMode::NORMAL)
         {
-            SwitchMode(ShootingMode::NORMAL);  // 通常射撃モードに設定
+            SwitchMode(ShootingMode::NORMAL); // 通常射撃モードに設定
+            pBulletInfoDisplay_->SetBulletType(currentMode_);
         }
+        
         HandleShooting<Bullet_Normal>(BulletType::NORMAL, AUDIO_ID::SHOT, AUDIO_ID::CURSOR_POINT);
         return; // 通常射撃と同時に特殊射撃の処理を行うことを防ぐ
     }
@@ -200,9 +196,10 @@ void Gun::InputConfirmation()
     // 特殊射撃ボタンを押したとき
     if (InputManager::IsWeaponAction())
     {
-        if (currentMode_ != ShootingMode::SPECIAL)
+        if (currentMode_ != ShootingMode::EXPLODE)
         {
-            SwitchMode(ShootingMode::SPECIAL); // 特殊射撃モードに設定
+            SwitchMode(ShootingMode::EXPLODE); // 特殊射撃モードに設定
+            pBulletInfoDisplay_->SetBulletType(currentMode_);
         }
         HandleShooting<Bullet_Explosion>(BulletType::EXPLOSION, AUDIO_ID::SHOT_EXPLODE, AUDIO_ID::CURSOR_POINT);
     }

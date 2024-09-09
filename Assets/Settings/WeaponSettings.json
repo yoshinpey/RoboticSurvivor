@@ -13,7 +13,7 @@
     "shotCoolTime": 8,
     "magSize": 30,
     "reloadTime": 90,
-    "magPool":90
+    "magPool":999
   },
   "Bullet_Explosion": 
   {
@@ -25,6 +25,6 @@
     "shotCoolTime": 30,
     "magSize": 2,
     "reloadTime": 120,
-    "magPool":6
+    "magPool":999
   }
 }

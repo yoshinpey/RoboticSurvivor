@@ -3,10 +3,12 @@
 #include "Engine/GameObject.h"
 #include <vector>
 
+enum class ShootingMode;
+
 class BulletInfoDisplay : public GameObject
 {
 private:
-    enum NumPic
+    enum PicName
     {
         Num0,  // 0.png
         Num1,  // 1.png
@@ -18,16 +20,17 @@ private:
         Num7,  // 7.png
         Num8,  // 8.png
         Num9,  // 9.png
-        Slash  // Slash.png
+        Slash, // Slash.png
+        Normal,// Slash.png
+        Explode// Slash.png
     };
     // 数字の画像ハンドルのリスト
     std::vector<int> hPict_;
-    int missileIconHandle_;
 
     // 表示する弾丸数
-    int bulletCount_;
-    int currentMagazine_;   //マガジン容量
-    int maxMagazine_;       //最大マガジン容量
+    int currentMagazine_;   // マガジン容量
+    int maxMagazine_;       // 最大マガジン容量
+    ShootingMode bulletType_;        // 弾丸の種類
 
 public:
     BulletInfoDisplay(GameObject* parent);
@@ -40,4 +43,5 @@ public:
     void DrawBullet();
     void SetMaxMagazine(int mag) { maxMagazine_ = mag; }
     void SetCurrentMagazine(int mag) { currentMagazine_ = mag; }
+    void SetBulletType(ShootingMode type) { bulletType_ = type; }
 };
