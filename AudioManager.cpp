@@ -76,7 +76,7 @@ void AudioManager::SetVolume(float volume)
     std::string volumeStr = std::to_string(static_cast<int>(gameVolume_));
 
     // 設定の音量を変更
-    WritePrivateProfileString("Audio", "GameVolume", volumeStr.c_str(), "setup.ini");
+    WritePrivateProfileString("Audio", "GameVolume", volumeStr.c_str(), "./setup.ini");
 }
 
 void AudioManager::Play(AUDIO_ID id, float volume)

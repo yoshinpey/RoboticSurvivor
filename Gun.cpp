@@ -86,6 +86,10 @@ void Gun::Initialize()
 
 void Gun::Update()
 {
+    // デバッグ用、音量変更テスト
+    //if (Input::IsKeyDown(DIK_V))AudioManager::SetVolume(1.0);
+    //if (Input::IsKeyDown(DIK_B))AudioManager::SetVolume(0.5);
+
     // すべての弾丸のクールタイム、リロード時間などをそれぞれ減らす
     for (auto& bullet : bulletInfoList_)
     {
