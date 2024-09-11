@@ -3,6 +3,7 @@
 
 XMFLOAT3 _position;
 XMFLOAT3 _target;
+float _angle;	// 視野角は0～180°をラジアン角で指定(デフォルトのXM_PIDIV4は0.7853982・・・、最大値は3.1415926535・・・)
 XMMATRIX _view;
 XMMATRIX _proj;
 XMMATRIX _billBoard;
@@ -12,9 +13,9 @@ void Camera::Initialize()
 {
 	_position = XMFLOAT3(0, 3, -10);	//カメラの位置
 	_target = XMFLOAT3(0, 0, 0);	//カメラの焦点
-
+	_angle = XM_PIDIV4;
 	//プロジェクション行列
-	_proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000.0f);
+	_proj = XMMatrixPerspectiveFovLH(_angle, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000.0f);
 }
 
 //更新（ビュー行列作成）
@@ -38,6 +39,9 @@ void Camera::Update()
 
 //焦点を設定
 void Camera::SetTarget(XMFLOAT3 target) { _target = target; }
+
+// 焦点距離を設定
+void Camera::SetFovAngle(float angle) { _angle = angle; }
 
 //位置を設定
 void Camera::SetPosition(XMFLOAT3 position) { _position = position; }
