@@ -9,9 +9,6 @@
 #include "Timer.h"
 #include "Score.h"
 
-//#include "AudioManager.h"
-//#include "EffectManager.h"
-
 #include "GameManager.h"
 
 #include "EnemyManager.h"
@@ -43,12 +40,7 @@ PlayScene::PlayScene(GameObject * parent)
 	pEnemyManager_ = new EnemyManager(this);
 	pStageManager_ = new StageManager(this);
 	pSceneManager_ = (SceneManager*)FindObject("SceneManager");
-	/////////////////////////////////////////
-	//AudioManager::Initialize();
-	//EffectManager::Initialize();
 	GameManager::Initialize();
-	/////////////////////////////////////////
-
 }
 
 PlayScene::~PlayScene()
