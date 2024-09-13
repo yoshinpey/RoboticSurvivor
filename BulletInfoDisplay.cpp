@@ -2,9 +2,13 @@
 #include "Engine/Image.h"
 #include "Gun.h"
 
+//////てすとだんかい
+#include "CircleGauge.h"
+#include "Engine/Input.h"
+
 namespace
 {
-    XMFLOAT3 MagUiPosition = XMFLOAT3(0.56f, -0.8f, 0.0f);    // 左端の座標
+    XMFLOAT3 MagUiPosition = XMFLOAT3(0.56f, -0.8f, 0.0f);   // 左端の座標
     XMFLOAT3 MagUiScale = XMFLOAT3(1.0f, 1.0f, 0.0f);        // 装備マガジン画像のサイズ
     XMFLOAT3 stateMagUiScale = XMFLOAT3(0.6f, 0.6f, 0.0f);   // 待機マガジン画像のサイズ
     XMFLOAT3 MagCenterUiScale = XMFLOAT3(0.8f, 1.0f, 0.0f);  // マガジン中心画像のサイズ
@@ -17,7 +21,7 @@ namespace
 }
 
 BulletInfoDisplay::BulletInfoDisplay(GameObject* parent)
-    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0)
+    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0), pCircleGauge(nullptr)
 {
 }
 
@@ -42,7 +46,8 @@ void BulletInfoDisplay::Initialize()
         "IMG/Number/9.png",
         "IMG/Number/Slash.png",
         "IMG/Normal.png",
-        "IMG/Missile_Redy.png"
+        "IMG/Missile_Redy.png",
+        "IMG/Missile_Charging.png"
     };
 
     // 画像データのロード
@@ -53,14 +58,24 @@ void BulletInfoDisplay::Initialize()
         hPict_.push_back(handle);
     }
 
+    pCircleGauge = Instantiate<CircleGauge>(this);
+    pCircleGauge->SetStartAngle(0, true);
+    pCircleGauge->SetLapTime(1);
+    pCircleGauge->SetPosition(0, 0, 0);
+    pCircleGauge->SetScale(0.3, 0.3, 0);
 }
 
 void BulletInfoDisplay::Update()
 {
+    if (Input::IsKeyDown(DIK_SPACE))
+    {
+        pCircleGauge->Start();
+    }
 }
 
 void BulletInfoDisplay::Draw()
 {
+    pCircleGauge->Draw();
 }
 
 void BulletInfoDisplay::Release()

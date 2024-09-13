@@ -4,6 +4,7 @@
 #include <vector>
 
 enum class ShootingMode;
+class CircleGauge;
 
 class BulletInfoDisplay : public GameObject
 {
@@ -22,7 +23,8 @@ private:
         Num9,  // 9.png
         Slash, // Slash.png
         Normal,// Slash.png
-        Explode// Slash.png
+        Explode,// Slash.png
+        Charging// Slash.png
     };
     // 数字の画像ハンドルのリスト
     std::vector<int> hPict_;
@@ -31,6 +33,8 @@ private:
     int currentMagazine_;   // マガジン容量
     int maxMagazine_;       // 最大マガジン容量
     ShootingMode bulletType_;        // 弾丸の種類
+
+    CircleGauge* pCircleGauge;
 
 public:
     BulletInfoDisplay(GameObject* parent);
