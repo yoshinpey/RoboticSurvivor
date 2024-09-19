@@ -52,7 +52,7 @@ void Timer::Draw()
         pNum_->SetScale(defaultScale);
 
     // •b”
-    pNum_->Draw(position.x + offsetX, position.y, frame_ / FPS);
+    pNum_->Draw(position.x + offsetX, position.y, (int)frame_ / FPS);
 }
 
 //ŠJ•ú

@@ -65,7 +65,7 @@ void PlayScene::Initialize()
 	///////////////////初回の敵を出現させるテスト
 	for (int i = -10; i < 10; i+=5)
 	{
-		pEnemyManager_->SpawnEnemy(XMFLOAT3(i, 0, 5), EnemyType::GROUND);
+		pEnemyManager_->SpawnEnemy(XMFLOAT3((float)i, 0, 5), EnemyType::GROUND);
 	}
 
 	//※UI系統は前面になるように描画
@@ -74,7 +74,7 @@ void PlayScene::Initialize()
 
 	//タイマー設定
 	pTimer_ = static_cast<Timer*>(FindObject("Timer"));
-	pTimer_->SetLimit(timeLimit);
+	pTimer_->SetLimit((float)timeLimit);
 	pTimer_->Start();
 
 

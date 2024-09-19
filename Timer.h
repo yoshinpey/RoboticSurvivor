@@ -20,7 +20,7 @@ public:
     void Draw() override;
     void Release() override;
 
-    int GetFrame() const { return frame_; }
+    int GetFrame() const { return (int)frame_; }
     void SetLimit(float seconds) { frame_ = seconds * FPS; }
     void Start() { active_ = true; }
     void Stop() { active_ = false; }

@@ -44,9 +44,10 @@ class Gun : public GameObject
     ShootingMode currentMode_;      // 現在の射撃モード
     BulletType currentBulletType_;  // 現在の弾の種類（モードに依存）
     BulletInfoDisplay* pBulletInfoDisplay_;
+
 public:
     Gun(GameObject* parent);
-    ~Gun();
+    ~Gun() override;
     void Initialize() override;
     void Update() override;
     void Draw() override;

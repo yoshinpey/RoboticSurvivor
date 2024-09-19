@@ -97,13 +97,13 @@ void Aim::UpdateCameraPosition()
     // カメラシェイクを適用
     if (shakeTimeLeft_ > 0)
     {
-        float shakeAmount = sin(timeElapsed * XM_PI * 10.0f) * shakeMagnitude_; // 10.0f は揺れの周波数を調整するパラメータ
+        float shakeAmount = (float)sin(timeElapsed * XM_PI * 10.0f) * shakeMagnitude_; // 10.0f は揺れの周波数を調整するパラメータ
         camPosFloat3.x += shakeAmount;
         camPosFloat3.y += shakeAmount;
         camPosFloat3.z += shakeAmount;
 
         shakeTimeLeft_ -= deltaTime;
-        timeElapsed += 0.01;
+        timeElapsed += 0.01f;
     }
     else
     {

@@ -10,6 +10,7 @@
 #include "JsonReader.h"
 #include "BulletInfoDisplay.h"
 #include "GameManager.h"
+#include "CircleGauge.h"
 
 namespace
 {
@@ -20,7 +21,8 @@ namespace
 }
 
 Gun::Gun(GameObject* parent)
-    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr), pBulletInfoDisplay_(nullptr)
+    :GameObject(parent, "Gun"), hModel_(-1), moveDirection_{ 0,0,0 }, pPlayer_(nullptr), 
+    pBulletInfoDisplay_(nullptr)
 {
     GameManager::SetGun(this);
 }
@@ -92,7 +94,7 @@ void Gun::Update()
 
     // すべての弾丸のクールタイム、リロード時間などをそれぞれ減らす
     for (auto& bullet : bulletInfoList_)
-    {
+    { 
         // 銃一発の射撃間隔を減らす
         if (bullet.currentShotCoolTime_ > 0) bullet.currentShotCoolTime_--;
 
@@ -120,6 +122,8 @@ void Gun::Update()
 
     // 入力処理
     InputConfirmation();
+
+    
 }
 
 void Gun::Draw()
@@ -181,6 +185,7 @@ void Gun::InputConfirmation()
         {
             StartReloading(BulletType::EXPLOSION, AUDIO_ID::CURSOR_POINT);
         }
+
         return; // リロードが優先されるため、他の入力処理を行わない
     }
 
@@ -206,6 +211,7 @@ void Gun::InputConfirmation()
             pBulletInfoDisplay_->SetBulletType(currentMode_);
         }
         HandleShooting<Bullet_Explosion>(BulletType::EXPLOSION, AUDIO_ID::SHOT_EXPLODE, AUDIO_ID::CURSOR_POINT);
+       
     }
 }
 
@@ -260,4 +266,11 @@ void Gun::StartReloading(BulletType type, AUDIO_ID reloadSoundId)
 
     bulletInfoList_[(int)type].currentReloadTime_ = bulletInfoList_[(int)type].reloadTime_;
     AudioManager::Play(reloadSoundId, Volume);  // リロード音を再生
+
+    float time = (float)bulletInfoList_[(int)currentMode_].reloadTime_ / 60.0f;
+    pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->SetLapTime(time);
+    pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->Reset();
+    pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->SetGaugeFullStop(true);
+    pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->Start();
+
 }

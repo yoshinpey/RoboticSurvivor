@@ -49,20 +49,21 @@ float4 PS(VS_OUTPUT input) : SV_Target
    
         if (dig > g_angle.x && dig < g_angle.y)
         {
-            return g_vecColor * g_texture.Sample(g_sampler, input.uv);
+        return (0, 0, 0, 0);
         }
         else
-            return (0, 0, 0, 0);
+            return g_vecColor * g_texture.Sample(g_sampler, input.uv);
     }
     else if (g_angle.x > g_angle.y)
     {
         if (dig < g_angle.x && dig > g_angle.y)
         {
-           return (0, 0, 0, 0);
+           return g_vecColor * g_texture.Sample(g_sampler, input.uv);
         }
         else
-           return g_vecColor * g_texture.Sample(g_sampler, input.uv);
-    }else
+            return (0, 0, 0, 0);
+    }
+    else
     {
         return (0, 0, 0, 0);
     }

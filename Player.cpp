@@ -239,7 +239,7 @@ void Player::OnCollision(GameObject* pTarget)
         EnemyBase* pEnemy = dynamic_cast<EnemyBase*>(pTarget);
 
         // HP減らす処理
-        if (!isEnemyHit_)DecreaseHp(pEnemy->GetEnemyStatus().attackPower_);
+        if (!isEnemyHit_)DecreaseHp((float)pEnemy->GetEnemyStatus().attackPower_);
 
         // カメラシェイク
         pAim_->StartCameraShake(shakeTime, shakeStrength); // 0.2秒間, 強さ0.1

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include <string>
 
 class KuruKuruImage;
 
@@ -14,6 +15,8 @@ class CircleGauge : public GameObject
 	float lapFrameTime_;
 	bool  isActive_;
 	bool isIncrease_;
+	bool isGaugeFull_;
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -36,5 +39,11 @@ public:
 	void Start();
 	void Stop();
 	void Reset();
+
+	void LaodIage(std::string fileName);
+
+	void CircleDraw();
+
+	void SetGaugeFullStop(bool flag) { isGaugeFull_ = flag; };
 };
 

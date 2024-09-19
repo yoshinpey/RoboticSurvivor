@@ -21,7 +21,7 @@ namespace
 }
 
 BulletInfoDisplay::BulletInfoDisplay(GameObject* parent)
-    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0), pCircleGauge(nullptr)
+    : GameObject(parent, "BulletInfoDisplay"), currentMagazine_(0), maxMagazine_(0), pCircleGauge_()
 {
 }
 
@@ -45,9 +45,14 @@ void BulletInfoDisplay::Initialize()
         "IMG/Number/8.png",
         "IMG/Number/9.png",
         "IMG/Number/Slash.png",
+        "IMG/Normal_Unredy.png",
+        "IMG/Missile_Unredy.png",
+    };
+
+    std::vector<std::string> FrontImage =
+    {
         "IMG/Normal.png",
-        "IMG/Missile_Redy.png",
-        "IMG/Missile_Charging.png"
+        "IMG/Missile.png",
     };
 
     // 画像データのロード
@@ -57,25 +62,28 @@ void BulletInfoDisplay::Initialize()
         assert(handle >= 0);
         hPict_.push_back(handle);
     }
+    
+    // リロード表現サークルゲージの準備
+    for (int i = 0; i < 2; ++i)
+    {
+        pCircleGauge_[i] = Instantiate<CircleGauge>(this);
+        pCircleGauge_[i]->SetStartAngle(0, true);
+        pCircleGauge_[i]->SetLapTime(1);
+        pCircleGauge_[i]->SetPosition(IconUiPosition);
+        pCircleGauge_[i]->SetScale(IconUiPosition);
+        pCircleGauge_[i]->SetScale(IconUiScale);
+        pCircleGauge_[i]->LaodIage(FrontImage[i]);
+    }
 
-    pCircleGauge = Instantiate<CircleGauge>(this);
-    pCircleGauge->SetStartAngle(0, true);
-    pCircleGauge->SetLapTime(1);
-    pCircleGauge->SetPosition(0, 0, 0);
-    pCircleGauge->SetScale(0.3, 0.3, 0);
 }
 
 void BulletInfoDisplay::Update()
 {
-    if (Input::IsKeyDown(DIK_SPACE))
-    {
-        pCircleGauge->Start();
-    }
+
 }
 
 void BulletInfoDisplay::Draw()
-{
-    pCircleGauge->Draw();
+{    
 }
 
 void BulletInfoDisplay::Release()
@@ -90,14 +98,17 @@ void BulletInfoDisplay::DrawBullet()
     iconTrans.scale_ = IconUiScale;
 
     // 弾丸の種類に応じて描画するアイコンを変更
-    int iconHandle;
+    int iconHandle=0;
+    int frontIconHandle=0;
     switch (bulletType_)
     {
     case ShootingMode::NORMAL: // 通常弾
         iconHandle = hPict_[Normal];
+        frontIconHandle = F_Normal;
         break;
     case ShootingMode::EXPLODE: // 爆発弾
         iconHandle = hPict_[Explode];
+        frontIconHandle = F_Explode;
         break;
     default:
         iconHandle = hPict_[Normal];  // デフォルトは通常弾
@@ -106,6 +117,8 @@ void BulletInfoDisplay::DrawBullet()
     // 選択されたアイコンを描画
     Image::SetTransform(iconHandle, iconTrans);
     Image::Draw(iconHandle);
+
+    pCircleGauge_[frontIconHandle]->CircleDraw();
 
     // マガジン残数の表示 ----------------------
     Transform picTrans = transform_;
