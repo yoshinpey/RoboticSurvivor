@@ -4,7 +4,6 @@
 #include <vector>
 
 enum class ShootingMode;
-class CircleGauge;
 
 class BulletInfoDisplay : public GameObject
 {
