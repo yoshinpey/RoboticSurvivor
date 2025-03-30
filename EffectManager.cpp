@@ -50,7 +50,7 @@ void EffectManager::Initialize()
 	sparks.deltaColor = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	sparks.gravity = 0.003f;
 
-	//’n–Ê
+	//‘MŒõ
 	flash.textureFileName = "Effects/flashA_R.png";
 	flash.positionRnd = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	flash.isBillBoard = true;
