@@ -18,6 +18,7 @@ namespace
     const XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
     const std::string modelName = "Model/Rifle.fbx";          // モデル名
     const float Volume = 0.1f;                                // 音量
+    const float FPS = 60.0f;
 }
 
 Gun::Gun(GameObject* parent)
@@ -267,7 +268,7 @@ void Gun::StartReloading(BulletType type, AUDIO_ID reloadSoundId)
     bulletInfoList_[(int)type].currentReloadTime_ = bulletInfoList_[(int)type].reloadTime_;
     AudioManager::Play(reloadSoundId, Volume);  // リロード音を再生
 
-    float time = (float)bulletInfoList_[(int)currentMode_].reloadTime_ / 60.0f;
+    float time = (float)bulletInfoList_[(int)currentMode_].reloadTime_ / FPS;
     pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->SetLapTime(time);
     pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->Reset();
     pBulletInfoDisplay_->GetCircleGauge((int)currentMode_)->SetGaugeFullStop(true);
