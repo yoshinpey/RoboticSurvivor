@@ -14,8 +14,8 @@
 
 namespace
 {
-    const XMFLOAT3 handOffset = { 0.6f, -1.25f, 1.50f };      // 移動量
-    const XMFLOAT3 modelScale = { 1.0f, 1.0f, 1.0f };         // モデルサイズ
+    const XMFLOAT3 handOffset = { 0.4f, -0.6f, 1.20f };      // 移動量
+    const XMFLOAT3 modelScale = { 0.5f, 0.5f, 0.5f };         // モデルサイズ
     const std::string modelName = "Model/Rifle.fbx";          // モデル名
     const float Volume = 0.1f;                                // 音量
     const float FPS = 60.0f;
