@@ -3,7 +3,7 @@
 
 class Player;
 
-// 地上敵を管理するクラス
+// 爆破敵を管理するクラス
 class Enemy_Explosion : public EnemyBase
 {
     int hModel_;                    // モデル番号
@@ -11,6 +11,8 @@ class Enemy_Explosion : public EnemyBase
     float explodeTimer_;            // 現在の爆発タイマー
     bool isInExplosionRange_;       // 爆発範囲内にいるかどうか
     float explodeScale_;            // 爆発半径
+    XMFLOAT3 directionToPlayer_;    // プレイヤーへの方向
+    float distanceToPlayer_;        // プレイヤーとの距離
 
 public:
     Enemy_Explosion(GameObject* parent);    // コンストラクタ

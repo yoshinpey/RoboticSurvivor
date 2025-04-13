@@ -21,7 +21,8 @@ namespace
 }
 
 Enemy_Ground::Enemy_Ground(GameObject* parent)
-    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), hModel_(-1)
+    : EnemyBase(parent, EnemyType::GROUND, "Enemy_Ground"), 
+    hModel_(-1), directionToPlayer_(0.0f, 0.0f, 0.0f), distanceToPlayer_(0.0f)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Ground", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -57,6 +58,7 @@ void Enemy_Ground::Initialize()
     AddCollider(new SphereCollider(collisionOffset, enemyStatus_.collisionScale_));
 
     transform_.rotate_.y = modelRotate.y;
+    transform_.position_.y = 0;
 }
 
 void Enemy_Ground::Update()
@@ -64,17 +66,27 @@ void Enemy_Ground::Update()
     /////////////////////// 今のところコイツは地上にだけ出す予定
     if (transform_.position_.y != 0)transform_.position_.y = 0;
 
-    // プレイヤーへの方向ベクトル(正規化済)
-    XMFLOAT3 directionToPlayer = CheckPlayerDirection();
+    // 経過フレームを進める
+    EnemyBase::Update();
+
+    // 一定期間(フレーム)ごとに処理を行う
+    if (IsEveryNFrames(30))
+    {
+        // プレイヤーへの方向ベクトル(正規化済)
+        directionToPlayer_ = CheckPlayerDirection();
+
+        // プレイヤーへの距離
+        distanceToPlayer_ = CheckPlayerDistance();
+    }
 
     // 許可された距離までプレイヤーに接近
-    if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
+    if (enemyAlgorithm_.attackDistance_ <= distanceToPlayer_)
     {
-        ApproachPlayer(directionToPlayer);
+        ApproachPlayer(directionToPlayer_);
     }
 
     // プレイヤーの方向を向くように視界を回転
-    RotateTowardsPlayer(directionToPlayer);
+    RotateTowardsPlayer(directionToPlayer_);
 }
 
 void Enemy_Ground::Draw()

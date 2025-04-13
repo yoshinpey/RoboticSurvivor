@@ -7,6 +7,8 @@ class Player;
 class Enemy_Fly : public EnemyBase
 {
     int hModel_;                        // モデル番号
+    XMFLOAT3 directionToPlayer_;        // プレイヤーへの方向
+    float distanceToPlayer_;            // プレイヤーとの距離
 
 public:
     Enemy_Fly(GameObject* parent);      // コンストラクタ

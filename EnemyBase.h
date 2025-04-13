@@ -40,10 +40,19 @@ protected:
     EnemyAlgorithm enemyAlgorithm_; // エネミーのアルゴリズム
     EnemyType enemyType_;           // エネミーの種類
 
+    int frameCount_;                // 経過フレームを代入する変数
+
 public:
     EnemyBase(GameObject* parent, EnemyType enemyType, std::string name);
 
     virtual ~EnemyBase() = default;
+
+    virtual void Update() 
+    {
+        ++frameCount_;
+        // 一年以上ゲームつけっぱなしの人のための例外処理
+        if (frameCount_ > INT_MAX - 1000)frameCount_ = 0;
+    }
 
     // 敵の種類を取得
     EnemyType GetEnemyType() const { return enemyType_; }
@@ -53,6 +62,9 @@ public:
 
     // 敵のアルゴリズムを取得
     EnemyAlgorithm GetEnemyAlgorithm() const { return enemyAlgorithm_; }
+
+    // 負荷軽減のため、nフレーム事に一度真を返す関数
+    bool IsEveryNFrames(int n) const { return (frameCount_ % n) == 0; }
 
     // 攻撃
     virtual void Attack() = 0;

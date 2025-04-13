@@ -13,7 +13,8 @@ namespace
 }
 
 Enemy_Fly::Enemy_Fly(GameObject* parent)
-    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), hModel_(-1)
+    : EnemyBase(parent, EnemyType::FLY, "Enemy_Fly"), 
+    hModel_(-1), directionToPlayer_(0.0f, 0.0f, 0.0f), distanceToPlayer_(0.0f)
 {
     // INIファイルからデータを構造体へ流し込む
     commonParameter_.walkSpeed_                  = GetPrivateProfileFloat("Enemy_Fly", "walkSpeed", 0, "Settings/EnemySettings.ini");
@@ -51,17 +52,27 @@ void Enemy_Fly::Initialize()
 
 void Enemy_Fly::Update()
 {
-    // プレイヤーへの方向ベクトル(正規化済)
-    XMFLOAT3 directionToPlayer = CheckPlayerDirection();
+    // 経過フレームを進める
+    EnemyBase::Update();
+
+    // 一定期間(フレーム)ごとに処理を行う
+    if (IsEveryNFrames(30))
+    {
+        // プレイヤーへの方向ベクトル(正規化済)
+        directionToPlayer_ = CheckPlayerDirection();
+
+        // プレイヤーへの距離
+        distanceToPlayer_ = CheckPlayerDistance();
+    }
 
     // 許可された距離までプレイヤーに接近
-    if (enemyAlgorithm_.attackDistance_ <= CheckPlayerDistance())
+    if (enemyAlgorithm_.attackDistance_ <= distanceToPlayer_)
     {
-        ApproachPlayer(directionToPlayer);
+        ApproachPlayer(directionToPlayer_);
     }
 
     // プレイヤーの方向を向くように視界を回転
-    RotateTowardsPlayer(directionToPlayer);
+    RotateTowardsPlayer(directionToPlayer_);
 }
 
 void Enemy_Fly::Draw()

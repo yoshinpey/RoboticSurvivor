@@ -3,14 +3,14 @@
 
 namespace
 {
-    float rotateSpeed = 0.03f;      // 体の回転スピード
+    float rotateSpeed = 0.05f;      // 体の回転スピード
     float damageTime = 1.0f;        // ダメージを受けた時のシェーダーの適応時間
     const float deltaTime = 0.05f;  // ダメージのシェーダーの変化量
 }
 
 // コンストラクタの実装
 EnemyBase::EnemyBase(GameObject* parent, EnemyType enemyType, std::string name)
-    : Character(parent, name), enemyType_(enemyType), damageTime_(0.0f)
+    : Character(parent, name), enemyType_(enemyType), damageTime_(0.0f), frameCount_(0.0f)
 {
 }
 
