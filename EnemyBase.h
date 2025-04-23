@@ -81,6 +81,9 @@ public:
     // 敵の体をプレイヤーの方向へ回転させる
     void RotateTowardsPlayer(const XMFLOAT3& directionToPlayer);
 
+    // 敵の体をX軸も考慮してプレイヤーの方向へ回転させる
+    void RotateTowardsPlayer3D(const XMFLOAT3& directionToPlayer);
+
     // 銃弾が当たった時の処理
     void BulletHit();
 

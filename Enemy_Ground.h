@@ -9,7 +9,7 @@ class Enemy_Ground : public EnemyBase
     int hModel_;                        // モデル番号
     XMFLOAT3 directionToPlayer_;        // プレイヤーへの方向
     float distanceToPlayer_;            // プレイヤーとの距離
-
+    XMFLOAT3 targetDirectionToPlayer_{ 0,0,1 }; // プレイヤーの方向（更新された最新）
 public:
     Enemy_Ground(GameObject* parent);   // コンストラクタ
     ~Enemy_Ground() override;           // デストラクタ

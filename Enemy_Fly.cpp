@@ -58,21 +58,28 @@ void Enemy_Fly::Update()
     // 一定期間(フレーム)ごとに処理を行う
     if (IsEveryNFrames(30))
     {
-        // プレイヤーへの方向ベクトル(正規化済)
-        directionToPlayer_ = CheckPlayerDirection();
-
         // プレイヤーへの距離
         distanceToPlayer_ = CheckPlayerDistance();
     }
+
+    // プレイヤーへの方向ベクトル(正規化済)
+    directionToPlayer_ = CheckPlayerDirection();
 
     // 許可された距離までプレイヤーに接近
     if (enemyAlgorithm_.attackDistance_ <= distanceToPlayer_)
     {
         ApproachPlayer(directionToPlayer_);
+        if (transform_.rotate_.x != 0.0f) transform_.rotate_.x = 0.0f;
+    }
+    else
+    {
+        Attack();
     }
 
     // プレイヤーの方向を向くように視界を回転
     RotateTowardsPlayer(directionToPlayer_);
+    // 空を飛ぶからX軸考慮の回転
+    // RotateTowardsPlayer3D(directionToPlayer_);
 }
 
 void Enemy_Fly::Draw()
@@ -111,6 +118,14 @@ void Enemy_Fly::OnCollision(GameObject* pTarget)
 
 void Enemy_Fly::Attack()
 {
+    // 体を傾ける
+    // XZ平面上での方向
+    XMVECTOR toPlayerXZ = XMVector3Normalize(XMVectorSet(directionToPlayer_.x, 0, directionToPlayer_.z, 0));
+
+    // X軸上下方向にどれだけ傾けるか
+    float pitch = -atan2(directionToPlayer_.y, XMVectorGetX(XMVector3Length(toPlayerXZ))); // 高さと距離で角度計算
+    transform_.rotate_.x = XMConvertToDegrees(pitch);
+
     //////これは前の処理
     // *アプローチ距離より遠ければ近づく
     // *攻撃範囲レンジ(アプローチ距離+5)を満たしている
@@ -120,5 +135,4 @@ void Enemy_Fly::Attack()
     // プレイヤーへの方向を計算する
     // 攻撃チャージアニメーション、サウンドスタート(これはあとで追加。とりあえずコメントアウトしとく)
     // チャージ終了で弾を発射
-
 }

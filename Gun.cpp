@@ -134,8 +134,19 @@ void Gun::Draw()
     if (pPlayer_->IsInvincible())
     {
         flickerTimer_++;
-
-        // 点滅の間隔を決める（ここでは10フレームごとに点滅）
+        /*
+            点滅の間隔を決める（ここでは10フレームごとに点滅）
+            flickerTimer_       flickerTimer_ % 20      (10 < flickerTimer_ % 20)      結果   
+            0                   0                       true                            表示
+            1                   1                       true                            表示
+            ...............................
+            9                   9                       true                            表示
+            10                  10                      false                           非表示
+            ...............................
+            19                  19                      false                           非表示
+            20                  0                       true                            表示
+            つまり、最初は表示して、
+        */
         if (flickerTimer_ % 20 >= 10)shouldDraw = false;
     }
     else

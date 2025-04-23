@@ -3,7 +3,7 @@
 
 namespace
 {
-    float rotateSpeed = 0.05f;      // 体の回転スピード
+    float rotateSpeed = 0.08f;      // 体の回転スピード
     float damageTime = 1.0f;        // ダメージを受けた時のシェーダーの適応時間
     const float deltaTime = 0.05f;  // ダメージのシェーダーの変化量
 }
@@ -59,6 +59,20 @@ void EnemyBase::RotateTowardsPlayer(const XMFLOAT3& directionToPlayer)
     // 角度を計算して回転
     float angle = static_cast<float>(atan2(XMVectorGetY(cross), dot));
     transform_.rotate_.y += XMConvertToDegrees(angle) * rotateSpeed;
+}
+
+// X軸も考慮してプレイヤーの方向に体を回転する
+void EnemyBase::RotateTowardsPlayer3D(const XMFLOAT3& directionToPlayer)
+{
+    // Y軸のみの回転
+    RotateTowardsPlayer(directionToPlayer);
+
+    // XZ平面上での方向
+    XMVECTOR toPlayerXZ = XMVector3Normalize(XMVectorSet(directionToPlayer.x, 0, directionToPlayer.z, 0));
+
+    // X軸上下方向にどれだけ傾けるか
+    float pitch = -atan2(directionToPlayer.y, XMVectorGetX(XMVector3Length(toPlayerXZ))); // 高さと距離で角度計算
+    transform_.rotate_.x = XMConvertToDegrees(pitch);
 }
 
 // 銃弾が当たった時の処理

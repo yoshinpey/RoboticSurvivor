@@ -272,6 +272,9 @@
     <ClCompile Include="KuruKuruImage.cpp">
       <Filter>Multipurpose\UI</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -493,6 +496,9 @@
     </ClInclude>
     <ClInclude Include="KuruKuruImage.h">
       <Filter>Multipurpose\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

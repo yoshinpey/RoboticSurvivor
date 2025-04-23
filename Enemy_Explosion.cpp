@@ -73,12 +73,12 @@ void Enemy_Explosion::Update()
     // 一定期間(フレーム)ごとに処理を行う
     if (IsEveryNFrames(30))
     {
-        // プレイヤーへの方向ベクトル(正規化済)
-        directionToPlayer_ = CheckPlayerDirection();
-
         // プレイヤーへの距離
         distanceToPlayer_ = CheckPlayerDistance();
     }
+
+    // プレイヤーへの方向ベクトル(正規化済)
+    directionToPlayer_ = CheckPlayerDirection();
 
     // 許可された距離までプレイヤーに接近
     if (enemyAlgorithm_.attackDistance_ <= distanceToPlayer_)

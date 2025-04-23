@@ -31,7 +31,7 @@ namespace
 	////////////WaveTest
 	XMFLOAT3 spawnPosition;		// スポーンする位置
 	int waveTimer = 300;		// 出現の区切り時間(60/1フレーム)
-	int timeLimit = 30;			// 時間制限(秒)
+	int timeLimit = 9999;			// 時間制限(秒)
 }
 
 PlayScene::PlayScene(GameObject * parent)
@@ -111,10 +111,11 @@ void PlayScene::Update()
 
 	if (pTimer_->GetFrame() % waveTimer == 0)
 	{
-		XMFLOAT3 minPos = XMFLOAT3(-5, 3, 5);
-		XMFLOAT3 maxPos = XMFLOAT3(5, 6, 10);
+		XMFLOAT3 minPos = XMFLOAT3(-10, 3, 10);
+		XMFLOAT3 maxPos = XMFLOAT3(10, 6, 20);
 		int count = 3;
-		std::vector<EnemyType> enemyID = { EnemyType::EXPLOSION, EnemyType::FLY };
+		//////////////////////////std::vector<EnemyType> enemyID = { EnemyType::EXPLOSION, EnemyType::FLY };
+		std::vector<EnemyType> enemyID = { EnemyType::FLY };
 
 		// 指定した座標にランダムな敵を出現させる。今回爆発とフライから選ぶ
 		pEnemyManager_->SpawnRandomMultiEnemy
