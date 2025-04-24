@@ -10,7 +10,7 @@
 
 namespace
 {
-    const XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };        // “–‚½‚è”»’è‚ÌˆÊ’u
+    const XMFLOAT3 collisionOffset = { 0.0f, 0.0f, 0.0f };       // “–‚½‚è”»’è‚ÌˆÊ’u
     const std::string modelName = "Model/Bullet.fbx";            // ƒ‚ƒfƒ‹–¼
 }
 

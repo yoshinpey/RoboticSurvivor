@@ -31,6 +31,7 @@ Player::Player(GameObject* parent)
 
     // ステータスをセット
     commonStatus_.maxHp_ = GetPrivateProfileFloat("Status", "maxHp", 0, "Settings/PlayerSettings.ini");
+    commonStatus_.currentHp_ = commonStatus_.maxHp_;
 
     // ステートマネージャー設定
     pStateManager_ = new StateManager(this);
