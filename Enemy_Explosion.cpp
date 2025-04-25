@@ -42,8 +42,12 @@ Enemy_Explosion::Enemy_Explosion(GameObject* parent)
 
 Enemy_Explosion::~Enemy_Explosion()
 {
+    PlayScene* playScene_ = static_cast<PlayScene*>(FindObject("PlayScene"));
+
     // 死んだエネミーをエネミーマネージャーのリストから削除する
-    static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager()->RemoveDeadEnemies(this);
+    playScene_->GetEnemyManager()->RemoveDeadEnemies(this);
+    // キル数を増やす
+    playScene_->GetEnemyManager()->AddKillCount();
 }
 
 void Enemy_Explosion::Initialize()

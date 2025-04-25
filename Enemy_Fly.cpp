@@ -33,8 +33,12 @@ Enemy_Fly::Enemy_Fly(GameObject* parent)
 
 Enemy_Fly::~Enemy_Fly()
 {
+    PlayScene* playScene_ = static_cast<PlayScene*>(FindObject("PlayScene"));
+
     // 死んだエネミーをエネミーマネージャーのリストから削除する
-    static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager()->RemoveDeadEnemies(this);
+    playScene_->GetEnemyManager()->RemoveDeadEnemies(this);
+    // キル数を増やす
+    playScene_->GetEnemyManager()->AddKillCount();
 }
 
 void Enemy_Fly::Initialize()

@@ -31,7 +31,8 @@ namespace
 	////////////WaveTest
 	XMFLOAT3 spawnPosition;		// スポーンする位置
 	int waveTimer = 300;		// 出現の区切り時間(60/1フレーム)
-	int timeLimit = 9999;			// 時間制限(秒)
+	int timeLimit = 60;			// 時間制限(秒)
+	int targetScore = 60;		// 敵の討伐目標値
 }
 
 PlayScene::PlayScene(GameObject * parent)
@@ -114,8 +115,8 @@ void PlayScene::Update()
 		XMFLOAT3 minPos = XMFLOAT3(-10, 3, 10);
 		XMFLOAT3 maxPos = XMFLOAT3(10, 6, 20);
 		int count = 3;
-		//////////////////////////std::vector<EnemyType> enemyID = { EnemyType::EXPLOSION, EnemyType::FLY };
-		std::vector<EnemyType> enemyID = { EnemyType::FLY };
+		std::vector<EnemyType> enemyID = { EnemyType::EXPLOSION, EnemyType::FLY };
+		//std::vector<EnemyType> enemyID = { EnemyType::FLY };
 
 		// 指定した座標にランダムな敵を出現させる。今回爆発とフライから選ぶ
 		pEnemyManager_->SpawnRandomMultiEnemy
@@ -177,6 +178,13 @@ void PlayScene::CheckAndChangeScene()
 		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
 	}
 
+	// 討伐目標数のクリア
+	if (pEnemyManager_->GetTotalKillCount() >= targetScore)
+	{
+		pSceneManager_->ChangeScene(SCENE_ID_CLEAR);
+	}
+		
+
 	// ゲームオーバーの条件
 	// 時間切れ、あるいはプレイヤーの死亡
 	if (pTimer_->IsFinished() || pPlayer_ == nullptr)
@@ -184,4 +192,5 @@ void PlayScene::CheckAndChangeScene()
 		pEnemyManager_->RemoveAllEnemies();
 		pSceneManager_->ChangeScene(SCENE_ID_OVER);
 	}
+
 }

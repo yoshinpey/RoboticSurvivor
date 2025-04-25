@@ -7,9 +7,9 @@
 class EnemyManager
 {
 private:
-    std::vector<EnemyBase*> enemies_;  // エネミーのリスト
+    std::vector<EnemyBase*> enemies_;   // エネミーのリスト
     GameObject* pParent_;
-
+    int totalKillCount_;                // 累計撃破数
 
     // 乱数生成器の初期化
     std::mt19937 InitializeRandomGenerator();
@@ -21,6 +21,7 @@ private:
     // ランダムな敵の種類を選択
     // 引数:乱数, 生成リストから選択する敵のリスト
     EnemyType GenerateRandomEnemyType(std::mt19937& mt, const std::vector<EnemyType>& includeList);
+
 public:
     EnemyManager(GameObject* parent);
     ~EnemyManager();
@@ -68,4 +69,10 @@ public:
 
     // エネミーリストを取得する
     std::vector<EnemyBase*> GetEnemyList() { return enemies_; }
+
+    // 累計撃破数を取得
+    int GetTotalKillCount() const { return totalKillCount_; }
+
+    // 累計撃破数を加算
+    void AddKillCount(int value = 1) { totalKillCount_ += value; }
 };

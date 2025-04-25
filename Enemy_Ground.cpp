@@ -41,8 +41,12 @@ Enemy_Ground::Enemy_Ground(GameObject* parent)
 
 Enemy_Ground::~Enemy_Ground()
 {
+    PlayScene* playScene_ = static_cast<PlayScene*>(FindObject("PlayScene"));
+
     // 死んだエネミーをエネミーマネージャーのリストから削除する
-    static_cast<PlayScene*>(FindObject("PlayScene"))->GetEnemyManager()->RemoveDeadEnemies(this);
+    playScene_->GetEnemyManager()->RemoveDeadEnemies(this);
+    // キル数を増やす
+    playScene_->GetEnemyManager()->AddKillCount();
 }
 
 void Enemy_Ground::Initialize()
